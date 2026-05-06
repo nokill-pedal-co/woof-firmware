@@ -688,10 +688,10 @@
         }
     };
 
-    // Firmware binaries are served from the woof-firmware repo via jsDelivr CDN.
-    // Pushing to main = live update. To pin a frozen version, replace `@main`
-    // with a tag like `@firmware-v1` (jsDelivr indexes new tags within ~10min).
-    const FIRMWARE_BASE_URL = 'https://cdn.jsdelivr.net/gh/nokill-pedal-co/woof-firmware@main/firmware';
+    // Firmware binaries are served from the same origin (GitHub Pages).
+    // Same-origin = no CORS, no third-party CDN. Just push new .bin files
+    // to firmware/ in the repo and they go live within ~30s.
+    const FIRMWARE_BASE_URL = 'firmware';
 
     async function fetchFirmware(filename) {
         const url = FIRMWARE_BASE_URL + '/' + filename;
