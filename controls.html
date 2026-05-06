@@ -42,6 +42,13 @@
             letter-spacing: 2px;
             text-decoration: none;
             color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            display: block;
         }
         .header-nav a {
             font-size: 1.6rem;
@@ -72,8 +79,8 @@
         .toc {
             background: #f7f7f5;
             border: 1px solid rgba(18, 18, 18, 0.1);
-            padding: 24px 28px;
-            margin-bottom: 50px;
+            padding: 22px 26px;
+            margin-bottom: 40px;
         }
         .toc h3 {
             font-size: 1.3rem;
@@ -83,13 +90,31 @@
             color: rgba(18, 18, 18, 0.55);
         }
         .toc ul { list-style: none; }
-        .toc li { margin-bottom: 6px; }
+        .toc li { margin-bottom: 4px; }
         .toc a {
+            display: block;
             color: #121212;
             text-decoration: none;
             font-size: 1.5rem;
+            padding: 6px 10px;
+            border-left: 3px solid transparent;
+            transition: background 0.1s, border-color 0.1s;
+            cursor: pointer;
         }
-        .toc a:hover { text-decoration: underline; }
+        .toc a:hover {
+            background: rgba(18, 18, 18, 0.05);
+            border-left-color: rgba(18, 18, 18, 0.4);
+        }
+        .toc a.active {
+            background: #121212;
+            color: #fff;
+            border-left-color: #121212;
+            font-weight: 700;
+        }
+        .toc a.active .platform-tag {
+            background: #fff;
+            color: #121212;
+        }
         .toc .platform-tag {
             display: inline-block;
             font-size: 1rem;
@@ -103,10 +128,11 @@
         }
 
         .pedal {
-            border-top: 2px solid #121212;
-            padding-top: 36px;
-            margin-bottom: 70px;
+            display: none;
+            padding-top: 16px;
+            margin-bottom: 40px;
         }
+        .pedal.active { display: block; }
         .pedal h2 {
             font-size: 3.2rem;
             font-weight: 400;
@@ -238,7 +264,7 @@
 <div class="announcement-bar">NOKILL Pedal Co — Controls Reference</div>
 
 <header class="header">
-    <a href="index.html" class="header-logo">NOKILL</a>
+    <a href="index.html" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
     <nav class="header-nav">
         <a href="index.html">Flasher</a>
         <a href="controls.html">Controls</a>
@@ -376,7 +402,6 @@
             <li><strong>LED 2 (right):</strong> Kelpie active. Overridden during Expression Set Mode for visual feedback.</li>
         </ul>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -437,7 +462,6 @@
         <h3>DFU</h3>
         <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader (Hothouse built-in feature).</p>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -475,7 +499,6 @@
             <tr><td>FS2</td><td>Kelpie engage</td></tr>
         </table>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -519,7 +542,6 @@
             <li><strong>LED 2:</strong> Stutter active.</li>
         </ul>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -557,7 +579,6 @@
             <tr><td>FS2</td><td>Momentary delay repeats</td></tr>
         </table>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -595,7 +616,6 @@
             <tr><td>FS2</td><td>Momentary freeze — input is muted, current reverb tail loops infinitely</td></tr>
         </table>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -633,7 +653,6 @@
             <tr><td>FS2</td><td>Kill switch (momentary signal cut)</td></tr>
         </table>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -672,7 +691,6 @@
             <tr><td>FS2 (SW4 = age)</td><td>Tape aging — adds dropouts, flutter, and noise to the extra-head signal while held. Sounds like the tape is degrading in real time.</td></tr>
         </table>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
     <!-- ================================================================== -->
@@ -714,7 +732,6 @@
             <tr><td>FS2</td><td>Lo-Fi Drop — bandpass filter + crush + bit reduce + 3× gain compensation. Tap or hold depending on SW4.</td></tr>
         </table>
 
-        <a href="#top" class="back-to-top">↑ Back to top</a>
     </section>
 
 </main>
@@ -722,6 +739,43 @@
 <footer class="footer">
     <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
 </footer>
+
+<script>
+(function() {
+    var tocLinks = document.querySelectorAll('.toc a');
+    var sections = document.querySelectorAll('.pedal');
+    var defaultId = 'kelpie-funbox';
+
+    function show(id) {
+        var found = false;
+        sections.forEach(function(s) {
+            var match = (s.id === id);
+            s.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tocLinks.forEach(function(a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+        });
+        if (!found && id !== defaultId) show(defaultId);
+    }
+
+    tocLinks.forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            var id = a.getAttribute('href').slice(1);
+            show(id);
+            if (history.replaceState) history.replaceState(null, '', '#' + id);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    window.addEventListener('hashchange', function() {
+        show(location.hash.slice(1) || defaultId);
+    });
+
+    show(location.hash.slice(1) || defaultId);
+})();
+</script>
 
 </body>
 </html>
