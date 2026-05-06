@@ -224,7 +224,16 @@
             background: #FFFFFF;
             color: #121212;
             border: 1px solid #121212;
+            text-decoration: none;
         }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+        .btn-row .btn { width: auto; flex: 1; }
+        .btn-row .btn-secondary { flex: 0 0 38%; }
 
         /* --- Progress Bar --- */
         .progress-container {
@@ -395,14 +404,12 @@
 </head>
 <body>
 
-    <div class="announcement-bar">
-        W.O.O.F. &mdash; WIDE OPEN OPERATING FORMAT
-    </div>
-
     <div class="header">
         <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
         <nav class="header-nav">
+            <a href="index.html">FLASHER</a>
             <a href="controls.html">CONTROLS</a>
+            <a href="transistors.html">TRANSISTORS</a>
             <a href="https://nokillpedal.co">SHOP</a>
         </nav>
     </div>
@@ -475,9 +482,14 @@
                     Write the firmware to your pedal. This may take a couple of minutes
                     &mdash; do not disconnect during the flash.
                 </div>
-                <button class="btn btn-primary" id="flashBtn" disabled>
-                    FLASH FIRMWARE
-                </button>
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="flashBtn" disabled>
+                        FLASH FIRMWARE
+                    </button>
+                    <a class="btn btn-secondary" id="controlsBtn" href="controls.html" target="_blank" rel="noopener">
+                        VIEW CONTROLS
+                    </a>
+                </div>
                 <div class="progress-container" id="progressContainer">
                     <div class="progress-bar-track">
                         <div class="progress-bar-fill" id="progressFill"></div>
@@ -749,6 +761,13 @@
     const progressFill      = document.getElementById('progressFill');
     const progressText      = document.getElementById('progressText');
     const browserWarning    = document.getElementById('browserWarning');
+    const controlsBtn       = document.getElementById('controlsBtn');
+
+    // Map FIRMWARE_DATA keys to controls.html section anchors.
+    function controlsAnchor(key) {
+        if (key === 'kelpie') return 'kelpie-terrarium';
+        return key.replace(/_/g, '-');
+    }
 
     // --- Check WebUSB support ---
     if (!navigator.usb) {
@@ -776,6 +795,7 @@
         firmwareBinary = null;
         connectBtn.disabled = true;
         flashBtn.disabled = true;
+        controlsBtn.href = 'controls.html';
         hideStatus(connectStatus);
         hideStatus(flashStatus);
     }
@@ -789,6 +809,9 @@
         const key = this.value;
         selectedFirmware = FIRMWARE_DATA[key];
         firmwareBinary = null;
+
+        // Deep-link the controls button to this pedal's section.
+        controlsBtn.href = 'controls.html#' + controlsAnchor(key);
 
         // Show info
         let html = '<h4>' + selectedFirmware.name + '</h4>';

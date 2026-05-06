@@ -1,0 +1,2310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transistor Pair Picker - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 62.5%; }
+  body {
+    font-family: 'Assistant', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #121212;
+    background: #FFFFFF;
+    letter-spacing: 0.4px;
+    line-height: 1.5;
+  }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 50px;
+    border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .header-logo {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: #121212;
+    display: inline-block;
+    line-height: 0;
+  }
+  .header-logo img { height: 36px; width: auto; display: block; }
+  .header-nav a {
+    font-size: 1.6rem;
+    color: #121212;
+    text-decoration: none;
+    letter-spacing: 0.6px;
+    margin-left: 30px;
+  }
+  .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* --- Main --- */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 50px 30px 80px;
+  }
+
+  .page-title {
+    font-size: 4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .page-subtitle {
+    font-size: 1.5rem;
+    color: rgba(18, 18, 18, 0.7);
+    margin-bottom: 30px;
+    max-width: 720px;
+  }
+
+  /* --- Top Stats Pills --- */
+  header.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .head-stats { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .stat-pill {
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    padding: 10px 16px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(18, 18, 18, 0.65);
+  }
+  .stat-pill b {
+    color: #121212;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    margin-right: 4px;
+    font-size: 1.4rem;
+  }
+
+  /* --- Panels (replaces dark cards) --- */
+  .panel {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.15);
+    padding: 30px;
+    margin-bottom: 24px;
+  }
+  .panel.subtle {
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+  }
+
+  /* --- Circuit Selector --- */
+  .circuit-bar {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr auto;
+    gap: 18px;
+    align-items: end;
+  }
+  .field label,
+  .form-field label,
+  .target-block .title,
+  .step-label {
+    display: block;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: rgba(18, 18, 18, 0.65);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  select, input[type="text"], input[type="number"], input[type="password"], textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: 'Assistant', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.4px;
+    color: #121212;
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.25);
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23121212' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: 2px solid #121212;
+    outline-offset: 1px;
+    border-color: #121212;
+  }
+  textarea {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    resize: vertical;
+  }
+
+  .pol-badge {
+    padding: 12px 18px;
+    border-radius: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-align: center;
+    text-transform: uppercase;
+    min-width: 110px;
+    border: 1px solid #121212;
+  }
+  .pol-badge.PNP { background: #121212; color: #FFFFFF; }
+  .pol-badge.NPN { background: #FFFFFF; color: #121212; }
+
+  .circuit-desc {
+    font-size: 1.4rem;
+    color: rgba(18, 18, 18, 0.75);
+    line-height: 1.6;
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: #f7f7f5;
+    border-left: 3px solid #121212;
+  }
+
+  /* --- Targets --- */
+  .targets {
+    display: grid;
+    gap: 24px;
+  }
+  .targets.cols-1 { grid-template-columns: 1fr; }
+  .targets.cols-2 { grid-template-columns: 1fr 1fr; }
+  .targets.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .target-block .title .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    background: #121212;
+  }
+  .target-block.s1 .title .dot { background: #121212; }
+  .target-block.s2 .title .dot { background: rgba(18,18,18,0.55); }
+  .target-block.s3 .title .dot { background: rgba(18,18,18,0.3); }
+  .range-inputs { display: flex; align-items: center; gap: 10px; }
+  .range-inputs input[type="number"] {
+    width: 100px;
+    font-variant-numeric: tabular-nums;
+  }
+  .range-inputs span {
+    color: rgba(18, 18, 18, 0.55);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+
+  /* --- Selected Set --- */
+  .selected {
+    display: grid;
+    gap: 18px;
+    align-items: center;
+  }
+  .selected.pos-1 { grid-template-columns: 1fr auto; }
+  .selected.pos-2 { grid-template-columns: 1fr auto 1fr; }
+  .selected.pos-3 { grid-template-columns: 1fr auto 1fr 1fr; }
+  .slot {
+    background: #f7f7f5;
+    border: 1px dashed rgba(18, 18, 18, 0.25);
+    padding: 18px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slot.filled { border-style: solid; border-color: #121212; background: #FFFFFF; }
+  .slot .role {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: rgba(18, 18, 18, 0.55);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .slot.filled .role { color: #121212; }
+  .slot .id {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+  }
+  .slot .meta {
+    font-size: 1.3rem;
+    color: rgba(18, 18, 18, 0.65);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .slot .empty {
+    color: rgba(18, 18, 18, 0.5);
+    font-size: 1.3rem;
+    font-style: italic;
+  }
+  .pair-stats { text-align: center; min-width: 140px; }
+  .pair-stats .score {
+    font-size: 3.2rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: #121212;
+  }
+  .pair-stats .score.good { color: #121212; }
+  .pair-stats .score.ok   { color: rgba(18, 18, 18, 0.6); }
+  .pair-stats .score.bad  { color: #8B0000; }
+  .pair-stats .label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: rgba(18, 18, 18, 0.55);
+    margin-top: 6px;
+    font-weight: 700;
+  }
+  .pair-stats .ratio {
+    font-size: 1.2rem;
+    color: rgba(18, 18, 18, 0.65);
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Candidate columns --- */
+  .candidates {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .candidates.cols-1 { grid-template-columns: 1fr; }
+  .candidates.cols-2 { grid-template-columns: 1fr 1fr; }
+  .candidates.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .col {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.15);
+    padding: 22px;
+  }
+  .col h3 {
+    margin: 0 0 14px 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #121212;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .col h3 .count {
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    padding: 3px 10px;
+    font-size: 1.1rem;
+    color: rgba(18, 18, 18, 0.7);
+    font-variant-numeric: tabular-nums;
+  }
+  .filters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.2);
+    color: #121212;
+    padding: 5px 12px;
+    border-radius: 0;
+    font-size: 1.2rem;
+    font-family: 'Assistant', sans-serif;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+  }
+  .filter-btn:hover { background: rgba(18, 18, 18, 0.05); }
+  .filter-btn.active {
+    background: #121212;
+    border-color: #121212;
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+  .cand-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .cand-list::-webkit-scrollbar { width: 8px; }
+  .cand-list::-webkit-scrollbar-thumb { background: rgba(18, 18, 18, 0.2); }
+  .cand-list::-webkit-scrollbar-track { background: rgba(18, 18, 18, 0.04); }
+  .cand {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.12);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.1s ease, background 0.1s ease;
+  }
+  .cand:hover { border-color: rgba(18, 18, 18, 0.4); background: rgba(18,18,18,0.02); }
+  .cand.selected { border-color: #121212; background: #f7f7f5; border-width: 2px; }
+  .cand .id { font-weight: 700; font-size: 1.4rem; min-width: 90px; }
+  .cand .type {
+    color: rgba(18, 18, 18, 0.6);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .cand .hfe { font-variant-numeric: tabular-nums; font-size: 1.4rem; }
+  .cand .hfe .lbl, .cand .vf .lbl {
+    color: rgba(18, 18, 18, 0.5);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-right: 4px;
+  }
+  .cand .vf { font-variant-numeric: tabular-nums; font-size: 1.4rem; color: rgba(18, 18, 18, 0.7); }
+  .cand .fit-bar {
+    grid-column: 1 / -1;
+    height: 3px;
+    background: rgba(18, 18, 18, 0.08);
+    margin-top: 6px;
+  }
+  .cand .fit-fill {
+    height: 100%;
+    background: #121212;
+    transition: width 0.3s ease;
+  }
+  .empty-msg {
+    padding: 22px;
+    text-align: center;
+    color: rgba(18, 18, 18, 0.55);
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.6;
+  }
+  .empty-msg a {
+    color: #121212;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* --- Plot --- */
+  .plot-wrap h3 {
+    margin: 0 0 14px 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #121212;
+    font-weight: 700;
+  }
+  #plot {
+    width: 100%;
+    height: 380px;
+    display: block;
+    background: #FFFFFF;
+  }
+
+  /* --- Hero (welcome / empty) --- */
+  .hero-empty {
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.15);
+    padding: 50px 30px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .hero-empty h2 {
+    font-size: 2.4rem;
+    font-weight: 400;
+    margin: 0 0 10px 0;
+  }
+  .hero-empty p {
+    color: rgba(18, 18, 18, 0.7);
+    margin: 0 auto 22px auto;
+    max-width: 560px;
+    line-height: 1.6;
+    font-size: 1.5rem;
+  }
+  .hero-empty .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* --- Manage Inventory accordion --- */
+  .manage {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.15);
+    margin-bottom: 24px;
+  }
+  .manage-head {
+    padding: 22px 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+  .manage-head:hover { background: rgba(18,18,18,0.02); }
+  .manage-head h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .manage-head .chev {
+    color: rgba(18, 18, 18, 0.5);
+    transition: transform 0.2s ease;
+    font-size: 1.4rem;
+  }
+  .manage.collapsed .chev { transform: rotate(-90deg); }
+  .manage.collapsed .manage-body { display: none; }
+  .manage-body {
+    padding: 0 30px 30px 30px;
+    border-top: 1px solid rgba(18, 18, 18, 0.1);
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    margin: 22px 0 22px 0;
+    border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    color: rgba(18, 18, 18, 0.55);
+    padding: 12px 18px;
+    font-family: 'Assistant', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-weight: 700;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: #121212; }
+  .tab-btn.active {
+    color: #121212;
+    border-bottom-color: #121212;
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* --- Forms --- */
+  .form-row {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 14px;
+    grid-template-columns: 1.4fr 0.8fr 0.8fr 0.8fr 1.4fr auto;
+    align-items: end;
+  }
+  .form-row.compact { grid-template-columns: 0.6fr 0.6fr auto auto; }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+
+  /* --- Buttons --- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    font-family: 'Assistant', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    border: 1px solid #121212;
+    background: #121212;
+    color: #FFFFFF;
+    white-space: nowrap;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn.secondary {
+    background: #FFFFFF;
+    color: #121212;
+    border: 1px solid #121212;
+  }
+  .btn.danger {
+    background: #FFFFFF;
+    color: #8B0000;
+    border: 1px solid rgba(180, 0, 0, 0.35);
+  }
+  .btn.danger:hover {
+    background: #FFF0F0;
+    opacity: 1;
+  }
+
+  .hint {
+    color: rgba(18, 18, 18, 0.6);
+    font-size: 1.3rem;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .hint code {
+    background: #f0f0ee;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 1.2rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  .drop-zone {
+    border: 2px dashed rgba(18, 18, 18, 0.2);
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    background: #f7f7f5;
+  }
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: #121212;
+    background: rgba(18, 18, 18, 0.04);
+  }
+  .drop-zone .big {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  .drop-zone .small {
+    color: rgba(18, 18, 18, 0.6);
+    font-size: 1.3rem;
+  }
+
+  .img-preview { margin-top: 18px; display: none; }
+  .img-preview.visible { display: block; }
+  .img-preview img {
+    max-width: 100%;
+    max-height: 480px;
+    border: 1px solid rgba(18, 18, 18, 0.15);
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .ocr-status {
+    padding: 14px 18px;
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    font-size: 1.3rem;
+    color: rgba(18, 18, 18, 0.7);
+    margin-bottom: 14px;
+    display: none;
+  }
+  .ocr-status.visible { display: block; }
+  .ocr-status .bar {
+    height: 4px;
+    background: rgba(18, 18, 18, 0.08);
+    margin-top: 8px;
+  }
+  .ocr-status .bar-fill {
+    height: 100%;
+    background: #121212;
+    width: 0;
+    transition: width 0.2s ease;
+  }
+
+  .row-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+
+  .ai-settings {
+    margin-top: 16px;
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    padding: 14px 18px;
+  }
+  .ai-settings summary {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: rgba(18, 18, 18, 0.7);
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+  }
+
+  details.csv-guide {
+    margin-top: 16px;
+    background: #f7f7f5;
+    border: 1px solid rgba(18, 18, 18, 0.1);
+    padding: 14px 18px;
+  }
+  details.csv-guide summary {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: rgba(18, 18, 18, 0.7);
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+  }
+
+  /* --- Inventory table --- */
+  .inv-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    font-size: 1.4rem;
+  }
+  .inv-table th {
+    background: #121212;
+    color: #FFFFFF;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-weight: 700;
+  }
+  .inv-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+    font-variant-numeric: tabular-nums;
+    vertical-align: top;
+  }
+  .inv-table tr:hover td { background: rgba(18, 18, 18, 0.02); }
+  .inv-table button {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.2);
+    color: rgba(18, 18, 18, 0.6);
+    padding: 5px 12px;
+    border-radius: 0;
+    cursor: pointer;
+    font-family: 'Assistant', sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+  .inv-table button:hover { color: #8B0000; border-color: #8B0000; }
+  .inv-search { width: 280px; }
+  .data-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* --- Photo guide --- */
+  .guide ol { padding-left: 24px; line-height: 1.8; }
+  .guide li {
+    margin-bottom: 8px;
+    color: #121212;
+    font-size: 1.4rem;
+  }
+  .guide li b { color: #121212; font-weight: 700; }
+  .guide li code {
+    background: #f0f0ee;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 1.3rem;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .guide .note {
+    background: #f7f7f5;
+    padding: 14px 18px;
+    margin-top: 18px;
+    font-size: 1.35rem;
+    color: rgba(18, 18, 18, 0.75);
+    border-left: 3px solid #121212;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    border-top: 0.1rem solid rgba(18, 18, 18, 0.08);
+    padding: 30px;
+    text-align: center;
+    font-size: 1.3rem;
+    color: rgba(18, 18, 18, 0.55);
+    max-width: 1400px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .footer a { color: rgba(18, 18, 18, 0.7); }
+
+  .clear-btn {
+    background: transparent;
+    border: 1px solid rgba(18, 18, 18, 0.2);
+    color: rgba(18, 18, 18, 0.65);
+    padding: 8px 14px;
+    border-radius: 0;
+    font-family: 'Assistant', sans-serif;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+  }
+  .clear-btn:hover { color: #121212; border-color: #121212; }
+
+  /* --- Toast --- */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.2);
+    padding: 14px 20px;
+    color: #121212;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.25s ease;
+    pointer-events: none;
+    z-index: 1000;
+    max-width: 420px;
+  }
+  .toast.visible { transform: translateY(0); opacity: 1; }
+  .toast.success { border-left: 4px solid #121212; }
+  .toast.error {
+    border-left: 4px solid #8B0000;
+    background: #FFF0F0;
+    color: #8B0000;
+  }
+
+  @media (max-width: 800px) {
+    .header { padding: 15px 20px; }
+    .main { padding: 30px 20px 60px; }
+    .page-title { font-size: 3rem; }
+    .panel { padding: 22px; }
+    .circuit-bar { grid-template-columns: 1fr; }
+    .candidates.cols-2, .candidates.cols-3 { grid-template-columns: 1fr; }
+    .targets.cols-2, .targets.cols-3 { grid-template-columns: 1fr; }
+    .selected.pos-2, .selected.pos-3 { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="transistors.html">TRANSISTORS</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main">
+
+  <header class="top-bar">
+    <div>
+      <h1 class="page-title">Transistor Pair Picker</h1>
+      <p class="page-subtitle">Build matched transistor sets for fuzz pedals and other circuits.</p>
+    </div>
+    <div class="head-stats">
+      <div class="stat-pill"><b id="stat-total">0</b> in inventory</div>
+      <div class="stat-pill"><b id="stat-pnp">0</b> PNP</div>
+      <div class="stat-pill"><b id="stat-npn">0</b> NPN</div>
+    </div>
+  </header>
+
+  <div class="panel">
+    <div class="circuit-bar">
+      <div class="field">
+        <label>Circuit</label>
+        <select id="circuit-select"></select>
+      </div>
+      <div class="field">
+        <label>Voicing</label>
+        <select id="voicing-select"></select>
+      </div>
+      <div id="pol-badge" class="pol-badge PNP">PNP</div>
+    </div>
+    <div id="circuit-desc" class="circuit-desc"></div>
+  </div>
+
+  <div id="hero-empty" class="hero-empty" style="display:none;">
+    <h2>Welcome &mdash; your inventory is empty.</h2>
+    <p>Add transistors via the <b>Manage Inventory</b> panel below: type them in manually, paste a list, or upload a photo. Everything is saved in your browser; nothing leaves your device.</p>
+    <div class="actions">
+      <button class="btn" id="hero-open-manage">Add transistors</button>
+      <button class="btn secondary" id="hero-load-demo">Load sample data (48 transistors)</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div id="targets-wrap" class="targets cols-2"></div>
+  </div>
+
+  <div class="panel">
+    <div id="selected-wrap" class="selected pos-2"></div>
+  </div>
+
+  <div id="cands-wrap" class="candidates cols-2"></div>
+
+  <div class="panel plot-wrap">
+    <h3>hFE vs Vf &mdash; full inventory (shaded bands = current target ranges)</h3>
+    <svg id="plot" viewBox="0 0 1200 360" preserveAspectRatio="none"></svg>
+  </div>
+
+  <div class="manage" id="manage">
+    <div class="manage-head" id="manage-toggle">
+      <h2>Manage Inventory</h2>
+      <span class="chev">v</span>
+    </div>
+    <div class="manage-body">
+
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="manual">Manual entry</button>
+        <button class="tab-btn"        data-tab="image">Image upload</button>
+        <button class="tab-btn"        data-tab="bulk">Bulk paste</button>
+        <button class="tab-btn"        data-tab="guide">Photo guide</button>
+        <button class="tab-btn"        data-tab="inventory">All inventory</button>
+      </div>
+
+      <div class="tab-panel active" data-tab="manual">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Type</label>
+            <input type="text" id="m-type" list="type-list" placeholder="e.g. OC42">
+            <datalist id="type-list">
+              <option value="OC42"></option><option value="OC44"></option><option value="OC45"></option>
+              <option value="OC71"></option><option value="OC75"></option><option value="OC76"></option>
+              <option value="OC81"></option><option value="AC125"></option><option value="AC127"></option>
+              <option value="AC128"></option><option value="AC176"></option><option value="MP416"></option>
+              <option value="MP38"></option><option value="MP41"></option><option value="MP42"></option>
+              <option value="GT308"></option><option value="GT309"></option><option value="GT313"></option>
+              <option value="GT322"></option><option value="GT402"></option><option value="GT404"></option>
+              <option value="2N404"></option><option value="2N1303"></option><option value="2N1304"></option>
+              <option value="2N2614"></option><option value="GT307"></option><option value="2N2613"></option>
+              <option value="NKT275"></option><option value="NKT213"></option><option value="NKT214"></option>
+              <option value="BC107"></option><option value="BC108"></option><option value="BC109"></option>
+              <option value="BC182"></option><option value="BC183"></option><option value="BC184"></option>
+              <option value="BC547"></option><option value="BC549"></option><option value="2N2222"></option>
+              <option value="2N3904"></option><option value="2N5088"></option><option value="2N5089"></option>
+              <option value="2N5087"></option><option value="2N5210"></option><option value="2N3906"></option>
+            </datalist>
+          </div>
+          <div class="form-field">
+            <label>Polarity</label>
+            <select id="m-pol"><option value="PNP">PNP</option><option value="NPN">NPN</option></select>
+          </div>
+          <div class="form-field">
+            <label>hFE</label>
+            <input type="number" id="m-hfe" min="0" max="999" placeholder="100">
+          </div>
+          <div class="form-field">
+            <label>Vf (mV)</label>
+            <input type="number" id="m-vf" min="0" max="2000" placeholder="280">
+          </div>
+          <div class="form-field">
+            <label>Notes (optional)</label>
+            <input type="text" id="m-notes" placeholder="">
+          </div>
+          <button class="btn" id="m-add">Add</button>
+        </div>
+        <div class="hint">Press <code>Tab</code> to move between fields, <code>Enter</code> to add. Type and polarity persist between adds so you can rip through a batch.</div>
+      </div>
+
+      <div class="tab-panel" data-tab="image">
+        <div class="form-row" style="grid-template-columns: 1fr 0.6fr; margin-bottom: 16px;">
+          <div class="form-field">
+            <label>Type for this batch</label>
+            <input type="text" id="img-type" list="type-list" placeholder="e.g. OC42">
+          </div>
+          <div class="form-field">
+            <label>Polarity</label>
+            <select id="img-pol"><option value="PNP">PNP</option><option value="NPN">NPN</option></select>
+          </div>
+        </div>
+        <div class="drop-zone" id="drop-zone">
+          <div class="big">Drop image here or click to upload</div>
+          <div class="small">PNG, JPG. Photos with handwritten hFE/Vf - see the Photo Guide tab for tips.</div>
+          <input type="file" id="img-input" accept="image/*" style="display:none">
+        </div>
+        <details class="ai-settings">
+          <summary>AI vision settings (Anthropic API key for best extraction)</summary>
+          <div class="form-row" style="grid-template-columns: 2fr 1fr; margin-top:14px;margin-bottom:0;">
+            <div class="form-field">
+              <label>Anthropic API key (sk-ant-...)</label>
+              <input type="password" id="ai-key" placeholder="paste key — saved locally in this browser only">
+            </div>
+            <div class="form-field">
+              <label>Model</label>
+              <select id="ai-model">
+                <option value="claude-sonnet-4-6">Sonnet 4.6 (recommended)</option>
+                <option value="claude-opus-4-6">Opus 4.6 (most accurate)</option>
+                <option value="claude-haiku-4-5-20251001">Haiku 4.5 (cheapest)</option>
+              </select>
+            </div>
+          </div>
+          <div class="hint" style="margin-top:10px;">
+            Get a key at <code>console.anthropic.com</code>. Stored only in this browser's localStorage. Costs roughly $0.005 per image with Sonnet.
+          </div>
+        </details>
+
+        <div class="img-preview" id="img-preview">
+          <img id="img-display" alt="uploaded">
+          <div style="display:flex;gap:10px;margin:14px 0;flex-wrap:wrap;">
+            <button class="btn" id="ai-btn">AI extract (Claude)</button>
+            <button class="btn secondary" id="ocr-btn">Tesseract OCR (offline)</button>
+            <button class="btn secondary" id="add-row-btn">+ Add row</button>
+            <button class="btn secondary" id="clear-img-btn">Clear image</button>
+          </div>
+          <div class="ocr-status" id="ocr-status">
+            <span id="ocr-status-text">Loading OCR engine...</span>
+            <div class="bar"><div class="bar-fill" id="ocr-bar"></div></div>
+          </div>
+          <div class="row-list" id="img-rows"></div>
+          <button class="btn" id="img-save">Save all rows</button>
+        </div>
+        <div class="hint" style="margin-top:16px;">
+          <b>AI extract</b> sends the image to Claude's vision API and extracts hFE/Vf pairs — far more accurate on handwriting than the offline OCR. <b>Tesseract OCR</b> runs entirely in your browser, no API key needed, but expect to correct most values. Either way, eyeball the auto-fill against the photo before saving.
+        </div>
+      </div>
+
+      <div class="tab-panel" data-tab="bulk">
+        <div class="drop-zone" id="csv-drop" style="margin-bottom:14px;padding:30px 20px;">
+          <div class="big">Drop CSV file here or click to browse</div>
+          <div class="small">Smart-parses headers if present. Or paste CSV text below.</div>
+          <input type="file" id="csv-input" accept=".csv,text/csv,text/plain" style="display:none">
+        </div>
+        <div class="form-row" style="grid-template-columns: 1fr 0.6fr; margin-bottom: 14px;">
+          <div class="form-field">
+            <label>Default type (used if not in CSV)</label>
+            <input type="text" id="b-type" list="type-list" placeholder="e.g. OC42">
+          </div>
+          <div class="form-field">
+            <label>Default polarity</label>
+            <select id="b-pol"><option value="PNP">PNP</option><option value="NPN">NPN</option></select>
+          </div>
+        </div>
+        <div class="form-field" style="margin-bottom: 14px;">
+          <label>Paste CSV (or any delimited text)</label>
+          <textarea id="b-text" rows="8" placeholder="Type,hFE,Vf,Polarity,Notes&#10;OC42,102,289,PNP,vintage&#10;OC42,95,300,PNP,&#10;&#10;Or no header:&#10;OC42, 102, 289&#10;OC42-99, PNP, 102, 289, my notes"></textarea>
+        </div>
+        <button class="btn" id="b-parse">Parse and add</button>
+        <details class="csv-guide">
+          <summary>CSV format guide</summary>
+          <div class="hint" style="margin-top:12px;">
+            <b>With headers (recommended)</b> — the parser matches column names case-insensitively. Recognized aliases:<br>
+            <code>type</code> / <code>part</code> / <code>part number</code> / <code>model</code> / <code>pn</code><br>
+            <code>hfe</code> / <code>gain</code> / <code>beta</code> / <code>h_fe</code><br>
+            <code>vf</code> / <code>vbe</code> / <code>v_be</code> / <code>forward voltage</code> / <code>mv</code><br>
+            <code>polarity</code> / <code>pol</code><br>
+            <code>id</code> / <code>name</code> / <code>label</code> / <code>position</code> / <code>tag</code><br>
+            <code>notes</code> / <code>comments</code> / <code>remarks</code> / <code>description</code><br><br>
+            <b>Without headers</b> — values are inferred. The first two numbers per row become hFE and Vf. Strings ahead of them become id/type/polarity (order-flexible); trailing strings become notes.<br><br>
+            <b>Example with headers:</b><br>
+            <code>Type,hFE,Vf,Polarity,Notes</code><br>
+            <code>OC42,102,289,PNP,vintage British</code><br>
+            <code>OC42,95,300,PNP,</code><br><br>
+            Quoted fields (for commas inside notes) and escaped quotes (<code>""</code>) are handled.
+          </div>
+        </details>
+      </div>
+
+      <div class="tab-panel guide" data-tab="guide">
+        <ol>
+          <li><b>One transistor type per page.</b> Write the part number (e.g. <code>OC42</code>) once in marker, big and clear. The whole batch inherits it.</li>
+          <li><b>Lay out in rows on white paper.</b> Use blue painter's tape to keep the cans from rolling.</li>
+          <li><b>Number each row or each transistor</b> with tape strips: <code>1</code>, <code>2</code>, <code>3</code>... Not required but makes cross-referencing easier later.</li>
+          <li><b>Write hFE on top, Vf on bottom</b> next to each transistor, in the same position relative to every can. Consistent layout makes auto-extraction much more accurate.</li>
+          <li><b>Use a dark, clean marker.</b> Black or dark blue OCRs best. Red works if it's bold; thin red ink on a glossy photo is the worst case.</li>
+          <li><b>Print, don't cursive.</b> Closed loops on <code>0 6 8 9</code>; clear top bar on <code>5</code>; cross your <code>7</code>s if you want them distinguished from <code>1</code>s.</li>
+          <li><b>Shoot straight down.</b> Phone parallel to the paper, no tilt. Tilted photos warp the digits and confuse the recognizer.</li>
+          <li><b>Bright even light.</b> Daylight or two soft lamps from opposite sides. Shadows from the cans across the numbers are the main failure mode.</li>
+          <li><b>Frame tight.</b> Fill the frame with the page - more pixels per digit = better recognition.</li>
+          <li><b>One photo per page.</b> Don't try to fit two pages in one shot.</li>
+        </ol>
+        <div class="note">
+          Even with perfect photos, OCR on handwriting will miss values. Always eyeball the auto-fill numbers against the image before clicking <b>Save all rows</b>. The fastest workflow is usually: upload photo, glance at it as a reference, type the values into the row form yourself. OCR is the assistant, not the operator.
+        </div>
+      </div>
+
+      <div class="tab-panel" data-tab="inventory">
+        <div style="display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;">
+          <input class="inv-search" id="inv-search" type="text" placeholder="Search id, type, notes...">
+          <div class="data-actions" style="margin-top:0;">
+            <button class="btn secondary" id="export-json">Export JSON</button>
+            <button class="btn secondary" id="export-csv">Export CSV</button>
+            <button class="btn secondary" id="import-btn">Import JSON</button>
+            <input type="file" id="import-input" accept=".json,application/json" style="display:none">
+            <button class="btn secondary" id="load-demo-btn">Load sample data</button>
+            <button class="btn danger" id="clear-all-btn">Clear all data</button>
+          </div>
+        </div>
+        <div style="max-height: 460px; overflow-y: auto;">
+          <table class="inv-table" id="inv-table">
+            <thead><tr><th>ID</th><th>Type</th><th>Pol</th><th>hFE</th><th>Vf (mV)</th><th>Notes</th><th></th></tr></thead>
+            <tbody id="inv-tbody"></tbody>
+          </table>
+        </div>
+        <div class="hint">Data persists in this browser's <code>localStorage</code>. Use Export JSON to back it up or move it to another machine. Sample data is 48 vintage germaniums for trying things out.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="hint" style="margin-top:30px;">
+    Each circuit has factory-set hFE ranges per position; tweak the numbers above to widen or narrow your search. Set Score combines how well each transistor sits in its target band, plus a bonus for circuits that benefit from a specific gain ratio between positions. All data lives in your browser only.
+  </p>
+
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = "transistor-pair-picker-v2";
+
+/* Demo dataset — only loaded if user clicks "Load sample data". */
+const DEMO_DATA = [
+  {id:"OC42-01", type:"OC42", pol:"PNP", hfe:102, vf:289, notes:""},
+  {id:"OC42-02", type:"OC42", pol:"PNP", hfe:95,  vf:300, notes:""},
+  {id:"OC42-03", type:"OC42", pol:"PNP", hfe:83,  vf:305, notes:""},
+  {id:"OC42-04", type:"OC42", pol:"PNP", hfe:95,  vf:340, notes:""},
+  {id:"OC42-05", type:"OC42", pol:"PNP", hfe:314, vf:269, notes:"high gain"},
+  {id:"OC42-06", type:"OC42", pol:"PNP", hfe:168, vf:261, notes:""},
+  {id:"OC42-07", type:"OC42", pol:"PNP", hfe:143, vf:246, notes:""},
+  {id:"OC42-08", type:"OC42", pol:"PNP", hfe:94,  vf:258, notes:""},
+  {id:"OC42-09", type:"OC42", pol:"PNP", hfe:66,  vf:310, notes:""},
+  {id:"OC42-10", type:"OC42", pol:"PNP", hfe:137, vf:200, notes:""},
+  {id:"OC42-11", type:"OC42", pol:"PNP", hfe:84,  vf:240, notes:""},
+  {id:"OC42-12", type:"OC42", pol:"PNP", hfe:124, vf:314, notes:""},
+  {id:"OC42-13", type:"OC42", pol:"PNP", hfe:172, vf:256, notes:""},
+  {id:"OC42-14", type:"OC42", pol:"PNP", hfe:107, vf:224, notes:""},
+  {id:"OC42-15", type:"OC42", pol:"PNP", hfe:74,  vf:158, notes:""},
+  {id:"OC42-16", type:"OC42", pol:"PNP", hfe:183, vf:260, notes:""},
+  {id:"OC42-17", type:"OC42", pol:"PNP", hfe:100, vf:178, notes:""},
+  {id:"OC42-18", type:"OC42", pol:"PNP", hfe:76,  vf:230, notes:""},
+  {id:"OC42-19", type:"OC42", pol:"PNP", hfe:132, vf:192, notes:""},
+  {id:"OC42-20", type:"OC42", pol:"PNP", hfe:85,  vf:263, notes:""},
+  {id:"OC42-21", type:"OC42", pol:"PNP", hfe:82,  vf:263, notes:""},
+  {id:"OC42-22", type:"OC42", pol:"PNP", hfe:127, vf:191, notes:""},
+  {id:"OC42-23", type:"OC42", pol:"PNP", hfe:81,  vf:222, notes:""},
+  {id:"OC42-24", type:"OC42", pol:"PNP", hfe:79,  vf:273, notes:""},
+  {id:"MP416-01", type:"MP416", pol:"PNP", hfe:20, vf:412, notes:""},
+  {id:"MP416-02", type:"MP416", pol:"PNP", hfe:28, vf:432, notes:""},
+  {id:"MP416-03", type:"MP416", pol:"PNP", hfe:46, vf:575, notes:""},
+  {id:"MP416-04", type:"MP416", pol:"PNP", hfe:34, vf:417, notes:""},
+  {id:"MP416-05", type:"MP416", pol:"PNP", hfe:32, vf:413, notes:""},
+  {id:"MP416-06", type:"MP416", pol:"PNP", hfe:64, vf:385, notes:""},
+  {id:"MP416-07", type:"MP416", pol:"PNP", hfe:50, vf:422, notes:""},
+  {id:"MP416-08", type:"MP416", pol:"PNP", hfe:30, vf:398, notes:""},
+  {id:"MP416-09", type:"MP416", pol:"PNP", hfe:23, vf:297, notes:""},
+  {id:"MP416-10", type:"MP416", pol:"PNP", hfe:36, vf:417, notes:""},
+  {id:"MP416-11", type:"MP416", pol:"PNP", hfe:27, vf:430, notes:""},
+  {id:"MP416-12", type:"MP416", pol:"PNP", hfe:40, vf:415, notes:""},
+  {id:"GT307-01", type:"GT307", pol:"PNP", hfe:44, vf:304, notes:""},
+  {id:"GT307-02", type:"GT307", pol:"PNP", hfe:31, vf:312, notes:""},
+  {id:"GT307-03", type:"GT307", pol:"PNP", hfe:41, vf:308, notes:""},
+  {id:"GT307-04", type:"GT307", pol:"PNP", hfe:46, vf:309, notes:""},
+  {id:"GT307-05", type:"GT307", pol:"PNP", hfe:44, vf:321, notes:""},
+  {id:"GT307-06", type:"GT307", pol:"PNP", hfe:32, vf:302, notes:""},
+  {id:"GT307-07", type:"GT307", pol:"PNP", hfe:37, vf:298, notes:""},
+  {id:"GT307-08", type:"GT307", pol:"PNP", hfe:44, vf:290, notes:""},
+  {id:"GT307-09", type:"GT307", pol:"PNP", hfe:39, vf:303, notes:""},
+  {id:"GT307-10", type:"GT307", pol:"PNP", hfe:41, vf:301, notes:""},
+  {id:"GT307-11", type:"GT307", pol:"PNP", hfe:39, vf:308, notes:""},
+  {id:"GT307-12", type:"GT307", pol:"PNP", hfe:45, vf:302, notes:""},
+];
+
+/* Circuits — each defines polarity, position roles, and one or more voicings.
+   A voicing has hFE ranges per position, plus optional `ratio` for circuits
+   that benefit from a specific gain ratio between Q1 and Q2. */
+const CIRCUITS = {
+  "fuzz-factory": {
+    name: "Fuzz Factory (Q1/Q2)",
+    polarity: "PNP",
+    description: "ZVex's flagship 4-transistor PNP germanium fuzz. Q1 and Q2 are the critical match; Q3/Q4 are less picky. Pick Q1 lower-gain (low leakage), Q2 higher-gain. Soviet low-gain voicing lets you use MP38/MP41/MP42/MP416 (hFE 30-80) — they still scream.",
+    positions: ["Q1", "Q2"],
+    voicings: {
+      "tame":         { Q1:[60, 85],   Q2:[90, 115],   ratio: 1.4 },
+      "fuzz":         { Q1:[80, 100],  Q2:[110, 140],  ratio: 1.5 },
+      "experimental": { Q1:[30, 70],   Q2:[160, 350],  ratio: 3.5 },
+      "soviet low-gain": { Q1:[30, 55], Q2:[55, 85], ratio: 1.7 },
+    }
+  },
+  "fuzz-face-ge": {
+    name: "Fuzz Face (Germanium)",
+    polarity: "PNP",
+    description: "Hendrix-style 2-transistor PNP germanium. Q1 lower hFE and lower leakage, Q2 higher hFE. Q2/Q1 ratio around 1.5x is the classic recipe. Soviet low-gain voicing tracks MP/GT-series germaniums in the hFE 30-80 range.",
+    positions: ["Q1", "Q2"],
+    voicings: {
+      "vintage NKT":   { Q1:[70, 90],   Q2:[110, 130],  ratio: 1.5 },
+      "warm Mullard":  { Q1:[60, 80],   Q2:[90, 120],   ratio: 1.5 },
+      "hot bias":      { Q1:[80, 100],  Q2:[130, 160],  ratio: 1.6 },
+      "soviet low-gain": { Q1:[30, 55], Q2:[55, 85], ratio: 1.7 },
+    }
+  },
+  "fuzz-face-si": {
+    name: "Fuzz Face (Silicon)",
+    polarity: "NPN",
+    description: "BC108 / BC183-style silicon Fuzz Face. Higher gain, more aggressive, less leakage drift than germanium. Q2 typically 2x the gain of Q1.",
+    positions: ["Q1", "Q2"],
+    voicings: {
+      "BC108 classic": { Q1:[120, 200], Q2:[240, 400], ratio: 2.0 },
+      "BC183 hot":     { Q1:[200, 300], Q2:[350, 500], ratio: 1.7 },
+    }
+  },
+  "tone-bender-mk2": {
+    name: "Tone Bender MkII",
+    polarity: "PNP",
+    description: "Sola Sound 3-transistor PNP germanium. Q1 sets bias and benefits from low gain / low leakage; Q2 mid-gain; Q3 output stage with the most gain.",
+    positions: ["Q1", "Q2", "Q3"],
+    voicings: {
+      "stock":   { Q1:[75, 90],   Q2:[90, 115],   Q3:[110, 140] },
+      "hot Q3":  { Q1:[75, 90],   Q2:[90, 115],   Q3:[140, 180] },
+    }
+  },
+  "tone-bender-mk1": {
+    name: "Tone Bender MkI",
+    polarity: "PNP",
+    description: "Original Sola Sound 3-transistor PNP germanium (OC75-style). Lower-gain stages than MkII; the woollier, warmer tone.",
+    positions: ["Q1", "Q2", "Q3"],
+    voicings: {
+      "stock": { Q1:[60, 80],   Q2:[80, 100],   Q3:[100, 130] },
+    }
+  },
+  "tone-bender-mk3": {
+    name: "Tone Bender MkIII",
+    polarity: "PNP",
+    description: "Vox/Sola Sound 3-transistor PNP germanium with a tone control. Similar gain staging to MkII but slightly hotter Q3.",
+    positions: ["Q1", "Q2", "Q3"],
+    voicings: {
+      "stock": { Q1:[70, 90],   Q2:[90, 120],   Q3:[120, 160] },
+    }
+  },
+  "buzzaround": {
+    name: "Buzzaround",
+    polarity: "PNP",
+    description: "Baldwin-Burns 3-transistor PNP germanium (NKT213/NKT275). Voicing wants relatively close hFE between Q1, Q2, and Q3.",
+    positions: ["Q1", "Q2", "Q3"],
+    voicings: {
+      "stock": { Q1:[90, 110],  Q2:[110, 140],  Q3:[130, 170] },
+    }
+  },
+  "rangemaster": {
+    name: "Rangemaster (1 transistor)",
+    polarity: "PNP",
+    description: "Dallas Rangemaster treble booster — single PNP germanium (OC44/OC71). No pair to match; just pick the best single transistor in the target range.",
+    positions: ["Q1"],
+    voicings: {
+      "vintage": { Q1:[60, 100] },
+      "hotter":  { Q1:[100, 140] },
+    }
+  },
+  "big-muff-pi": {
+    name: "Big Muff Pi (Q1/Q2)",
+    polarity: "NPN",
+    description: "Electro-Harmonix Big Muff Pi — 4 NPN silicon. Q1/Q2 are the input and first gain stage; matched gain across the four positions gives consistent voicing. hFE less critical than Ge fuzzes.",
+    positions: ["Q1", "Q2"],
+    voicings: {
+      "v1 / v2 (2N5133)": { Q1:[200, 350], Q2:[200, 350] },
+      "v3 / triangle":    { Q1:[300, 500], Q2:[300, 500] },
+      "v9 / late":        { Q1:[400, 600], Q2:[400, 600] },
+    }
+  },
+  "rat": {
+    name: "ProCo Rat (Q1)",
+    polarity: "NPN",
+    description: "ProCo Rat — single 2N5210/2N5089 NPN silicon at the input. Higher hFE = more gain headroom. Single transistor, no pair.",
+    positions: ["Q1"],
+    voicings: {
+      "stock 2N5210": { Q1:[300, 600] },
+    }
+  },
+  "matched-pair": {
+    name: "Matched pair (generic)",
+    polarity: "PNP",
+    description: "Find any two transistors with hFE as close as possible (long-tailed pair, current mirror, push-pull, differential amp). Set the range tight; pick two from the list.",
+    positions: ["Q1", "Q2"],
+    voicings: {
+      "PNP":           { Q1:[80, 120],  Q2:[80, 120],  ratio: 1.0 },
+      "NPN (override)":{ Q1:[80, 120],  Q2:[80, 120],  ratio: 1.0 },
+    }
+  },
+};
+
+/* Known canonical polarity for common transistor types. The renderer prefers
+   this over the stored polarity, so 2N1308 (NPN) never shows up in a PNP
+   circuit even if it was imported with a missing or wrong polarity field.
+   Type names are matched case-insensitively. Types not in this map fall back
+   to the stored t.pol field. */
+const KNOWN_POLARITY = {
+  /* PNP germanium */
+  "OC42":"PNP","OC43":"PNP","OC44":"PNP","OC45":"PNP",
+  "OC71":"PNP","OC72":"PNP","OC74":"PNP","OC75":"PNP","OC76":"PNP",
+  "OC77":"PNP","OC78":"PNP","OC79":"PNP","OC80":"PNP","OC81":"PNP","OC82":"PNP","OC83":"PNP","OC84":"PNP",
+  "AC125":"PNP","AC126":"PNP","AC128":"PNP","AC132":"PNP","AC151":"PNP","AC152":"PNP","AC153":"PNP",
+  "AC162":"PNP","AC178":"PNP","AC180":"PNP","AC181":"PNP","AC188":"PNP",
+  "AF114":"PNP","AF115":"PNP","AF116":"PNP","AF117":"PNP","AF118":"PNP","AF124":"PNP","AF125":"PNP","AF126":"PNP","AF127":"PNP",
+  "ASY26":"PNP","ASY27":"PNP","ASY28":"PNP","ASY29":"PNP","ASY77":"PNP","ASY80":"PNP","ASY81":"PNP",
+  "NKT212":"PNP","NKT213":"PNP","NKT214":"PNP","NKT215":"PNP","NKT216":"PNP","NKT217":"PNP","NKT218":"PNP","NKT219":"PNP",
+  "NKT220":"PNP","NKT221":"PNP","NKT222":"PNP","NKT223":"PNP","NKT224":"PNP","NKT225":"PNP","NKT226":"PNP","NKT227":"PNP",
+  "NKT271":"PNP","NKT272":"PNP","NKT273":"PNP","NKT274":"PNP","NKT275":"PNP",
+  "MP25":"PNP","MP26":"PNP","MP38":"PNP","MP39":"PNP","MP40":"PNP","MP41":"PNP","MP42":"PNP","MP416":"PNP",
+  "GT308":"PNP","GT309":"PNP","GT320":"PNP","GT321":"PNP","GT322":"PNP","GT402":"PNP","GT403":"PNP",
+  "P401":"PNP","P402":"PNP","P403":"PNP","P416":"PNP",
+  "2N404":"PNP","2N527":"PNP","2N1303":"PNP","2N1305":"PNP","2N1307":"PNP",
+  "2N1377":"PNP","2N2613":"PNP","2N2614":"PNP",
+  /* NPN germanium */
+  "AC127":"NPN","AC141":"NPN","AC142":"NPN","AC176":"NPN","AC187":"NPN",
+  "OC139":"NPN","OC140":"NPN","OC141":"NPN","OC169":"NPN","OC170":"NPN","OC171":"NPN",
+  "GT311":"NPN","GT313":"NPN","GT404":"NPN",
+  "NKT281":"NPN",
+  "2N1304":"NPN","2N1306":"NPN","2N1308":"NPN","2N1309":"NPN",
+  /* PNP silicon */
+  "BC177":"PNP","BC178":"PNP","BC179":"PNP",
+  "BC212":"PNP","BC213":"PNP","BC214":"PNP",
+  "BC257":"PNP","BC258":"PNP","BC259":"PNP",
+  "BC307":"PNP","BC308":"PNP","BC309":"PNP",
+  "BC327":"PNP","BC328":"PNP",
+  "BC557":"PNP","BC558":"PNP","BC559":"PNP",
+  "2N3906":"PNP","2N4403":"PNP","2N5087":"PNP",
+  /* NPN silicon */
+  "BC107":"NPN","BC108":"NPN","BC109":"NPN",
+  "BC147":"NPN","BC148":"NPN","BC149":"NPN",
+  "BC182":"NPN","BC183":"NPN","BC184":"NPN",
+  "BC237":"NPN","BC238":"NPN","BC239":"NPN",
+  "BC337":"NPN","BC338":"NPN",
+  "BC547":"NPN","BC548":"NPN","BC549":"NPN",
+  "2N2222":"NPN","2N3904":"NPN","2N4401":"NPN","2N5088":"NPN","2N5089":"NPN","2N5210":"NPN",
+};
+
+function effectivePolarity(t) {
+  if (!t) return "PNP";
+  const known = KNOWN_POLARITY[(t.type || "").toUpperCase()];
+  return known || (t.pol || "PNP");
+}
+
+const state = {
+  circuitKey: "fuzz-factory",
+  voicingKey: "fuzz",
+  filters: ["all", "all", "all"],     // per-position type filter
+  selected: [null, null, null],       // per-position selected transistor
+  imgRows: [],
+};
+
+let transistors = loadInv();
+
+function loadInv() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch(e) {}
+  /* Migration from v1 */
+  try {
+    const old = localStorage.getItem("fuzz-factory-pair-picker-v1");
+    if (old) {
+      const parsed = JSON.parse(old);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    }
+  } catch(e) {}
+  return [];
+}
+function saveInv() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(transistors)); }
+  catch(e) { toast("Couldn't save to localStorage", "error"); }
+}
+
+const toastEl = document.getElementById("toast");
+let toastTimer;
+function toast(msg, kind) {
+  kind = kind || "success";
+  toastEl.textContent = msg;
+  toastEl.className = "toast visible " + kind;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("visible"), 2400);
+}
+
+function nextId(type) {
+  const base = (type || "X").replace(/\s+/g, "").toUpperCase();
+  const taken = new Set(transistors.map(t => t.id));
+  for (let n = 1; n < 999; n++) {
+    const id = base + "-" + String(n).padStart(2, "0");
+    if (!taken.has(id)) return id;
+  }
+  return base + "-" + Date.now();
+}
+
+function currentCircuit() { return CIRCUITS[state.circuitKey]; }
+function currentVoicing() { return currentCircuit().voicings[state.voicingKey]; }
+function currentRanges() {
+  const c = currentCircuit(), v = currentVoicing();
+  return c.positions.map((p, i) => {
+    const minEl = document.getElementById("range-" + i + "-min");
+    const maxEl = document.getElementById("range-" + i + "-max");
+    if (minEl && maxEl) return [+minEl.value, +maxEl.value];
+    return v[p] || [0, 999];
+  });
+}
+function currentIdealRatio() {
+  return currentVoicing().ratio || null;
+}
+
+function buildCircuitDropdowns() {
+  const cSel = document.getElementById("circuit-select");
+  cSel.innerHTML = "";
+  Object.entries(CIRCUITS).forEach(([key, c]) => {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = c.name + " — " + c.polarity;
+    cSel.appendChild(opt);
+  });
+  cSel.value = state.circuitKey;
+  rebuildVoicingDropdown();
+}
+function rebuildVoicingDropdown() {
+  const c = currentCircuit();
+  const vSel = document.getElementById("voicing-select");
+  vSel.innerHTML = "";
+  Object.keys(c.voicings).forEach(k => {
+    const opt = document.createElement("option");
+    opt.value = k; opt.textContent = k;
+    vSel.appendChild(opt);
+  });
+  if (!c.voicings[state.voicingKey]) state.voicingKey = Object.keys(c.voicings)[0];
+  vSel.value = state.voicingKey;
+}
+function applyCircuitChange() {
+  const c = currentCircuit();
+  document.getElementById("pol-badge").className = "pol-badge " + c.polarity;
+  document.getElementById("pol-badge").textContent = c.polarity;
+  document.getElementById("circuit-desc").textContent = c.description;
+  buildTargetEditors();
+  buildSelectedSlots();
+  buildCandidateColumns();
+  // Reset selections on circuit change
+  state.selected = [null, null, null];
+  render();
+}
+function buildTargetEditors() {
+  const c = currentCircuit(), v = currentVoicing();
+  const wrap = document.getElementById("targets-wrap");
+  wrap.className = "targets cols-" + c.positions.length;
+  wrap.innerHTML = "";
+  c.positions.forEach((pos, i) => {
+    const r = v[pos] || [0, 200];
+    const block = document.createElement("div");
+    block.className = "target-block s" + (i+1);
+    block.innerHTML =
+      '<div class="title"><span class="dot"></span>' + pos + ' hFE range</div>' +
+      '<div class="range-inputs">' +
+        '<input type="number" id="range-' + i + '-min" min="0" max="999" value="' + r[0] + '">' +
+        '<span>to</span>' +
+        '<input type="number" id="range-' + i + '-max" min="0" max="999" value="' + r[1] + '">' +
+      '</div>';
+    wrap.appendChild(block);
+  });
+  // Add a clear button after the last
+  const clr = document.createElement("div");
+  clr.style.gridColumn = "1 / -1";
+  clr.style.textAlign = "right";
+  clr.innerHTML = '<button class="clear-btn" id="clear-sel">Clear selections</button>';
+  wrap.appendChild(clr);
+  document.getElementById("clear-sel").addEventListener("click", () => {
+    state.selected = [null, null, null]; render();
+  });
+  c.positions.forEach((pos, i) => {
+    document.getElementById("range-" + i + "-min").addEventListener("input", render);
+    document.getElementById("range-" + i + "-max").addEventListener("input", render);
+  });
+}
+function buildSelectedSlots() {
+  const c = currentCircuit();
+  const wrap = document.getElementById("selected-wrap");
+  wrap.className = "selected pos-" + c.positions.length;
+  wrap.innerHTML = "";
+  c.positions.forEach((pos, i) => {
+    const slot = document.createElement("div");
+    slot.className = "slot s" + (i+1);
+    slot.id = "slot-" + i;
+    slot.innerHTML = '<div class="role">' + pos + '</div><div class="empty">Click a candidate</div>';
+    wrap.appendChild(slot);
+    if (i === 0) {
+      const stats = document.createElement("div");
+      stats.className = "pair-stats";
+      stats.innerHTML = '<div class="score" id="pair-score">-</div>' +
+        '<div class="label">Set Score</div>' +
+        '<div class="ratio" id="pair-ratio"></div>' +
+        '<button class="btn" id="confirm-set-btn" style="display:none;margin-top:14px;font-size:1.1rem;padding:8px 14px;white-space:nowrap;">✓ Confirm & remove</button>';
+      wrap.appendChild(stats);
+      document.getElementById("confirm-set-btn").addEventListener("click", confirmAndRemoveSet);
+    }
+  });
+}
+function buildCandidateColumns() {
+  const c = currentCircuit();
+  const wrap = document.getElementById("cands-wrap");
+  wrap.className = "candidates cols-" + c.positions.length;
+  wrap.innerHTML = "";
+  c.positions.forEach((pos, i) => {
+    const col = document.createElement("div");
+    col.className = "col s" + (i+1);
+    col.innerHTML =
+      '<h3>' + pos + ' candidates <span class="count" id="count-' + i + '">0</span></h3>' +
+      '<div class="filters" id="filters-' + i + '"></div>' +
+      '<div class="cand-list" id="list-' + i + '"></div>';
+    wrap.appendChild(col);
+  });
+  rebuildFilterChips();
+}
+
+function getTypesForPolarity(pol) {
+  return Array.from(new Set(transistors.filter(t => effectivePolarity(t) === pol).map(t => t.type))).sort();
+}
+function rebuildFilterChips() {
+  const c = currentCircuit();
+  c.positions.forEach((pos, i) => {
+    const wrap = document.getElementById("filters-" + i);
+    if (!wrap) return;
+    const current = state.filters[i];
+    wrap.innerHTML = "";
+    const types = ["all"].concat(getTypesForPolarity(c.polarity));
+    types.forEach(t => {
+      const btn = document.createElement("button");
+      btn.className = "filter-btn" + (current === t ? " active" : "");
+      btn.dataset.type = t;
+      btn.textContent = t === "all" ? "All" : t;
+      btn.addEventListener("click", () => {
+        state.filters[i] = t;
+        rebuildFilterChips();
+        render();
+      });
+      wrap.appendChild(btn);
+    });
+  });
+}
+
+function inRange(v, r) { return v >= r[0] && v <= r[1]; }
+function fitScore(hfe, r) {
+  if (hfe < r[0] || hfe > r[1]) return 0;
+  const center = (r[0] + r[1]) / 2;
+  const half = (r[1] - r[0]) / 2 || 1;
+  return Math.max(0.4, 1 - Math.abs(hfe - center) / half);
+}
+function renderColumn(i) {
+  const c = currentCircuit();
+  const ranges = currentRanges();
+  const range = ranges[i];
+  const filterType = state.filters[i] || "all";
+  const selected = state.selected[i];
+  const candidates = transistors
+    .filter(t => effectivePolarity(t) === c.polarity)
+    .filter(t => filterType === "all" || t.type === filterType)
+    .filter(t => inRange(t.hfe, range))
+    .map(t => Object.assign({}, t, { fit: fitScore(t.hfe, range) }))
+    .sort((a, b) => b.fit - a.fit);
+
+  const countEl = document.getElementById("count-" + i);
+  if (countEl) countEl.textContent = candidates.length;
+  const list = document.getElementById("list-" + i);
+  if (!list) return;
+  list.innerHTML = "";
+  if (!candidates.length) {
+    if (transistors.filter(t => effectivePolarity(t) === c.polarity).length === 0) {
+      list.innerHTML = '<div class="empty-msg">No ' + c.polarity + ' transistors in your inventory yet.<br><a id="empty-add-' + i + '">Add some via Manage Inventory</a>.</div>';
+      const lnk = document.getElementById("empty-add-" + i);
+      if (lnk) lnk.addEventListener("click", openManage);
+    } else {
+      list.innerHTML = '<div class="empty-msg">No transistors in this hFE range. Widen the band above.</div>';
+    }
+    return;
+  }
+  candidates.forEach(t => {
+    const el = document.createElement("div");
+    el.className = "cand" + (selected && selected.id === t.id ? " selected" : "");
+    el.innerHTML =
+      '<div class="id">' + t.id + '</div>' +
+      '<div class="type">' + t.type + '</div>' +
+      '<div class="hfe"><span class="lbl">hFE</span>' + t.hfe + '</div>' +
+      '<div class="vf"><span class="lbl">Vf</span>' + t.vf + '<span style="color:rgba(18,18,18,0.5);"> mV</span></div>' +
+      '<div class="fit-bar"><div class="fit-fill" style="width:' + (t.fit*100).toFixed(0) + '%"></div></div>';
+    el.addEventListener("click", () => { state.selected[i] = t; render(); });
+    list.appendChild(el);
+  });
+}
+function renderSet() {
+  const c = currentCircuit();
+  c.positions.forEach((pos, i) => {
+    const slot = document.getElementById("slot-" + i);
+    if (!slot) return;
+    const t = state.selected[i];
+    if (t) {
+      slot.classList.add("filled");
+      slot.innerHTML = '<div class="role">' + pos + ' — ' + t.type + '</div><div class="id">' + t.id + '</div><div class="meta">hFE ' + t.hfe + ' &middot; Vf ' + t.vf + ' mV</div>';
+    } else {
+      slot.classList.remove("filled");
+      slot.innerHTML = '<div class="role">' + pos + '</div><div class="empty">Click a candidate</div>';
+    }
+  });
+  const scoreEl = document.getElementById("pair-score");
+  const ratioEl = document.getElementById("pair-ratio");
+  if (!scoreEl) return;
+  const filledCount = c.positions.filter((p, i) => state.selected[i]).length;
+  if (filledCount === c.positions.length) {
+    const ranges = currentRanges();
+    const fits = c.positions.map((p, i) => fitScore(state.selected[i].hfe, ranges[i]));
+    const avgFit = fits.reduce((a, b) => a + b, 0) / fits.length;
+    let score, ratioText = "";
+    const idealRatio = currentIdealRatio();
+    if (c.positions.length === 2 && idealRatio) {
+      const ratio = state.selected[1].hfe / state.selected[0].hfe;
+      const ratioFit = Math.max(0, 1 - Math.abs(ratio - idealRatio) / idealRatio);
+      score = Math.round((avgFit * 0.7 + ratioFit * 0.3) * 100);
+      ratioText = "Q2/Q1 ratio " + ratio.toFixed(2) + "x  ideal " + idealRatio + "x";
+    } else if (c.positions.length === 1) {
+      score = Math.round(avgFit * 100);
+    } else {
+      score = Math.round(avgFit * 100);
+      ratioText = c.positions.length + " positions matched";
+    }
+    scoreEl.textContent = score;
+    scoreEl.className = "score " + (score >= 80 ? "good" : score >= 55 ? "ok" : "bad");
+    ratioEl.textContent = ratioText;
+  } else {
+    scoreEl.textContent = "-";
+    scoreEl.className = "score";
+    ratioEl.textContent = "";
+  }
+  const cbtn = document.getElementById("confirm-set-btn");
+  if (cbtn) cbtn.style.display = (filledCount === c.positions.length) ? "inline-block" : "none";
+}
+function renderPlot() {
+  const svg = document.getElementById("plot");
+  const W = 1200, H = 360;
+  const pad = { l: 50, r: 20, t: 20, b: 36 };
+  const innerW = W - pad.l - pad.r, innerH = H - pad.t - pad.b;
+  if (transistors.length === 0) {
+    svg.innerHTML = '<text x="' + (W/2) + '" y="' + (H/2) + '" fill="rgba(18,18,18,0.45)" font-size="14" text-anchor="middle" font-family="Assistant, sans-serif">No data yet — add transistors via Manage Inventory.</text>';
+    return;
+  }
+  const c = currentCircuit();
+  const allHfe = transistors.map(t => t.hfe);
+  const allVf  = transistors.map(t => t.vf);
+  const xMax = Math.max.apply(null, allHfe.concat([100])) + 20;
+  const yMin = Math.min.apply(null, allVf.concat([0])) - 30;
+  const yMax = Math.max.apply(null, allVf.concat([100])) + 30;
+  const x = h => pad.l + (h / xMax) * innerW;
+  const y = v => pad.t + (1 - (v - yMin) / (yMax - yMin)) * innerH;
+  const ranges = currentRanges();
+  let s = "";
+  for (let i = 0; i <= 5; i++) {
+    const xv = (xMax / 5) * i;
+    s += '<line x1="' + x(xv) + '" y1="' + pad.t + '" x2="' + x(xv) + '" y2="' + (pad.t+innerH) + '" stroke="rgba(18,18,18,0.08)" stroke-width="1"/>';
+    s += '<text x="' + x(xv) + '" y="' + (H-12) + '" fill="rgba(18,18,18,0.55)" font-size="11" text-anchor="middle" font-family="Assistant, sans-serif">' + Math.round(xv) + '</text>';
+  }
+  for (let i = 0; i <= 4; i++) {
+    const yv = yMin + ((yMax - yMin) / 4) * i;
+    s += '<line x1="' + pad.l + '" y1="' + y(yv) + '" x2="' + (pad.l+innerW) + '" y2="' + y(yv) + '" stroke="rgba(18,18,18,0.08)" stroke-width="1"/>';
+    s += '<text x="' + (pad.l-8) + '" y="' + (y(yv)+4) + '" fill="rgba(18,18,18,0.55)" font-size="11" text-anchor="end" font-family="Assistant, sans-serif">' + Math.round(yv) + '</text>';
+  }
+  const slotColors = ["#121212", "rgba(18,18,18,0.55)", "rgba(18,18,18,0.3)"];
+  ranges.forEach((r, i) => {
+    if (i >= c.positions.length) return;
+    const x1 = x(r[0]), x2 = x(r[1]);
+    s += '<rect x="' + x1 + '" y="' + pad.t + '" width="' + (x2-x1) + '" height="' + innerH + '" fill="#121212" opacity="' + (0.10 - i*0.025) + '"/>';
+    s += '<text x="' + ((x1+x2)/2) + '" y="' + (pad.t+14) + '" fill="' + slotColors[i] + '" font-size="11" text-anchor="middle" font-weight="700" font-family="Assistant, sans-serif">' + c.positions[i] + '</text>';
+  });
+  s += '<text x="' + (pad.l + innerW/2) + '" y="' + (H-2) + '" fill="rgba(18,18,18,0.55)" font-size="11" text-anchor="middle" font-family="Assistant, sans-serif">hFE</text>';
+  s += '<text x="14" y="' + (pad.t + innerH/2) + '" fill="rgba(18,18,18,0.55)" font-size="11" text-anchor="middle" font-family="Assistant, sans-serif" transform="rotate(-90 14 ' + (pad.t+innerH/2) + ')">Vf (mV)</text>';
+  const palette = ["#121212", "#444444", "#777777", "#222222", "#555555", "#888888", "#333333", "#666666", "#999999"];
+  const types = Array.from(new Set(transistors.map(t => t.type))).sort();
+  const typeColor = {};
+  types.forEach((t, i) => typeColor[t] = palette[i % palette.length]);
+  transistors.forEach(t => {
+    const tp = effectivePolarity(t);
+    const dim = tp !== c.polarity;
+    const selIdx = state.selected.findIndex(sel => sel && sel.id === t.id);
+    const isSel = selIdx >= 0;
+    const r = isSel ? 7 : 4;
+    const stroke = isSel ? "#121212" : "none";
+    const sw = isSel ? 2.5 : 0;
+    const opacity = dim ? 0.2 : 0.85;
+    s += '<circle cx="' + x(t.hfe) + '" cy="' + y(t.vf) + '" r="' + r + '" fill="' + (typeColor[t.type] || "#666") + '" stroke="' + stroke + '" stroke-width="' + sw + '" opacity="' + opacity + '"><title>' + t.id + ' (' + tp + ') - hFE ' + t.hfe + ' / Vf ' + t.vf + ' mV</title></circle>';
+  });
+  let lx = pad.l + 6;
+  types.forEach((type, i) => {
+    s += '<circle cx="' + (lx + i * 78) + '" cy="' + (pad.t+8) + '" r="4" fill="' + typeColor[type] + '"/>';
+    s += '<text x="' + (lx + i * 78 + 8) + '" y="' + (pad.t+12) + '" fill="rgba(18,18,18,0.65)" font-size="11" font-family="Assistant, sans-serif">' + type + '</text>';
+  });
+  svg.innerHTML = s;
+}
+function renderStats() {
+  document.getElementById("stat-total").textContent = transistors.length;
+  document.getElementById("stat-pnp").textContent = transistors.filter(t => (t.pol || "PNP") === "PNP").length;
+  document.getElementById("stat-npn").textContent = transistors.filter(t => (t.pol || "PNP") === "NPN").length;
+  document.getElementById("hero-empty").style.display = transistors.length === 0 ? "block" : "none";
+}
+function renderInventory() {
+  const tbody = document.getElementById("inv-tbody");
+  const search = (document.getElementById("inv-search").value || "").toLowerCase();
+  tbody.innerHTML = "";
+  transistors.slice().sort((a, b) => a.id.localeCompare(b.id)).filter(t => {
+    if (!search) return true;
+    return [t.id, t.type, t.notes || "", t.pol].some(x => String(x).toLowerCase().includes(search));
+  }).forEach(t => {
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td>' + t.id + '</td>' +
+      '<td>' + t.type + '</td>' +
+      '<td>' + (t.pol || "PNP") + '</td>' +
+      '<td>' + t.hfe + '</td>' +
+      '<td>' + t.vf + '</td>' +
+      '<td style="color:rgba(18,18,18,0.6);">' + (t.notes || "") + '</td>' +
+      '<td><button data-id="' + t.id + '">delete</button></td>';
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll("button[data-id]").forEach(b =>
+    b.addEventListener("click", () => deleteTransistor(b.dataset.id)));
+}
+function deleteTransistor(id) {
+  transistors = transistors.filter(t => t.id !== id);
+  state.selected = state.selected.map(s => s && s.id === id ? null : s);
+  saveInv(); rebuildFilterChips(); render(); toast("Deleted " + id);
+}
+function render() {
+  renderStats(); renderSet(); renderPlot(); renderInventory();
+  const c = currentCircuit();
+  c.positions.forEach((p, i) => renderColumn(i));
+}
+function openManage() {
+  document.getElementById("manage").classList.remove("collapsed");
+  document.querySelector(".manage-head").scrollIntoView({ behavior: "smooth" });
+}
+
+/* ---------- Wiring ---------- */
+document.getElementById("circuit-select").addEventListener("change", e => {
+  state.circuitKey = e.target.value;
+  state.voicingKey = Object.keys(currentCircuit().voicings)[0];
+  rebuildVoicingDropdown();
+  applyCircuitChange();
+});
+document.getElementById("voicing-select").addEventListener("change", e => {
+  state.voicingKey = e.target.value;
+  buildTargetEditors();
+  render();
+});
+
+document.getElementById("manage-toggle").addEventListener("click", () =>
+  document.getElementById("manage").classList.toggle("collapsed"));
+
+document.querySelectorAll(".tab-btn").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".tab-btn").forEach(x => x.classList.toggle("active", x === b));
+    document.querySelectorAll(".tab-panel").forEach(p =>
+      p.classList.toggle("active", p.dataset.tab === b.dataset.tab));
+  });
+});
+
+document.getElementById("hero-open-manage").addEventListener("click", openManage);
+document.getElementById("hero-load-demo").addEventListener("click", loadDemo);
+
+function loadDemo() {
+  if (transistors.length > 0) {
+    if (!confirm("This will add the 48-transistor sample dataset to your existing inventory. Continue?")) return;
+  }
+  const taken = new Set(transistors.map(t => t.id));
+  let n = 0;
+  DEMO_DATA.forEach(t => {
+    if (!taken.has(t.id)) { transistors.push({...t}); n++; }
+  });
+  saveInv(); rebuildFilterChips(); render();
+  toast("Loaded " + n + " sample transistors");
+}
+
+function addTransistor(o) {
+  let type = (o.type || "").trim() || "Unknown";
+  let pol = (o.pol || "PNP").trim().toUpperCase();
+  const hfe = +o.hfe, vf = +o.vf;
+  if (!Number.isFinite(hfe) || !Number.isFinite(vf)) return false;
+  const finalId = (o.id && String(o.id).trim()) || nextId(type);
+  if (transistors.some(t => t.id === finalId)) {
+    toast("ID already exists: " + finalId, "error"); return false;
+  }
+  transistors.push({ id: finalId, type, pol, hfe, vf, notes: (o.notes || "").trim() });
+  return true;
+}
+
+
+function findDuplicates(candidates) {
+  const existingKeys = new Set(transistors.map(t =>
+    String(t.type || "").toLowerCase() + "|" + (+t.hfe) + "|" + (+t.vf)));
+  return candidates.filter(c =>
+    existingKeys.has(String(c.type || "").toLowerCase() + "|" + (+c.hfe) + "|" + (+c.vf))
+  ).length;
+}
+
+function confirmAndRemoveSet() {
+  const filled = state.selected.filter(s => s);
+  if (filled.length === 0) return;
+  const ids = filled.map(s => s.id + " (" + s.type + " hFE " + s.hfe + ")").join("\n  ");
+  if (!confirm("Confirm this set and remove " + filled.length + " transistor" + (filled.length>1?"s":"") +
+    " from inventory?\n\n  " + ids +
+    "\n\nThis is permanent. Export JSON first if you want a backup.")) return;
+  const idSet = new Set(filled.map(s => s.id));
+  transistors = transistors.filter(t => !idSet.has(t.id));
+  state.selected = [null, null, null];
+  saveInv();
+  rebuildFilterChips();
+  render();
+  toast("Removed " + filled.length + " transistor" + (filled.length>1?"s":"") + " from inventory");
+}
+
+document.getElementById("m-add").addEventListener("click", () => {
+  const type = document.getElementById("m-type").value;
+  const pol  = document.getElementById("m-pol").value;
+  const hfe  = document.getElementById("m-hfe").value;
+  const vf   = document.getElementById("m-vf").value;
+  const notes = document.getElementById("m-notes").value;
+  if (!type || !hfe || !vf) { toast("Type, hFE, and Vf are required", "error"); return; }
+  const dups = findDuplicates([{type: type, hfe: +hfe, vf: +vf}]);
+  if (dups > 0) {
+    if (!confirm("An identical transistor (same type, hFE, Vf) already exists in your inventory. Add a duplicate anyway?")) return;
+  }
+  if (addTransistor({ type, pol, hfe, vf, notes })) {
+    saveInv(); rebuildFilterChips(); render();
+    document.getElementById("m-hfe").value = "";
+    document.getElementById("m-vf").value = "";
+    document.getElementById("m-notes").value = "";
+    document.getElementById("m-hfe").focus();
+    toast("Added");
+  }
+});
+["m-type","m-pol","m-hfe","m-vf","m-notes"].forEach(id =>
+  document.getElementById(id).addEventListener("keydown", e => {
+    if (e.key === "Enter") document.getElementById("m-add").click();
+  }));
+
+const dropZone = document.getElementById("drop-zone");
+const imgInput = document.getElementById("img-input");
+const imgPreview = document.getElementById("img-preview");
+const imgDisplay = document.getElementById("img-display");
+const imgRowsEl = document.getElementById("img-rows");
+
+dropZone.addEventListener("click", () => imgInput.click());
+dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("dragover"); });
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", e => {
+  e.preventDefault(); dropZone.classList.remove("dragover");
+  if (e.dataTransfer.files[0]) handleImage(e.dataTransfer.files[0]);
+});
+imgInput.addEventListener("change", e => {
+  if (e.target.files[0]) handleImage(e.target.files[0]);
+});
+document.getElementById("clear-img-btn").addEventListener("click", () => {
+  imgPreview.classList.remove("visible");
+  imgDisplay.src = "";
+  state.imgRows = [];
+  renderImgRows();
+  imgInput.value = "";
+});
+document.getElementById("add-row-btn").addEventListener("click", () => {
+  const defType = document.getElementById("img-type").value.trim();
+  state.imgRows.push({ type: defType, hfe: "", vf: "" });
+  renderImgRows();
+});
+function handleImage(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    imgDisplay.src = e.target.result;
+    imgPreview.classList.add("visible");
+    const defType = document.getElementById("img-type").value.trim();
+    state.imgRows = Array.from({length: 6}, () => ({ type: defType, hfe: "", vf: "" }));
+    renderImgRows();
+  };
+  reader.readAsDataURL(file);
+}
+function renderImgRows() {
+  imgRowsEl.innerHTML = "";
+  state.imgRows.forEach((row, i) => {
+    const div = document.createElement("div");
+    div.className = "form-row compact";
+    div.style.gridTemplateColumns = "1fr 0.6fr 0.6fr auto";
+    div.innerHTML =
+      '<div class="form-field"><label>Row ' + (i+1) + ' - Type</label>' +
+      '<input type="text" list="type-list" value="' + (row.type || "") + '" data-idx="' + i + '" data-k="type" placeholder="OC42"></div>' +
+      '<div class="form-field"><label>hFE</label>' +
+      '<input type="number" value="' + row.hfe + '" data-idx="' + i + '" data-k="hfe"></div>' +
+      '<div class="form-field"><label>Vf (mV)</label>' +
+      '<input type="number" value="' + row.vf + '" data-idx="' + i + '" data-k="vf"></div>' +
+      '<button class="btn secondary" data-del="' + i + '">Remove</button>';
+    imgRowsEl.appendChild(div);
+  });
+  imgRowsEl.querySelectorAll("input").forEach(inp => {
+    inp.addEventListener("input", e => {
+      const i = +e.target.dataset.idx;
+      state.imgRows[i][e.target.dataset.k] = e.target.value;
+    });
+  });
+  imgRowsEl.querySelectorAll("button[data-del]").forEach(b =>
+    b.addEventListener("click", () => {
+      state.imgRows.splice(+b.dataset.del, 1);
+      renderImgRows();
+    }));
+}
+document.getElementById("img-save").addEventListener("click", () => {
+  const defType = document.getElementById("img-type").value.trim();
+  const pol  = document.getElementById("img-pol").value;
+  const candidates = [];
+  let missing = 0;
+  state.imgRows.forEach(r => {
+    if (!r.hfe || !r.vf) return;
+    const type = (r.type || "").trim() || defType;
+    if (!type) { missing++; return; }
+    candidates.push({ type: type, pol: pol, hfe: r.hfe, vf: r.vf });
+  });
+  if (candidates.length === 0) {
+    if (missing > 0) toast(missing + " row(s) had no type. Set a per-row type or batch type.", "error");
+    else toast("Fill in at least one row", "error");
+    return;
+  }
+  // Duplicate detection — flag accidental re-upload of the same image
+  const dups = findDuplicates(candidates);
+  if (dups >= 3 && dups >= candidates.length * 0.5) {
+    if (!confirm(dups + " of " + candidates.length + " entries match existing inventory exactly (same type, hFE, Vf). This usually means the same image was uploaded twice. Add them as duplicates anyway?")) return;
+  } else if (dups > 0) {
+    if (!confirm(dups + " of " + candidates.length + " entries are exact duplicates of existing inventory. Add them anyway?")) return;
+  }
+  let added = 0;
+  candidates.forEach(c => { if (addTransistor(c)) added++; });
+  if (added === 0) { toast("No new transistors added", "error"); return; }
+  saveInv(); rebuildFilterChips(); render();
+  state.imgRows = []; renderImgRows();
+  imgPreview.classList.remove("visible");
+  toast("Added " + added + " transistor" + (added > 1 ? "s" : ""));
+});
+
+/* ----- API key persistence ----- */
+const AI_KEY_STORAGE = "anthropic-api-key";
+const AI_MODEL_STORAGE = "anthropic-model";
+(function initAiSettings() {
+  const k = localStorage.getItem(AI_KEY_STORAGE) || "";
+  const m = localStorage.getItem(AI_MODEL_STORAGE) || "claude-sonnet-4-6";
+  document.getElementById("ai-key").value = k;
+  document.getElementById("ai-model").value = m;
+  document.getElementById("ai-key").addEventListener("input", e =>
+    localStorage.setItem(AI_KEY_STORAGE, e.target.value));
+  document.getElementById("ai-model").addEventListener("change", e =>
+    localStorage.setItem(AI_MODEL_STORAGE, e.target.value));
+})();
+
+/* ----- AI vision extraction via Anthropic API ----- */
+async function aiExtract() {
+  const apiKey = (document.getElementById("ai-key").value || "").trim();
+  const model = document.getElementById("ai-model").value || "claude-sonnet-4-6";
+  if (!apiKey) {
+    toast("Add your Anthropic API key in AI vision settings", "error");
+    document.querySelector(".ai-settings").open = true;
+    return;
+  }
+  if (!imgDisplay.src || !imgDisplay.src.startsWith("data:")) {
+    toast("No image loaded", "error"); return;
+  }
+  const m = imgDisplay.src.match(/^data:(.+?);base64,(.+)$/);
+  if (!m) { toast("Couldn't read image data", "error"); return; }
+  let mediaType = m[1];
+  if (!/^image\/(png|jpeg|gif|webp)$/.test(mediaType)) mediaType = "image/jpeg";
+  const base64 = m[2];
+
+  const prompt = "You are reading a photo of vintage transistors that have been laid out for testing.\n\n" +
+    "IMPORTANT: A SINGLE PAGE MAY CONTAIN MULTIPLE DIFFERENT TRANSISTOR TYPES, separated into sections (different rows or halves of the page). For example, the top half of the page might be МП416 (MP416) and the bottom half might be ГТ307 (GT307). EACH SECTION HAS ITS OWN TYPE LABEL written next to it.\n\n" +
+    "Look at the page carefully and identify:\n" +
+    "1. TYPE LABELS — handwritten or printed part numbers like 'OC42', 'MP416', 'GT307', 'AC128', 'NKT275', '2N3904'. There may be multiple labels on one page. Cyrillic gets transliterated: МП -> MP, ГТ -> GT, КТ -> KT (so МП416 -> MP416, ГТ307 -> GT307).\n" +
+    "2. EACH TRANSISTOR's measurements — TWO handwritten numbers next to each can:\n" +
+    "   - hFE (current gain) — typically 20 to 500\n" +
+    "   - Vf in millivolts (forward voltage) — typically 100 to 700\n" +
+    "   hFE is usually written ABOVE Vf.\n" +
+    "3. WHICH TYPE EACH TRANSISTOR IS — by associating each transistor with the nearest/correct type label based on layout.\n\n" +
+    "Read transistors left-to-right, top-to-bottom across the image. IGNORE the tiny printed text on the metal cans themselves (often barely legible, can be misleading) — use the handwritten labels on the page.\n\n" +
+    "Return ONLY a JSON object — no prose, no markdown fences:\n" +
+    "{\"rows\": [\n" +
+    "  {\"type\": \"MP416\", \"hfe\": 20, \"vf\": 412},\n" +
+    "  {\"type\": \"MP416\", \"hfe\": 28, \"vf\": 432},\n" +
+    "  {\"type\": \"GT307\", \"hfe\": 44, \"vf\": 304}\n" +
+    "]}\n\n" +
+    "Rules:\n" +
+    "- Every row MUST have a 'type' field (the part number for THAT specific transistor based on its section's label).\n" +
+    "- If you cannot determine a row's type, use null.\n" +
+    "- If a number is unreadable, use null for that field.\n" +
+    "- Return {\"rows\": []} if the image has no transistor measurements.";
+
+  const status = document.getElementById("ocr-status");
+  const stext = document.getElementById("ocr-status-text");
+  const bar = document.getElementById("ocr-bar");
+  status.classList.add("visible");
+  bar.style.width = "20%";
+  stext.textContent = "Sending image to Claude (" + model + ")...";
+
+  const btn = document.getElementById("ai-btn");
+  btn.disabled = true;
+  try {
+    const resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        model: model,
+        max_tokens: 2048,
+        messages: [{
+          role: "user",
+          content: [
+            { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
+            { type: "text", text: prompt }
+          ]
+        }]
+      })
+    });
+    bar.style.width = "80%";
+    if (!resp.ok) {
+      const errText = await resp.text();
+      throw new Error("API " + resp.status + ": " + errText.slice(0, 300));
+    }
+    const data = await resp.json();
+    const text = (data.content && data.content[0] && data.content[0].text) || "";
+    let parsed;
+    const objMatch = text.match(/\{[\s\S]*\}/);
+    const arrMatch = text.match(/\[[\s\S]*\]/);
+    if (objMatch) parsed = JSON.parse(objMatch[0]);
+    else if (arrMatch) parsed = { rows: JSON.parse(arrMatch[0]) };
+    else throw new Error("No JSON in response: " + text.slice(0, 200));
+    let rows = Array.isArray(parsed) ? parsed : parsed.rows;
+    if (!Array.isArray(rows)) rows = [];
+    const batchType = (parsed && !Array.isArray(parsed) && parsed.type) ? String(parsed.type).trim() : "";
+
+    bar.style.width = "100%";
+    const cleaned = rows.map(r => ({
+      type: r && r.type != null ? String(r.type).trim() : (batchType || ""),
+      hfe:  r && r.hfe  != null ? String(r.hfe)  : "",
+      vf:   r && r.vf   != null ? String(r.vf)   : ""
+    })).filter(r => r.hfe || r.vf || r.type);
+
+    // Tally types found
+    const typeCounts = {};
+    cleaned.forEach(r => { if (r.type) typeCounts[r.type] = (typeCounts[r.type] || 0) + 1; });
+    const uniqueTypes = Object.keys(typeCounts);
+    let typeMsg = "";
+    if (uniqueTypes.length === 0) {
+      typeMsg = " No types detected — set 'Type for this batch' or fill each row's Type.";
+    } else if (uniqueTypes.length === 1) {
+      const t = uniqueTypes[0];
+      const typeInput = document.getElementById("img-type");
+      if (!typeInput.value.trim()) typeInput.value = t;
+      typeMsg = " All " + cleaned.length + " transistors detected as " + t + ".";
+    } else {
+      typeMsg = " Multiple types detected: " +
+        uniqueTypes.map(t => t + " (" + typeCounts[t] + ")").join(", ") +
+        ". Per-row Type field shows each one — review before saving.";
+    }
+
+    if (cleaned.length === 0) {
+      stext.textContent = "Claude didn't detect any transistor measurements." + typeMsg;
+    } else {
+      state.imgRows = cleaned;
+      renderImgRows();
+      stext.textContent = "Extracted " + cleaned.length + " row" + (cleaned.length > 1 ? "s" : "") + " via Claude." + typeMsg + " Review every value before saving.";
+    }
+  } catch (err) {
+    console.error(err);
+    stext.textContent = "AI extract failed: " + (err.message || err);
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => status.classList.remove("visible"), 12000);
+  }
+}
+document.getElementById("ai-btn").addEventListener("click", aiExtract);
+
+async function loadTesseract() {
+  if (window.Tesseract) return window.Tesseract;
+  await new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+    s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return window.Tesseract;
+}
+document.getElementById("ocr-btn").addEventListener("click", async () => {
+  const btn = document.getElementById("ocr-btn");
+  const status = document.getElementById("ocr-status");
+  const stext = document.getElementById("ocr-status-text");
+  const bar = document.getElementById("ocr-bar");
+  status.classList.add("visible");
+  btn.disabled = true;
+  stext.textContent = "Loading OCR engine...";
+  bar.style.width = "0%";
+  try {
+    const T = await loadTesseract();
+    stext.textContent = "Recognizing - this can take 20-60s for big photos...";
+    const result = await T.recognize(imgDisplay, "eng", {
+      logger: m => {
+        if (m.status === "recognizing text") bar.style.width = (m.progress * 100).toFixed(0) + "%";
+      }
+    });
+    bar.style.width = "100%";
+    stext.textContent = "Parsing numbers...";
+    const text = result.data.text;
+    const nums = (text.match(/\d{2,4}/g) || []).map(Number).filter(n => n > 10 && n < 999);
+    const defType = document.getElementById("img-type").value.trim();
+    const rows = [];
+    for (let i = 0; i + 1 < nums.length; i += 2) {
+      const a = nums[i], b = nums[i+1];
+      const aIsVf = a > 150 && b < 200;
+      rows.push(aIsVf ? { type: defType, hfe: b, vf: a } : { type: defType, hfe: a, vf: b });
+    }
+    if (rows.length) {
+      state.imgRows = rows; renderImgRows();
+      stext.textContent = "Extracted " + rows.length + " candidate row" + (rows.length > 1 ? "s" : "") + ". Tesseract can't separate by type — set per-row Type if mixed. Review every value.";
+    } else {
+      stext.textContent = "OCR didn't find clear number pairs. Type values manually.";
+    }
+  } catch (err) {
+    console.error(err);
+    stext.textContent = "OCR failed: " + (err.message || err) + ". You can still enter values manually.";
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => status.classList.remove("visible"), 8000);
+  }
+});
+
+/* ---------- Smart CSV parser ---------- */
+function parseCSVRow(line) {
+  // RFC 4180-light: commas, double-quoted fields, "" as escaped quote.
+  // Falls back to tab/space split if no commas.
+  const result = [];
+  if (line.indexOf(",") < 0 && line.indexOf("\"") < 0) {
+    return line.split(/\t+|\s{2,}|\s+/).map(s => s.trim()).filter(Boolean);
+  }
+  let cur = "", inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuote) {
+      if (ch === "\"" && line[i+1] === "\"") { cur += "\""; i++; }
+      else if (ch === "\"") { inQuote = false; }
+      else { cur += ch; }
+    } else {
+      if (ch === "\"") inQuote = true;
+      else if (ch === ",") { result.push(cur.trim()); cur = ""; }
+      else { cur += ch; }
+    }
+  }
+  result.push(cur.trim());
+  return result;
+}
+
+const CSV_FIELD_PATTERNS = {
+  hfe:   /^(h[\s_-]*fe|gain|beta|β|current[\s_-]*gain)$/i,
+  vf:    /^(v[\s_-]*f|v[\s_-]*be|vbe|forward[\s_-]*voltage|mv|millivolts?|voltage)$/i,
+  type:  /^(type|part(?:[\s_-]*(number|num|no))?|p\/?n|model|transistor)$/i,
+  id:    /^(id|name|label|tag|position|pos|#|number)$/i,
+  pol:   /^(pol(arity)?|npn\/pnp|pnp\/npn)$/i,
+  notes: /^(notes?|comments?|remarks?|description|desc)$/i,
+};
+
+function detectHeaderRow(firstRow) {
+  // True if any cell in firstRow matches a field pattern
+  return firstRow.some(cell => {
+    const c = cell.toLowerCase().trim();
+    return Object.values(CSV_FIELD_PATTERNS).some(p => p.test(c));
+  });
+}
+
+function mapHeaders(headerRow) {
+  const mapping = { hfe: -1, vf: -1, type: -1, id: -1, pol: -1, notes: -1 };
+  headerRow.forEach((cell, i) => {
+    const c = cell.toLowerCase().trim();
+    for (const [field, pat] of Object.entries(CSV_FIELD_PATTERNS)) {
+      if (mapping[field] === -1 && pat.test(c)) { mapping[field] = i; break; }
+    }
+  });
+  return mapping;
+}
+
+document.getElementById("b-parse").addEventListener("click", () => {
+  const text = document.getElementById("b-text").value;
+  const defType = document.getElementById("b-type").value.trim();
+  const defPol  = document.getElementById("b-pol").value;
+  if (!text.trim()) { toast("Paste some data or upload a CSV first", "error"); return; }
+
+  const rawLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (rawLines.length === 0) { toast("Empty input", "error"); return; }
+
+  const rows = rawLines.map(parseCSVRow);
+  const hasHeader = detectHeaderRow(rows[0]);
+  const candidates = [];
+  let skipped = 0;
+  let mappingSummary = "";
+
+  if (hasHeader) {
+    const mapping = mapHeaders(rows[0]);
+    if (mapping.hfe === -1 || mapping.vf === -1) {
+      toast("Header found but no recognized hFE/Vf columns. Check the format guide.", "error");
+      return;
+    }
+    const dataRows = rows.slice(1);
+    dataRows.forEach(r => {
+      const hfe = +r[mapping.hfe], vf = +r[mapping.vf];
+      if (!Number.isFinite(hfe) || !Number.isFinite(vf)) { skipped++; return; }
+      const id = mapping.id >= 0 ? (r[mapping.id] || "").trim() : null;
+      const type = (mapping.type >= 0 ? (r[mapping.type] || "").trim() : "") || defType || "Unknown";
+      let pol = (mapping.pol >= 0 ? (r[mapping.pol] || "").trim() : "") || defPol;
+      pol = pol.toUpperCase().match(/PNP|NPN/) ? pol.toUpperCase().match(/PNP|NPN/)[0] : defPol;
+      const notes = mapping.notes >= 0 ? (r[mapping.notes] || "").trim() : "";
+      candidates.push({ id: id || undefined, type, pol, hfe, vf, notes });
+    });
+    const detectedFields = Object.entries(mapping).filter(([k,v]) => v >= 0).map(([k,v]) => k + "->" + rows[0][v]).join(", ");
+    mappingSummary = " (matched: " + detectedFields + ")";
+  } else {
+    // Positional parsing — same behavior as the old bulk paste
+    rows.forEach(parts => {
+      const nums = parts.map(p => +p).filter(n => Number.isFinite(n));
+      const strs = parts.filter(p => !Number.isFinite(+p));
+      if (nums.length < 2) { skipped++; return; }
+      const hfe = nums[0], vf = nums[1];
+      let id, type = defType, pol = defPol, notes = "";
+      if (strs.length && /^(PNP|NPN)$/i.test(strs[0])) { pol = strs[0].toUpperCase(); strs.shift(); }
+      if (strs.length) {
+        const first = strs[0];
+        if (/-/.test(first)) {
+          id = first; strs.shift();
+          if (strs.length && !/^(PNP|NPN)$/i.test(strs[0])) { type = strs[0]; strs.shift(); }
+        } else {
+          type = first; strs.shift();
+        }
+      }
+      if (strs.length && /^(PNP|NPN)$/i.test(strs[0])) { pol = strs[0].toUpperCase(); strs.shift(); }
+      if (strs.length) notes = strs.join(" ");
+      if (!type) type = "Unknown";
+      candidates.push({ id, type, pol, hfe, vf, notes });
+    });
+  }
+
+  if (candidates.length === 0) { toast("No usable rows found" + (skipped ? " (skipped " + skipped + ")" : ""), "error"); return; }
+
+  // Duplicate detection
+  const dups = findDuplicates(candidates);
+  if (dups >= 3 && dups >= candidates.length * 0.5) {
+    if (!confirm(dups + " of " + candidates.length + " entries match existing inventory exactly. Looks like a re-import. Add anyway?")) return;
+  } else if (dups > 0) {
+    if (!confirm(dups + " of " + candidates.length + " entries are exact duplicates of existing inventory. Add anyway?")) return;
+  }
+
+  let added = 0;
+  candidates.forEach(c => { if (addTransistor(c)) added++; else skipped++; });
+  if (added) {
+    saveInv(); rebuildFilterChips(); render();
+    document.getElementById("b-text").value = "";
+  }
+  toast("Added " + added + (skipped ? ", skipped " + skipped : "") + mappingSummary, added ? "success" : "error");
+});
+
+// CSV file upload — drop or click to browse
+(function () {
+  const dz = document.getElementById("csv-drop");
+  const fi = document.getElementById("csv-input");
+  if (!dz || !fi) return;
+  function loadFile(file) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById("b-text").value = ev.target.result;
+      toast("Loaded " + file.name + " (" + (file.size/1024).toFixed(1) + " KB) — click Parse and add");
+    };
+    reader.readAsText(file);
+  }
+  dz.addEventListener("click", () => fi.click());
+  dz.addEventListener("dragover", e => { e.preventDefault(); dz.classList.add("dragover"); });
+  dz.addEventListener("dragleave", () => dz.classList.remove("dragover"));
+  dz.addEventListener("drop", e => {
+    e.preventDefault(); dz.classList.remove("dragover");
+    if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+  });
+  fi.addEventListener("change", e => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+})();
+
+document.getElementById("inv-search").addEventListener("input", renderInventory);
+
+document.getElementById("export-json").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(transistors, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "transistors.json"; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById("export-csv").addEventListener("click", () => {
+  const rows = [["id","type","pol","hfe","vf","notes"]];
+  transistors.forEach(t => rows.push([t.id, t.type, t.pol || "PNP", t.hfe, t.vf, (t.notes || "").replace(/"/g, '""')]));
+  const csv = rows.map(r => r.map(v => /[",\n]/.test(String(v)) ? '"' + v + '"' : v).join(",")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "transistors.csv"; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById("import-btn").addEventListener("click", () =>
+  document.getElementById("import-input").click());
+document.getElementById("import-input").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!Array.isArray(data)) throw new Error("not an array");
+      const byId = new Map(transistors.map(t => [t.id, t]));
+      let n = 0;
+      data.forEach(t => {
+        if (!t || typeof t !== "object" || !t.id) return;
+        byId.set(t.id, { id: t.id, type: t.type || "Unknown", pol: (t.pol || "PNP").toUpperCase(),
+                        hfe: +t.hfe, vf: +t.vf, notes: t.notes || "" });
+        n++;
+      });
+      transistors = Array.from(byId.values());
+      saveInv(); rebuildFilterChips(); render();
+      toast("Imported " + n + " entries");
+    } catch (err) { toast("Invalid JSON file", "error"); }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+});
+document.getElementById("load-demo-btn").addEventListener("click", loadDemo);
+document.getElementById("clear-all-btn").addEventListener("click", () => {
+  if (!confirm("Clear ALL transistor data from this browser? Export to JSON first if you want to keep it.")) return;
+  transistors = [];
+  state.selected = [null, null, null];
+  saveInv(); rebuildFilterChips(); render();
+  toast("Cleared");
+});
+
+/* ---------- Init ---------- */
+buildCircuitDropdowns();
+applyCircuitChange();
+</script>
+</body>
+</html>
