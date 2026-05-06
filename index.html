@@ -395,6 +395,7 @@
     <div class="header">
         <a href="https://nokillpedal.co" class="header-logo">NOKILL PEDAL CO</a>
         <nav class="header-nav">
+            <a href="controls.html">CONTROLS</a>
             <a href="https://nokillpedal.co">SHOP</a>
         </nav>
     </div>
@@ -641,29 +642,30 @@
             ]
         },
         kelpie_funbox: {
-            name: 'Kelpie (FunBox)',
+            name: 'Kelpie (FunBox) — Audrey II',
             file: 'kelpie_funbox.bin',
             platform: 'funbox',
-            desc: 'Stereo logic-noise pedal with MIDI + expression. Fuzz wall + chaos engine: divider, XOR/AND gates, Schmitt oscillator, crosstalk, self-feedback drone.',
+            desc: 'Audrey II drone variant. Pitch-tracked drone that breathes and grows when fed. Fuzz + chaos engine remains; DIPs sculpt the drone.',
             controls: [
                 'KNOB 1 = Volume',
                 'KNOB 2 = Fuzz (1-200x)',
-                'KNOB 3 = Pitch (osc freq + divide ratio)',
+                'KNOB 3 = Pitch (chaos osc + drone fallback freq)',
                 'KNOB 4 = Rate (logic clock speed)',
-                'KNOB 5 = Bleed (cross-corruption depth)',
+                'KNOB 5 = Bleed / Drone Level (becomes drone level when DIP1 on)',
                 'KNOB 6 = Threshold (comparator trigger)',
                 'SW1 Divide: C=off / L=square sub / R=PWM-warped sub',
-                'SW2 Gate: C=off / L=XOR (clicky) / R=AND (sparse sputter)',
-                'SW3 Osc: C=off / L=square / R=square + sub-square',
-                'DIP1 = Crosstalk (osc & divider corrupt each other)',
-                'DIP2 = Pre-fuzz routing (chaos before fuzz)',
-                'DIP3 = Stereo split (divider->L, osc->R)',
-                'DIP4 = Self-feedback drone (eats its own tail)',
+                'SW2 Gate: C=off / L=XOR / R=AND',
+                'SW3 Osc: C=off / L=square / R=square + sub (forced ON in drone)',
+                'DIP1 = Drone (osc free-runs at tracked pitch, mixed with guitar)',
+                'DIP2 = Sub-growl (drone adds divider sub-octave)',
+                'DIP3 = Breathing (~0.5 Hz amplitude LFO on drone)',
+                'DIP4 = Feed Me (envelope swells drone gain + bends pitch)',
                 'FS1 = Bypass (toggles on release)',
                 'FS2 = Kelpie tap-latch / hold-momentary',
                 'FS1+FS2 hold 0.5s = Expression Set Mode',
                 'FS1+FS2 hold 2s = Clear expression mappings',
-                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = Kelpie, Note On = osc pitch'
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = Kelpie, Note On = osc pitch',
+                'See full controls reference at /controls.html'
             ]
         },
         kelpie_hothouse: {
