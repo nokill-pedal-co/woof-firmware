@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W.O.O.F. - NOKILL Pedal Co Firmware Flasher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.6px;
+            line-height: 1.5;
+        }
+
+        /* --- Announcement Bar --- */
+        .announcement-bar {
+            background: #121212;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            border-bottom: 0.1rem solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- Header --- */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+        }
+
+        .header-nav a {
+            font-size: 1.8rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+
+        .header-nav a:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        /* --- Main Content --- */
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 30px 100px;
+        }
+
+        .page-title {
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 1.6rem;
+            color: rgba(18, 18, 18, 0.75);
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        /* --- Flasher Card --- */
+        .flasher-card {
+            border: 1px solid rgba(18, 18, 18, 0.15);
+            padding: 40px;
+        }
+
+        .step {
+            margin-bottom: 35px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-label {
+            font-size: 1rem;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            color: rgba(18, 18, 18, 0.75);
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .step-desc {
+            font-size: 1.4rem;
+            color: rgba(18, 18, 18, 0.6);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* --- Select Dropdown --- */
+        .firmware-select {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 0.6px;
+            color: #121212;
+            background: #FFFFFF;
+            border: 1px solid rgba(18, 18, 18, 0.55);
+            border-radius: 0;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23121212' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .firmware-select:focus {
+            outline: 2px solid #121212;
+            outline-offset: 2px;
+        }
+
+        /* --- Firmware Info Box --- */
+        .firmware-info {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(18, 18, 18, 0.04);
+            border: 1px solid rgba(18, 18, 18, 0.08);
+        }
+
+        .firmware-info.visible {
+            display: block;
+        }
+
+        .firmware-info h4 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .firmware-info .controls-list {
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.65);
+            line-height: 1.8;
+        }
+
+        .firmware-info .controls-list strong {
+            color: #121212;
+            font-weight: 400;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 50px;
+            padding: 14px 24px;
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 0.6px;
+            border-radius: 0;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #121212;
+            color: #FFFFFF;
+            border: 1px solid #121212;
+        }
+
+        .btn-secondary {
+            background: #FFFFFF;
+            color: #121212;
+            border: 1px solid #121212;
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .progress-container.visible {
+            display: block;
+        }
+
+        .progress-bar-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(18, 18, 18, 0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: #121212;
+            transition: width 0.1s linear;
+        }
+
+        .progress-text {
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.65);
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* --- Status Messages --- */
+        .status {
+            display: none;
+            margin-top: 15px;
+            padding: 14px 18px;
+            font-size: 1.4rem;
+            line-height: 1.5;
+        }
+
+        .status.visible {
+            display: block;
+        }
+
+        .status.success {
+            background: rgba(18, 18, 18, 0.04);
+            border: 1px solid rgba(18, 18, 18, 0.15);
+            color: #121212;
+        }
+
+        .status.error {
+            background: #FFF0F0;
+            border: 1px solid rgba(180, 0, 0, 0.2);
+            color: #8B0000;
+        }
+
+        .status.info {
+            background: rgba(18, 18, 18, 0.04);
+            border: 1px solid rgba(18, 18, 18, 0.08);
+            color: rgba(18, 18, 18, 0.75);
+        }
+
+        /* --- Instructions --- */
+        .instructions {
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 0.1rem solid rgba(18, 18, 18, 0.08);
+        }
+
+        .instructions h3 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .instructions ol {
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.75);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .instructions li strong {
+            color: #121212;
+            font-weight: 700;
+        }
+
+        /* --- Browser Warning --- */
+        .browser-warning {
+            display: none;
+            padding: 20px;
+            background: #FFF0F0;
+            border: 1px solid rgba(180, 0, 0, 0.2);
+            color: #8B0000;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .browser-warning.visible {
+            display: block;
+        }
+
+        .power-warning {
+            padding: 18px 20px;
+            background: #FFF0F0;
+            border: 1px solid rgba(180, 0, 0, 0.2);
+            color: #8B0000;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .power-warning strong {
+            font-weight: 700;
+        }
+
+        /* --- Separator --- */
+        .separator {
+            border: none;
+            border-top: 0.1rem solid rgba(18, 18, 18, 0.08);
+            margin: 25px 0;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            padding: 40px 30px;
+            border-top: 0.1rem solid rgba(18, 18, 18, 0.08);
+            font-size: 1.2rem;
+            color: rgba(18, 18, 18, 0.5);
+        }
+
+        /* --- Hero --- */
+        .hero {
+            width: 100%;
+            text-align: center;
+            padding: 50px 30px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+        }
+
+        .hero img {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px 20px;
+            }
+            .main {
+                padding: 40px 20px 80px;
+            }
+            .page-title {
+                font-size: 3rem;
+            }
+            .flasher-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        W.O.O.F. &mdash; WIDE OPEN OPERATING FORMAT
+    </div>
+
+    <div class="header">
+        <a href="https://nokillpedal.co" class="header-logo">NOKILL PEDAL CO</a>
+        <nav class="header-nav">
+            <a href="https://nokillpedal.co">SHOP</a>
+        </nav>
+    </div>
+
+    <div class="hero">
+        <img src="hero.png" alt="NOKILL Pedal Co — W.O.O.F. Wide Open Operating Format">
+    </div>
+
+    <main class="main">
+        <h1 class="page-title">Firmware Flasher</h1>
+        <p class="page-subtitle">
+            Flash firmware directly to your Terrarium or FunBox pedal from the browser.
+            No software to install &mdash; just USB and Chrome.
+        </p>
+
+        <div class="browser-warning" id="browserWarning">
+            Your browser does not support WebUSB. Please use <strong>Google Chrome</strong>
+            or <strong>Microsoft Edge</strong> on desktop to use this tool.
+        </div>
+
+        <div class="power-warning">
+            <strong>IMPORTANT:</strong> Disconnect your pedal from its 9V power supply before flashing.
+            Only the USB cable should be connected to the Daisy Seed during the flash process.
+            Having both USB and 9V power connected at the same time can damage the Daisy Seed.
+        </div>
+
+        <div class="flasher-card">
+
+            <!-- STEP 1: Select Platform & Firmware -->
+            <div class="step">
+                <div class="step-label">STEP 1</div>
+                <div class="step-title">Select Platform &amp; Firmware</div>
+                <div class="step-desc">Choose your pedal platform, then the firmware to flash.</div>
+                <select class="firmware-select" id="platformSelect" style="margin-bottom:12px;">
+                    <option value="terrarium" selected>Terrarium</option>
+                    <option value="funbox">FunBox</option>
+                </select>
+                <select class="firmware-select" id="firmwareSelect">
+                    <option value="" disabled selected>Select a pedal...</option>
+                </select>
+                <div class="firmware-info" id="firmwareInfo"></div>
+            </div>
+
+            <hr class="separator">
+
+            <!-- STEP 2: Connect -->
+            <div class="step">
+                <div class="step-label">STEP 2</div>
+                <div class="step-title">Connect Daisy Seed</div>
+                <div class="step-desc">
+                    Put your pedal into DFU mode (hold both footswitches while plugging in USB),
+                    then click connect. A browser popup will appear &mdash; select
+                    <strong>&ldquo;DFU in FS Mode&rdquo;</strong> from the list and click
+                    <strong>Connect</strong>.
+                </div>
+                <button class="btn btn-secondary" id="connectBtn" disabled>
+                    CONNECT USB
+                </button>
+                <div class="status" id="connectStatus"></div>
+            </div>
+
+            <hr class="separator">
+
+            <!-- STEP 3: Flash -->
+            <div class="step">
+                <div class="step-label">STEP 3</div>
+                <div class="step-title">Flash</div>
+                <div class="step-desc">
+                    Write the firmware to your pedal. This may take a couple of minutes
+                    &mdash; do not disconnect during the flash.
+                </div>
+                <button class="btn btn-primary" id="flashBtn" disabled>
+                    FLASH FIRMWARE
+                </button>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <div class="status" id="flashStatus"></div>
+            </div>
+
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3>How to enter DFU mode</h3>
+            <p style="margin-bottom: 12px; color: rgba(18,18,18,0.75);">Hold both footswitches down while plugging in USB power. Both LEDs will blink to confirm DFU mode.</p>
+            <ol>
+                <li>Hold down <strong>both footswitches</strong> on the pedal.</li>
+                <li>While holding, plug in the <strong>USB cable</strong> to power on the pedal.</li>
+                <li>Both LEDs will <strong>blink 3 times</strong> to confirm DFU entry.</li>
+                <li>Release the footswitches.</li>
+                <li>Click <strong>CONNECT USB</strong> above. A popup will appear &mdash; select <strong>&ldquo;DFU in FS Mode&rdquo;</strong> and click Connect.</li>
+            </ol>
+            <p style="margin-top: 16px; font-size: 1.4rem; color: rgba(18,18,18,0.55);"><strong>Alternate method:</strong> If the pedal does not have this firmware yet, open the enclosure and use the Daisy Seed buttons &mdash; hold BOOT, tap RESET, release BOOT.</p>
+        </div>
+    </main>
+
+    <div class="footer">
+        &copy; 2026 NOKILL Pedal Co
+    </div>
+
+    <script>
+    // =========================================================================
+    // W.O.O.F. - Wide Open Operating Format
+    // WebUSB + DfuSe implementation for STM32H750 (Daisy Seed)
+    // =========================================================================
+
+    const FIRMWARE_DATA = {
+        fuzz_destroyer: {
+            name: 'Fuzz Destroyer',
+            file: 'fuzz_destroyer.bin',
+            desc: 'Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Drive (1-200x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Stutter speed',
+                'KNOB 5 = Gate (noise gate)',
+                'KNOB 6 = Stab (feedback oscillation)',
+                'SW1 = Stutter shape',
+                'SW2 = Wave fold blend',
+                'SW3 = Octave up',
+                'SW4 = Sample crush',
+                'FS1 = Bypass',
+                'FS2 = Momentary stutter'
+            ]
+        },
+        fuzz_modulator: {
+            name: 'Fuzz Modulator',
+            file: 'fuzz_modulator.bin',
+            desc: 'Granular glitch fuzz with grain engine and momentary delay repeats.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fuzz (3-stage cascaded ~300x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Grain size (5-200ms)',
+                'KNOB 5 = Grain rate (0.5-40 Hz)',
+                'KNOB 6 = Warp (playback speed)',
+                'SW1 = Grain direction (fwd/rev)',
+                'SW2 = Grain feed (clean/re-fuzzed)',
+                'SW3 = Mod source (manual/envelope)',
+                'SW4 = Fuzz character (hard clip/wave fold)',
+                'FS1 = Bypass',
+                'FS2 = Momentary delay repeats'
+            ]
+        },
+        kelpie: {
+            name: 'Kelpie',
+            file: 'kelpie.bin',
+            desc: 'Logic noise pedal — frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fuzz',
+                'KNOB 3 = Pitch (osc freq + divide ratio)',
+                'KNOB 4 = Rate (logic speed)',
+                'KNOB 5 = Bleed (cross-corruption)',
+                'KNOB 6 = Thresh (gate trigger threshold)',
+                'SW1 = Divide (sub-octave)',
+                'SW2 = Gate (XOR logic)',
+                'SW3 = Osc (Schmitt oscillator)',
+                'SW4 = Crosstalk',
+                'FS1 = Bypass',
+                'FS2 = Kelpie engage'
+            ]
+        },
+        cursed_reverb: {
+            name: 'Cursed Reverb',
+            file: 'cursed_reverb.bin',
+            desc: 'Shimmer reverb that descends into chaos. Lush trails with pitch-shifted feedback, saturation, and modulated delay times.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Decay (reverb time)',
+                'KNOB 3 = Tone (damping filter)',
+                'KNOB 4 = Shimmer (pitch-shifted feedback)',
+                'KNOB 5 = Warp (delay modulation depth)',
+                'KNOB 6 = Mix (dry/wet)',
+                'SW1 = Shimmer interval (octave/fifth)',
+                'SW2 = Saturate (distorted feedback)',
+                'SW3 = Mod rate (slow/fast)',
+                'SW4 = Shimmer direction (up/down)',
+                'FS1 = Bypass',
+                'FS2 = Momentary freeze'
+            ]
+        },
+        doom_engine: {
+            name: 'Doom Engine',
+            file: 'doom_engine.bin',
+            desc: 'Distortion that gets weird. Solid drive core with stackable chaos — rectify, ring mod, decimator, and resonant filter. Flip all four switches for sonic annihilation.',
+            controls: [
+                'KNOB 1 = Volume (0-2x boost)',
+                'KNOB 2 = Drive (1-150x gain)',
+                'KNOB 3 = Tone (LP filter)',
+                'KNOB 4 = Body (pre-drive bass boost)',
+                'KNOB 5 = Warp (switch effect intensity)',
+                'KNOB 6 = Gate (noise gate)',
+                'SW1 = Rectify (octave-up fuzz)',
+                'SW2 = Ring Mod (metallic dissonance)',
+                'SW3 = Decimate (sample rate crush)',
+                'SW4 = Resonance (swept bandpass filter)',
+                'FS1 = Bypass',
+                'FS2 = Kill Switch (momentary signal cut)'
+            ]
+        },
+        echo_chamber: {
+            name: 'Echo Chamber',
+            file: 'echo_chamber.bin',
+            desc: 'Multi-head tape delay with stretch and aging. Three read heads at different speeds, reverse mode, DOD Rubberneck-style stretch, and degrading tape artifacts.',
+            controls: [
+                'KNOB 1 = Feedback (recirculation)',
+                'KNOB 2 = Speed (delay time 50ms-2s)',
+                'KNOB 3 = Mix (extra heads blend)',
+                'KNOB 4 = Wet Level (0-2x)',
+                'KNOB 5 = Dry Level (0-2x)',
+                'KNOB 6 = Tone (feedback LP filter)',
+                'SW1 = Head 2 on/off (66% speed — faster)',
+                'SW2 = Head 3 on/off (133% speed — slower)',
+                'SW3 = Head 3 direction (forward/reverse)',
+                'SW4 = FS2 mode (stretch / age)',
+                'FS1 = Bypass',
+                'FS2 = X (stretch or age, per SW4)'
+            ]
+        },
+        treat_octave_fuzz: {
+            name: 'Treat Octave Fuzz',
+            file: 'treat_octave_fuzz.bin',
+            desc: 'Sleigh Bells-inspired octave destroyer. Multi-octave layering (sub, dry, octave up, +2 oct) slammed into iMic-style ADC hard clipping. Lo-fi drop for instant phone-speaker degradation.',
+            controls: [
+                'KNOB 1 = Volume (0-2x)',
+                'KNOB 2 = Slam (iMic clipping gain)',
+                'KNOB 3 = Tone (post-clip LP filter)',
+                'KNOB 4 = Sub (sub-octave level)',
+                'KNOB 5 = Dry (clean voice level)',
+                'KNOB 6 = Up (octave-up level)',
+                'SW1 = +2 Octaves (adds 2-oct-up voice)',
+                'SW2 = Sub mode (mono divider / poly granular)',
+                'SW3 = Bit Crush (sample rate reduction)',
+                'SW4 = Lo-Fi flavor (Tape / Doom)',
+                'FS1 = Bypass',
+                'FS2 = Lo-Fi Drop (tap=latch, hold=momentary)'
+            ]
+        },
+        kelpie_funbox: {
+            name: 'Kelpie',
+            file: 'kelpie_funbox.bin',
+            platform: 'funbox',
+            desc: 'Stereo logic-noise pedal with MIDI + expression. Fuzz wall + chaos engine: divider, XOR/AND gates, Schmitt oscillator, crosstalk, self-feedback drone.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fuzz (1-200x)',
+                'KNOB 3 = Pitch (osc freq + divide ratio)',
+                'KNOB 4 = Rate (logic clock speed)',
+                'KNOB 5 = Bleed (cross-corruption depth)',
+                'KNOB 6 = Threshold (comparator trigger)',
+                'SW1 Divide: C=off / L=square sub / R=PWM-warped sub',
+                'SW2 Gate: C=off / L=XOR (clicky) / R=AND (sparse sputter)',
+                'SW3 Osc: C=off / L=square / R=square + sub-square',
+                'DIP1 = Crosstalk (osc & divider corrupt each other)',
+                'DIP2 = Pre-fuzz routing (chaos before fuzz)',
+                'DIP3 = Stereo split (divider->L, osc->R)',
+                'DIP4 = Self-feedback drone (eats its own tail)',
+                'FS1 = Bypass (toggles on release)',
+                'FS2 = Kelpie tap-latch / hold-momentary',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = Kelpie, Note On = osc pitch'
+            ]
+        }
+    };
+
+    // Firmware binaries are served from the woof-firmware repo via jsDelivr CDN.
+    // Pushing to main = live update. To pin a frozen version, replace `@main`
+    // with a tag like `@firmware-v1` (jsDelivr indexes new tags within ~10min).
+    const FIRMWARE_BASE_URL = 'https://cdn.jsdelivr.net/gh/nokill-pedal-co/woof-firmware@main/firmware';
+
+    async function fetchFirmware(filename) {
+        const url = FIRMWARE_BASE_URL + '/' + filename;
+        const resp = await fetch(url, { cache: 'no-cache' });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status + ' fetching ' + filename);
+        return await resp.arrayBuffer();
+    }
+
+    // DfuSe constants for STM32H750
+    const DFU_VENDOR_ID  = 0x0483;
+    const DFU_PRODUCT_ID = 0xDF11;
+    const FLASH_START    = 0x08000000;
+    const TRANSFER_SIZE  = 1024;
+
+    // DFU commands
+    const DFU_DETACH    = 0x00;
+    const DFU_DNLOAD    = 0x01;
+    const DFU_UPLOAD    = 0x02;
+    const DFU_GETSTATUS = 0x03;
+    const DFU_CLRSTATUS = 0x04;
+    const DFU_GETSTATE  = 0x05;
+    const DFU_ABORT     = 0x06;
+
+    // DFU states
+    const DFU_STATE_IDLE         = 2;
+    const DFU_STATE_DNLOAD_IDLE  = 5;
+    const DFU_STATE_ERROR        = 10;
+
+    // DfuSe commands
+    const DFUSE_CMD_SET_ADDRESS = 0x21;
+    const DFUSE_CMD_ERASE       = 0x41;
+
+    let device = null;
+    let selectedFirmware = null;
+    let firmwareBinary = null;
+
+    // --- DOM refs ---
+    const platformSelect    = document.getElementById('platformSelect');
+    const firmwareSelect    = document.getElementById('firmwareSelect');
+    const firmwareInfo      = document.getElementById('firmwareInfo');
+    const connectBtn        = document.getElementById('connectBtn');
+    const connectStatus     = document.getElementById('connectStatus');
+    const flashBtn          = document.getElementById('flashBtn');
+    const flashStatus       = document.getElementById('flashStatus');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressFill      = document.getElementById('progressFill');
+    const progressText      = document.getElementById('progressText');
+    const browserWarning    = document.getElementById('browserWarning');
+
+    // --- Check WebUSB support ---
+    if (!navigator.usb) {
+        browserWarning.classList.add('visible');
+        platformSelect.disabled = true;
+        firmwareSelect.disabled = true;
+    }
+
+    // --- Platform selection: populate firmware dropdown with matching pedals ---
+    function populateFirmwareSelect(platform) {
+        firmwareSelect.innerHTML = '<option value="" disabled selected>Select a pedal...</option>';
+        for (const key in FIRMWARE_DATA) {
+            const item = FIRMWARE_DATA[key];
+            const itemPlatform = item.platform || 'terrarium';
+            if (itemPlatform === platform) {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = item.name;
+                firmwareSelect.appendChild(opt);
+            }
+        }
+        firmwareInfo.classList.remove('visible');
+        firmwareInfo.innerHTML = '';
+        selectedFirmware = null;
+        firmwareBinary = null;
+        connectBtn.disabled = true;
+        flashBtn.disabled = true;
+        hideStatus(connectStatus);
+        hideStatus(flashStatus);
+    }
+    platformSelect.addEventListener('change', function() {
+        populateFirmwareSelect(this.value);
+    });
+    populateFirmwareSelect(platformSelect.value);
+
+    // --- Firmware selection ---
+    firmwareSelect.addEventListener('change', async function() {
+        const key = this.value;
+        selectedFirmware = FIRMWARE_DATA[key];
+        firmwareBinary = null;
+
+        // Show info
+        let html = '<h4>' + selectedFirmware.name + '</h4>';
+        html += '<p style="font-size:1.3rem;color:rgba(18,18,18,0.65);margin-bottom:10px;">' + selectedFirmware.desc + '</p>';
+        html += '<div class="controls-list">';
+        selectedFirmware.controls.forEach(function(c) {
+            const parts = c.split(' = ');
+            html += '<strong>' + parts[0] + '</strong> = ' + (parts[1] || '') + '<br>';
+        });
+        html += '</div>';
+        firmwareInfo.innerHTML = html;
+        firmwareInfo.classList.add('visible');
+
+        connectBtn.disabled = false;
+        flashBtn.disabled = true;
+        hideStatus(flashStatus);
+        hideProgress();
+
+        // Download firmware from GitHub Releases
+        showStatus(connectStatus, 'info', 'Downloading ' + selectedFirmware.file + '...');
+        try {
+            firmwareBinary = await fetchFirmware(selectedFirmware.file);
+            showStatus(connectStatus, 'info',
+                'Firmware loaded: ' + selectedFirmware.name + ' (' + firmwareBinary.byteLength.toLocaleString() + ' bytes)');
+        } catch (e) {
+            showStatus(connectStatus, 'error',
+                'Could not download ' + selectedFirmware.file + ': ' + e.message);
+            firmwareBinary = null;
+        }
+    });
+
+    // --- Connect ---
+    connectBtn.addEventListener('click', async function() {
+        try {
+            device = await navigator.usb.requestDevice({
+                filters: [{ vendorId: DFU_VENDOR_ID }]
+            });
+
+            await device.open();
+
+            // Find DFU interface
+            const iface = device.configuration.interfaces.find(function(i) {
+                return i.alternate.interfaceClass === 0xFE &&
+                       i.alternate.interfaceSubclass === 0x01;
+            });
+
+            if (!iface) throw new Error('No DFU interface found on device.');
+
+            await device.claimInterface(iface.interfaceNumber);
+
+            showStatus(connectStatus, 'success',
+                'Connected to Daisy Seed (DFU mode)');
+            flashBtn.disabled = !(firmwareBinary && device);
+        } catch(e) {
+            if (e.name === 'NotFoundError') {
+                showStatus(connectStatus, 'error',
+                    'No device selected. Make sure the Daisy is in DFU mode and try again.');
+            } else {
+                showStatus(connectStatus, 'error', 'Connection failed: ' + e.message);
+            }
+        }
+    });
+
+    // --- Flash ---
+    flashBtn.addEventListener('click', async function() {
+        if (!device || !firmwareBinary) return;
+
+        flashBtn.disabled = true;
+        connectBtn.disabled = true;
+        firmwareSelect.disabled = true;
+        showProgress();
+        hideStatus(flashStatus);
+
+        try {
+            await flashDfuSe(device, firmwareBinary, FLASH_START);
+
+            showStatus(flashStatus, 'success',
+                'Flash complete! Your ' + selectedFirmware.name + ' firmware is now running. You can disconnect the USB cable.');
+        } catch(e) {
+            showStatus(flashStatus, 'error', 'Flash failed: ' + e.message);
+        } finally {
+            flashBtn.disabled = false;
+            connectBtn.disabled = false;
+            firmwareSelect.disabled = false;
+        }
+    });
+
+    // =====================================================================
+    // DfuSe Protocol Implementation
+    // =====================================================================
+
+    async function dfuGetStatus(dev) {
+        const res = await dev.controlTransferIn({
+            requestType: 'class',
+            recipient: 'interface',
+            request: DFU_GETSTATUS,
+            value: 0,
+            index: 0
+        }, 6);
+
+        return {
+            status: res.data.getUint8(0),
+            pollTimeout: res.data.getUint8(1) |
+                         (res.data.getUint8(2) << 8) |
+                         (res.data.getUint8(3) << 16),
+            state: res.data.getUint8(4)
+        };
+    }
+
+    async function dfuClearStatus(dev) {
+        await dev.controlTransferOut({
+            requestType: 'class',
+            recipient: 'interface',
+            request: DFU_CLRSTATUS,
+            value: 0,
+            index: 0
+        });
+    }
+
+    async function dfuDnload(dev, blockNum, data) {
+        await dev.controlTransferOut({
+            requestType: 'class',
+            recipient: 'interface',
+            request: DFU_DNLOAD,
+            value: blockNum,
+            index: 0
+        }, data);
+    }
+
+    async function dfuWaitIdle(dev) {
+        let s = await dfuGetStatus(dev);
+
+        // If in error state, clear and retry
+        if (s.state === DFU_STATE_ERROR) {
+            await dfuClearStatus(dev);
+            s = await dfuGetStatus(dev);
+        }
+
+        // Poll until idle
+        let attempts = 0;
+        while (s.state !== DFU_STATE_IDLE && s.state !== DFU_STATE_DNLOAD_IDLE) {
+            if (s.pollTimeout > 0) {
+                await sleep(s.pollTimeout);
+            }
+            s = await dfuGetStatus(dev);
+            attempts++;
+            if (attempts > 100) throw new Error('Device stuck in state ' + s.state);
+        }
+
+        return s;
+    }
+
+    async function dfuseSetAddress(dev, address) {
+        const data = new Uint8Array(5);
+        data[0] = DFUSE_CMD_SET_ADDRESS;
+        data[1] = (address) & 0xFF;
+        data[2] = (address >> 8) & 0xFF;
+        data[3] = (address >> 16) & 0xFF;
+        data[4] = (address >> 24) & 0xFF;
+
+        await dfuDnload(dev, 0, data);
+        await dfuWaitIdle(dev);
+    }
+
+    async function dfuseEraseSector(dev, address) {
+        const data = new Uint8Array(5);
+        data[0] = DFUSE_CMD_ERASE;
+        data[1] = (address) & 0xFF;
+        data[2] = (address >> 8) & 0xFF;
+        data[3] = (address >> 16) & 0xFF;
+        data[4] = (address >> 24) & 0xFF;
+
+        await dfuDnload(dev, 0, data);
+        await dfuWaitIdle(dev);
+    }
+
+    async function flashDfuSe(dev, firmware, startAddress) {
+        const data = new Uint8Array(firmware);
+        const totalBytes = data.byteLength;
+
+        updateProgress(0, 'Preparing...');
+
+        // Ensure we're in a good state
+        await dfuWaitIdle(dev);
+
+        // --- Erase phase ---
+        // STM32H750 flash: single 128KB sector at 0x08000000
+        // One erase command covers the whole bank — no need to loop
+        updateProgress(0, 'Erasing flash (this may take a moment)...');
+        await dfuseEraseSector(dev, startAddress);
+        updateProgress(30, 'Erase complete');
+
+        // --- Download phase ---
+        updateProgress(30, 'Writing firmware...');
+
+        // Set start address
+        await dfuseSetAddress(dev, startAddress);
+
+        // Write in TRANSFER_SIZE chunks
+        const totalBlocks = Math.ceil(totalBytes / TRANSFER_SIZE);
+
+        for (let blockNum = 0; blockNum < totalBlocks; blockNum++) {
+            const offset = blockNum * TRANSFER_SIZE;
+            const end = Math.min(offset + TRANSFER_SIZE, totalBytes);
+            const chunk = data.slice(offset, end);
+
+            // blockNum + 2: DfuSe reserves 0 for commands, starts data at block 2
+            await dfuDnload(dev, blockNum + 2, chunk);
+            await dfuWaitIdle(dev);
+
+            const pct = 30 + Math.round(((blockNum + 1) / totalBlocks) * 65);
+            updateProgress(pct, 'Writing... ' + end.toLocaleString() + ' / ' + totalBytes.toLocaleString() + ' bytes');
+        }
+
+        // --- Leave DFU mode (trigger reboot) ---
+        updateProgress(95, 'Rebooting device...');
+
+        try {
+            // Send zero-length download to signal end
+            await dfuDnload(dev, 0, new ArrayBuffer(0));
+            await dfuGetStatus(dev);
+        } catch(e) {
+            // Expected: device reboots and disconnects, causing a transfer error
+        }
+
+        updateProgress(100, 'Complete!');
+
+        // Device has disconnected after reboot
+        device = null;
+    }
+
+    // =====================================================================
+    // UI Helpers
+    // =====================================================================
+
+    function showStatus(el, type, msg) {
+        el.className = 'status visible ' + type;
+        el.textContent = msg;
+    }
+
+    function hideStatus(el) {
+        el.className = 'status';
+        el.textContent = '';
+    }
+
+    function showProgress() {
+        progressContainer.classList.add('visible');
+        updateProgress(0, '');
+    }
+
+    function hideProgress() {
+        progressContainer.classList.remove('visible');
+    }
+
+    function updateProgress(pct, text) {
+        progressFill.style.width = pct + '%';
+        progressText.textContent = text || (pct + '%');
+    }
+
+    function sleep(ms) {
+        return new Promise(function(resolve) { setTimeout(resolve, ms); });
+    }
+    </script>
+</body>
+</html>
