@@ -431,6 +431,7 @@
                 <select class="firmware-select" id="platformSelect" style="margin-bottom:12px;">
                     <option value="terrarium" selected>Terrarium</option>
                     <option value="funbox">FunBox</option>
+                    <option value="hothouse">Hothouse</option>
                 </select>
                 <select class="firmware-select" id="firmwareSelect">
                     <option value="" disabled selected>Select a pedal...</option>
@@ -640,7 +641,7 @@
             ]
         },
         kelpie_funbox: {
-            name: 'Kelpie',
+            name: 'Kelpie (FunBox)',
             file: 'kelpie_funbox.bin',
             platform: 'funbox',
             desc: 'Stereo logic-noise pedal with MIDI + expression. Fuzz wall + chaos engine: divider, XOR/AND gates, Schmitt oscillator, crosstalk, self-feedback drone.',
@@ -663,6 +664,26 @@
                 'FS1+FS2 hold 0.5s = Expression Set Mode',
                 'FS1+FS2 hold 2s = Clear expression mappings',
                 'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = Kelpie, Note On = osc pitch'
+            ]
+        },
+        kelpie_hothouse: {
+            name: 'Kelpie (Hothouse)',
+            file: 'kelpie_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Logic-noise fuzz on Hothouse. Fuzz foundation with engageable chaos: ring-mod divider, XOR/bit-crush gating, Schmitt oscillator, and crosstalk.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fuzz (gain/saturation)',
+                'KNOB 3 = Pitch (osc freq + divide ratio)',
+                'KNOB 4 = Rate (logic clock speed)',
+                'KNOB 5 = Bleed (cross-corruption depth)',
+                'KNOB 6 = Thresh (logic gate threshold)',
+                'TOGGLE 1 Divide: U=ring mod / M=off / D=inverted ring mod',
+                'TOGGLE 2 Gate: U=XOR hard chop / M=off / D=bit-crush gate',
+                'TOGGLE 3 Osc: U=Schmitt / M=off / D=Schmitt + crosstalk',
+                'FS1 (left) = Kelpie engage (chaos layer on)',
+                'FS2 (right) = Bypass',
+                'LED 1 = Kelpie active, LED 2 = Engaged'
             ]
         }
     };
