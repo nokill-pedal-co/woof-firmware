@@ -660,6 +660,53 @@
                 'FS2 = Lo-Fi Drop (tap=latch, hold=momentary)'
             ]
         },
+        fuzz_destroyer_funbox: {
+            name: 'Fuzz Destroyer (FunBox)',
+            file: 'fuzz_destroyer_funbox.bin',
+            platform: 'funbox',
+            desc: 'Stutter fuzz with self-oscillation, octave up/down, wave fold, sample crush, stereo detune, MIDI stab pitch lock.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Drive (1-200x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Stab (feedback oscillation)',
+                'KNOB 5 = Gate (noise gate)',
+                'KNOB 6 = Stutter Speed',
+                'SW1 Octave: C=off / L=up / R=down',
+                'SW2 Stutter Shape: C=square / L=triangle / R=ramp saw',
+                'SW3 Stutter Mode: C=hold / L=tap-latch / R=auto-on',
+                'DIP1 = Wave Fold (stacks with DIP2)',
+                'DIP2 = Sample Crush (stacks with DIP1)',
+                'DIP3 = Self-Osc Lock (Stab>50% drones with no input)',
+                'DIP4 = Stereo Detune (~5 cent L/R chorus spread)',
+                'FS1 = Bypass, FS2 = Stutter (per SW3 mode)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = stutter, CC 22 = octave step, Note On = stab pitch lock',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        fuzz_destroyer_hothouse: {
+            name: 'Fuzz Destroyer (Hothouse)',
+            file: 'fuzz_destroyer_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Stutter fuzz with self-oscillation, octave up/down, wave fold OR crush (exclusive on Hothouse), 3 stutter shapes.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Drive (1-200x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Stab (feedback oscillation)',
+                'KNOB 5 = Gate (noise gate)',
+                'KNOB 6 = Stutter Speed',
+                'TOGGLE 1 Octave: U=up / M=off / D=down',
+                'TOGGLE 2 Voice: U=wave fold / M=clean / D=sample crush (exclusive)',
+                'TOGGLE 3 Stutter Shape: U=square / M=triangle / D=ramp saw',
+                'FS1 (left) = Momentary Stutter',
+                'FS2 (right) = Bypass',
+                'LED 1 = Stutter active, LED 2 = Engaged',
+                'See full controls reference at /controls.html'
+            ]
+        },
         fuzz_modulator_funbox: {
             name: 'Fuzz Modulator (FunBox)',
             file: 'fuzz_modulator_funbox.bin',
