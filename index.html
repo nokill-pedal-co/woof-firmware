@@ -660,6 +660,53 @@
                 'FS2 = Lo-Fi Drop (tap=latch, hold=momentary)'
             ]
         },
+        fuzz_modulator_funbox: {
+            name: 'Fuzz Modulator (FunBox)',
+            file: 'fuzz_modulator_funbox.bin',
+            platform: 'funbox',
+            desc: 'Granular glitch fuzz with stereo pingpong, wave-folding, stutter, auto-warp, momentary delay repeats, MIDI + expression.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fuzz (3-stage cascaded ~300x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Grain Size (5-200 ms)',
+                'KNOB 5 = Grain Rate (0.5-40 Hz)',
+                'KNOB 6 = Warp (playback speed)',
+                'SW1 Direction: C=grain off / L=forward / R=reverse',
+                'SW2 Feed: C=off / L=clean repeats / R=re-fuzzed',
+                'SW3 Mod: C=manual / L=envelope / R=LFO sweep',
+                'DIP1 = Wave Fold (replaces hard clip in fuzz output)',
+                'DIP2 = Stutter (no crossfade on retrigger)',
+                'DIP3 = Stereo Pingpong (alternating grains L/R)',
+                'DIP4 = Auto-Warp (envelope drives Warp 0.5x-2x)',
+                'FS1 = Bypass, FS2 = Momentary Repeats',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = repeats, CC 22 = grain trigger, Note On = warp pitch lock',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        fuzz_modulator_hothouse: {
+            name: 'Fuzz Modulator (Hothouse)',
+            file: 'fuzz_modulator_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Granular glitch fuzz on Hothouse hardware. 3-pos toggles for direction, feed, and modulation source. Mono.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fuzz (3-stage cascaded ~300x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Grain Size (5-200 ms)',
+                'KNOB 5 = Grain Rate (0.5-40 Hz)',
+                'KNOB 6 = Warp (playback speed)',
+                'TOGGLE 1 Direction: U=forward / M=off / D=reverse',
+                'TOGGLE 2 Feed: U=clean repeats / M=off / D=re-fuzzed',
+                'TOGGLE 3 Mod: U=manual / M=envelope / D=LFO sweep',
+                'FS1 (left) = Momentary Repeats',
+                'FS2 (right) = Bypass',
+                'LED 1 = Repeats active, LED 2 = Engaged',
+                'See full controls reference at /controls.html'
+            ]
+        },
         kelpie_funbox: {
             name: 'Kelpie (FunBox) — Audrey II',
             file: 'kelpie_funbox.bin',

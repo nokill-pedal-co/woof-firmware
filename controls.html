@@ -283,6 +283,8 @@
             <li><a href="#kelpie-hothouse">Kelpie <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#kelpie-terrarium">Kelpie <span class="platform-tag">Terrarium</span></a></li>
             <li><a href="#fuzz-destroyer">Fuzz Destroyer <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#fuzz-modulator-funbox">Fuzz Modulator <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#fuzz-modulator-hothouse">Fuzz Modulator <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#fuzz-modulator">Fuzz Modulator <span class="platform-tag">Terrarium</span></a></li>
             <li><a href="#cursed-reverb">Cursed Reverb <span class="platform-tag">Terrarium</span></a></li>
             <li><a href="#doom-engine">Doom Engine <span class="platform-tag">Terrarium</span></a></li>
@@ -545,7 +547,157 @@
     </section>
 
     <!-- ================================================================== -->
-    <!-- FUZZ MODULATOR                                                       -->
+    <!-- FUZZ MODULATOR FUNBOX                                                -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="fuzz-modulator-funbox">
+        <h2>Fuzz Modulator</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">Granular glitch fuzz with the FunBox extras. Same 3-stage cascaded fuzz feeding a grain buffer, plus stereo grain pingpong, wave-folding, hard stutter mode, an envelope-driven Warp, and MIDI-triggered grain capture. Footswitch 2 holds for momentary delay repeats.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level. Final hard-clip safety net is post-volume.</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz</td><td>3-stage cascaded clipping with asymmetric mid stage. Total gain ~4×–600× scaling. With DIP_1 on, the final stage swaps hard clip for a sine-based wave fold (more odd harmonics, smoother fold-back).</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole low-pass post-fuzz. Higher = brighter.</td></tr>
+            <tr><td>KNOB 4</td><td>Grain Size</td><td>Capture window length, 5 ms to 200 ms. Short = hyper-stuttery; long = smearable, almost reverb-like at high rates.</td></tr>
+            <tr><td>KNOB 5</td><td>Grain Rate</td><td>Retrigger frequency, 0.5 Hz to 40 Hz. With SW3 in envelope or LFO mode, this is the baseline that gets modulated ±50%.</td></tr>
+            <tr><td>KNOB 6</td><td>Warp</td><td>Grain playback speed. Knob center ≈ 1× (original speed). Half-speed at low end (deep, dragging), 2× at top end (chipmunk, glitchy fast). With DIP_4 on, envelope multiplies this by 0.5×–2× based on input dynamics. With MIDI Note On held, MIDI pitch overrides Warp.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span><strong>Grain disabled.</strong> Pedal is a straight fuzz. Useful as a baseline.</span>
+            <span class="pos">Left</span><span>Forward grain — captured audio plays in the original direction.</span>
+            <span class="pos">Right</span><span>Reverse grain — captured audio plays backward. Combined with high Warp = warbly tape rewind effect.</span>
+        </div>
+
+        <h4>SW2 — Feed</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span><strong>Capture disabled.</strong> Grain buffer freezes; existing contents will play out and loop. Useful for "freezing" a captured texture.</span>
+            <span class="pos">Left</span><span>Clean repeats — grain captures pre-fuzz signal, plays back through the fuzz cascade. Each repeat sounds fresh.</span>
+            <span class="pos">Right</span><span>Re-fuzzed — grain captures post-fuzz signal, no second pass. Cleaner repeats with the original fuzz character intact.</span>
+        </div>
+
+        <h4>SW3 — Modulation Source</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Manual — knobs only.</span>
+            <span class="pos">Left</span><span>Envelope-follow — input level scales Grain Rate ±50%. Pluck harder = faster retrigger.</span>
+            <span class="pos">Right</span><span>LFO sweep — slow ~0.1 Hz triangle modulates Grain Rate ±50%. Hands-off slow-cycling glitch.</span>
+        </div>
+
+        <h3>DIP Switches — Bonus Modes</h3>
+
+        <h4>DIP 1 — Wave Fold</h4>
+        <p>Replaces the hard clip in the fuzz output stage with a sine-based wave folder (<code>sin(in × π/2)</code>). At high Fuzz settings produces strong odd harmonics with smooth fold-back instead of the clipper's flat-topped harshness. Pair with low Tone for a synthy, square-wave-meets-fold quality.</p>
+
+        <h4>DIP 2 — Stutter</h4>
+        <p>Skips the 1.3 ms anti-click crossfade on grain retrigger. Result: hard, clicky digital chop with no smoothing. Good for high-rate, percussive grain machine effects. Combine with very short Grain Size for granular drum-machine textures.</p>
+
+        <h4>DIP 3 — Stereo Pingpong</h4>
+        <p>Consecutive grains pan alternately to the left and right channels. The inactive channel still receives the fuzzed dry + delay signal so the pedal stays full-sounding while grains alternate. Without this DIP, both channels carry the same grain output. Especially good with envelope-modulated Grain Rate (SW3 left).</p>
+
+        <h4>DIP 4 — Auto-Warp</h4>
+        <p>Envelope follower drives Warp. Quiet input = Warp pulled down toward 0.5× of the knob value; loud input = pushed up to 2×. Plays well with light, dynamic playing — pluck softly for slow-mo grains, dig in for fast.</p>
+
+        <div class="callout">
+            <strong>Killer combo:</strong> SW1 forward, SW2 clean repeats, SW3 envelope, DIP_3 + DIP_4 on. Grain Rate ~3–8 Hz, small grain size. Result is a stereo, dynamics-responsive granular cloud that gets faster and higher-pitched the harder you play.
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th><th>Behavior</th></tr>
+            <tr><td>FS1</td><td>Bypass</td><td>Toggles on FallingEdge. Dry passes through unchanged + delay trail mixes in so repeats can decay naturally when toggled off mid-hold.</td></tr>
+            <tr><td>FS2</td><td>Momentary Repeats</td><td>Hold to engage delay feedback. Output of grain stage feeds back into the delay buffer. Release = feedback ramps back to zero.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold</td><td>Toggles Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold</td><td>Clears expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up</td><td>DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover — physical knob movement releases MIDI control)</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = press)</td></tr>
+            <tr><td>CC 21</td><td>Momentary Repeats hold (≥ 64 = on, &lt; 64 = off)</td></tr>
+            <tr><td>CC 22</td><td>Grain Trigger — any value forces a fresh grain capture at the current write index with current knob params. Use this to manually re-arm a grain on demand.</td></tr>
+            <tr><td>Note On</td><td>Warp pitch lock — overrides Warp to play the grain at the MIDI note's pitch. Baseline = MIDI 60 (C4) = 1× warp. Formula: <code>warp = 2^((note - 60) / 12)</code>.</td></tr>
+            <tr><td>Note Off</td><td>Returns to knob/Auto-Warp control.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Same heel/toe learn flow as the FunBox Kelpie. Hold FS1+FS2 for 0.5 s to enter Set Mode, position the pedal at heel and adjust knobs, position at toe and adjust, exit by holding FS1+FS2 again. Hold for 2 s to clear all mappings.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Repeats active. Overridden during Expression Set Mode.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- FUZZ MODULATOR HOTHOUSE                                              -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="fuzz-modulator-hothouse">
+        <h2>Fuzz Modulator</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">The Fuzz Modulator core on Hothouse hardware: 3-stage cascaded fuzz into a grain buffer, with three 3-position toggles for direction, feed, and modulation source. Mono. <strong>Footswitches reversed from Terrarium</strong> — FS1 holds for delay repeats, FS2 bypasses. Wave Fold mode dropped (no fourth switch slot).</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz (3-stage cascaded ~300×, hard clip output stage)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Grain Size (5–200 ms)</td></tr>
+            <tr><td>KNOB 5</td><td>Grain Rate (0.5–40 Hz)</td></tr>
+            <tr><td>KNOB 6</td><td>Warp (playback speed; half to double)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Forward grain.</span>
+            <span class="pos">Middle</span><span>Grain disabled — pure fuzz.</span>
+            <span class="pos">Down</span><span>Reverse grain.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Feed</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Clean repeats — grain captures pre-fuzz, plays back through fuzz.</span>
+            <span class="pos">Middle</span><span>Capture disabled — buffer freezes, existing grain content loops.</span>
+            <span class="pos">Down</span><span>Re-fuzzed — grain captures post-fuzz, single pass.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Modulation Source</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Manual — knobs only.</span>
+            <span class="pos">Middle</span><span>Envelope-follow — input level scales Grain Rate ±50%.</span>
+            <span class="pos">Down</span><span>LFO sweep — ~0.1 Hz triangle modulates Grain Rate ±50%.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention — reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Momentary Delay Repeats — hold for echoes.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass toggle.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Repeats active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s at any time to enter the bootloader (Hothouse built-in feature).</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- FUZZ MODULATOR (TERRARIUM)                                           -->
     <!-- ================================================================== -->
     <section class="pedal" id="fuzz-modulator">
         <h2>Fuzz Modulator</h2>
