@@ -800,6 +800,187 @@
                 'FS2 (right) = Bypass',
                 'LED 1 = Kelpie active, LED 2 = Engaged'
             ]
+        },
+        cursed_reverb_hothouse: {
+            name: 'Cursed Reverb (Hothouse)',
+            file: 'cursed_reverb_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Shimmer reverb that descends into chaos. Schroeder reverb core with pitch-shifted feedback, saturation, and modulated delay times — on Hothouse 3-position toggles.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Decay',
+                'KNOB 3 = Tone (damping)',
+                'KNOB 4 = Shimmer',
+                'KNOB 5 = Warp (mod depth)',
+                'KNOB 6 = Mix',
+                'TOGGLE 1 Shimmer: U=octave up / M=octave down / D=fifth up',
+                'TOGGLE 2 Saturate: U=on / M,D=off',
+                'TOGGLE 3 Mod: U=slow / M=off / D=fast',
+                'FS1 (left) = Bypass',
+                'FS2 (right) = Momentary Freeze (infinite hold, input muted)',
+                'LED 1 = Engaged, LED 2 = Freeze active',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        cursed_reverb_funbox: {
+            name: 'Cursed Reverb (FunBox)',
+            file: 'cursed_reverb_funbox.bin',
+            platform: 'funbox',
+            desc: 'True-stereo shimmer reverb with per-channel comb/allpass offsets, MIDI, and learnable expression. Lush trails that descend into chaos.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Decay',
+                'KNOB 3 = Tone (damping)',
+                'KNOB 4 = Shimmer',
+                'KNOB 5 = Warp (mod depth)',
+                'KNOB 6 = Mix',
+                'SW1 Shimmer: C=octave up / L=fifth / R=octave down',
+                'SW2 Saturate: C,R=off / L=on',
+                'SW3 Mod: C=slow / L=fast / R=off',
+                'FS1 = Bypass (on release), FS2 = Momentary Freeze',
+                'FS1+FS2 hold 0.5s = Expression Set Mode (assign any knob)',
+                'FS1+FS2 hold 2s = Clear expression mapping',
+                'Suggested expression target: KNOB 6 (Mix)',
+                'MIDI: CC 14-19 = knobs (with takeover), CC 20 = bypass, CC 21 = freeze latch',
+                'Stereo: per-channel comb/allpass length offsets + 0.125 LFO phase offset',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        doom_engine_hothouse: {
+            name: 'Doom Engine (Hothouse)',
+            file: 'doom_engine_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Bass-boosted heavy distortion with Warp-modulated effect stack: rectify, ring mod, decimate, resonant bandpass. 1x-150x drive.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Drive (1-150x)',
+                'KNOB 3 = Tone (post-distortion LP)',
+                'KNOB 4 = Body (pre-distortion bass boost)',
+                'KNOB 5 = Warp (master intensity for switch effects)',
+                'KNOB 6 = Gate (noise gate threshold)',
+                'TOGGLE 1 Effect A: U=Rectify (octave-up fuzz) / M=off / D=Ring Mod',
+                'TOGGLE 2 Decimate: U=on / M,D=off',
+                'TOGGLE 3 Resonance: U=swept bandpass on / M,D=off',
+                'FS1 (left) = Bypass',
+                'FS2 (right) = Kill (momentary signal cut)',
+                'LED 1 = Engaged, LED 2 = Kill active',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        doom_engine_funbox: {
+            name: 'Doom Engine (FunBox)',
+            file: 'doom_engine_funbox.bin',
+            platform: 'funbox',
+            desc: 'All four effects stackable on FunBox toggles — rectify + ring mod can layer. Stereo ring-mod detune, MIDI, expression.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Drive (1-150x)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Body (pre-distortion bass boost)',
+                'KNOB 5 = Warp (intensity of all switch effects)',
+                'KNOB 6 = Gate',
+                'SW1 LEFT = Rectify on, SW1 RIGHT = Ring Mod on (can stack)',
+                'SW2 LEFT = Decimate on, SW2 RIGHT = Resonance on (can stack)',
+                'SW3 = reserved',
+                'DIP 1 = Stereo Ring-Mod Detune (±1.5% L/R spread)',
+                'DIP 2 = Extra Grit (asymmetric clip pushed 1.3x positive)',
+                'FS1 = Bypass, FS2 = Kill (momentary)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mapping',
+                'Suggested expression target: KNOB 5 (Warp)',
+                'MIDI: CC 14-19 = knobs (with takeover), CC 20 = bypass, CC 21 = kill',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        echo_chamber_hothouse: {
+            name: 'Echo Chamber (Hothouse)',
+            file: 'echo_chamber_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Multi-head tape delay (3 heads) with stretch and aging effects. Head 3 can play forward or reverse. 144K-sample SDRAM buffer.',
+            controls: [
+                'KNOB 1 = Feedback',
+                'KNOB 2 = Speed (50ms-2s)',
+                'KNOB 3 = Mix (extra heads blend)',
+                'KNOB 4 = Wet Level (0-2x)',
+                'KNOB 5 = Dry Level (0-2x)',
+                'KNOB 6 = Tone (feedback LP, 200Hz-12kHz)',
+                'TOGGLE 1 Head 2 (66% speed): U=on / M,D=off',
+                'TOGGLE 2 Head 3 (133% speed): U=forward / M=off / D=reverse',
+                'TOGGLE 3 FS2 mode: U=Stretch / M=FS2 inert / D=Age',
+                'FS1 (left) = Bypass',
+                'FS2 (right) = X (Stretch or Age, per TOGGLE 3)',
+                'LED 1 = Engaged, LED 2 = X active',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        echo_chamber_funbox: {
+            name: 'Echo Chamber (FunBox)',
+            file: 'echo_chamber_funbox.bin',
+            platform: 'funbox',
+            desc: 'Multi-head tape delay with stereo ping-pong heads — Head 1 left, Head 2 right, Head 3 center. MIDI, expression, learnable.',
+            controls: [
+                'KNOB 1 = Feedback',
+                'KNOB 2 = Speed (50ms-2s)',
+                'KNOB 3 = Mix (extra heads blend)',
+                'KNOB 4 = Wet Level',
+                'KNOB 5 = Dry Level',
+                'KNOB 6 = Tone',
+                'SW1 LEFT = Head 2 on',
+                'SW2 LEFT = Head 3 fwd / SW2 RIGHT = Head 3 reverse',
+                'SW3 LEFT = Stretch / SW3 RIGHT = Age / center = FS2 inert',
+                'FS1 = Bypass (on release), FS2 = X (Stretch/Age per SW3)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mapping',
+                'Suggested expression target: KNOB 1 (Feedback)',
+                'MIDI: CC 14-19 = knobs (with takeover), CC 20 = bypass, CC 21 = FS2 X',
+                'Stereo: Head 1=L, Head 2=R, Head 3=center — single mono SDRAM buffer, output panned only',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        treat_octave_fuzz_hothouse: {
+            name: 'Treat Octave Fuzz (Hothouse)',
+            file: 'treat_octave_fuzz_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'Sleigh Bells / "Treats" inspired octave fuzz — POG-style multi-octave stacking slammed into iMic-style asymmetric hard clip (pos 0.9, neg -1.0). Flat-topped, harsh, digital.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Slam (iMic clip gain, THE distortion)',
+                'KNOB 3 = Tone (post-clip LP)',
+                'KNOB 4 = Sub level',
+                'KNOB 5 = Dry level',
+                'KNOB 6 = Up (octave-up level)',
+                'TOGGLE 1 +2 Octaves: U=on / M,D=off',
+                'TOGGLE 2 Sub+Crush: U=Poly sub clean / M=Mono divider clean / D=Mono divider + Bit Crush',
+                'TOGGLE 3 Lo-Fi flavor: U=Tape / M=Lo-Fi disabled / D=Doom',
+                'FS1 (left) = Bypass',
+                'FS2 (right) = Lo-Fi Drop (tap=latch, hold=momentary)',
+                'LED 1 = Engaged, LED 2 = Lo-Fi active',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        treat_octave_fuzz_funbox: {
+            name: 'Treat Octave Fuzz (FunBox)',
+            file: 'treat_octave_fuzz_funbox.bin',
+            platform: 'funbox',
+            desc: 'Octave fuzz with stereo-detuned sub and octave-up voices for chorus-like width. iMic asymmetric clip preserved. MIDI + expression.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Slam (iMic clip gain)',
+                'KNOB 3 = Tone',
+                'KNOB 4 = Sub level',
+                'KNOB 5 = Dry level',
+                'KNOB 6 = Up (octave-up level)',
+                'SW1 LEFT = +2 Octaves / SW1 RIGHT = Poly sub mode (else mono divider)',
+                'SW2 LEFT = Bit Crush / SW2 RIGHT = reserved',
+                'SW3 LEFT = Tape / SW3 RIGHT = Doom / center = Lo-Fi disabled',
+                'FS1 = Bypass (on release), FS2 = Lo-Fi Drop (tap-latch / hold-momentary)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mapping',
+                'Suggested expression target: KNOB 2 (Slam)',
+                'MIDI: CC 14-19 = knobs (with takeover), CC 20 = bypass, CC 21 = Lo-Fi Drop',
+                'Stereo: sub-octave detuned ±3¢ L/R, octave-up detuned ±3¢ reverse, dry centered',
+                'See full controls reference at /controls.html'
+            ]
         }
     };
 

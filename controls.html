@@ -288,9 +288,17 @@
             <li><a href="#fuzz-modulator-funbox">Fuzz Modulator <span class="platform-tag">FunBox</span></a></li>
             <li><a href="#fuzz-modulator-hothouse">Fuzz Modulator <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#fuzz-modulator">Fuzz Modulator <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#cursed-reverb-funbox">Cursed Reverb <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#cursed-reverb-hothouse">Cursed Reverb <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#cursed-reverb">Cursed Reverb <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#doom-engine-funbox">Doom Engine <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#doom-engine-hothouse">Doom Engine <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#doom-engine">Doom Engine <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#echo-chamber-funbox">Echo Chamber <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#echo-chamber-hothouse">Echo Chamber <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#echo-chamber">Echo Chamber <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#treat-octave-fuzz-funbox">Treat Octave Fuzz <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#treat-octave-fuzz-hothouse">Treat Octave Fuzz <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#treat-octave-fuzz">Treat Octave Fuzz <span class="platform-tag">Terrarium</span></a></li>
         </ul>
     </div>
@@ -1036,6 +1044,524 @@
             <tr><td>FS2</td><td>Lo-Fi Drop — bandpass filter + crush + bit reduce + 3× gain compensation. Tap or hold depending on SW4.</td></tr>
         </table>
 
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- CURSED REVERB HOTHOUSE                                               -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="cursed-reverb-hothouse">
+        <h2>Cursed Reverb</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Schroeder reverb (4 combs + 2 allpass diffusers) with grain-based shimmer, OnePole damping, and modulated delay lines — on Hothouse hardware. Three 3-position toggles compress the Terrarium's four switches. <strong>Footswitches reversed from Terrarium</strong> per Hothouse convention.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level, scaled 2× to match bypass.</td></tr>
+            <tr><td>KNOB 2</td><td>Decay</td><td>Reverb time. Feedback range 0.75 → 0.995 (long tails, near-infinite at max).</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole damping filter in the comb feedback path. Lower = darker, more felt; higher = bright.</td></tr>
+            <tr><td>KNOB 4</td><td>Shimmer</td><td>Pitch-shifted feedback amount. Adds the selected interval back into the reverb loop for stacking octaves/fifths.</td></tr>
+            <tr><td>KNOB 5</td><td>Warp</td><td>LFO modulation depth on delay times. Higher = pitch-warbling, chorused reverb.</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td><td>Dry/wet blend.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Shimmer Interval & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Octave up — classic shimmer.</span>
+            <span class="pos">Middle</span><span>Octave down — sub-octave shimmer, doomy.</span>
+            <span class="pos">Down</span><span>Fifth up — perfect-fifth interval shimmer.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Saturate Feedback</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Padé tanh saturation on the feedback path — adds harmonics, helps long tails sit in the mix.</span>
+            <span class="pos">Middle/Down</span><span>Off — clean feedback.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Mod Rate</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Slow drift — wide, lush modulation.</span>
+            <span class="pos">Middle</span><span>Off — no modulation, static reverb.</span>
+            <span class="pos">Down</span><span>Fast warble — pronounced chorus/flutter.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention — reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass toggle.</td></tr>
+            <tr><td>FS2 (right)</td><td>Momentary Freeze — infinite hold, input muted while held.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Freeze active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader (Hothouse built-in).</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- CURSED REVERB FUNBOX                                                 -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="cursed-reverb-funbox">
+        <h2>Cursed Reverb</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · True Stereo · MIDI · Expression</div>
+        <p class="lede">True-stereo shimmer reverb with per-channel comb/allpass length offsets and LFO phase offsets, plus the FunBox extras: MIDI knob takeover, learnable expression, and dual-footswitch gestures. The shimmer feedback path is mono-summed before re-injection so the stereo image stays coherent.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Decay</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (damping)</td></tr>
+            <tr><td>KNOB 4</td><td>Shimmer</td></tr>
+            <tr><td>KNOB 5</td><td>Warp (mod depth)</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Shimmer Interval & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Octave up (default).</span>
+            <span class="pos">Left</span><span>Fifth up.</span>
+            <span class="pos">Right</span><span>Octave down direction.</span>
+        </div>
+
+        <h4>SW2 — Saturate Feedback</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Padé tanh saturation on feedback.</span>
+        </div>
+
+        <h4>SW3 — Mod Rate</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Slow (default).</span>
+            <span class="pos">Left</span><span>Fast warble.</span>
+            <span class="pos">Right</span><span>Off — no mod.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release so dual-hold gestures don't toggle).</td></tr>
+            <tr><td>FS2</td><td>Momentary Freeze.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — toggles Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clears expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>Freeze latch (ORs with FS2 momentary).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>No default mapping — assign via FS1+FS2 hold-0.5 s Set Mode. Suggested target: KNOB 6 (Mix) for foot-controlled wet level.</p>
+
+        <h3>Stereo</h3>
+        <p>Per-channel comb filter lengths (1116/1341/1557/1733 vs 1139/1367/1583/1759) and allpass lengths (556/441 vs 571/454) with LFO phase offsets of 0.125 between channels. Shimmer feedback is mono-summed and re-injected to preserve coherence.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Freeze active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- DOOM ENGINE HOTHOUSE                                                 -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="doom-engine-hothouse">
+        <h2>Doom Engine</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Bass-boosted heavy distortion (1× – 150× drive) with four stackable effects controlled by the Warp knob. Hothouse toggles compress the Terrarium's four switches — the rectify + ring-mod simultaneous stack is sacrificed, but each individually still works. <strong>Footswitches reversed from Terrarium</strong>.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level, 0–2×.</td></tr>
+            <tr><td>KNOB 2</td><td>Drive</td><td>Distortion gain, 1× – 150× (drive² × 149 + 1).</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>Post-distortion low-pass filter.</td></tr>
+            <tr><td>KNOB 4</td><td>Body</td><td>Pre-distortion bass boost. Adds low-end thickness before the clipper.</td></tr>
+            <tr><td>KNOB 5</td><td>Warp</td><td>Master intensity for switch effects: ring mod freq sweep, decimate interval, resonance freq/Q/mix.</td></tr>
+            <tr><td>KNOB 6</td><td>Gate</td><td>Noise gate threshold (gate² × 0.8).</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Rectify / Ring Mod (exclusive on Hothouse)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Rectify on — octave-up fuzz via abs().</span>
+            <span class="pos">Middle</span><span>Both off.</span>
+            <span class="pos">Down</span><span>Ring Mod on — Warp-swept ring modulation.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Decimate</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Sample-rate crush — interval driven by Warp.</span>
+            <span class="pos">Middle/Down</span><span>Off.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Resonance</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Swept resonant bandpass (Q 3–15, freq 200 Hz – 3 kHz exponential, mix driven by Warp).</span>
+            <span class="pos">Middle/Down</span><span>Off.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass toggle.</td></tr>
+            <tr><td>FS2 (right)</td><td>Kill switch — momentary signal cut while held.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Kill active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader.</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- DOOM ENGINE FUNBOX                                                   -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="doom-engine-funbox">
+        <h2>Doom Engine</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">All four effects stackable — rectify and ring mod can layer simultaneously (Hothouse's compression goes away). Stereo ring-mod detune for width, plus MIDI and expression. DIPs add stereo flavor and extra grit.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Drive (1× – 150×)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td></tr>
+            <tr><td>KNOB 4</td><td>Body</td></tr>
+            <tr><td>KNOB 5</td><td>Warp (master intensity)</td></tr>
+            <tr><td>KNOB 6</td><td>Gate</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Octave & Ring</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Both off.</span>
+            <span class="pos">Left</span><span>Rectify on.</span>
+            <span class="pos">Right</span><span>Ring Mod on.</span>
+        </div>
+        <p style="font-size:0.95em;opacity:0.75;">SW1 LEFT and SW1 RIGHT can both be held simultaneously by parking the toggle precisely — but practically, use SW2 for Decimate/Resonance and combine via knob+footswitch routing.</p>
+
+        <h4>SW2 — Decimate & Resonance</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Both off.</span>
+            <span class="pos">Left</span><span>Decimate on.</span>
+            <span class="pos">Right</span><span>Resonance on.</span>
+        </div>
+
+        <h4>SW3</h4>
+        <p>Reserved for future expansion.</p>
+
+        <h3>DIP Switches</h3>
+        <h4>DIP 1 — Stereo Ring-Mod Detune</h4>
+        <p>±1.5% L/R spread on the ring modulator frequency. Creates stereo width even with the same dry mono input on both channels.</p>
+
+        <h4>DIP 2 — Extra Grit</h4>
+        <p>Pushes the asymmetric clipper's positive side 1.3× harder. More even-order harmonics, more aggressive.</p>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>Kill — momentary signal cut (suppressed during dual-hold gestures).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mapping.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>Kill (≥ 64 = active).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults to KNOB 5 (Warp) — controls intensity of all switch effects simultaneously. Reassign any knob via FS1+FS2 0.5 s Set Mode.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Kill active.</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- ECHO CHAMBER HOTHOUSE                                                -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="echo-chamber-hothouse">
+        <h2>Echo Chamber</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Multi-head tape delay (3 heads at speed / 66% / 133%) with 144K-sample SDRAM buffer. Stretch and Age effects on FS2. <strong>Footswitches reversed from Terrarium</strong>.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Feedback (delay recirculation, 0–95%)</td></tr>
+            <tr><td>KNOB 2</td><td>Speed (delay time 50 ms – 2 s)</td></tr>
+            <tr><td>KNOB 3</td><td>Mix (extra heads blend — 0 = main only, max = all equal)</td></tr>
+            <tr><td>KNOB 4</td><td>Wet Level (0–2×)</td></tr>
+            <tr><td>KNOB 5</td><td>Dry Level (0–2×)</td></tr>
+            <tr><td>KNOB 6</td><td>Tone (feedback LP filter 200 Hz – 12 kHz)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Head 2 (66% speed)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>On — Head 2 plays at 2/3 the main delay time.</span>
+            <span class="pos">Middle/Down</span><span>Off.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Head 3 (133% speed, direction-switchable)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>On, forward.</span>
+            <span class="pos">Middle</span><span>Off.</span>
+            <span class="pos">Down</span><span>On, reverse.</span>
+        </div>
+
+        <h4>TOGGLE 3 — FS2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Stretch — DOD Rubberneck-style pitch drop/rebound on FS2 hold.</span>
+            <span class="pos">Middle</span><span>FS2 inert — pressing the footswitch does nothing.</span>
+            <span class="pos">Down</span><span>Age — dropouts, flutter, and noise on extra heads while FS2 held.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass toggle.</td></tr>
+            <tr><td>FS2 (right)</td><td>X — Stretch or Age (per TOGGLE 3).</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> X active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader.</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- ECHO CHAMBER FUNBOX                                                  -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="echo-chamber-funbox">
+        <h2>Echo Chamber</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo Ping-Pong · MIDI · Expression</div>
+        <p class="lede">Multi-head tape delay with stereo ping-pong heads — Head 1 panned left, Head 2 right, Head 3 center. Single mono SDRAM buffer keeps feedback structure identical to the Terrarium build; only the output mix is panned.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Feedback</td></tr>
+            <tr><td>KNOB 2</td><td>Speed (50 ms – 2 s)</td></tr>
+            <tr><td>KNOB 3</td><td>Mix (extra heads blend)</td></tr>
+            <tr><td>KNOB 4</td><td>Wet Level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry Level</td></tr>
+            <tr><td>KNOB 6</td><td>Tone</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Head 2</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Head 2 on.</span>
+        </div>
+
+        <h4>SW2 — Head 3 & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Off.</span>
+            <span class="pos">Left</span><span>Head 3 forward.</span>
+            <span class="pos">Right</span><span>Head 3 reverse.</span>
+        </div>
+
+        <h4>SW3 — FS2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>FS2 inert.</span>
+            <span class="pos">Left</span><span>Stretch.</span>
+            <span class="pos">Right</span><span>Age.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>Momentary X (Stretch or Age per SW3).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mapping.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>FS2 X latch.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults to KNOB 1 (Feedback) — sweep delay self-oscillation with a foot. Reassign via Set Mode.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> X active.</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- TREAT OCTAVE FUZZ HOTHOUSE                                           -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="treat-octave-fuzz-hothouse">
+        <h2>Treat Octave Fuzz</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Sleigh Bells / "Treats" inspired octave fuzz. POG-style multi-octave layering slammed into an iMic-style asymmetric hard clipper (pos 0.9, neg −1.0). Flat-topped, harsh, digital — NOT a soft-clip Padé tanh. <strong>Footswitches reversed from Terrarium</strong>.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume (0–2×)</td></tr>
+            <tr><td>KNOB 2</td><td>Slam — iMic clip gain. THE distortion.</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (post-clip LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Sub level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry level (clean octave)</td></tr>
+            <tr><td>KNOB 6</td><td>Up (octave-up level)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — +2 Octaves</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>+2 octave voice on.</span>
+            <span class="pos">Middle/Down</span><span>Off.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Sub Mode + Bit Crush</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Poly sub (granular pitch shift), no bit crush.</span>
+            <span class="pos">Middle</span><span>Mono divider (zero-crossing), no bit crush.</span>
+            <span class="pos">Down</span><span>Mono divider + bit crush.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Lo-Fi Flavor (FS2 mode)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Tape — Lo-Fi Drop sounds vintage/warm.</span>
+            <span class="pos">Middle</span><span>Lo-Fi disabled — FS2 inert.</span>
+            <span class="pos">Down</span><span>Doom — Lo-Fi Drop sounds heavy/dark.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass.</td></tr>
+            <tr><td>FS2 (right)</td><td>Lo-Fi Drop — tap = latch, hold = momentary. Bandpass + crush + bit reduce + 3× gain compensation.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Lo-Fi active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader.</p>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- TREAT OCTAVE FUZZ FUNBOX                                             -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="treat-octave-fuzz-funbox">
+        <h2>Treat Octave Fuzz</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">Octave fuzz with stereo-detuned sub and octave-up voices for chorus-like width on the octave stacking. iMic asymmetric hard clip preserved. Sub-octave detuned ±3¢ L/R; octave-up detuned ±3¢ reverse; dry stays centered.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Slam (iMic clip gain)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td></tr>
+            <tr><td>KNOB 4</td><td>Sub level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry level</td></tr>
+            <tr><td>KNOB 6</td><td>Up (octave-up level)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — +2 Octaves & Sub Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Mono divider sub, no +2 octave.</span>
+            <span class="pos">Left</span><span>+2 octave voice on.</span>
+            <span class="pos">Right</span><span>Poly sub mode (granular pitch shift).</span>
+        </div>
+
+        <h4>SW2 — Bit Crush</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Bit crush on.</span>
+        </div>
+
+        <h4>SW3 — Lo-Fi Flavor</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Lo-Fi disabled (FS2 inert).</span>
+            <span class="pos">Left</span><span>Tape.</span>
+            <span class="pos">Right</span><span>Doom.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>Lo-Fi Drop — tap = latch, hold = momentary.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mapping.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>Lo-Fi Drop (≥ 64 = active).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 2 (Slam) for foot-controlled distortion intensity. Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <h3>Stereo</h3>
+        <p>Sub-octave detuned −3¢ L / +3¢ R (in poly mode via per-channel grain rates, in mono mode via per-channel divider). Octave-up detuned +3¢ L / −3¢ R via fractional read-back delay (1024-sample ring buffer). Dry stays centered. Octave-up is rectified <code>fabsf(dry)</code> so each channel is DC-blocked after the detune read.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Lo-Fi active.</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
+        </ul>
     </section>
 
 </main>
