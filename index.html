@@ -699,6 +699,25 @@
                 'FS2 = FSW2 (howl or growl, per SW3)'
             ]
         },
+        swamp_donkey: {
+            name: 'Swamp Donkey',
+            file: 'swamp_donkey.bin',
+            desc: 'A Shrek-themed multi-effect: a braying donkey playing a rusty banjo in a swamp while eating a bitcrushed pickle. Four stacking layers — banjo twang, EE-AW donkey formant bray, bitcrush/acid pickle, and dark swamp reverb — blended by the Layers knob (ogres have layers). Plus a screaming Dragon oscillator that grows the longer you hold a note.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Donkey (formant bray intensity)',
+                'KNOB 3 = Pickle (bitcrush + acid squelch)',
+                'KNOB 4 = Banjo (comb twang + pluck attack)',
+                'KNOB 5 = Swamp (dark reverb/delay mix)',
+                'KNOB 6 = Layers (how many layers stack)',
+                'SW1 = Donkey voice (classic bray / talking donkey)',
+                'SW2 = Pickle style (dill / ghost pepper)',
+                'SW3 = FSW2 mode (swamp blast / onion stacker)',
+                'SW4 = Dragon mode on/off (screaming sustain osc)',
+                'FS1 = Bypass',
+                'FS2 = FSW2 (GET OUT OF MY SWAMP, or onion tap, per SW3)'
+            ]
+        },
         fuzz_destroyer_funbox: {
             name: 'Fuzz Destroyer (FunBox)',
             file: 'fuzz_destroyer_funbox.bin',
@@ -1113,6 +1132,54 @@
                 'FS1+FS2 hold 0.5s = Expression Set Mode',
                 'FS1+FS2 hold 2s = Clear expression mappings',
                 'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = FSW2, Note On = bark (DIP4)',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        swamp_donkey_hothouse: {
+            name: 'Swamp Donkey (Hothouse)',
+            file: 'swamp_donkey_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'The Shrek multi-effect on Hothouse hardware. Four stacking layers — banjo comb twang, EE-AW donkey formant bray, bitcrush/acid pickle, and dark swamp reverb/wobble — blended by the Layers knob. Three 3-position toggles for the donkey voice, pickle heat, and footswitch mode. No DIPs or MIDI.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Donkey (formant bray intensity)',
+                'KNOB 3 = Pickle (bitcrush + acid squelch)',
+                'KNOB 4 = Banjo (comb twang + pluck attack)',
+                'KNOB 5 = Swamp (dark reverb/delay mix)',
+                'KNOB 6 = Layers (how many layers stack)',
+                'TOGGLE 1 Donkey voice: U=classic bray / M=talking / D=wailing',
+                'TOGGLE 2 Pickle style: U=dill / M=kosher / D=ghost pepper',
+                'TOGGLE 3 FSW2 mode: U=swamp blast / M=waffles / D=onion',
+                'FS1 (left) = FSW2 (per TOGGLE 3)',
+                'FS2 (right) = Bypass',
+                'LED 1 = FSW2 active / onion layer count, LED 2 = Engaged',
+                'DFU: hold both footswitches at power-up',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        swamp_donkey_funbox: {
+            name: 'Swamp Donkey (FunBox)',
+            file: 'swamp_donkey_funbox.bin',
+            platform: 'funbox',
+            desc: 'The full Shrek swamp. Four stacking layers — banjo twang, EE-AW donkey formant bray, bitcrush/acid pickle, dark swamp reverb/wobble — blended by the Layers knob, plus DIP-enabled fairy-tale glitch, Lord Farquaad octave-down, a screaming Dragon oscillator, and MIDI Shrek character notes (low=Shrek, mid=Donkey, high=Fiona). Footswitch fires GET OUT OF MY SWAMP, waffles, or peels onion layers.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Donkey (formant bray intensity)',
+                'KNOB 3 = Pickle (bitcrush + acid squelch)',
+                'KNOB 4 = Banjo (comb twang + pluck attack)',
+                'KNOB 5 = Swamp (dark reverb/delay mix)',
+                'KNOB 6 = Layers (how many layers stack)',
+                'SW1 Donkey voice: C=talking / L=classic bray / R=wailing',
+                'SW2 Pickle style: C=kosher / L=dill / R=ghost pepper',
+                'SW3 FSW2 mode: C=waffles / L=swamp blast / R=onion',
+                'DIP1 = Fairy-tale glitch (scratched-DVD stutters on transients)',
+                'DIP2 = Lord Farquaad mode (everything an octave down)',
+                'DIP3 = Dragon mode (screaming feedback osc on sustain)',
+                'DIP4 = MIDI Shrek (notes trigger Shrek/Donkey/Fiona)',
+                'FS1 = Bypass, FS2 = FSW2 (per SW3 mode)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = FSW2, Note On = character (DIP4)',
                 'See full controls reference at /controls.html'
             ]
         }

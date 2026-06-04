@@ -307,6 +307,9 @@
             <li><a href="#awoo-funbox">A.W.O.O. — Auto Wah Octave Overload <span class="platform-tag">FunBox</span></a></li>
             <li><a href="#awoo-hothouse">A.W.O.O. — Auto Wah Octave Overload <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#awoo">A.W.O.O. — Auto Wah Octave Overload <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#swamp-donkey-funbox">Swamp Donkey <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#swamp-donkey-hothouse">Swamp Donkey <span class="platform-tag">Hothouse</span></a></li>
+            <li><a href="#swamp-donkey">Swamp Donkey <span class="platform-tag">Terrarium</span></a></li>
         </ul>
     </div>
 
@@ -1971,6 +1974,211 @@
         <ul>
             <li><strong>LED 1 (left):</strong> Engaged (not bypassed).</li>
             <li><strong>LED 2 (right):</strong> FSW2 active, and blinks on each bark.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SWAMP DONKEY FUNBOX                                                  -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="swamp-donkey-funbox">
+        <h2>Swamp Donkey</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">Think Donkey eating a pickle while playing a banjo. In a swamp. That's the whole pedal. The Swamp Donkey is four stacking effect <em>layers</em> — because, as a great ogre once explained, ogres are like onions, and onions have layers, and so does this. <strong>BANJO</strong> adds a plucky transient and a bright metallic comb twang. <strong>DONKEY</strong> runs a three-band formant filter that sweeps "EE → AW" on every pick attack, so your guitar brays. <strong>PICKLE</strong> demolishes the signal with a bitcrusher and a sour 303-style acid filter. <strong>SWAMP</strong> drowns the whole thing in a dark, muddy reverb with a slow underwater wobble. The Layers knob decides how many of them stack at once — from one polite effect to the full braying swamp.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → <strong>Banjo</strong> (transient pluck + comb twang) → <strong>Donkey</strong> (EE-AW formant bray) → <strong>Pickle</strong> (bitcrush + acid squelch) → <strong>Swamp</strong> (dark reverb + modulated delay wobble) → global FX (Farquaad / Waffles / Dragon) → Volume → output. Each stage's depth is its own knob multiplied by a Layers gate, so the chain fades from clean to chaos as you stack layers on.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Donkey</td><td>Formant bray intensity. 0 = just your guitar; full = a complete "EE-AW" donkey transformation on every note. The vowel-sweep speed follows your pick dynamics — hit harder, bray faster.</td></tr>
+            <tr><td>KNOB 3</td><td>Pickle</td><td>Crunch amount. 0 = clean; full = absolutely demolished bitcrushed acid squelch. Combines sample-rate reduction (down to ~4 kHz) and bit-depth reduction with a resonant acid-filter sweep.</td></tr>
+            <tr><td>KNOB 4</td><td>Banjo</td><td>Twang amount — comb-filter depth plus transient pluck shaper. 0 = normal attack; full = everything sounds like it was played on a rusty banjo.</td></tr>
+            <tr><td>KNOB 5</td><td>Swamp</td><td>Reverb/delay mix. 0 = dry; full = drowning in a muddy swamp. Deliberately dark and murky with a slow ~0.3 Hz modulated wobble.</td></tr>
+            <tr><td>KNOB 6</td><td>Layers</td><td>"Ogres have layers." Crossfade that sets how many stages are active. At 0, only the single loudest layer (per knobs 2–5); as you turn up they fade in one at a time — banjo → donkey → pickle → swamp — until at full <em>everything</em> stacks. Dial in exactly how much swamp you want.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Donkey Voice</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Talking donkey — random vowel shapes, like Donkey will not shut up the entire car ride.</span>
+            <span class="pos">Left</span><span>Classic bray — clean "EE-AW" sweep on each note.</span>
+            <span class="pos">Right</span><span>Wailing donkey — slower, more dramatic vowel sweeps with vibrato.</span>
+        </div>
+
+        <h4>SW2 — Pickle Style</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Kosher pickle — medium crunch, more sour (deeper crush, more resonant filter).</span>
+            <span class="pos">Left</span><span>Dill pickle — mild crunch, subtle acid.</span>
+            <span class="pos">Right</span><span>Ghost pepper pickle — MAXIMUM crush and screaming resonance. Not for the faint of heart.</span>
+        </div>
+
+        <h4>SW3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>"I'm making waffles" — momentary octave-up with the donkey bray cranked. Annoying, bright, in-your-face. Donkey at his most excited.</span>
+            <span class="pos">Left</span><span>"GET OUT OF MY SWAMP" — momentary full-wet reverb blast with extra feedback. Hold it and everything drowns; release and it trails off.</span>
+            <span class="pos">Right</span><span>"Onion mode" — latching. Each tap peels on another layer: banjo → donkey → pickle → swamp → back to dry.</span>
+        </div>
+
+        <h3>DIP Switches</h3>
+        <table class="control-table">
+            <tr><th>DIP</th><th>Function</th></tr>
+            <tr><td>DIP 1</td><td>Fairy-tale glitch — random buffer stutters like a scratched DVD of Shrek, triggered probabilistically on pick attacks.</td></tr>
+            <tr><td>DIP 2</td><td>Lord Farquaad mode — pitch-shifts everything down an octave. Everything sounds lower and more menacing (he's compensating).</td></tr>
+            <tr><td>DIP 3</td><td>Dragon mode — a screaming feedback oscillator that pitch-tracks your note and fades in the longer you sustain. The longer you hold, the more it screams (Dragon's singing voice).</td></tr>
+            <tr><td>DIP 4</td><td>MIDI Shrek — incoming MIDI notes summon characters: low notes = Shrek (deep formant + swamp), mid = Donkey (bray + banjo), high = Fiona (bright formant, clean). Velocity sets intensity.</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>FSW2 — swamp blast / waffles / onion per SW3.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = toggle).</td></tr>
+            <tr><td>CC 21</td><td>FSW2 (≥ 64 = active).</td></tr>
+            <tr><td>Note On</td><td>Triggers a character when DIP 4 is on — low = Shrek, mid = Donkey, high = Fiona; velocity = intensity.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 6 (Layers) to foot-swell from one effect into the full swamp, or KNOB 5 (Swamp). Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> start with everything down and Layers at 0, turn up just Donkey, and pick — that's the bray. Bring Layers up to noon and the banjo twang and pickle crunch fade in behind it. Past 3 o'clock the swamp swallows everything. For the full Far Far Away experience: all four knobs at noon, Layers maxed, SW2 on Ghost Pepper, DIP 3 (Dragon) on, and hold a note until it screams. Hold FS2 with SW3 on "GET OUT OF MY SWAMP" for a reverb bomb.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Bypass status (engaged).</li>
+            <li><strong>LED 2:</strong> FSW2 active. In Onion mode it blinks a count of the current layer stack.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SWAMP DONKEY HOTHOUSE                                                -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="swamp-donkey-hothouse">
+        <h2>Swamp Donkey</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">The braying swamp on Hothouse hardware: the same four stacking layers — banjo twang, EE-AW donkey formant bray, bitcrush/acid pickle, and dark swamp reverb/wobble — blended by the Layers knob, with the donkey voice, pickle heat, and footswitch mode folded into three 3-position toggles. No DIPs or MIDI (Farquaad, Dragon, glitch, and MIDI Shrek are dropped). <strong>Footswitches follow Hothouse convention</strong> — FS1 is FSW2, FS2 bypasses.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → <strong>Banjo</strong> (transient + comb twang) → <strong>Donkey</strong> (EE-AW formant bray) → <strong>Pickle</strong> (bitcrush + acid) → <strong>Swamp</strong> (dark reverb + wobble) → waffles octave-up (when held) → Volume → output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Donkey</td><td>Formant bray intensity; sweep speed follows pick dynamics.</td></tr>
+            <tr><td>KNOB 3</td><td>Pickle</td><td>Bitcrush + acid squelch amount.</td></tr>
+            <tr><td>KNOB 4</td><td>Banjo</td><td>Comb-filter twang + transient pluck shaper.</td></tr>
+            <tr><td>KNOB 5</td><td>Swamp</td><td>Dark reverb/delay mix with slow wobble.</td></tr>
+            <tr><td>KNOB 6</td><td>Layers</td><td>How many layers stack: 0 = the loudest single layer; full = all four (banjo → donkey → pickle → swamp).</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Donkey Voice</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Classic bray — "EE-AW" sweep on each note.</span>
+            <span class="pos">Middle</span><span>Talking donkey — random vowel shapes, won't shut up.</span>
+            <span class="pos">Down</span><span>Wailing donkey — slow dramatic sweeps with vibrato.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Pickle Style</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Dill — mild crunch, subtle acid.</span>
+            <span class="pos">Middle</span><span>Kosher — medium crunch, more sour.</span>
+            <span class="pos">Down</span><span>Ghost pepper — maximum crush + screaming resonance.</span>
+        </div>
+
+        <h4>TOGGLE 3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>"GET OUT OF MY SWAMP" — momentary full-wet reverb blast while FS1 is held.</span>
+            <span class="pos">Middle</span><span>"I'm making waffles" — momentary octave-up + cranked bray.</span>
+            <span class="pos">Down</span><span>"Onion mode" — latching; each FS1 tap peels on another layer.</span>
+        </div>
+
+        <h3>Footswitches (note: reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>FSW2 — swamp blast / waffles / onion per TOGGLE 3.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> Donkey at noon with Layers low gets you a clean bray; roll Layers up to fade in the banjo twang, then the pickle crunch, then the swamp. Flip TOGGLE 2 to Ghost Pepper and roll Pickle up for full acid squelch. Hold FS1 with TOGGLE 3 on "GET OUT OF MY SWAMP" to drown everything.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> FSW2 active; in Onion mode blinks the current layer count.</li>
+            <li><strong>LED 2 (right):</strong> Engaged (not bypassed).</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SWAMP DONKEY TERRARIUM                                               -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="swamp-donkey">
+        <h2>Swamp Donkey</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">The braying swamp on Terrarium hardware: the four stacking layers — banjo twang, EE-AW donkey formant bray, bitcrush/acid pickle, and dark swamp reverb/wobble — blended by the Layers knob, on four simple two-position switches. Adds <strong>Dragon mode</strong>, a screaming feedback oscillator that grows the longer you sustain. No waffles, Farquaad, glitch, or MIDI on this platform.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → <strong>Banjo</strong> (transient + comb twang) → <strong>Donkey</strong> (EE-AW formant bray) → <strong>Pickle</strong> (bitcrush + acid) → <strong>Swamp</strong> (dark reverb + wobble) → <strong>Dragon</strong> (sustain scream, SW4) → Volume → output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Donkey (formant bray intensity — sweep speed follows pick dynamics)</td></tr>
+            <tr><td>KNOB 3</td><td>Pickle (bitcrush + 303-style acid squelch)</td></tr>
+            <tr><td>KNOB 4</td><td>Banjo (comb twang + transient pluck)</td></tr>
+            <tr><td>KNOB 5</td><td>Swamp (dark reverb/delay mix with slow wobble)</td></tr>
+            <tr><td>KNOB 6</td><td>Layers (0 = one layer, full = all four stack)</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>How the layers work:</strong> "Ogres have layers. Onions have layers." Each effect is a layer with its own knob. The Layers knob gates how many are active — at 0 only the loudest single layer plays, and as you turn it up the rest fade in one at a time in the order banjo → donkey → pickle → swamp. Turn it to full and the whole swamp piles on at once.
+        </div>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Donkey voice — off = classic bray / on = talking donkey</td></tr>
+            <tr><td>SW2</td><td>Pickle style — off = dill / on = ghost pepper</td></tr>
+            <tr><td>SW3</td><td>FSW2 mode — off = swamp blast / on = onion layer stacker</td></tr>
+            <tr><td>SW4</td><td>Dragon mode on/off — screaming feedback oscillator that grows on sustain</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass.</td></tr>
+            <tr><td>FS2</td><td>FSW2 — "GET OUT OF MY SWAMP" momentary reverb blast (SW3 off), or onion layer tap (SW3 on).</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> SW1 off with Donkey past noon and Layers low gives a clean bray; raise Layers to fade in twang, crunch, and swamp. Flip SW2 on for ghost-pepper acid, flip SW4 on and hold a chord to wake the Dragon. Hold FS2 with SW3 off for a momentary swamp bomb.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged (not bypassed).</li>
+            <li><strong>LED 2 (right):</strong> FSW2 active; in Onion mode blinks the current layer count.</li>
         </ul>
     </section>
 
