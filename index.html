@@ -660,6 +660,25 @@
                 'FS2 = Lo-Fi Drop (tap=latch, hold=momentary)'
             ]
         },
+        amris_wavefolder: {
+            name: 'Amris Wavefolder',
+            file: 'amris_wavefolder.bin',
+            desc: 'West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser. Fold harmonics into a moving formant, then freeze or octave-jump on the footswitch.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fold (wavefold amount)',
+                'KNOB 3 = Tilt (tilt-shift EQ)',
+                'KNOB 4 = Sensitivity (envelope filter)',
+                'KNOB 5 = Phaser Depth',
+                'KNOB 6 = Phaser Rate',
+                'SW1 = Sub-octave on/off',
+                'SW2 = Phaser target (full / lows only)',
+                'SW3 = FSW2 mode (freeze / octave-up)',
+                'SW4 = Envelope filter on/off',
+                'FS1 = Bypass',
+                'FS2 = FSW2 (per SW3 mode)'
+            ]
+        },
         fuzz_destroyer_funbox: {
             name: 'Fuzz Destroyer (FunBox)',
             file: 'fuzz_destroyer_funbox.bin',
@@ -979,6 +998,53 @@
                 'Suggested expression target: KNOB 2 (Slam)',
                 'MIDI: CC 14-19 = knobs (with takeover), CC 20 = bypass, CC 21 = Lo-Fi Drop',
                 'Stereo: sub-octave detuned ±3¢ L/R, octave-up detuned ±3¢ reverse, dry centered',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        amris_wavefolder_hothouse: {
+            name: 'Amris Wavefolder (Hothouse)',
+            file: 'amris_wavefolder_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'West-coast wavefolder on Hothouse hardware. Sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser folded into three 3-position toggles. Freeze or octave-jump on the footswitch.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fold (wavefold amount)',
+                'KNOB 3 = Tilt (tilt-shift EQ)',
+                'KNOB 4 = Sensitivity (envelope filter)',
+                'KNOB 5 = Phaser Depth',
+                'KNOB 6 = Phaser Rate',
+                'TOGGLE 1 Octave: U=sub+raw / M=raw only / D=sub+octave up',
+                'TOGGLE 2 Phaser: U=lows only / M=full / D=highs only',
+                'TOGGLE 3 FSW2 mode: U=momentary freeze / M=momentary oct-up / D=latching freeze',
+                'FS1 (left) = FSW2 (per TOGGLE 3)',
+                'FS2 (right) = Bypass',
+                'LED 1 = FSW2 active, LED 2 = Engaged',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        amris_wavefolder_funbox: {
+            name: 'Amris Wavefolder (FunBox)',
+            file: 'amris_wavefolder_funbox.bin',
+            platform: 'funbox',
+            desc: 'West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, sweepable phaser, and a glitch stutter. MIDI notes can drive fold, phaser, and stutter. Freeze or octave-jump on the footswitch.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Fold (wavefold amount)',
+                'KNOB 3 = Tilt (tilt-shift EQ)',
+                'KNOB 4 = Sensitivity (envelope filter)',
+                'KNOB 5 = Phaser Depth',
+                'KNOB 6 = Phaser Rate',
+                'SW1 Octave: C=raw only / L=sub+raw / R=sub+octave up',
+                'SW2 Phaser target: C=full / L=lows only / R=highs only',
+                'SW3 FSW2 mode: C=momentary oct-up / L=momentary freeze / R=latching freeze',
+                'DIP1 = MIDI note → fold amount',
+                'DIP2 = MIDI note → phaser depth',
+                'DIP3 = MIDI note → phaser rate',
+                'DIP4 = MIDI note → glitch stutter',
+                'FS1 = Bypass, FS2 = FSW2 (per SW3 mode)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = FSW2, Note On = mapped per DIP switches',
                 'See full controls reference at /controls.html'
             ]
         }
