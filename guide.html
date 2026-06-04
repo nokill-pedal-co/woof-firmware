@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal Builder Launch Guide — NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 62.5%; }
+body {
+  font-family: 'Assistant', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #121212;
+  background: #FFFFFF;
+}
+a { color: #121212; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  border-bottom: 1px solid rgba(18,18,18,0.08);
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.header-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #121212;
+  text-decoration: none;
+}
+.header-logo:hover { text-decoration: none; opacity: 0.8; }
+.header-nav { display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
+.header-nav a {
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-left: 30px;
+  color: #121212;
+  text-decoration: none;
+}
+.header-nav a:hover { text-decoration: underline; }
+.header-nav a.active { font-weight: 700; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.4rem;
+  color: rgba(18,18,18,0.6);
+  border-top: 1px solid rgba(18,18,18,0.08);
+  margin-top: 60px;
+}
+
+/* Main content */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px 20px;
+}
+
+/* Hero */
+.hero { margin-bottom: 40px; }
+.hero h1 {
+  font-size: 3.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+.hero p {
+  font-size: 1.8rem;
+  color: rgba(18,18,18,0.75);
+  line-height: 1.5;
+  max-width: 640px;
+}
+
+/* Progress */
+.progress-container {
+  background: rgba(18,18,18,0.04);
+  border: 1px solid rgba(18,18,18,0.08);
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.progress-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.progress-count {
+  font-size: 1.4rem;
+  color: rgba(18,18,18,0.6);
+}
+.progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(18,18,18,0.08);
+}
+.progress-bar-fill {
+  height: 100%;
+  background: #121212;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* Completion banner */
+.completion-banner {
+  display: none;
+  background: #121212;
+  color: #FFFFFF;
+  padding: 24px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.completion-banner.show { display: block; }
+.completion-banner h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.completion-banner p {
+  font-size: 1.5rem;
+  opacity: 0.85;
+}
+
+/* Section */
+.section {
+  border: 1px solid rgba(18,18,18,0.08);
+  margin-bottom: 16px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(18,18,18,0.02);
+  border-bottom: 1px solid rgba(18,18,18,0.08);
+}
+.section-header:hover { background: rgba(18,18,18,0.04); }
+.section-icon {
+  font-size: 2.2rem;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+.section-info { flex: 1; }
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.section-meta {
+  font-size: 1.3rem;
+  color: rgba(18,18,18,0.6);
+  margin-top: 2px;
+}
+.section-chevron {
+  font-size: 1.4rem;
+  color: rgba(18,18,18,0.4);
+  transition: transform 0.2s ease;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+.section.open .section-chevron { transform: rotate(180deg); }
+.section-body {
+  display: none;
+  padding: 0;
+}
+.section.open .section-body { display: block; }
+
+/* Task */
+.task {
+  border-bottom: 1px solid rgba(18,18,18,0.08);
+}
+.task:last-child { border-bottom: none; }
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 14px 20px;
+  cursor: pointer;
+  user-select: none;
+}
+.task-row:hover { background: rgba(18,18,18,0.02); }
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #121212;
+  flex-shrink: 0;
+  margin-right: 14px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #FFFFFF;
+}
+.task.completed .task-checkbox {
+  background: #121212;
+}
+.task-checkbox svg {
+  display: none;
+  width: 12px;
+  height: 12px;
+}
+.task.completed .task-checkbox svg { display: block; }
+.task-content { flex: 1; }
+.task-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.task.completed .task-title {
+  text-decoration: line-through;
+  color: rgba(18,18,18,0.4);
+}
+.task-desc {
+  font-size: 1.4rem;
+  color: rgba(18,18,18,0.6);
+  margin-top: 2px;
+}
+.task.completed .task-desc { color: rgba(18,18,18,0.35); }
+.task-expand-btn {
+  font-size: 1.3rem;
+  color: rgba(18,18,18,0.5);
+  cursor: pointer;
+  margin-left: 10px;
+  margin-top: 4px;
+  flex-shrink: 0;
+  padding: 2px 6px;
+  border: 1px solid rgba(18,18,18,0.15);
+  background: none;
+  font-family: 'Assistant', sans-serif;
+}
+.task-expand-btn:hover { background: rgba(18,18,18,0.04); }
+
+/* Task detail panel */
+.task-detail {
+  display: none;
+  padding: 16px 20px 20px 54px;
+  background: rgba(18,18,18,0.02);
+  border-top: 1px solid rgba(18,18,18,0.06);
+  font-size: 1.5rem;
+  line-height: 1.65;
+}
+.task-detail.open { display: block; }
+.task-detail p { margin-bottom: 10px; }
+.task-detail ol, .task-detail ul {
+  margin: 8px 0 12px 20px;
+}
+.task-detail li { margin-bottom: 6px; }
+.task-detail strong { font-weight: 700; }
+.task-detail code {
+  background: rgba(18,18,18,0.06);
+  padding: 2px 6px;
+  font-size: 1.35rem;
+  font-family: monospace;
+}
+
+/* Tip box */
+.tip-box {
+  background: rgba(18,18,18,0.04);
+  border-left: 3px solid #121212;
+  padding: 12px 16px;
+  margin: 12px 0 4px;
+  font-size: 1.4rem;
+}
+.tip-box strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Info box */
+.info-box {
+  background: rgba(18,18,18,0.04);
+  border: 1px solid rgba(18,18,18,0.08);
+  padding: 12px 16px;
+  margin: 12px 0 4px;
+  font-size: 1.4rem;
+}
+
+/* Reset button */
+.reset-row {
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 10px;
+}
+.btn-reset {
+  background: none;
+  border: 1px solid rgba(18,18,18,0.15);
+  color: rgba(18,18,18,0.5);
+  padding: 8px 20px;
+  font-size: 1.3rem;
+  font-family: 'Assistant', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.btn-reset:hover { border-color: #121212; color: #121212; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .header { padding: 15px 16px; }
+  .header-nav a { font-size: 1.5rem; margin-left: 16px; }
+  .container { padding: 24px 16px 16px; }
+  .hero h1 { font-size: 2.8rem; }
+  .hero p { font-size: 1.6rem; }
+  .task-detail { padding-left: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="https://nokillpedal.co" class="header-logo">NOKILL PEDAL CO</a>
+  <nav class="header-nav">
+    <a href="index.html">FLASHER</a>
+    <a href="controls.html">CONTROLS</a>
+    <a href="transistors.html">TRANSISTORS</a>
+    <a href="guide.html" class="active">GUIDE</a>
+    <a href="https://nokillpedal.co">SHOP</a>
+  </nav>
+</div>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Pedal Builder Launch Guide</h1>
+    <p>Everything you need to move from selling on Reverb to running your own Shopify store. One step at a time, no web experience needed.</p>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-header">
+      <span class="progress-label">Your Progress</span>
+      <span class="progress-count" id="progressCount">0 / 44 tasks</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div class="completion-banner" id="completionBanner">
+    <h2>You're ready to launch!</h2>
+    <p>Every task is done. Time to share your store with the world.</p>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="reset-row">
+    <button class="btn-reset" onclick="resetProgress()">Reset all progress</button>
+  </div>
+
+</div>
+
+<div class="footer">&copy; 2026 NOKILL Pedal Co</div>
+
+<script>
+const SECTIONS = [
+  {
+    id: "before-reverb",
+    icon: "📦",
+    title: "Before You Leave Reverb",
+    tasks: [
+      {
+        id: "export-sales",
+        title: "Export your Reverb sales history",
+        desc: "Save a record of everything you've sold so far",
+        detail: `<p>You want a copy of all your past sales before you leave. Here's how:</p>
+<ol>
+  <li>Log into <strong>Reverb.com</strong> and go to <strong>My Selling</strong>.</li>
+  <li>Click <strong>Orders</strong> in the left sidebar.</li>
+  <li>Look for an <strong>Export</strong> or <strong>Download CSV</strong> button near the top right.</li>
+  <li>Download the file and save it somewhere safe (a folder on your desktop works).</li>
+</ol>
+<p>This gives you a spreadsheet with buyer names, emails, dates, and amounts. You'll want this for your records and for potential warranty questions later.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If you don't see an export button, just screenshot each page of your order history. It's not perfect, but it's better than losing that info.
+</div>`
+      },
+      {
+        id: "save-photos",
+        title: "Save all your product photos",
+        desc: "Download every image you've uploaded to Reverb",
+        detail: `<p>Your product photos are one of the most valuable things you have. Don't assume they'll always be on Reverb.</p>
+<ol>
+  <li>Go to each of your <strong>active listings</strong> on Reverb.</li>
+  <li>Right-click each photo and choose <strong>Save image as...</strong></li>
+  <li>Create a folder for each pedal model and save the photos there.</li>
+</ol>
+<p>You'll reuse these on your Shopify store. Organize them now and it'll save you time later.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If you have the original high-resolution photos on your phone or camera, even better. Reverb sometimes compresses images, so originals will look sharper on your new store.
+</div>`
+      },
+      {
+        id: "dual-channel",
+        title: "Decide: keep Reverb or go all-in on Shopify?",
+        desc: "You can sell on both, but there are trade-offs",
+        detail: `<p>You have two options:</p>
+<ul>
+  <li><strong>Option A: Sell on both.</strong> Keep your Reverb listings active and also sell on Shopify. More work, but more visibility while you build up your own traffic.</li>
+  <li><strong>Option B: Go all-in on Shopify.</strong> Close your Reverb shop and send everyone to your own site. Cleaner, but you lose Reverb's built-in audience.</li>
+</ul>
+<p>Most builders start with Option A and gradually shift more sales to their own store. There's no rush to close Reverb.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If you sell on both, keep your prices the same. You don't want customers finding a lower price on one platform and feeling ripped off on the other.
+</div>`
+      }
+    ]
+  },
+  {
+    id: "domain",
+    icon: "🌐",
+    title: "Get Your Domain Name",
+    tasks: [
+      {
+        id: "choose-domain",
+        title: "Choose your domain name",
+        desc: "Pick a web address that matches your brand",
+        detail: `<p>Your domain name is your web address — like <code>nokillpedal.co</code>. Here's how to pick a good one:</p>
+<ul>
+  <li>Keep it short and easy to spell.</li>
+  <li>Match your brand name if possible.</li>
+  <li><code>.com</code> is the most common, but <code>.co</code> or <code>.shop</code> work great too.</li>
+  <li>Avoid hyphens and numbers — they're hard to say out loud.</li>
+</ul>
+<p>Test it by saying it to someone: "Check out my site at ___." If they can spell it without asking, you're good.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Search for your name on Instagram and Facebook too. You want the same name everywhere so people can find you easily.
+</div>`
+      },
+      {
+        id: "register-domain",
+        title: "Register your domain (~$10-15/year)",
+        desc: "Buy your web address from a domain registrar",
+        detail: `<p>A domain registrar is just a company that sells web addresses. Good options:</p>
+<ul>
+  <li><strong>Shopify Domains</strong> — Easiest option. Buy it right inside Shopify and it connects automatically. No extra setup.</li>
+  <li><strong>Namecheap</strong> — Popular, affordable, good support. Usually around $10/year for a .com.</li>
+  <li><strong>Cloudflare Registrar</strong> — Sells domains at cost (no markup). Slightly more technical but cheapest long-term.</li>
+  <li><strong>Squarespace Domains</strong> — Simple interface, easy to use.</li>
+</ul>
+<p>If you don't want to deal with any technical stuff, buy through Shopify directly. It costs a couple dollars more per year but saves you the headache of connecting things manually.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Turn on auto-renew so you don't accidentally lose your domain. If it expires, someone else can buy it.
+</div>`
+      },
+      {
+        id: "connect-domain",
+        title: "Connect your domain to Shopify",
+        desc: "Point your web address to your new store",
+        detail: `<p>If you bought your domain through Shopify, skip this step — it's already connected.</p>
+<p>If you bought it somewhere else (Namecheap, Cloudflare, etc.), you need to tell it where to point. Here's how:</p>
+<ol>
+  <li>In Shopify, go to <strong>Settings</strong> &gt; <strong>Domains</strong> &gt; <strong>Connect existing domain</strong>.</li>
+  <li>Type in your domain name and click <strong>Next</strong>.</li>
+  <li>Shopify will show you DNS settings (DNS stands for Domain Name System — it's basically the internet's address book that tells browsers where to find your site).</li>
+  <li>Log into your domain registrar and find the <strong>DNS settings</strong> or <strong>Nameservers</strong> section.</li>
+  <li>Copy the settings Shopify gave you and paste them in.</li>
+  <li>Save and wait. It can take up to 48 hours, but usually works within a few hours.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If this feels confusing, just buy the domain through Shopify instead. The extra $2-3/year is worth the zero-hassle setup.
+</div>`
+      }
+    ]
+  },
+  {
+    id: "email",
+    icon: "📧",
+    title: "Set Up Your Email",
+    tasks: [
+      {
+        id: "pro-email",
+        title: "Set up a professional email address",
+        desc: "Get an email like you@yourbrand.com",
+        detail: `<p>A professional email (like <code>hello@yourbrand.com</code>) looks more legit than a Gmail address. Options:</p>
+<ul>
+  <li><strong>Shopify Email</strong> — Free forwarding. Emails sent to your domain get forwarded to your personal email. Easy to set up in Settings &gt; Domains.</li>
+  <li><strong>Google Workspace</strong> — $6/month. Full Gmail with your domain name. Best if you want to send AND receive from your brand address.</li>
+  <li><strong>Zoho Mail</strong> — Free plan for one user. Good budget option with send and receive.</li>
+</ul>
+<p>At minimum, set up email forwarding so <code>hello@yourdomain.com</code> sends messages to your personal inbox.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Start with Shopify's free forwarding. You can always upgrade to Google Workspace later when you're making more sales and want a more professional setup.
+</div>`
+      },
+      {
+        id: "update-email",
+        title: "Update your email everywhere",
+        desc: "Swap your old email for your new one on all platforms",
+        detail: `<p>Once you have your professional email, update it in these places:</p>
+<ul>
+  <li>Your Instagram bio</li>
+  <li>Your Facebook page</li>
+  <li>Any forum profiles (The Gear Page, Reddit, DIYstompboxes, etc.)</li>
+  <li>Your business cards or stickers (if you have them)</li>
+  <li>Any supplier accounts</li>
+</ul>
+<p>This keeps everything consistent and makes your brand look put-together.</p>`
+      }
+    ]
+  },
+  {
+    id: "shopify",
+    icon: "🛒",
+    title: "Build Your Shopify Store",
+    tasks: [
+      {
+        id: "create-account",
+        title: "Create your Shopify account",
+        desc: "Sign up and start your free trial",
+        detail: `<p>Go to <strong>shopify.com</strong> and sign up. Shopify usually offers a free trial (often 3 days free, then $1/month for 3 months).</p>
+<ol>
+  <li>Click <strong>Start free trial</strong>.</li>
+  <li>Enter your email, password, and store name.</li>
+  <li>Answer the quick setup questions — pick "I'm just starting" if asked.</li>
+  <li>You'll land on your Shopify dashboard (called the "admin").</li>
+</ol>
+<p>The <strong>Basic</strong> plan ($39/month after trial) is all you need to start.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Don't stress about the plan right now. Use the trial period to build everything, then pick a plan when you're ready to launch.
+</div>`
+      },
+      {
+        id: "pick-theme",
+        title: "Pick and customize your theme",
+        desc: "Choose how your store looks",
+        detail: `<p>A theme controls the visual design of your store. Shopify gives you free ones.</p>
+<ol>
+  <li>In your Shopify admin, go to <strong>Online Store</strong> &gt; <strong>Themes</strong>.</li>
+  <li>Click <strong>Explore free themes</strong>.</li>
+  <li>Good picks for pedal builders: <strong>Dawn</strong> (clean, modern), <strong>Craft</strong> (handmade vibe), or <strong>Sense</strong> (bold).</li>
+  <li>Click <strong>Add</strong>, then <strong>Customize</strong> to start editing.</li>
+</ol>
+<p>Don't overthink this — you can always change it later. Just pick something clean and start adding your content.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Keep it simple. A clean, fast-loading store with great product photos will outsell a fancy, cluttered one every time.
+</div>`
+      },
+      {
+        id: "add-products",
+        title: "Add your products",
+        desc: "Create a listing for each pedal you sell",
+        detail: `<p>For each pedal:</p>
+<ol>
+  <li>Go to <strong>Products</strong> &gt; <strong>Add product</strong>.</li>
+  <li>Add the <strong>title</strong> (pedal name).</li>
+  <li>Write a <strong>description</strong> — keep it conversational. Talk about what the pedal sounds like, who it's for, and what makes it special.</li>
+  <li>Upload your <strong>photos</strong> (the ones you saved from Reverb). First photo is the main one customers see.</li>
+  <li>Set the <strong>price</strong>.</li>
+  <li>Set <strong>inventory</strong> — track quantity if you make them in batches, or uncheck "Track quantity" if you build to order.</li>
+  <li>Add <strong>weight</strong> for shipping calculations.</li>
+  <li>Click <strong>Save</strong>.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  For descriptions, talk like you'd talk to another player at a jam. "This thing cleans up beautifully with your volume knob" beats "Features unity gain bypass architecture."
+</div>`
+      },
+      {
+        id: "collections",
+        title: "Create collections",
+        desc: "Group your pedals into categories",
+        detail: `<p>Collections are groups of products (like "Overdrives," "Fuzz," "All Pedals"). They help customers browse.</p>
+<ol>
+  <li>Go to <strong>Products</strong> &gt; <strong>Collections</strong>.</li>
+  <li>Click <strong>Create collection</strong>.</li>
+  <li>Name it (e.g., "Overdrive Pedals").</li>
+  <li>Choose <strong>Manual</strong> — this lets you hand-pick which products go in.</li>
+  <li>Add the relevant products.</li>
+  <li>Create at least an "All Pedals" collection and one per category.</li>
+</ol>`
+      },
+      {
+        id: "tags",
+        title: "Add tags to your products",
+        desc: "Tags help with filtering and organization",
+        detail: `<p>Tags are labels you add to products so customers can filter them. For example: "overdrive," "fuzz," "germanium," "silicon," "under-200."</p>
+<ol>
+  <li>Open a product in your Shopify admin.</li>
+  <li>Scroll down to <strong>Tags</strong> on the right side.</li>
+  <li>Type a tag and press Enter. Add several relevant tags per product.</li>
+  <li>Click <strong>Save</strong>.</li>
+</ol>
+<p>Keep your tags consistent — always use "overdrive" not sometimes "OD" and sometimes "overdrive."</p>`
+      },
+      {
+        id: "navigation",
+        title: "Set up your navigation menus",
+        desc: "Create the links at the top and bottom of your site",
+        detail: `<p>Navigation is the menu at the top of your store. Customers use it to find things.</p>
+<ol>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Navigation</strong>.</li>
+  <li>Click <strong>Main menu</strong>.</li>
+  <li>Add links to: your collections (e.g., "All Pedals," "Overdrive"), your About page, and your Contact page.</li>
+  <li>Keep it simple — 4-6 links maximum.</li>
+</ol>
+<p>Also set up the <strong>Footer menu</strong> with links to: Shipping Policy, Return Policy, Contact, and FAQ.</p>`
+      },
+      {
+        id: "collection-pages",
+        title: "Design your collection pages",
+        desc: "Make your product grid look good",
+        detail: `<p>Collection pages show a grid of products. You can customize how they look:</p>
+<ol>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Themes</strong> &gt; <strong>Customize</strong>.</li>
+  <li>In the top dropdown, switch to a <strong>Collection page</strong>.</li>
+  <li>Adjust the grid layout (how many products per row).</li>
+  <li>Make sure product images are consistent in size — square photos work best for grids.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Shoot all your pedal photos on the same background with the same lighting. This makes your collection pages look professional, even with just a few products.
+</div>`
+      },
+      {
+        id: "product-pages",
+        title: "Polish your product pages",
+        desc: "Make each pedal page convincing",
+        detail: `<p>Each product page is a sales page. Make it count:</p>
+<ul>
+  <li><strong>Multiple photos</strong> — front, back, side, guts shot, on a pedalboard.</li>
+  <li><strong>Clear description</strong> — what it sounds like, what it pairs well with, what makes it unique.</li>
+  <li><strong>Specs section</strong> — power requirements, dimensions, bypass type, etc.</li>
+  <li><strong>Demo video</strong> — embed a YouTube video if you have one (paste the link in the description using the video embed button).</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  A good guts shot builds trust. Pedal people love seeing clean wiring and quality components. It shows you care about the build, not just the enclosure.
+</div>`
+      },
+      {
+        id: "homepage",
+        title: "Build your homepage",
+        desc: "Create a welcoming front page",
+        detail: `<p>Your homepage is the first thing most visitors see. Keep it focused:</p>
+<ol>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Themes</strong> &gt; <strong>Customize</strong>.</li>
+  <li>Add a <strong>hero image</strong> (a big banner photo) — a great shot of your flagship pedal or your workbench.</li>
+  <li>Add a <strong>Featured collection</strong> section showing your pedals.</li>
+  <li>Add a short <strong>About</strong> blurb — who you are and why you build.</li>
+  <li>Keep it to 3-4 sections. Don't overload it.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Your story matters. Buyers on your own site want to know the person behind the pedals. A short, honest "About" section goes a long way.
+</div>`
+      },
+      {
+        id: "payments",
+        title: "Set up payments",
+        desc: "Connect Shopify Payments so you can get paid",
+        detail: `<p>You need to tell Shopify how to send you money.</p>
+<ol>
+  <li>Go to <strong>Settings</strong> &gt; <strong>Payments</strong>.</li>
+  <li>Click <strong>Activate Shopify Payments</strong>.</li>
+  <li>Enter your business info, bank account, and tax details.</li>
+  <li>This gives your customers credit card, Apple Pay, Google Pay, and Shop Pay options.</li>
+</ol>
+<p>Shopify Payments has no extra transaction fees (beyond the standard credit card processing rate of ~2.9% + 30 cents).</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Also enable <strong>PayPal</strong> as a backup — some customers prefer it and it takes about two minutes to set up in the same Payments section.
+</div>`
+      },
+      {
+        id: "shipping",
+        title: "Configure shipping rates",
+        desc: "Set up how much you charge for shipping",
+        detail: `<p>Go to <strong>Settings</strong> &gt; <strong>Shipping and delivery</strong>. You have a few options:</p>
+<ul>
+  <li><strong>Flat rate</strong> — Charge the same amount for every order (e.g., $8 shipping). Simple and predictable.</li>
+  <li><strong>Free shipping</strong> — Build the cost into your pedal price. Customers love "free shipping."</li>
+  <li><strong>Calculated rates</strong> — Shopify calculates based on weight and destination. Accurate but can surprise customers with high costs.</li>
+</ul>
+<p>Most small pedal builders do best with flat-rate or free shipping.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If your pedals are all roughly the same size and weight, flat rate is the easiest. Just weigh a boxed-up pedal and check USPS Priority Mail pricing to set your rate.
+</div>`
+      },
+      {
+        id: "essential-pages",
+        title: "Create essential pages",
+        desc: "Add About, Contact, Shipping Policy, and Return Policy pages",
+        detail: `<p>Every store needs a few basic pages. Go to <strong>Online Store</strong> &gt; <strong>Pages</strong> and create:</p>
+<ul>
+  <li><strong>About</strong> — Your story. Why you build pedals. A photo of you or your workspace.</li>
+  <li><strong>Contact</strong> — Use Shopify's built-in contact form (select "contact" as the page template).</li>
+  <li><strong>Shipping Policy</strong> — How fast you ship, what carrier you use, international shipping (yes/no).</li>
+  <li><strong>Return Policy</strong> — Be clear. Most builders do "no returns on custom orders, 14-day return on stock pedals."</li>
+  <li><strong>FAQ</strong> — Answer common questions: power supply, warranty, build times, etc.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Shopify has free policy generators in Settings &gt; Policies. They give you a starting template you can customize. Saves a lot of writing.
+</div>`
+      },
+      {
+        id: "test-order",
+        title: "Place a test order",
+        desc: "Make sure everything works before going live",
+        detail: `<p>Before you launch, buy something from your own store to make sure it all works.</p>
+<ol>
+  <li>In Shopify admin, go to <strong>Settings</strong> &gt; <strong>Payments</strong>.</li>
+  <li>Scroll down and enable <strong>Bogus Gateway</strong> (this is a fake payment method for testing).</li>
+  <li>Go to your store, add a product to cart, and check out.</li>
+  <li>Use the test credit card numbers Shopify provides.</li>
+  <li>Complete the order and check that you get a confirmation email.</li>
+  <li>Go back to Settings &gt; Payments and switch back to <strong>Shopify Payments</strong> when done.</li>
+</ol>
+<p>This confirms your checkout, emails, and shipping are all working correctly.</p>`
+      }
+    ]
+  },
+  {
+    id: "instagram",
+    icon: "📸",
+    title: "Set Up Instagram",
+    tasks: [
+      {
+        id: "create-ig",
+        title: "Create your Instagram account",
+        desc: "Set up a dedicated account for your pedal brand",
+        detail: `<p>If you don't already have a brand Instagram, create one:</p>
+<ol>
+  <li>Download Instagram (or use the website).</li>
+  <li>Sign up with your <strong>professional email</strong> (the one you set up earlier).</li>
+  <li>Use your <strong>brand name</strong> as the username. Keep it identical to your domain if possible.</li>
+  <li>Add a profile photo — your logo or a photo of your flagship pedal.</li>
+</ol>`
+      },
+      {
+        id: "business-ig",
+        title: "Switch to a Business account",
+        desc: "Unlock analytics and the ability to run ads",
+        detail: `<p>A Business account is free and gives you useful features:</p>
+<ol>
+  <li>Go to your profile, tap the <strong>three lines</strong> (hamburger menu) in the top right.</li>
+  <li>Tap <strong>Settings and privacy</strong>.</li>
+  <li>Tap <strong>Account type and tools</strong> &gt; <strong>Switch to professional account</strong>.</li>
+  <li>Choose <strong>Business</strong> (not Creator).</li>
+  <li>Pick a category like "Musical Instrument Store" or "Shopping & Retail."</li>
+</ol>
+<p>This gives you access to analytics (called Insights), the ability to boost posts, and lets you add a contact button and shop link to your profile.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  You need a Business account to run ads or boost posts later. Do this step now even if you're not planning to advertise yet.
+</div>`
+      },
+      {
+        id: "optimize-profile",
+        title: "Optimize your profile",
+        desc: "Make your bio clear and link to your store",
+        detail: `<p>Your Instagram bio is prime real estate. Make it count:</p>
+<ul>
+  <li><strong>Name field:</strong> Your brand name + what you do. Example: "NOKILL Pedal Co | Handbuilt Pedals"</li>
+  <li><strong>Bio:</strong> One sentence about what you build, one about where to buy. Keep it short.</li>
+  <li><strong>Link:</strong> Your Shopify store URL. Use Linkpop (Shopify's free link-in-bio tool) if you want multiple links.</li>
+  <li><strong>Contact button:</strong> Add your professional email.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Don't waste your bio on a quote or emoji art. People land on your profile for 3 seconds. Tell them what you make and where to buy it.
+</div>`
+      },
+      {
+        id: "first-posts",
+        title: "Post your first 9 photos",
+        desc: "Fill your grid so your profile doesn't look empty",
+        detail: `<p>When someone visits your profile, they see your grid. An empty grid looks abandoned. Post 9 photos before you start promoting:</p>
+<ul>
+  <li>3 product shots (clean, well-lit photos of your pedals)</li>
+  <li>2 process shots (building, soldering, testing on the bench)</li>
+  <li>2 "in action" shots (pedal on a board, at a gig, in a studio)</li>
+  <li>1 workbench/workspace shot</li>
+  <li>1 about-you shot (your hands working, a tool you love, your story)</li>
+</ul>
+<p>Write real captions. Talk about what you're building, why you chose certain components, or what inspired the design.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  You can post all 9 in one day — just space them out over a few hours. After that, aim for 3-4 posts per week to stay visible.
+</div>`
+      }
+    ]
+  },
+  {
+    id: "boost",
+    icon: "🚀",
+    title: "Boost Your Instagram Posts",
+    tasks: [
+      {
+        id: "what-is-boost",
+        title: "Understand what boosting is",
+        desc: "Boosting = paying to show your post to more people",
+        detail: `<p>Boosting is the simplest form of Instagram advertising. Here's how it works:</p>
+<ul>
+  <li>You pick a post you've already published.</li>
+  <li>You pay Instagram to show it to more people beyond your followers.</li>
+  <li>You choose who sees it (age, location, interests) and how much to spend.</li>
+  <li>It runs for a set number of days, then stops automatically.</li>
+</ul>
+<p>Think of it like putting a flyer on a bigger bulletin board. Your post is the flyer — boosting just puts it in front of more eyes.</p>
+<div class="info-box">
+  <strong>How much does it cost?</strong> You set your own budget. You can boost a post for as little as $5-10 for a few days. Most pedal builders spend $20-50 per boost to start.
+</div>`
+      },
+      {
+        id: "pick-post",
+        title: "Pick the right post to boost",
+        desc: "Not every post is worth boosting",
+        detail: `<p>Boost posts that already perform well organically (without paying). Signs of a good post to boost:</p>
+<ul>
+  <li>It got more likes or comments than your average post.</li>
+  <li>It shows your pedal clearly — not a blurry photo or a meme.</li>
+  <li>It has a clear call to action ("Link in bio" or "Available now").</li>
+  <li>It's a demo video or a high-quality product shot.</li>
+</ul>
+<p>Don't boost random posts. Boost the ones that already resonate with your audience.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Short demo videos (15-30 seconds of just the pedal sound) tend to perform the best as boosted posts. Guitarists stop scrolling when they hear a good tone.
+</div>`
+      },
+      {
+        id: "boost-walkthrough",
+        title: "Step-by-step: boost a post",
+        desc: "Follow these exact steps to set up your first boost",
+        detail: `<p>Here's exactly how to do it:</p>
+<ol>
+  <li>Open Instagram and go to the post you want to boost.</li>
+  <li>Tap the <strong>Boost post</strong> button below the image.</li>
+  <li><strong>Choose your goal:</strong>
+    <ul>
+      <li><strong>"More website visits"</strong> — Pick this one. It sends people to your store.</li>
+      <li>Set the destination to your Shopify store URL.</li>
+    </ul>
+  </li>
+  <li><strong>Choose your audience:</strong>
+    <ul>
+      <li>Select <strong>"Create your own"</strong> audience.</li>
+      <li><strong>Interests:</strong> Add "guitar pedals," "electric guitar," "pedalboard," "guitar effects."</li>
+      <li><strong>Age:</strong> 21-55 works well for pedal buyers.</li>
+      <li><strong>Location:</strong> United States (or wherever you ship).</li>
+    </ul>
+  </li>
+  <li><strong>Set your budget:</strong>
+    <ul>
+      <li>Start with <strong>$5/day for 5 days = $25 total</strong>. That's a good test.</li>
+      <li>You can always increase it later if it works well.</li>
+    </ul>
+  </li>
+  <li>Review everything and tap <strong>Boost post</strong>.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Your first boost is a test. Don't spend $100 right away. Spend $25, see what happens, learn from the results, then try again with tweaks.
+</div>`
+      },
+      {
+        id: "read-results",
+        title: "Read your boost results",
+        desc: "Understand what the numbers mean",
+        detail: `<p>After your boost ends (or while it's running), tap <strong>View Insights</strong> on the boosted post. Here's what the numbers mean:</p>
+<ul>
+  <li><strong>Reach</strong> — How many unique people saw your post. Higher is better.</li>
+  <li><strong>Impressions</strong> — Total times your post was shown (one person might see it twice).</li>
+  <li><strong>Website clicks</strong> — How many people tapped through to your store. This is the most important number.</li>
+  <li><strong>Cost per click</strong> — How much you paid for each store visit. Under $1 is great, under $2 is decent.</li>
+  <li><strong>Engagement</strong> — Likes, comments, saves. These are nice but clicks matter more.</li>
+</ul>
+<div class="info-box">
+  <strong>Quick math:</strong> If you spent $25 and got 30 website clicks, that's about $0.83 per click. If 1 in 30 visitors buys a $150 pedal, you spent $25 to make a $150 sale. That's a great return.
+</div>`
+      },
+      {
+        id: "boost-mistakes",
+        title: "Common boosting mistakes to avoid",
+        desc: "Learn from other builders' mistakes",
+        detail: `<p>Don't waste money on these common mistakes:</p>
+<ul>
+  <li><strong>Boosting a bad photo.</strong> If the photo isn't eye-catching, no amount of money will fix it.</li>
+  <li><strong>Picking "More profile visits" as your goal.</strong> You want store visits, not profile visits. Always choose "More website visits."</li>
+  <li><strong>Targeting too broad.</strong> "People interested in music" is too wide. Narrow it to guitar-specific interests.</li>
+  <li><strong>Targeting too narrow.</strong> If your audience is under 10,000 people, it's too small. Aim for 100,000-500,000.</li>
+  <li><strong>Giving up after one boost.</strong> Your first boost is a learning experience. Try 3-4 different posts with different audiences before deciding if boosting works for you.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Keep a simple note of each boost: which post, how much you spent, how many clicks, any sales. After a few boosts, you'll see patterns in what works.
+</div>`
+      }
+    ]
+  },
+  {
+    id: "pixel",
+    icon: "🔗",
+    title: "Connect Shopify Pixel to Instagram",
+    tasks: [
+      {
+        id: "install-fb-channel",
+        title: "Install the Facebook & Instagram sales channel",
+        desc: "This free Shopify app connects your store to Meta (Facebook/Instagram)",
+        detail: `<p>The "Facebook & Instagram" sales channel is a free app built into Shopify that connects your store to Meta (the company that owns Facebook and Instagram).</p>
+<ol>
+  <li>In your Shopify admin, go to <strong>Sales channels</strong> in the left sidebar.</li>
+  <li>Click the <strong>+</strong> button next to "Sales channels."</li>
+  <li>Find <strong>Facebook & Instagram</strong> and click <strong>Add channel</strong>.</li>
+  <li>Follow the prompts to connect — it will ask you to log into your Facebook account.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  You need a Facebook page for your brand to do this, even if you never post on Facebook. Just create a basic one with your brand name and logo — it takes 5 minutes.
+</div>`
+      },
+      {
+        id: "connect-meta",
+        title: "Connect Meta Business Suite",
+        desc: "Link your Instagram Business account to Shopify",
+        detail: `<p>Meta Business Suite is the dashboard where Facebook and Instagram advertising is managed. During the sales channel setup:</p>
+<ol>
+  <li>Shopify will prompt you to connect to <strong>Meta Business Suite</strong>.</li>
+  <li>Log in with the Facebook account that manages your Instagram Business page.</li>
+  <li>Select your <strong>Facebook Page</strong> and <strong>Instagram account</strong> from the dropdowns.</li>
+  <li>Agree to the terms and click <strong>Connect</strong>.</li>
+</ol>
+<p>If you don't have a Meta Business Suite account, it will create one for you automatically during this process.</p>`
+      },
+      {
+        id: "what-is-pixel",
+        title: "Understand what the pixel does",
+        desc: "The pixel tracks visitors so you can advertise to them later",
+        detail: `<p>The <strong>Meta Pixel</strong> is a tiny piece of tracking code (called a "pixel" because it's literally a 1x1 invisible image) that Shopify adds to your store. Here's what it does in plain English:</p>
+<ul>
+  <li>When someone visits your store, the pixel quietly notes "this person was here."</li>
+  <li>When they look at a product, it notes "they looked at this pedal."</li>
+  <li>When they add to cart or buy, it notes that too.</li>
+  <li>Later, when you boost a post or run an ad, Instagram can show it to those specific people.</li>
+</ul>
+<p>This is called <strong>retargeting</strong> — showing ads to people who already showed interest. It's much more effective than showing ads to random strangers.</p>
+<div class="info-box">
+  <strong>Is this creepy?</strong> It's the same technology every online store uses. Shopify handles it all — you don't write any code or touch anything technical.
+</div>`
+      },
+      {
+        id: "verify-pixel",
+        title: "Verify the pixel is working",
+        desc: "Make sure the tracking code is actually running on your store",
+        detail: `<p>After connecting everything, verify it's working:</p>
+<ol>
+  <li>In Shopify, go to the <strong>Facebook & Instagram</strong> sales channel.</li>
+  <li>Look for a <strong>Data sharing</strong> or <strong>Pixel</strong> section.</li>
+  <li>It should show a green status or "Active."</li>
+  <li>For extra confidence: install the <strong>Meta Pixel Helper</strong> browser extension (free, for Chrome).</li>
+  <li>Visit your own store — the extension will show a green icon if the pixel is firing.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Set your data sharing level to <strong>Enhanced</strong> or <strong>Maximum</strong> in the Facebook & Instagram channel settings. This gives the pixel more data to work with, which makes your ads smarter over time.
+</div>`
+      },
+      {
+        id: "retargeting-audiences",
+        title: "Set up retargeting audiences",
+        desc: "Create groups of people to show ads to later",
+        detail: `<p>Now that the pixel is collecting data, you can create "audiences" — groups of people based on what they did on your site.</p>
+<ol>
+  <li>Go to <strong>Meta Business Suite</strong> (business.facebook.com).</li>
+  <li>Navigate to <strong>Audiences</strong> (under All Tools &gt; Audiences).</li>
+  <li>Click <strong>Create audience</strong> &gt; <strong>Custom audience</strong> &gt; <strong>Website</strong>.</li>
+  <li>Create these audiences:
+    <ul>
+      <li><strong>"All visitors - 30 days"</strong> — Anyone who visited your store in the last 30 days.</li>
+      <li><strong>"Viewed product - 14 days"</strong> — People who looked at a product page recently.</li>
+      <li><strong>"Added to cart - 7 days"</strong> — People who added something to cart but didn't buy (these are HOT leads).</li>
+    </ul>
+  </li>
+</ol>
+<p>These audiences won't have many people in them at first. That's normal. As your store gets more traffic, they'll grow, and your ads will get more effective.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  The "added to cart but didn't buy" audience is gold. A simple boosted post that reminds them about the pedal they almost bought can recover a surprising number of sales.
+</div>`
+      }
+    ]
+  },
+  {
+    id: "sales",
+    icon: "💰",
+    title: "Increase Your Sales",
+    tasks: [
+      {
+        id: "email-marketing",
+        title: "Set up email marketing with Shopify Email",
+        desc: "Send emails to past customers and subscribers",
+        detail: `<p>Email is one of the highest-converting marketing channels. Shopify Email is built in and free for up to 10,000 emails/month.</p>
+<ol>
+  <li>Go to <strong>Marketing</strong> &gt; <strong>Campaigns</strong> in your Shopify admin.</li>
+  <li>Click <strong>Create campaign</strong> &gt; <strong>Shopify Email</strong>.</li>
+  <li>Pick a template and customize it with your branding.</li>
+  <li>Add a <strong>newsletter signup form</strong> to your store (most themes have this built in — check your theme settings under "Footer" or "Newsletter").</li>
+</ol>
+<p>What to email about:</p>
+<ul>
+  <li>New pedal launches</li>
+  <li>Limited drops and restocks</li>
+  <li>Behind-the-scenes build updates</li>
+  <li>Special offers for subscribers</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Don't email every day. Once every week or two is enough. Make every email worth opening — if you wouldn't want to read it, don't send it.
+</div>`
+      },
+      {
+        id: "limited-drops",
+        title: "Use limited drops and urgency",
+        desc: "Create excitement with small batches",
+        detail: `<p>Limited drops work incredibly well for pedal builders because you genuinely build in small batches. Use that to your advantage:</p>
+<ul>
+  <li><strong>Announce a specific quantity:</strong> "I built 5 of these. When they're gone, they're gone."</li>
+  <li><strong>Set a drop date and time:</strong> "Available Friday at noon ET." This creates anticipation.</li>
+  <li><strong>Tease it ahead of time:</strong> Post build progress photos leading up to the drop.</li>
+  <li><strong>Use Shopify's inventory tracking</strong> to show "Only 2 left" on the product page.</li>
+</ul>
+<p>This isn't fake scarcity — you actually only have 5. That's the beauty of being a small builder.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Email your list AND post on Instagram when you drop. Hit both channels at the same time for maximum impact.
+</div>`
+      },
+      {
+        id: "reviews",
+        title: "Collect customer reviews with Judge.me",
+        desc: "Social proof helps new customers trust you",
+        detail: `<p>Reviews from real buyers are incredibly powerful. <strong>Judge.me</strong> is a free Shopify app that automatically asks customers for reviews after they receive their pedal.</p>
+<ol>
+  <li>In Shopify, go to <strong>Apps</strong> &gt; <strong>Shopify App Store</strong>.</li>
+  <li>Search for <strong>Judge.me</strong> and install the free plan.</li>
+  <li>Follow the setup wizard — it will add review sections to your product pages.</li>
+  <li>Configure it to send a review request email <strong>14 days after delivery</strong> (gives them time to play with the pedal).</li>
+</ol>
+<p>Once you have 5-10 reviews, they start doing the selling for you. New visitors see that real people love your pedals.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Include a small card in your packaging that says "Love your new pedal? Leave a review!" with a QR code linking to your store. Personal touches like this boost review rates.
+</div>`
+      },
+      {
+        id: "bundles",
+        title: "Offer bundles and cross-sells",
+        desc: "Increase your average order value",
+        detail: `<p>Getting a customer to buy two pedals is cheaper than finding two separate customers. Try these tactics:</p>
+<ul>
+  <li><strong>Bundles:</strong> Offer a discount when someone buys two or more pedals together. Create a separate product listing for the bundle.</li>
+  <li><strong>Patch cables / accessories:</strong> Sell small add-ons. Even a $5 sticker or patch cable adds up.</li>
+  <li><strong>"Pairs well with"</strong> — In your product descriptions, mention which of your other pedals stack well with this one.</li>
+</ul>
+<p>You can also use Shopify's <strong>automatic discounts</strong> (Settings &gt; Discounts) to create "Buy 2, save 10%" deals.</p>`
+      },
+      {
+        id: "seo",
+        title: "Product page SEO basics",
+        desc: "Help people find your pedals on Google",
+        detail: `<p>SEO (Search Engine Optimization) means making your pages show up when people search on Google. The basics are simple:</p>
+<ul>
+  <li><strong>Product titles:</strong> Include what it is. "Thunderclap Overdrive Pedal" is better than just "Thunderclap."</li>
+  <li><strong>Descriptions:</strong> Write at least 100 words. Use natural language that includes terms people search for: "overdrive pedal," "handmade," "boutique," your pedal name.</li>
+  <li><strong>Image alt text:</strong> When you upload photos, add a description in the alt text field (e.g., "Thunderclap overdrive guitar pedal - front view"). This helps Google understand your images.</li>
+  <li><strong>Page title and meta description:</strong> Scroll down on each product page to the "Search engine listing" section and customize the title and description.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  SEO is a long game. It takes months to start showing up in search results. Do the basics now and let it build over time while you focus on Instagram and email.
+</div>`
+      },
+      {
+        id: "community",
+        title: "Join pedal communities",
+        desc: "Build relationships on Reddit, TGP, and Facebook groups",
+        detail: `<p>The pedal community is tight-knit. Being part of it helps people discover your brand:</p>
+<ul>
+  <li><strong>Reddit:</strong> Join r/guitarpedals, r/diypedals, and r/letstradepedals. Be helpful, share build photos, answer questions. Don't just post ads.</li>
+  <li><strong>The Gear Page (TGP):</strong> The "Effects" subforum is full of pedal enthusiasts. Participate in discussions before promoting.</li>
+  <li><strong>Facebook Groups:</strong> Search for guitar pedal buy/sell/trade groups and gear-specific groups.</li>
+  <li><strong>DIYstompboxes.com:</strong> Great if you want to connect with other builders.</li>
+</ul>
+<p>The rule everywhere: give more than you take. Be a community member first, a seller second.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  When someone on Reddit asks "what overdrive should I get?" and your pedal is genuinely a good answer, mention it — but be transparent that you're the builder. People respect honesty.
+</div>`
+      },
+      {
+        id: "repeat-customers",
+        title: "Build repeat customer strategies",
+        desc: "Turn one-time buyers into lifelong fans",
+        detail: `<p>Repeat customers are the backbone of a sustainable pedal business. Here's how to keep them coming back:</p>
+<ul>
+  <li><strong>Follow-up email:</strong> Two weeks after delivery, send a personal email asking how they like the pedal. This builds a relationship, not just a transaction.</li>
+  <li><strong>Early access:</strong> Give past customers first dibs on new drops. They feel special, and they convert at higher rates.</li>
+  <li><strong>Loyalty discount:</strong> Offer a small discount code in their order confirmation for their next purchase (e.g., "THANKS10" for 10% off).</li>
+  <li><strong>Handwritten notes:</strong> Include a short thank-you note in every package. This is surprisingly effective and costs nothing.</li>
+  <li><strong>Social engagement:</strong> When customers post photos of your pedal on their board, like, comment, and reshare. Make them feel like part of the brand.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  A handwritten note and a sticker cost you under $0.50 but create a lasting impression. Some builders even include a pick or a piece of candy. Small touches make people talk about your brand.
+</div>`
+      }
+    ]
+  },
+  {
+    id: "launch",
+    icon: "🎸",
+    title: "Final Checks Before Launch",
+    tasks: [
+      {
+        id: "final-test",
+        title: "Place one more test order",
+        desc: "Double-check everything works end-to-end",
+        detail: `<p>Before you announce your store to the world, do one final test:</p>
+<ol>
+  <li>Open your store in a private/incognito browser window (so you see it as a new visitor would).</li>
+  <li>Browse your products — do the photos load? Are descriptions clear?</li>
+  <li>Add a product to cart and go through checkout (use Bogus Gateway again).</li>
+  <li>Check the confirmation email — does it look professional?</li>
+  <li>Verify your shipping rates look right at checkout.</li>
+  <li>Click every link in your navigation — make sure nothing is broken.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Ask a friend to browse your store and try to buy something (use a test mode). Fresh eyes catch things you've gone blind to after building it yourself.
+</div>`
+      },
+      {
+        id: "mobile-check",
+        title: "Check your store on mobile",
+        desc: "Most of your traffic will come from phones",
+        detail: `<p>Over 70% of Instagram traffic goes to mobile. Your store HAS to look good on a phone.</p>
+<ol>
+  <li>Open your store on your phone.</li>
+  <li>Check: Can you read the text without zooming? Do photos look good? Is the "Add to cart" button easy to tap?</li>
+  <li>Go through the full checkout process on your phone.</li>
+  <li>Check it on both a small phone and a larger one if you can.</li>
+</ol>
+<p>If anything looks cramped, cut-off, or hard to tap, go back to your theme editor and adjust. Most Shopify themes are responsive (they adapt to screen size) but sometimes things need tweaking.</p>`
+      },
+      {
+        id: "announce-launch",
+        title: "Announce your launch",
+        desc: "Tell the world your store is open",
+        detail: `<p>You've done the work. Now it's time to tell people. Launch day plan:</p>
+<ol>
+  <li><strong>Instagram post:</strong> Post a great product shot with a caption announcing your new store. Include the link in your bio.</li>
+  <li><strong>Instagram Stories:</strong> Post 3-5 stories throughout the day — your store, products, behind the scenes.</li>
+  <li><strong>Email your list:</strong> If you have email subscribers, send a launch announcement.</li>
+  <li><strong>Tell your communities:</strong> Post in the Reddit, TGP, and Facebook groups you're part of (check each group's self-promotion rules first).</li>
+  <li><strong>Text your friends:</strong> Seriously. Word of mouth matters, especially on day one.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Consider offering a small launch-day discount (10-15% off or free shipping) to drive those first few sales. Early sales mean early reviews, which fuel more sales.
+</div>`
+      }
+    ]
+  }
+];
+
+// Count total tasks
+const TOTAL = SECTIONS.reduce((sum, s) => sum + s.tasks.length, 0);
+const STORAGE_KEY = 'nokill-guide-progress';
+
+function loadProgress() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch { return {}; }
+}
+function saveProgress(p) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+}
+
+function render() {
+  const progress = loadProgress();
+  const container = document.getElementById('sections');
+  container.innerHTML = '';
+
+  let completedTotal = 0;
+
+  SECTIONS.forEach((section, si) => {
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'section';
+
+    const completedInSection = section.tasks.filter(t => progress[t.id]).length;
+    completedTotal += completedInSection;
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `
+      <span class="section-icon">${section.icon}</span>
+      <div class="section-info">
+        <div class="section-title">${section.title}</div>
+        <div class="section-meta">${completedInSection} / ${section.tasks.length} tasks completed</div>
+      </div>
+      <span class="section-chevron">&#9660;</span>
+    `;
+    header.addEventListener('click', () => {
+      sectionEl.classList.toggle('open');
+    });
+    sectionEl.appendChild(header);
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'section-body';
+
+    section.tasks.forEach(task => {
+      const taskEl = document.createElement('div');
+      taskEl.className = 'task' + (progress[task.id] ? ' completed' : '');
+
+      const row = document.createElement('div');
+      row.className = 'task-row';
+      row.innerHTML = `
+        <div class="task-checkbox">
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 6L5 9L10 3" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+        </div>
+        <div class="task-content">
+          <div class="task-title">${task.title}</div>
+          <div class="task-desc">${task.desc}</div>
+        </div>
+        <button class="task-expand-btn" title="Show details">details</button>
+      `;
+
+      // Checkbox toggle
+      const checkbox = row.querySelector('.task-checkbox');
+      checkbox.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const p = loadProgress();
+        p[task.id] = !p[task.id];
+        saveProgress(p);
+        render();
+      });
+
+      // Detail panel
+      const detail = document.createElement('div');
+      detail.className = 'task-detail';
+      detail.innerHTML = task.detail;
+
+      const expandBtn = row.querySelector('.task-expand-btn');
+      expandBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        detail.classList.toggle('open');
+        expandBtn.textContent = detail.classList.contains('open') ? 'hide' : 'details';
+      });
+
+      taskEl.appendChild(row);
+      taskEl.appendChild(detail);
+      body.appendChild(taskEl);
+    });
+
+    sectionEl.appendChild(body);
+    container.appendChild(sectionEl);
+  });
+
+  // Update progress
+  const pct = TOTAL > 0 ? Math.round((completedTotal / TOTAL) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = completedTotal + ' / ' + TOTAL + ' tasks';
+
+  // Completion banner
+  const banner = document.getElementById('completionBanner');
+  if (completedTotal === TOTAL) {
+    banner.classList.add('show');
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function resetProgress() {
+  if (confirm('Reset all progress? This cannot be undone.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    render();
+  }
+}
+
+// Initial render
+render();
+
+// Open first section with incomplete tasks
+const progress = loadProgress();
+const sections = document.querySelectorAll('.section');
+for (let i = 0; i < SECTIONS.length; i++) {
+  const hasIncomplete = SECTIONS[i].tasks.some(t => !progress[t.id]);
+  if (hasIncomplete) {
+    sections[i].classList.add('open');
+    break;
+  }
+}
+</script>
+
+</body>
+</html>
