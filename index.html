@@ -680,6 +680,25 @@
                 'FS2 = FSW2 (per SW3 mode)'
             ]
         },
+        awoo: {
+            name: 'A.W.O.O. — Auto Wah Octave Overload',
+            file: 'awoo.bin',
+            desc: 'Makes your guitar bark like a dog. A formant filter bank and an envelope reshaper chop your signal into short, pitch-bent bark bursts, with a sub-octave for chest rumble and a glitch stutter for broken-speaker grit.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Bark (formant filter depth)',
+                'KNOB 3 = Rate (bark burst speed)',
+                'KNOB 4 = Size (dog size — formant pitch)',
+                'KNOB 5 = Sub (sub-octave chest rumble)',
+                'KNOB 6 = Decay (bark length)',
+                'SW1 = Bark style (single woof / rapid yap)',
+                'SW2 = Trigger (pick attack / LFO auto-bark)',
+                'SW3 = FSW2 mode (howl / growl)',
+                'SW4 = Glitch stutter on/off',
+                'FS1 = Bypass',
+                'FS2 = FSW2 (howl or growl, per SW3)'
+            ]
+        },
         fuzz_destroyer_funbox: {
             name: 'Fuzz Destroyer (FunBox)',
             file: 'fuzz_destroyer_funbox.bin',
@@ -1046,6 +1065,54 @@
                 'FS1+FS2 hold 0.5s = Expression Set Mode',
                 'FS1+FS2 hold 2s = Clear expression mappings',
                 'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = FSW2, Note On = mapped per DIP switches',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        awoo_hothouse: {
+            name: 'A.W.O.O. — Auto Wah Octave Overload (Hothouse)',
+            file: 'awoo_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'The bark machine on Hothouse hardware. Formant filter bank, envelope reshaper, sub-octave, and per-burst pitch bend, with the trigger and voice options folded into three 3-position toggles. Howl, growl, or whimper on the footswitch.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Bark (formant filter depth)',
+                'KNOB 3 = Rate (bark burst speed)',
+                'KNOB 4 = Size (dog size — formant pitch)',
+                'KNOB 5 = Sub (sub-octave chest rumble)',
+                'KNOB 6 = Decay (bark length)',
+                'TOGGLE 1 Bark style: U=single woof / M=double bark / D=rapid yap',
+                'TOGGLE 2 Trigger: U=pick attack / M=LFO auto / D=envelope follower',
+                'TOGGLE 3 FSW2 mode: U=howl / M=growl / D=whimper',
+                'FS1 (left) = FSW2 (per TOGGLE 3)',
+                'FS2 (right) = Bypass',
+                'LED 1 = FSW2 active / bark blink, LED 2 = Engaged',
+                'DFU: hold both footswitches at power-up',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        awoo_funbox: {
+            name: 'A.W.O.O. — Auto Wah Octave Overload (FunBox)',
+            file: 'awoo_funbox.bin',
+            platform: 'funbox',
+            desc: 'The full bark machine. Formant filter bank, envelope reshaper, sub-octave rumble, and per-burst pitch bend, plus DIP-enabled multi-bark, glitch stutter, and sample crush. MIDI notes trigger barks and set the formant pitch. Howl, growl, or whimper on the footswitch.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Bark (formant filter depth)',
+                'KNOB 3 = Rate (bark burst speed)',
+                'KNOB 4 = Size (dog size — formant pitch)',
+                'KNOB 5 = Sub (sub-octave chest rumble)',
+                'KNOB 6 = Decay (bark length)',
+                'SW1 Bark style: C=double bark / L=single woof / R=rapid yap',
+                'SW2 Trigger: C=LFO auto / L=pick attack / R=envelope follower',
+                'SW3 FSW2 mode: C=growl / L=howl / R=whimper',
+                'DIP1 = Multi-bark (excited dog, stacks with Rate)',
+                'DIP2 = Glitch stutter (stacks with DIP3)',
+                'DIP3 = Sample crush (stacks with DIP2)',
+                'DIP4 = MIDI bark (note triggers + sets formant, velocity = intensity)',
+                'FS1 = Bypass, FS2 = FSW2 (per SW3 mode)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = FSW2, Note On = bark (DIP4)',
                 'See full controls reference at /controls.html'
             ]
         }

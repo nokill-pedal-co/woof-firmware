@@ -304,6 +304,9 @@
             <li><a href="#sag-did-ritual-wavefolder-funbox">Sag-Dīd Ritual Wavefolder <span class="platform-tag">FunBox</span></a></li>
             <li><a href="#sag-did-ritual-wavefolder-hothouse">Sag-Dīd Ritual Wavefolder <span class="platform-tag">Hothouse</span></a></li>
             <li><a href="#sag-did-ritual-wavefolder">Sag-Dīd Ritual Wavefolder <span class="platform-tag">Terrarium</span></a></li>
+            <li><a href="#awoo-funbox">A.W.O.O. — Auto Wah Octave Overload <span class="platform-tag">FunBox</span></a></li>
+            <li><a href="#awoo-hothouse">A.W.O.O. — Auto Wah Octave Overload <span class="platform-tag">Hothouse</span></a></li>
+            <li><a href="#awoo">A.W.O.O. — Auto Wah Octave Overload <span class="platform-tag">Terrarium</span></a></li>
         </ul>
     </div>
 
@@ -1764,6 +1767,211 @@
         <div class="callout">
             <strong>Usage tip:</strong> SW1 on (sub) with Fold around 1–2 o'clock and Tilt just past noon gives a fat, harmonically rich lead. Flip SW4 on and add a little Sensitivity so the filter opens on hard picking. Set SW3 to freeze and hold FS2 to sustain a folded chord into a pad.
         </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- A.W.O.O. FUNBOX                                                      -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="awoo-funbox">
+        <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">A bark machine. A.W.O.O. takes your guitar and makes it bark like a dog: an envelope reshaper chops sustained notes into short, punchy bursts, a three-band formant filter colors each burst with the nasal "woof" vowel, and every bark gets a quick downward pitch bend on its tail. A clean sub-octave adds chest rumble, the Size knob sets the breed from yappy small dog to deep big dog, and DIP-enabled glitch and crush degrade the whole thing into a broken-walkie-talkie snarl. Hold the second footswitch to howl, growl, or whimper.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → sub-octave mix (Sub) → <strong>envelope reshaper</strong> (bark bursts, Rate/Decay) → <strong>formant filter bank</strong> (~400/800/1200 Hz, shifted by Size, blended by Bark) → <strong>pitch bend</strong> (down per burst) → glitch / crush (DIPs) → Volume → output. The reshaper gates first so the formant filters and bend shape discrete barks rather than a continuous tone.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Bark</td><td>Formant filter depth — the dry/formant blend. Low = your guitar with just a hint of nasal coloring (a subtle growl); high = the signal is fully voiced through the formant bank for a full dog bark.</td></tr>
+            <tr><td>KNOB 3</td><td>Rate</td><td>Bark burst speed. Drives the envelope reshaper: the LFO auto-bark interval and the spacing of bursts inside a double/yap group. CCW = single deliberate woofs; CW = rapid yapping.</td></tr>
+            <tr><td>KNOB 4</td><td>Size</td><td>Dog size — shifts all three formant frequencies together. Left = small dog (high formants, yip); center = medium dog; right = big dog (low formants, deep woof).</td></tr>
+            <tr><td>KNOB 5</td><td>Sub</td><td>Sub-octave depth. Mixes a clean octave-down voice underneath the bark for chest rumble and weight.</td></tr>
+            <tr><td>KNOB 6</td><td>Decay</td><td>How long each bark sustains before the gate closes. Short = a tight "ruff"; long = a drawn-out "wooooof". Also sets how far the pitch bend travels within a burst.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Bark Style</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Double bark — two bursts per trigger ("ruff ruff").</span>
+            <span class="pos">Left</span><span>Single woof — one burst per trigger.</span>
+            <span class="pos">Right</span><span>Rapid yap — 3–4 quick barks per trigger.</span>
+        </div>
+
+        <h4>SW2 — Trigger Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>LFO auto-bark — barks automatically at the Rate speed regardless of input.</span>
+            <span class="pos">Left</span><span>Pick attack — your picking dynamics trigger each bark.</span>
+            <span class="pos">Right</span><span>Envelope follower — harder picking makes a louder, more intense bark.</span>
+        </div>
+
+        <h4>SW3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Growl — sustained low rumble; bypasses the bark gate for a continuous menacing growl while FS2 is held.</span>
+            <span class="pos">Left</span><span>Howl — sustains the signal and bends pitch slowly upward while held ("awoooo").</span>
+            <span class="pos">Right</span><span>Whimper — pitch bends down, formants shift high, short soft bursts while held.</span>
+        </div>
+
+        <h3>DIP Switches</h3>
+        <table class="control-table">
+            <tr><th>DIP</th><th>Function</th></tr>
+            <tr><td>DIP 1</td><td>Multi-bark — adds 2–3 rapid barks per trigger (excited dog). Stacks with the Rate knob and SW1 style.</td></tr>
+            <tr><td>DIP 2</td><td>Glitch stutter — randomly repeats tiny chunks of the bark buffer at irregular intervals, like a bark through a broken speaker. Stacks with DIP 3.</td></tr>
+            <tr><td>DIP 3</td><td>Sample crush — bit-reduces and sample-rate crushes the bark. Dog barking through a walkie-talkie. Stacks with DIP 2.</td></tr>
+            <tr><td>DIP 4</td><td>MIDI bark — Note On triggers a bark, the note sets the formant (bark pitch), velocity sets intensity. With DIP 2 + DIP 3 on, MIDI triggers glitched, crushed barks.</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>FSW2 — howl / growl / whimper per SW3 (momentary, held).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = toggle).</td></tr>
+            <tr><td>CC 21</td><td>FSW2 (≥ 64 = active).</td></tr>
+            <tr><td>Note On</td><td>Triggers a bark when DIP 4 is enabled; note pitch sets the formant, velocity sets intensity.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 4 (Size) to foot-sweep the dog from small to large, or KNOB 3 (Rate). Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> for a classic bark, set SW2 to Pick attack, SW1 to Double bark, Bark past noon, Size at center, and a medium Decay — then pick staccato and it answers "ruff ruff." Turn on DIP 1 for an excited dog, or DIP 2 + DIP 3 for a junkyard-radio snarl. Hold FS2 with SW3 on Howl for a slow "awoooo."
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Bypass status (engaged).</li>
+            <li><strong>LED 2:</strong> FSW2 active, and blinks on each bark trigger.</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- A.W.O.O. HOTHOUSE                                                    -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="awoo-hothouse">
+        <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">The bark machine on Hothouse hardware: envelope reshaper, three-band formant filter, sub-octave rumble, and per-burst pitch bend, with the trigger and voice options compressed into three 3-position toggles. No DIPs or MIDI. <strong>Footswitches are reversed from Terrarium</strong> per Hothouse convention — FS1 is FSW2, FS2 bypasses.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → sub-octave mix (Sub) → <strong>envelope reshaper</strong> (bark bursts, Rate/Decay) → <strong>formant filter bank</strong> (~400/800/1200 Hz, shifted by Size, blended by Bark) → <strong>pitch bend</strong> (down per burst) → Volume → output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Bark</td><td>Formant filter depth (dry/formant blend). Low = a hint of growl; high = a full dog bark.</td></tr>
+            <tr><td>KNOB 3</td><td>Rate</td><td>Bark burst speed — LFO auto interval and intra-group spacing. CCW = deliberate woofs; CW = rapid yapping.</td></tr>
+            <tr><td>KNOB 4</td><td>Size</td><td>Dog size — shifts the formant frequencies. Left = small dog (yip); center = medium; right = big dog (deep woof).</td></tr>
+            <tr><td>KNOB 5</td><td>Sub</td><td>Sub-octave depth — chest rumble under the bark.</td></tr>
+            <tr><td>KNOB 6</td><td>Decay</td><td>Bark length — short "ruff" to drawn-out "wooooof".</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Bark Style</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Single woof — one burst per trigger.</span>
+            <span class="pos">Middle</span><span>Double bark — two bursts ("ruff ruff").</span>
+            <span class="pos">Down</span><span>Rapid yap — 3–4 quick barks per trigger.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Trigger Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Pick attack — playing dynamics trigger barks.</span>
+            <span class="pos">Middle</span><span>LFO auto-bark — barks at the Rate speed regardless of input.</span>
+            <span class="pos">Down</span><span>Envelope follower — harder picking = louder, more intense bark.</span>
+        </div>
+
+        <h4>TOGGLE 3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Howl — sustain + slow upward bend while FS1 is held ("awoooo").</span>
+            <span class="pos">Middle</span><span>Growl — sustained low rumble; bypasses the bark gate while held.</span>
+            <span class="pos">Down</span><span>Whimper — down bend, high formants, short soft bursts while held.</span>
+        </div>
+
+        <h3>Footswitches (note: reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>FSW2 — howl / growl / whimper per TOGGLE 3.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> TOGGLE 2 on Pick attack with TOGGLE 1 on Double bark answers your picking with "ruff ruff." Roll Size left and shorten Decay for a frantic small-dog yap; roll Size right with more Sub for a big-dog woof. Hold FS1 with TOGGLE 3 on Howl for a rising "awoooo."
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> FSW2 active, and blinks on each bark.</li>
+            <li><strong>LED 2 (right):</strong> Engaged (not bypassed).</li>
+        </ul>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- A.W.O.O. TERRARIUM                                                   -->
+    <!-- ================================================================== -->
+    <section class="pedal" id="awoo">
+        <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">The bark machine on Terrarium hardware: an envelope reshaper chops your guitar into short bark bursts, a three-band formant filter gives them the nasal "woof" vowel, and each burst bends down on its tail. Sub-octave adds chest rumble and a glitch stutter breaks the bark up like a bad speaker — all on four simple two-position switches. Hold the right footswitch to howl or growl.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → sub-octave mix (Sub) → <strong>envelope reshaper</strong> (bark bursts, Rate/Decay) → <strong>formant filter bank</strong> (~400/800/1200 Hz, shifted by Size, blended by Bark) → <strong>pitch bend</strong> (down per burst) → glitch stutter (SW4) → Volume → output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Bark (formant filter depth — hint of growl to full bark)</td></tr>
+            <tr><td>KNOB 3</td><td>Rate (bark burst speed — slow woofs to rapid yapping)</td></tr>
+            <tr><td>KNOB 4</td><td>Size (dog size — left = small/yip, right = big/woof)</td></tr>
+            <tr><td>KNOB 5</td><td>Sub (sub-octave chest rumble)</td></tr>
+            <tr><td>KNOB 6</td><td>Decay (bark length — short ruff to long wooof)</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>How the bark works:</strong> the reshaper opens an instant-attack gate on each trigger and lets it decay, chopping sustained notes into punchy bursts. The formant bank — three resonant bandpass filters at the dog-bark vowel resonances — colors those bursts, and a quick downward pitch bend on each one gives the bark its falling "woof" shape.
+        </div>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Bark style — off = single woof / on = rapid yap</td></tr>
+            <tr><td>SW2</td><td>Trigger mode — off = pick attack / on = LFO auto-bark</td></tr>
+            <tr><td>SW3</td><td>FSW2 mode — off = howl / on = growl</td></tr>
+            <tr><td>SW4</td><td>Glitch stutter on/off (random tiny buffer repeats)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass.</td></tr>
+            <tr><td>FS2</td><td>FSW2 — howl or growl per SW3 (momentary, held).</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> SW2 off (pick attack) with SW1 off (single woof), Bark past noon and a short Decay turns staccato picking into clipped barks. Flip SW1 on for a yap, add Sub for a bigger dog, and flip SW4 on for a broken-speaker stutter. Hold FS2 with SW3 off to howl.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged (not bypassed).</li>
+            <li><strong>LED 2 (right):</strong> FSW2 active, and blinks on each bark.</li>
+        </ul>
     </section>
 
 </main>
