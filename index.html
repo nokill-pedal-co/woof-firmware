@@ -362,6 +362,45 @@
             margin: 25px 0;
         }
 
+        /* --- Bug Report --- */
+        .bug-report {
+            margin-top: 60px;
+        }
+
+        .bug-report-title {
+            font-size: 2.4rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .bug-report-subtitle {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.6);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .bug-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 0.6px;
+            line-height: 1.5;
+            color: #121212;
+            background: #FFFFFF;
+            border: 1px solid rgba(18, 18, 18, 0.55);
+            border-radius: 0;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .bug-textarea:focus {
+            outline: 2px solid #121212;
+            outline-offset: 2px;
+        }
+
         /* --- Footer --- */
         .footer {
             text-align: center;
@@ -515,6 +554,41 @@
             </ol>
             <p style="margin-top: 16px; font-size: 1.4rem; color: rgba(18,18,18,0.55);"><strong>Alternate method:</strong> If the pedal does not have this firmware yet, open the enclosure and use the Daisy Seed buttons &mdash; hold BOOT, tap RESET, release BOOT.</p>
         </div>
+
+        <!-- Bug Report -->
+        <section class="bug-report">
+            <div class="flasher-card">
+                <h2 class="bug-report-title">Report a Bug</h2>
+                <p class="bug-report-subtitle">Found an issue with an effect? Let us know.</p>
+
+                <form id="bugForm">
+                    <div class="step">
+                        <div class="step-label">EFFECT</div>
+                        <select class="firmware-select" id="bugEffect" required>
+                            <option value="" disabled selected>Select an effect...</option>
+                        </select>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-label">PLATFORM</div>
+                        <select class="firmware-select" id="bugPlatform" required>
+                            <option value="" disabled selected>Select a platform...</option>
+                            <option value="Terrarium">Terrarium</option>
+                            <option value="FunBox">FunBox</option>
+                            <option value="Hothouse">Hothouse</option>
+                        </select>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-label">DESCRIPTION</div>
+                        <textarea class="bug-textarea" id="bugDescription" placeholder="Describe the issue..." required></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit" id="bugSubmit">SUBMIT BUG REPORT</button>
+                    <div class="status" id="bugStatus"></div>
+                </form>
+            </div>
+        </section>
     </main>
 
     <div class="footer">
@@ -1550,6 +1624,75 @@
     function sleep(ms) {
         return new Promise(function(resolve) { setTimeout(resolve, ms); });
     }
+
+    // =====================================================================
+    // Bug Report Form
+    // =====================================================================
+
+    (function initBugReport() {
+        const BUG_REPORT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyl_BkQNbt8PjP3vGApyCNs20-TptyuN3n0rAAe6NxEH9nrLA9S3tCG7br4VWyCk6ld/exec';
+
+        const bugForm        = document.getElementById('bugForm');
+        const bugEffect      = document.getElementById('bugEffect');
+        const bugPlatform    = document.getElementById('bugPlatform');
+        const bugDescription = document.getElementById('bugDescription');
+        const bugSubmit      = document.getElementById('bugSubmit');
+        const bugStatus      = document.getElementById('bugStatus');
+
+        if (!bugForm) return;
+
+        // Populate the effect dropdown with the unique effect names from
+        // FIRMWARE_DATA, stripping the platform suffix so each effect appears once.
+        const effectNames = new Set();
+        Object.keys(FIRMWARE_DATA).forEach(function(key) {
+            const name = FIRMWARE_DATA[key].name
+                .replace(/\s*\((?:FunBox|Hothouse|Terrarium)\)/g, '')
+                .trim();
+            effectNames.add(name);
+        });
+        Array.from(effectNames).sort().forEach(function(name) {
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            bugEffect.appendChild(opt);
+        });
+
+        bugForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            hideStatus(bugStatus);
+
+            const payload = {
+                effect: bugEffect.value,
+                platform: bugPlatform.value,
+                description: bugDescription.value.trim(),
+                browser: navigator.userAgent
+            };
+
+            const originalLabel = bugSubmit.textContent;
+            bugSubmit.disabled = true;
+            bugSubmit.textContent = 'SENDING...';
+
+            try {
+                // Google Apps Script redirects on POST, which a CORS request can't
+                // follow — so we fire-and-forget with no-cors. The response is
+                // opaque (unreadable), so a resolved fetch means the request was sent.
+                // text/plain avoids a CORS preflight that no-cors would block.
+                await fetch(BUG_REPORT_ENDPOINT, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                showStatus(bugStatus, 'success', 'Bug report submitted. Thanks!');
+                bugForm.reset();
+            } catch (err) {
+                showStatus(bugStatus, 'error', 'Could not submit your report. Please check your connection and try again.');
+            } finally {
+                bugSubmit.disabled = false;
+                bugSubmit.textContent = originalLabel;
+            }
+        });
+    })();
     </script>
 </body>
 </html>
