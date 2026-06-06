@@ -1320,10 +1320,13 @@
     }
 
     // --- Check WebUSB support ---
-    if (!navigator.usb) {
+    // iOS (all browsers are WebKit) and other non-Chromium browsers have no
+    // WebUSB. We still let visitors browse the firmware list and follow the
+    // "VIEW CONTROLS" link, so the platform/firmware selects stay enabled —
+    // only the actual connect/flash actions require WebUSB.
+    const usbSupported = !!navigator.usb;
+    if (!usbSupported) {
         browserWarning.classList.add('visible');
-        platformSelect.disabled = true;
-        firmwareSelect.disabled = true;
     }
 
     // --- Platform selection: populate firmware dropdown with matching pedals ---
@@ -1375,7 +1378,7 @@
         firmwareInfo.innerHTML = html;
         firmwareInfo.classList.add('visible');
 
-        connectBtn.disabled = false;
+        connectBtn.disabled = !usbSupported;
         flashBtn.disabled = true;
         hideStatus(flashStatus);
         hideProgress();
