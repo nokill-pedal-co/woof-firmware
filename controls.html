@@ -2191,10 +2191,10 @@
     <section class="pedal" id="great-dane-funbox">
         <h2>Great Dane Distorted Reverb</h2>
         <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
-        <p class="lede">A reverb-FIRST pedal built around two independent pitched and panned octave voices and a switchable distortion stage. Both voices run through a clean granular pitch shifter — anywhere from a sub-octave (−12) through unison to an octave up (+12) — and each gets its own equal-power stereo pan, so you can throw one voice hard left and the other hard right. The blended octaves and dry signal hit an optional distortion stage (warm tube overdrive, heavier fuzz, or full digital bitcrush) and then drown in a big stereo ReverbSc reverb with Plate, Hall, and Shimmer characters. Big, lush, stereo, and destructive when you want it to be.</p>
+        <p class="lede">A reverb-FIRST pedal built around two independent pitched octave voices, a single Spread knob that fans them across the stereo field, and a continuous distortion stage. Both voices run through a clean granular pitch shifter — anywhere from a sub-octave (−12) through unison to an octave up (+12). One Spread knob fans them apart with equal-power panning: centered they sit mono in the middle, turn right and voice A swings right while B swings left, turn left and they cross over. The blended octaves and dry signal hit an optional distortion stage — its drive set continuously by the Distortion knob, its flavor (warm tube overdrive, heavier fuzz, or full digital bitcrush) picked by SW3 — and then drown in a big stereo ReverbSc reverb with Plate, Hall, and Shimmer characters. Big, lush, stereo, and destructive when you want it to be.</p>
 
         <h3>Signal Chain</h3>
-        <p>Input → <strong>Octave A</strong> (pitched + panned) + <strong>Octave B</strong> (pitched + panned) + dry signal mix → <strong>Distortion</strong> (when engaged via FS2) → <strong>Reverb</strong> (Plate / Hall / Shimmer) → Volume → stereo output.</p>
+        <p>Input → <strong>Octave A</strong> (pitched + spread) + <strong>Octave B</strong> (pitched + spread) + dry signal mix → <strong>Distortion</strong> (amount knob, when engaged via FS2) → <strong>Reverb</strong> (Plate / Hall / Shimmer) → Volume → stereo output.</p>
 
         <h3>Knobs</h3>
         <table class="control-table">
@@ -2202,9 +2202,9 @@
             <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
             <tr><td>KNOB 2</td><td>Reverb</td><td>Reverb mix. Fully left = dry; fully right = 100% wet wash.</td></tr>
             <tr><td>KNOB 3</td><td>Pitch A</td><td>Octave voice A pitch — continuous from sub-octave (−12 semitones) through unison (center) to octave up (+12). Clean granular pitch shifter.</td></tr>
-            <tr><td>KNOB 4</td><td>Pan A</td><td>Octave voice A stereo position: left = hard left, center = mono center, right = hard right (equal-power).</td></tr>
-            <tr><td>KNOB 5</td><td>Pitch B</td><td>Octave voice B pitch, same ±12 range, fully independent from A.</td></tr>
-            <tr><td>KNOB 6</td><td>Pan B</td><td>Octave voice B stereo position.</td></tr>
+            <tr><td>KNOB 4</td><td>Pitch B</td><td>Octave voice B pitch, same ±12 range, fully independent from A.</td></tr>
+            <tr><td>KNOB 5</td><td>Spread</td><td>Stereo spread of the two voices, equal-power. Center = both mono center; turn right = voice A pans right / voice B pans left; turn left = A left / B right.</td></tr>
+            <tr><td>KNOB 6</td><td>Distortion</td><td>Distortion drive amount: fully left = clean, fully right = destroyed. Scales smoothly within whatever flavor SW3 selects (only sounds when distortion is engaged via FS2).</td></tr>
         </table>
 
         <h3>3-Position Toggles</h3>
@@ -2223,19 +2223,19 @@
             <span class="pos">Down</span><span>Drift — pitch wanders slowly and randomly (±50 cents) around the knob setting. Detuned and dreamy.</span>
         </div>
 
-        <h4>SW3 — Distortion Amount</h4>
+        <h4>SW3 — Distortion Character</h4>
         <div class="position-grid">
-            <span class="pos">Up</span><span>Light — warm, tube-like soft-clip overdrive. Gentle breakup.</span>
-            <span class="pos">Center</span><span>Medium — heavier fuzz, more compressed and aggressive, with a mild mid scoop.</span>
-            <span class="pos">Down</span><span>Heavy — bitcrush plus sample-rate reduction (~8 kHz, 6-bit). Digital destruction.</span>
+            <span class="pos">Up</span><span>Warm — soft-clip tanh overdrive. Gentle, tube-like breakup.</span>
+            <span class="pos">Center</span><span>Fuzz — harder clip, more compressed and aggressive, with a mild mid scoop.</span>
+            <span class="pos">Down</span><span>Bitcrush — sample-rate plus bit reduction (toward ~8 kHz / 6-bit at full). Digital destruction.</span>
         </div>
-        <p>The distortion only sounds when engaged with FS2 — the toggle just picks which flavor.</p>
+        <p>SW3 picks the <em>flavor</em>; the <strong>Distortion knob (KNOB 6)</strong> sets how hard it's driven, sweeping smoothly from clean to full within that flavor. The distortion only sounds when engaged with FS2.</p>
 
         <h3>DIP Switches</h3>
         <table class="control-table">
             <tr><th>DIP</th><th>Function</th></tr>
             <tr><td>DIP 1</td><td>Infinite Reverb — freezes the reverb tail into infinite sustain (feedback to ~100%) while still feeding new input in. Everything you play layers on top. Toggle off and the frozen tail decays naturally.</td></tr>
-            <tr><td>DIP 2</td><td>Octave Swap — the two voices randomly swap their pitch and pan positions every 2–5 seconds. Unpredictable stereo movement and pitch interplay.</td></tr>
+            <tr><td>DIP 2</td><td>Octave Swap — the two voices randomly swap their pitch and spread side every 2–5 seconds. Unpredictable stereo movement and pitch interplay.</td></tr>
             <tr><td>DIP 3</td><td>Swell Mode — kills the pick attack and fades each note in over ~200 ms (envelope follower → VCA, ~50 ms release). Violin-like swells; with reverb and octaves it turns the guitar into a synth pad.</td></tr>
             <tr><td>DIP 4</td><td>MIDI — a note-on sets Pitch A to the interval between the played note and the guitar's detected pitch; note velocity scales Pitch B's interval.</td></tr>
         </table>
@@ -2263,7 +2263,7 @@
         <p>Defaults unmapped — suggested target: KNOB 2 (Reverb) to foot-swell the wet wash, or a Pitch knob for sweeping octave dives. Assign via FS1+FS2 0.5 s Set Mode.</p>
 
         <div class="callout">
-            <strong>Usage tip:</strong> set Pitch A to +12 panned hard left and Pitch B to −12 panned hard right, Reverb past noon on Hall, and play — a wide stereo octave wash. Flip SW1 to Shimmer and hold a chord for endless crystalline cascades. Kick on DIP 1 (Infinite) to freeze a pad and solo over it, or DIP 3 (Swell) for bowed synth swells. Stomp FS2 with SW3 on Heavy for a bitcrushed wall of noise.
+            <strong>Usage tip:</strong> set Pitch A to +12 and Pitch B to −12, turn Spread fully right to throw them hard apart, Reverb past noon on Hall, and play — a wide stereo octave wash. Flip SW1 to Shimmer and hold a chord for endless crystalline cascades. Kick on DIP 1 (Infinite) to freeze a pad and solo over it, or DIP 3 (Swell) for bowed synth swells. Stomp FS2 with SW3 on Bitcrush and the Distortion knob cranked for a destroyed wall of noise.
         </div>
 
         <h3>LEDs</h3>
@@ -2279,10 +2279,10 @@
     <section class="pedal" id="great-dane-hothouse">
         <h2>Great Dane Distorted Reverb</h2>
         <div class="platform">Hothouse + Daisy Seed · Stereo · 3-position toggles</div>
-        <p class="lede">The distorted reverb on Hothouse hardware: the same two independent pitched/panned octave voices, switchable distortion stage, and lush ReverbSc reverb (Plate / Hall / Shimmer), with the reverb character, octave mode, and distortion amount on three 3-position toggles. Stereo output preserves the per-voice panning. No DIPs or MIDI (Infinite reverb, Octave Swap, Swell, and MIDI are dropped). <strong>Footswitches follow Hothouse convention</strong> — FS1 toggles distortion, FS2 bypasses.</p>
+        <p class="lede">The distorted reverb on Hothouse hardware: the same two independent pitched octave voices, single Spread knob, continuous distortion stage, and lush ReverbSc reverb (Plate / Hall / Shimmer), with the reverb character, octave mode, and distortion flavor on three 3-position toggles. Stereo output preserves the spread. No DIPs or MIDI (Infinite reverb, Octave Swap, Swell, and MIDI are dropped). <strong>Footswitches follow Hothouse convention</strong> — FS1 toggles distortion, FS2 bypasses.</p>
 
         <h3>Signal Chain</h3>
-        <p>Input → <strong>Octave A</strong> + <strong>Octave B</strong> (each pitched + panned) + dry mix → <strong>Distortion</strong> (when engaged via FS1) → <strong>Reverb</strong> (Plate / Hall / Shimmer) → Volume → stereo output.</p>
+        <p>Input → <strong>Octave A</strong> + <strong>Octave B</strong> (each pitched + spread) + dry mix → <strong>Distortion</strong> (amount knob, when engaged via FS1) → <strong>Reverb</strong> (Plate / Hall / Shimmer) → Volume → stereo output.</p>
 
         <h3>Knobs</h3>
         <table class="control-table">
@@ -2290,9 +2290,9 @@
             <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
             <tr><td>KNOB 2</td><td>Reverb</td><td>Dry/wet mix; full = 100% wet.</td></tr>
             <tr><td>KNOB 3</td><td>Pitch A</td><td>Voice A pitch, −12 to +12 semitones (clean granular shifter).</td></tr>
-            <tr><td>KNOB 4</td><td>Pan A</td><td>Voice A stereo position (equal-power, hard left → hard right).</td></tr>
-            <tr><td>KNOB 5</td><td>Pitch B</td><td>Voice B pitch, independent ±12 semitones.</td></tr>
-            <tr><td>KNOB 6</td><td>Pan B</td><td>Voice B stereo position.</td></tr>
+            <tr><td>KNOB 4</td><td>Pitch B</td><td>Voice B pitch, independent ±12 semitones.</td></tr>
+            <tr><td>KNOB 5</td><td>Spread</td><td>Stereo spread of both voices, equal-power. Center = mono; right = A right / B left; left = A left / B right.</td></tr>
+            <tr><td>KNOB 6</td><td>Distortion</td><td>Drive amount: clean (left) → destroyed (right), within the flavor TOGGLE 3 selects. Only sounds when engaged via FS1.</td></tr>
         </table>
 
         <h3>3-Position Toggles</h3>
@@ -2311,12 +2311,13 @@
             <span class="pos">Down</span><span>Drift — pitch wanders ±50 cents around the setting.</span>
         </div>
 
-        <h4>TOGGLE 3 — Distortion Amount</h4>
+        <h4>TOGGLE 3 — Distortion Character</h4>
         <div class="position-grid">
-            <span class="pos">Up</span><span>Light — warm tube-like overdrive.</span>
-            <span class="pos">Middle</span><span>Medium — heavier fuzz with a mid scoop.</span>
-            <span class="pos">Down</span><span>Heavy — bitcrush + sample-rate reduction.</span>
+            <span class="pos">Up</span><span>Warm OD — soft-clip tanh overdrive.</span>
+            <span class="pos">Middle</span><span>Fuzz — harder clip with a mid scoop.</span>
+            <span class="pos">Down</span><span>Bitcrush — sample-rate + bit reduction.</span>
         </div>
+        <p>TOGGLE 3 picks the flavor; KNOB 6 sets the drive amount from clean to full.</p>
 
         <h3>Footswitches (note: reversed from Terrarium)</h3>
         <table class="control-table">
@@ -2327,7 +2328,7 @@
         </table>
 
         <div class="callout">
-            <strong>Usage tip:</strong> spread the two voices across the stereo field (Pitch A +12 hard left, Pitch B −12 hard right), roll Reverb up on Hall, and stomp FS1 with TOGGLE 3 on Heavy for a crushed stereo wash. Flip TOGGLE 1 to Shimmer for endless cascading octaves.
+            <strong>Usage tip:</strong> set Pitch A +12 and Pitch B −12, turn Spread fully right to throw them across the stereo field, roll Reverb up on Hall, and stomp FS1 with TOGGLE 3 on Bitcrush and the Distortion knob up for a crushed stereo wash. Flip TOGGLE 1 to Shimmer for endless cascading octaves.
         </div>
 
         <h3>LEDs</h3>
@@ -2343,10 +2344,10 @@
     <section class="pedal" id="great-dane">
         <h2>Great Dane Distorted Reverb</h2>
         <div class="platform">Terrarium + Daisy Seed · Stereo</div>
-        <p class="lede">The distorted reverb on Terrarium hardware: two independent pitched/panned octave voices feeding a switchable distortion stage and a lush ReverbSc reverb, on four simple two-position switches. Shimmer reverb, the Tracking octave mode, and Medium distortion are dropped here, but a dedicated <strong>Infinite Reverb</strong> switch is added. Stereo output preserves the per-voice panning.</p>
+        <p class="lede">The distorted reverb on Terrarium hardware: two independent pitched octave voices, a single Spread knob, and a continuous distortion stage feeding a lush ReverbSc reverb, on four simple two-position switches. Shimmer reverb, the Tracking octave mode, and the Fuzz distortion flavor are dropped here, but a dedicated <strong>Infinite Reverb</strong> switch is added. Stereo output preserves the spread.</p>
 
         <h3>Signal Chain</h3>
-        <p>Input → <strong>Octave A</strong> + <strong>Octave B</strong> (each pitched + panned) + dry mix → <strong>Distortion</strong> (when engaged via FS2) → <strong>Reverb</strong> (Plate / Hall) → Volume → stereo output.</p>
+        <p>Input → <strong>Octave A</strong> + <strong>Octave B</strong> (each pitched + spread) + dry mix → <strong>Distortion</strong> (amount knob, when engaged via FS2) → <strong>Reverb</strong> (Plate / Hall) → Volume → stereo output.</p>
 
         <h3>Knobs</h3>
         <table class="control-table">
@@ -2354,9 +2355,9 @@
             <tr><td>KNOB 1</td><td>Volume</td></tr>
             <tr><td>KNOB 2</td><td>Reverb (dry/wet mix; full = 100% wet)</td></tr>
             <tr><td>KNOB 3</td><td>Pitch A (−12 to +12 semitones)</td></tr>
-            <tr><td>KNOB 4</td><td>Pan A (hard left → center → hard right)</td></tr>
-            <tr><td>KNOB 5</td><td>Pitch B (−12 to +12 semitones, independent)</td></tr>
-            <tr><td>KNOB 6</td><td>Pan B (hard left → center → hard right)</td></tr>
+            <tr><td>KNOB 4</td><td>Pitch B (−12 to +12 semitones, independent)</td></tr>
+            <tr><td>KNOB 5</td><td>Spread (center = mono; right = A right / B left; left = A left / B right; equal-power)</td></tr>
+            <tr><td>KNOB 6</td><td>Distortion (clean → destroyed; flavor set by SW3)</td></tr>
         </table>
 
         <h3>Switches</h3>
@@ -2364,7 +2365,7 @@
             <tr><th>Switch</th><th>Function</th></tr>
             <tr><td>SW1</td><td>Reverb — off = Plate (tight, bright) / on = Hall (long, warm)</td></tr>
             <tr><td>SW2</td><td>Octave mode — off = Fixed / on = Drift (pitch wanders ±50 cents)</td></tr>
-            <tr><td>SW3</td><td>Distortion — off = Light overdrive / on = Heavy bitcrush</td></tr>
+            <tr><td>SW3</td><td>Distortion character — off = Warm OD (soft-clip tanh) / on = Bitcrush (sample-rate + bit reduction). Amount set by KNOB 6.</td></tr>
             <tr><td>SW4</td><td>Infinite Reverb — on = freeze the tail into infinite sustain while still feeding input in; off = tail decays naturally</td></tr>
         </table>
 
@@ -2377,7 +2378,7 @@
         </table>
 
         <div class="callout">
-            <strong>Usage tip:</strong> pan the two voices apart, set Pitch A to +12 and Pitch B to −12 for a stacked octave spread, and roll Reverb up on Hall. Flip SW4 (Infinite) to freeze a pad and play over it; stomp FS2 with SW3 on for a crushed reverb wash.
+            <strong>Usage tip:</strong> set Pitch A to +12 and Pitch B to −12 and turn Spread up to fan them apart for a stacked octave spread, and roll Reverb up on Hall. Flip SW4 (Infinite) to freeze a pad and play over it; stomp FS2 with SW3 on Bitcrush and the Distortion knob up for a crushed reverb wash.
         </div>
 
         <h3>LEDs</h3>
