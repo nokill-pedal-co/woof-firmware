@@ -792,6 +792,25 @@
                 'FS2 = FSW2 (GET OUT OF MY SWAMP, or onion tap, per SW3)'
             ]
         },
+        great_dane: {
+            name: 'Great Dane Distorted Reverb',
+            file: 'great_dane.bin',
+            desc: 'A reverb-first pedal with two independent pitched and panned octave voices and a switchable distortion stage. Big, lush, stereo, and destructive when you want it to be.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Reverb (dry/wet mix)',
+                'KNOB 3 = Pitch A (-12 to +12 semitones)',
+                'KNOB 4 = Pan A (left/center/right)',
+                'KNOB 5 = Pitch B (-12 to +12 semitones)',
+                'KNOB 6 = Pan B (left/center/right)',
+                'SW1 = Reverb (Plate / Hall)',
+                'SW2 = Octave mode (Fixed / Drift)',
+                'SW3 = Distortion (Light overdrive / Heavy bitcrush)',
+                'SW4 = Infinite Reverb (freeze tail)',
+                'FS1 = Bypass',
+                'FS2 = Distortion on/off'
+            ]
+        },
         fuzz_destroyer_funbox: {
             name: 'Fuzz Destroyer (FunBox)',
             file: 'fuzz_destroyer_funbox.bin',
@@ -1231,6 +1250,28 @@
                 'See full controls reference at /controls.html'
             ]
         },
+        great_dane_hothouse: {
+            name: 'Great Dane Distorted Reverb (Hothouse)',
+            file: 'great_dane_hothouse.bin',
+            platform: 'hothouse',
+            desc: 'The distorted reverb on Hothouse hardware. Two independent pitched/panned octave voices feed a switchable distortion stage and a lush ReverbSc reverb (Plate / Hall / Shimmer). Stereo output preserves the per-voice panning. No DIPs or MIDI.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Reverb (dry/wet mix)',
+                'KNOB 3 = Pitch A (-12 to +12 semitones)',
+                'KNOB 4 = Pan A (left/center/right)',
+                'KNOB 5 = Pitch B (-12 to +12 semitones)',
+                'KNOB 6 = Pan B (left/center/right)',
+                'TOGGLE 1 Reverb: U=Plate / M=Hall / D=Shimmer',
+                'TOGGLE 2 Octave: U=Fixed / M=Tracking / D=Drift',
+                'TOGGLE 3 Distortion: U=Light / M=Medium / D=Heavy',
+                'FS1 (left) = Distortion on/off',
+                'FS2 (right) = Bypass',
+                'LED 1 = Distortion active, LED 2 = Engaged',
+                'DFU: hold both footswitches at power-up',
+                'See full controls reference at /controls.html'
+            ]
+        },
         swamp_donkey_funbox: {
             name: 'Swamp Donkey (FunBox)',
             file: 'swamp_donkey_funbox.bin',
@@ -1254,6 +1295,32 @@
                 'FS1+FS2 hold 0.5s = Expression Set Mode',
                 'FS1+FS2 hold 2s = Clear expression mappings',
                 'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = FSW2, Note On = character (DIP4)',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        great_dane_funbox: {
+            name: 'Great Dane Distorted Reverb (FunBox)',
+            file: 'great_dane_funbox.bin',
+            platform: 'funbox',
+            desc: 'The full reverb-first beast. Two independent pitched/panned octave voices and a switchable distortion stage feed a lush stereo ReverbSc reverb. Adds Infinite reverb freeze, random Octave Swap, violin Swell mode, and MIDI — all on DIP switches.',
+            controls: [
+                'KNOB 1 = Volume',
+                'KNOB 2 = Reverb (dry/wet mix)',
+                'KNOB 3 = Pitch A (-12 to +12 semitones)',
+                'KNOB 4 = Pan A (left/center/right)',
+                'KNOB 5 = Pitch B (-12 to +12 semitones)',
+                'KNOB 6 = Pan B (left/center/right)',
+                'SW1 Reverb: U=Plate / C=Hall / D=Shimmer',
+                'SW2 Octave: U=Fixed / C=Tracking / D=Drift',
+                'SW3 Distortion: U=Light / C=Medium / D=Heavy',
+                'DIP1 = Infinite Reverb (freeze tail)',
+                'DIP2 = Octave Swap (voices swap pitch+pan every 2-5s)',
+                'DIP3 = Swell Mode (~200ms violin swell)',
+                'DIP4 = MIDI (note sets Pitch A interval, velocity sets Pitch B)',
+                'FS1 = Bypass, FS2 = Distortion on/off',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = distortion, Note On = pitch (DIP4)',
                 'See full controls reference at /controls.html'
             ]
         }
