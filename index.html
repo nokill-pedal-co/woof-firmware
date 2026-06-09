@@ -488,6 +488,11 @@
                     <option value="hothouse">Hothouse</option>
                     <option value="terrarium">Terrarium</option>
                 </select>
+                <div class="step-label">SIGNAL TYPE</div>
+                <select class="firmware-select" id="signalSelect" style="margin-bottom:12px;">
+                    <option value="guitar" selected>Guitar</option>
+                    <option value="synth">Synth</option>
+                </select>
                 <select class="firmware-select" id="firmwareSelect">
                     <option value="" disabled selected>Select a pedal...</option>
                 </select>
@@ -932,6 +937,35 @@
                 'See full controls reference at /controls.html'
             ]
         },
+        kelpie_synth: {
+            name: 'Kelpie (FunBox) — Synth',
+            file: 'kelpie_synth_funbox.bin',
+            platform: 'funbox',
+            signal: 'synth',
+            desc: 'Synth-optimized Audrey II Kelpie. Identical DSP, controls, and drone modes as the guitar build, with a ~12 dB input pad for line-level synth sources and a 0-4x Volume range to compensate.',
+            controls: [
+                'KNOB 1 = Volume (0-4x, compensates input pad)',
+                'KNOB 2 = Fuzz (1-200x)',
+                'KNOB 3 = Pitch (chaos osc + drone fallback freq)',
+                'KNOB 4 = Rate (logic clock speed)',
+                'KNOB 5 = Bleed / Drone Level (becomes drone level when DIP1 on)',
+                'KNOB 6 = Threshold (comparator trigger)',
+                'SW1 Divide: C=off / L=square sub / R=PWM-warped sub',
+                'SW2 Gate: C=off / L=XOR / R=AND',
+                'SW3 Osc: C=off / L=square / R=square + sub (forced ON in drone)',
+                'DIP1 = Drone (osc free-runs at tracked pitch, mixed with input)',
+                'DIP2 = Sub-growl (drone adds divider sub-octave)',
+                'DIP3 = Breathing (~0.5 Hz amplitude LFO on drone)',
+                'DIP4 = Feed Me (envelope swells drone gain + bends pitch)',
+                'FS1 = Bypass (toggles on release)',
+                'FS2 = Kelpie tap-latch / hold-momentary',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = Kelpie, Note On = osc pitch',
+                'Input padded ~12 dB (x0.25) for line-level synths',
+                'See full controls reference at /controls.html'
+            ]
+        },
         kelpie_hothouse: {
             name: 'Kelpie (Hothouse)',
             file: 'kelpie_hothouse.bin',
@@ -1368,6 +1402,7 @@
 
     // --- DOM refs ---
     const platformSelect    = document.getElementById('platformSelect');
+    const signalSelect      = document.getElementById('signalSelect');
     const firmwareSelect    = document.getElementById('firmwareSelect');
     const firmwareInfo      = document.getElementById('firmwareInfo');
     const connectBtn        = document.getElementById('connectBtn');
@@ -1397,12 +1432,13 @@
     }
 
     // --- Platform selection: populate firmware dropdown with matching pedals ---
-    function populateFirmwareSelect(platform) {
+    function populateFirmwareSelect(platform, signal) {
         firmwareSelect.innerHTML = '<option value="" disabled selected>Select a pedal...</option>';
         for (const key in FIRMWARE_DATA) {
             const item = FIRMWARE_DATA[key];
             const itemPlatform = item.platform || 'terrarium';
-            if (itemPlatform === platform) {
+            const itemSignal = item.signal || 'guitar';
+            if (itemPlatform === platform && itemSignal === signal) {
                 const opt = document.createElement('option');
                 opt.value = key;
                 opt.textContent = item.name;
@@ -1419,10 +1455,12 @@
         hideStatus(connectStatus);
         hideStatus(flashStatus);
     }
-    platformSelect.addEventListener('change', function() {
-        populateFirmwareSelect(this.value);
-    });
-    populateFirmwareSelect(platformSelect.value);
+    function refreshFirmwareList() {
+        populateFirmwareSelect(platformSelect.value, signalSelect.value);
+    }
+    platformSelect.addEventListener('change', refreshFirmwareList);
+    signalSelect.addEventListener('change', refreshFirmwareList);
+    refreshFirmwareList();
 
     // --- Firmware selection ---
     firmwareSelect.addEventListener('change', async function() {
