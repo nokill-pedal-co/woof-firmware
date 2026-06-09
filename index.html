@@ -188,6 +188,11 @@
             font-weight: 400;
         }
 
+        .firmware-info .controls-list a {
+            color: #8B0000;
+            text-decoration: underline;
+        }
+
         /* --- Buttons --- */
         .btn {
             display: inline-flex;
@@ -1438,6 +1443,10 @@
         html += '<p style="font-size:1.3rem;color:rgba(18,18,18,0.65);margin-bottom:10px;">' + selectedFirmware.desc + '</p>';
         html += '<div class="controls-list">';
         selectedFirmware.controls.forEach(function(c) {
+            if (c.indexOf('See full controls reference') === 0 || c.indexOf('/controls.html') !== -1) {
+                html += '<a href="controls.html#' + controlsAnchor(key) + '">See full controls reference</a><br>';
+                return;
+            }
             const parts = c.split(' = ');
             html += '<strong>' + parts[0] + '</strong> = ' + (parts[1] || '') + '<br>';
         });
