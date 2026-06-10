@@ -366,6 +366,7 @@
         <button class="ptab" data-platform="terrarium">Terrarium</button>
         <button class="ptab" data-platform="funbox">FunBox</button>
         <button class="ptab" data-platform="hothouse">Hothouse</button>
+        <button class="ptab" data-platform="synth">Synth (FunBox)</button>
     </div>
 
     <section class="pedal" data-platform="terrarium">
@@ -554,6 +555,92 @@
         <ul>
             <li><strong>LED 1 (left):</strong> FSW2 active (freeze/octave-up).</li>
             <li><strong>LED 2 (right):</strong> Engaged (not bypassed).</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="synth">
+<h2>Sag-Dīd Ritual Wavefolder</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression · Synth-optimized</div>
+        <p class="lede">A west-coast wavefolder: instead of clipping the signal flat, it reflects the waveform back on itself, multiplying harmonics into bright, bell-like, vowel-y timbres. Stack a sub or octave-up underneath, sweep the tilt EQ, open an envelope filter, and run the whole thing through a sweepable phaser. The FSW2 footswitch freezes the buffer or jumps an octave, and MIDI notes can drive the fold, phaser, and a glitch stutter.</p>
+        <div class="callout"><strong>Synth-optimized:</strong> Synth-optimized version with 12&nbsp;dB input pad for line-level sources. Extended volume range.</div>
+
+        <h3>Signal Chain</h3>
+        <p>Input → octave/sub generation (SW1) → <strong>wavefolder</strong> (Fold) → tilt-shift EQ (Tilt) → envelope filter (Sensitivity) → <strong>phaser</strong> (Depth/Rate, targeted by SW2) → Volume → output. Folding happens before the filters so the EQ and envelope shape the harmonics the folder generates rather than feeding them in.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level, extended to a 0&ndash;4× range (extended range for line-level sources).</td></tr>
+            <tr><td>KNOB 2</td><td>Fold</td><td>Wavefold amount. Low = a touch of edge on peaks. As you turn up, the waveform reflects more times per cycle, stacking octaves and odd harmonics into clangorous, ring-mod-like territory. The single most important knob.</td></tr>
+            <tr><td>KNOB 3</td><td>Tilt</td><td>Tilt-shift EQ. A single control that pivots the spectrum around a center frequency — counter-clockwise tilts toward dark/bassy (cuts highs, boosts lows), clockwise tilts toward bright/thin (boosts highs, cuts lows). Noon is flat. Tames or accentuates the fizz the folder produces.</td></tr>
+            <tr><td>KNOB 4</td><td>Sensitivity</td><td>Envelope filter responsiveness — how far and how hard the dynamic filter sweeps in response to your picking. Low = subtle wah on hard hits; high = quacky, vowel-y auto-wah on everything. Inert when the filter is bypassed (see DIP/switch notes).</td></tr>
+            <tr><td>KNOB 5</td><td>Phaser Depth</td><td>Depth of the phaser sweep — how much the all-pass notches move. At zero the phaser is effectively off; at max you get deep, hollow whooshing.</td></tr>
+            <tr><td>KNOB 6</td><td>Phaser Rate</td><td>LFO speed of the phaser sweep, slow swells through fast warble.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Octave</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Raw only. The folder works on the dry input pitch alone.</span>
+            <span class="pos">Left</span><span>Sub + raw. Adds a sub-octave underneath the folded voice for weight and a fuller fundamental to fold against.</span>
+            <span class="pos">Right</span><span>Sub + octave up. Sub-octave plus an octave-up voice — the widest harmonic spread, brightest and most synth-like.</span>
+        </div>
+
+        <h4>SW2 — Phaser Target</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Full. The phaser processes the entire folded signal.</span>
+            <span class="pos">Left</span><span>Lows only. Phaser is band-limited to the low end — adds motion to the body while highs stay static.</span>
+            <span class="pos">Right</span><span>Highs only. Phaser sweeps just the top end — shimmer and sparkle motion over a solid low end.</span>
+        </div>
+
+        <h4>SW3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Momentary octave-up. Hold FS2 to jump the output an octave; releases when you let go.</span>
+            <span class="pos">Left</span><span>Momentary freeze. Hold FS2 to freeze the buffer into a sustained pad; releases on let-go.</span>
+            <span class="pos">Right</span><span>Latching freeze. Tap FS2 to latch an infinite freeze on/off, hands-free.</span>
+        </div>
+
+        <h3>DIP Switches — MIDI Note Routing</h3>
+        <p>Each DIP routes incoming MIDI note pitch (and/or velocity) to a destination, so a sequencer or keyboard can play the folder dynamically. Multiple DIPs can be on at once.</p>
+        <table class="control-table">
+            <tr><th>DIP</th><th>Mapping</th></tr>
+            <tr><td>DIP 1</td><td>MIDI note → Fold amount. Higher notes fold harder.</td></tr>
+            <tr><td>DIP 2</td><td>MIDI note → Phaser depth.</td></tr>
+            <tr><td>DIP 3</td><td>MIDI note → Phaser rate.</td></tr>
+            <tr><td>DIP 4</td><td>MIDI note → Glitch stutter. Notes trigger buffer-stutter glitches for rhythmic, sequenced chaos.</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>FSW2 — freeze or octave-up per SW3 (momentary or latching per the chosen mode).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>FSW2 (≥ 64 = active).</td></tr>
+            <tr><td>Note On</td><td>Routed to fold / phaser depth / phaser rate / glitch stutter per the enabled DIP switches.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 2 (Fold) for foot-swept harmonic intensity, or KNOB 6 (Phaser Rate). Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> for a classic west-coast lead, set SW1 to Sub+raw, Fold around 1–2 o'clock, Tilt just past noon, and a slow Phaser on Full. Pick dynamics with a touch of Sensitivity make the folder "speak." For sequenced synth lines, enable DIP 1 (note→fold) and DIP 4 (note→stutter) and drive it from a MIDI keyboard.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> FSW2 active (freeze/octave-up).</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
         </ul>
     </section>
 

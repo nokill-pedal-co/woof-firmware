@@ -366,6 +366,7 @@
         <button class="ptab" data-platform="terrarium">Terrarium</button>
         <button class="ptab" data-platform="funbox">FunBox</button>
         <button class="ptab" data-platform="hothouse">Hothouse</button>
+        <button class="ptab" data-platform="synth">Synth (FunBox)</button>
     </div>
 
     <section class="pedal" data-platform="terrarium">
@@ -399,6 +400,10 @@
             <tr><td>FS1</td><td>Bypass</td></tr>
             <tr><td>FS2</td><td>Momentary freeze — input is muted, current reverb tail loops infinitely</td></tr>
         </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> For classic shimmer, push Shimmer (KNOB 4) past noon with SW1 on octave and SW4 set to pitch-up, then run Decay (KNOB 2) high for a tail that climbs endlessly. Flip SW2 to saturate the feedback so long tails stay present in the mix, or set SW4 to pitch-down for a doomy descending shimmer. Hold FS2 to freeze the current tail into an infinite pad and play over it.
+        </div>
     </section>
 
     <section class="pedal" data-platform="funbox">
@@ -515,6 +520,10 @@
             <tr><td>FS2 (right)</td><td>Momentary Freeze — infinite hold, input muted while held.</td></tr>
         </table>
 
+        <div class="callout">
+            <strong>Usage tip:</strong> For classic shimmer, push Shimmer (KNOB 4) past noon with TOGGLE 1 up (octave) and a high Decay for an endlessly climbing tail; TOGGLE 1 middle (octave down) gives a doomy sub-shimmer. Engage TOGGLE 2 to saturate the feedback so long tails cut through, and add Warp (KNOB 5) with TOGGLE 3 for chorused movement. Hold FS2 (right) to freeze the tail into an infinite pad and play over it.
+        </div>
+
         <h3>LEDs</h3>
         <ul>
             <li><strong>LED 1 (left):</strong> Engaged.</li>
@@ -523,6 +532,76 @@
 
         <h3>DFU</h3>
         <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader (Hothouse built-in).</p>
+    </section>
+
+    <section class="pedal" data-platform="synth">
+<h2>Cursed Reverb</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · True Stereo · MIDI · Expression · Synth-optimized</div>
+        <p class="lede">True-stereo shimmer reverb with per-channel comb/allpass length offsets and LFO phase offsets, plus the FunBox extras: MIDI knob takeover, learnable expression, and dual-footswitch gestures. The shimmer feedback path is mono-summed before re-injection so the stereo image stays coherent.</p>
+        <div class="callout"><strong>Synth-optimized:</strong> Synth-optimized version with 12&nbsp;dB input pad for line-level sources. Extended volume range.</div>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume — 0–4× (extended range for line-level sources)</td></tr>
+            <tr><td>KNOB 2</td><td>Decay</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (damping)</td></tr>
+            <tr><td>KNOB 4</td><td>Shimmer</td></tr>
+            <tr><td>KNOB 5</td><td>Warp (mod depth)</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Shimmer Interval & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Octave up (default).</span>
+            <span class="pos">Left</span><span>Fifth up.</span>
+            <span class="pos">Right</span><span>Octave down direction.</span>
+        </div>
+
+        <h4>SW2 — Saturate Feedback</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Padé tanh saturation on feedback.</span>
+        </div>
+
+        <h4>SW3 — Mod Rate</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Slow (default).</span>
+            <span class="pos">Left</span><span>Fast warble.</span>
+            <span class="pos">Right</span><span>Off — no mod.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release so dual-hold gestures don't toggle).</td></tr>
+            <tr><td>FS2</td><td>Momentary Freeze.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — toggles Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clears expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>Freeze latch (ORs with FS2 momentary).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>No default mapping — assign via FS1+FS2 hold-0.5 s Set Mode. Suggested target: KNOB 6 (Mix) for foot-controlled wet level.</p>
+
+        <h3>Stereo</h3>
+        <p>Per-channel comb filter lengths (1116/1341/1557/1733 vs 1139/1367/1583/1759) and allpass lengths (556/441 vs 571/454) with LFO phase offsets of 0.125 between channels. Shimmer feedback is mono-summed and re-injected to preserve coherence.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Freeze active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged.</li>
+        </ul>
     </section>
 
     <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>

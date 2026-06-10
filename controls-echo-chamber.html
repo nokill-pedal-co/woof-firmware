@@ -366,6 +366,7 @@
         <button class="ptab" data-platform="terrarium">Terrarium</button>
         <button class="ptab" data-platform="funbox">FunBox</button>
         <button class="ptab" data-platform="hothouse">Hothouse</button>
+        <button class="ptab" data-platform="synth">Synth (FunBox)</button>
     </div>
 
     <section class="pedal" data-platform="terrarium">
@@ -400,6 +401,10 @@
             <tr><td>FS2 (SW4 = stretch)</td><td>Pitch drop and rebound — DOD Rubberneck-style: hold = pitch drops smoothly, release = pitch rises back. Lets you "scratch" the delay buffer.</td></tr>
             <tr><td>FS2 (SW4 = age)</td><td>Tape aging — adds dropouts, flutter, and noise to the extra-head signal while held. Sounds like the tape is degrading in real time.</td></tr>
         </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> For lush multi-tap echoes, raise Mix (KNOB 3) and switch on Head 2 (SW1) and Head 3 (SW2); flip SW3 to reverse Head 3 for backwards swells. Push Feedback (KNOB 1) toward max for self-oscillation, then roll Tone (KNOB 6) down to keep the runaway repeats dark. Set SW4 to stretch and hold FS2 to bend the buffer's pitch like a tape stop, or set it to age for crumbling, fluttery repeats.
+        </div>
     </section>
 
     <section class="pedal" data-platform="funbox">
@@ -513,6 +518,10 @@
             <tr><td>FS2 (right)</td><td>X — Stretch or Age (per TOGGLE 3).</td></tr>
         </table>
 
+        <div class="callout">
+            <strong>Usage tip:</strong> For lush multi-tap echoes, raise Mix (KNOB 3) and bring in Head 2 (TOGGLE 1) and Head 3 (TOGGLE 2); set TOGGLE 2 down to run Head 3 in reverse for backwards swells. Push Feedback (KNOB 1) toward max for self-oscillation and roll Tone (KNOB 6) down to keep the runaway repeats dark. Set TOGGLE 3 to Stretch and hold FS2 (right) to bend the buffer's pitch like a tape stop, or Age for crumbling, fluttery repeats.
+        </div>
+
         <h3>LEDs</h3>
         <ul>
             <li><strong>LED 1 (left):</strong> Engaged.</li>
@@ -521,6 +530,73 @@
 
         <h3>DFU</h3>
         <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader.</p>
+    </section>
+
+    <section class="pedal" data-platform="synth">
+<h2>Echo Chamber</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo Ping-Pong · MIDI · Expression · Synth-optimized</div>
+        <p class="lede">Multi-head tape delay with stereo ping-pong heads — Head 1 panned left, Head 2 right, Head 3 center. Single mono SDRAM buffer keeps feedback structure identical to the Terrarium build; only the output mix is panned.</p>
+        <div class="callout"><strong>Synth-optimized:</strong> Synth-optimized version with 12&nbsp;dB input pad for line-level sources. Extended volume range.</div>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Feedback</td></tr>
+            <tr><td>KNOB 2</td><td>Speed (50 ms – 2 s)</td></tr>
+            <tr><td>KNOB 3</td><td>Mix (extra heads blend)</td></tr>
+            <tr><td>KNOB 4</td><td>Wet Level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry Level</td></tr>
+            <tr><td>KNOB 6</td><td>Tone</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Head 2</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Head 2 on.</span>
+        </div>
+
+        <h4>SW2 — Head 3 & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Off.</span>
+            <span class="pos">Left</span><span>Head 3 forward.</span>
+            <span class="pos">Right</span><span>Head 3 reverse.</span>
+        </div>
+
+        <h4>SW3 — FS2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>FS2 inert.</span>
+            <span class="pos">Left</span><span>Stretch.</span>
+            <span class="pos">Right</span><span>Age.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>Momentary X (Stretch or Age per SW3).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mapping.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>FS2 X latch.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults to KNOB 1 (Feedback) — sweep delay self-oscillation with a foot. Reassign via Set Mode.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> X active.</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
+        </ul>
     </section>
 
     <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>

@@ -366,6 +366,7 @@
         <button class="ptab" data-platform="terrarium">Terrarium</button>
         <button class="ptab" data-platform="funbox">FunBox</button>
         <button class="ptab" data-platform="hothouse">Hothouse</button>
+        <button class="ptab" data-platform="synth">Synth (FunBox)</button>
     </div>
 
     <section class="pedal" data-platform="terrarium">
@@ -399,6 +400,8 @@
             <tr><td>FS1</td><td>Bypass toggle</td></tr>
             <tr><td>FS2</td><td>Momentary stutter — works even when the pedal is bypassed</td></tr>
         </table>
+
+        <div class="callout"><strong>Usage tip:</strong> No-input drone: crank Stab (KNOB 4) past 50% and stop playing — the feedback loop self-oscillates into a sustained squeal. Shape the tail with Tone (KNOB 3) and set Drive (KNOB 2) to around 12 o'clock. Flip SW2 (octave up) for a screamier voice, or tap FS2 to chop the drone into rhythmic stutters.</div>
 
         <h3>LEDs</h3>
         <ul>
@@ -541,6 +544,8 @@
             <tr><td>FS2 (right)</td><td>Bypass toggle.</td></tr>
         </table>
 
+        <div class="callout"><strong>Usage tip:</strong> No-input drone: set TOGGLE 1 to Middle (octave off), crank Stab (KNOB 4) past 50% and stop playing — the feedback loop self-oscillates into a sustained squeal. Shape the tail with Tone (KNOB 3) and set Drive (KNOB 2) to around 12 o'clock. Flip TOGGLE 1 up for a screamier voice, or hold FS1 (left) to chop the drone into rhythmic stutters.</div>
+
         <h3>LEDs</h3>
         <ul>
             <li><strong>LED 1 (left):</strong> Stutter active.</li>
@@ -549,6 +554,94 @@
 
         <h3>DFU</h3>
         <p>Hold FOOTSWITCH_1 for 2 s at any time (Hothouse built-in feature).</p>
+    </section>
+
+    <section class="pedal" data-platform="synth">
+<h2>Fuzz Destroyer</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression · Synth-optimized</div>
+        <p class="lede">Stutter fuzz with the FunBox extras. Self-oscillating feedback, octave up/down, wave fold + sample crush stacking, three stutter shapes, and a stutter-mode switch that turns the right footswitch from a hold-to-stutter into a tap-latch or always-on chopper. Stereo detune and MIDI-locked self-oscillation pitch round out the destruction.</p>
+        <div class="callout"><strong>Synth-optimized:</strong> Synth-optimized version with 12&nbsp;dB input pad for line-level sources. Extended volume range.</div>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level, extended to a 0&ndash;4× range (extended range for line-level sources). Final hard-clip safety net is post-volume.</td></tr>
+            <tr><td>KNOB 2</td><td>Drive</td><td>1×–200× scaling. The cascade is harsh; even modest settings sound destroyed.</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole low-pass. Crank for ice-pick, roll back for the wall.</td></tr>
+            <tr><td>KNOB 4</td><td>Stab</td><td>Feedback oscillation depth — drives a short delay loop fed back into the fuzz input. At &gt;50% with no input the loop self-oscillates into a sustained squeal. With DIP_3 on, the squeal latches indefinitely; with MIDI Note On, the squeal pitch is locked to MIDI.</td></tr>
+            <tr><td>KNOB 5</td><td>Gate</td><td>Noise gate threshold for sputtery, velcro fuzz at high settings. At low settings the pedal hisses freely.</td></tr>
+            <tr><td>KNOB 6</td><td>Stutter Speed</td><td>Frequency of the stutter chopper when active.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Octave</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Off — straight fuzz, no octave generation.</span>
+            <span class="pos">Left</span><span>Octave up — full-wave rectifier creating a harsh octave-up tone.</span>
+            <span class="pos">Right</span><span>Octave down (NEW) — comparator-divider flip-flops on every other zero crossing, producing a CMOS/OC-2-style square sub-octave that's envelope-tracked and ring-modulated with the input. Thicker low end, with the original fundamental still poking through.</span>
+        </div>
+
+        <h4>SW2 — Stutter Shape</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Square chop — hard amplitude gate, on/off click.</span>
+            <span class="pos">Left</span><span>Triangle tremolo — smooth amplitude swell.</span>
+            <span class="pos">Right</span><span>Ramp saw (NEW) — linear ramp 0→1 then snap to 0. Each stutter pulse has a "kick"-style envelope.</span>
+        </div>
+
+        <h4>SW3 — Stutter Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Hold — original behavior. FS2 momentary; release = stutter off.</span>
+            <span class="pos">Left</span><span>Tap-latch — FS2 toggles stutter on/off. LED reflects state.</span>
+            <span class="pos">Right</span><span>Auto-on — stutter is always active when the pedal is engaged. FS2 momentarily <strong>disables</strong> stutter while held (a "kill" footswitch). Set-and-forget for live perpetual chopping.</span>
+        </div>
+
+        <h3>DIP Switches</h3>
+
+        <h4>DIP 1 — Wave Fold</h4>
+        <p>Carries over from Terrarium SW1. Wave-folder blended into the fuzz path, additive harmonics. Stacks with DIP_2.</p>
+
+        <h4>DIP 2 — Sample Crush</h4>
+        <p>Carries over from Terrarium SW3. Sample-rate decimator. Stacks with DIP_1 — together produces the "ultimate destruction" tone.</p>
+
+        <h4>DIP 3 — Self-Osc Lock</h4>
+        <p>When on AND Stab knob &gt; 50%, the input contribution to the feedback loop is suppressed and the loop self-oscillates regardless of whether you're playing. Result: pedal becomes a no-input drone tool. Stab knob still controls depth, Tone shapes the tail. Combined with MIDI Note On, you can play melodies on the squeal.</p>
+
+        <h4>DIP 4 — Stereo Detune</h4>
+        <p>Per-channel modulated delay (~12 ms center) with sine LFOs at 0.30 Hz (L) and 0.42 Hz (R), depth ±1 ms, phases offset. Result is a Boss-CE-style stereo chorus spread on the fuzz output. Off: both channels mono-identical. On: lush, wide, almost shoegaze. Detune buffers stay updated even when off, so re-engaging is instant.</p>
+
+        <div class="callout">
+            <strong>No-input drone patch:</strong> SW1 center, SW3 center (stutter hold mode), DIP_3 on, DIP_4 on. Stab to 70%, Tone to taste, Drive to ~12 o'clock. Don't play anything — pedal sustains its own squeal in stereo. Plug a MIDI keyboard, send Note On, and the squeal tracks the pitch.
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th><th>Behavior</th></tr>
+            <tr><td>FS1</td><td>Bypass</td><td>Toggle on FallingEdge. Stutter still works on the dry signal when bypassed.</td></tr>
+            <tr><td>FS2</td><td>Stutter</td><td>Behavior depends on SW3 (hold / tap-latch / auto-on).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold</td><td>Toggle Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold</td><td>Clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up</td><td>DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 with takeover.</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = press).</td></tr>
+            <tr><td>CC 21</td><td>Stutter on/off (≥ 64 = active). Overrides FS2 state in any SW3 mode.</td></tr>
+            <tr><td>CC 22</td><td>Octave step. Each receive cycles: off → up → down → off. Only takes effect when SW1 is centered (physical switch wins).</td></tr>
+            <tr><td>Note On</td><td>Stab pitch lock. Self-oscillation frequency is forced to MIDI note (mtof). Note Off returns to natural self-oscillation. Wins over DIP_3 lock — can stack (locked drone singing the MIDI pitch).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Same heel/toe learn flow as other FunBox pedals.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Stutter active (reflects SW3 mode + FS2 + CC 21).</li>
+        </ul>
     </section>
 
     <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
