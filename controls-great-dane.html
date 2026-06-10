@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great Dane Distorted Reverb - NOKILL Pedal Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 62.5%; scroll-behavior: smooth; }
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+        .announcement-bar {
+            background: #121212;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            display: block;
+        }
+        .header-nav a {
+            font-size: 1.6rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+        .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 30px 100px;
+        }
+        .page-title {
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .toc {
+            background: #f7f7f5;
+            border: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 22px 26px;
+            margin-bottom: 40px;
+        }
+        .toc h3 {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            color: rgba(18, 18, 18, 0.55);
+        }
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 4px; }
+        .toc a {
+            display: block;
+            color: #121212;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 6px 10px;
+            border-left: 3px solid transparent;
+            transition: background 0.1s, border-color 0.1s;
+            cursor: pointer;
+        }
+        .toc a:hover {
+            background: rgba(18, 18, 18, 0.05);
+            border-left-color: rgba(18, 18, 18, 0.4);
+        }
+        .toc a.active {
+            background: #121212;
+            color: #fff;
+            border-left-color: #121212;
+            font-weight: 700;
+        }
+        .toc a.active .platform-tag {
+            background: #fff;
+            color: #121212;
+        }
+        .toc .platform-tag {
+            display: inline-block;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            background: #121212;
+            color: #fff;
+            padding: 2px 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .pedal {
+            display: none;
+            padding-top: 16px;
+            margin-bottom: 40px;
+        }
+        .pedal.active { display: block; }
+        .pedal h2 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .pedal .platform {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            color: rgba(18, 18, 18, 0.55);
+            margin-bottom: 16px;
+        }
+        .pedal .lede {
+            font-size: 1.7rem;
+            line-height: 1.55;
+            margin-bottom: 28px;
+            color: rgba(18, 18, 18, 0.85);
+        }
+        .pedal h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+            padding-bottom: 6px;
+        }
+        .pedal h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+        .pedal p { margin-bottom: 12px; }
+        .pedal ul, .pedal ol { margin-left: 22px; margin-bottom: 14px; }
+        .pedal li { margin-bottom: 6px; }
+        .pedal code {
+            background: #f0f0ee;
+            padding: 1px 6px;
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 1.4rem;
+            border-radius: 2px;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .control-table th {
+            background: #121212;
+            color: #fff;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+        }
+        .control-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            vertical-align: top;
+        }
+        .control-table td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+            width: 130px;
+        }
+        .control-table td:nth-child(2) {
+            font-style: italic;
+            color: rgba(18, 18, 18, 0.7);
+            width: 160px;
+        }
+
+        .callout {
+            border-left: 3px solid #121212;
+            background: #f7f7f5;
+            padding: 14px 20px;
+            margin: 18px 0;
+            font-size: 1.45rem;
+        }
+        .callout strong { display: inline-block; margin-right: 6px; }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px 18px;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .position-grid .pos {
+            font-weight: 700;
+            text-align: right;
+            color: rgba(18, 18, 18, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-size: 1.2rem;
+            padding-top: 2px;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(18, 18, 18, 0.5);
+            text-decoration: none;
+            margin-top: 18px;
+        }
+        .back-to-top:hover { color: #121212; text-decoration: underline; }
+
+        .footer {
+            border-top: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.55);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer a { color: rgba(18, 18, 18, 0.7); }
+    
+        /* --- per-effect platform toggle --- */
+        .platform-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 36px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            padding-bottom: 22px;
+        }
+        .ptab {
+            font-family: inherit;
+            font-size: 1.4rem;
+            letter-spacing: 0.6px;
+            color: #121212;
+            background: #fff;
+            border: 1px solid rgba(18, 18, 18, 0.25);
+            padding: 9px 22px;
+            cursor: pointer;
+            transition: background 0.12s, color 0.12s, border-color 0.12s;
+            border-radius: 999px;
+        }
+        .ptab:hover { border-color: #121212; }
+        .ptab.active {
+            background: #121212;
+            color: #fff;
+            border-color: #121212;
+            font-weight: 700;
+        }
+        /* --- index card grid --- */
+        .effect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .effect-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(18, 18, 18, 0.14);
+            padding: 24px 24px 20px;
+            text-decoration: none;
+            color: #121212;
+            background: #fff;
+            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
+        }
+        .effect-card:hover {
+            border-color: #121212;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
+        }
+        .effect-card h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .effect-card p {
+            font-size: 1.45rem;
+            line-height: 1.5;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #f0f0ee;
+            color: rgba(18, 18, 18, 0.7);
+            border: 1px solid rgba(18, 18, 18, 0.12);
+        }
+        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
+        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
+        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
+        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
+        @media (max-width: 600px) {
+            .effect-grid { grid-template-columns: 1fr; }
+            .header { padding: 18px 22px; }
+            .main { padding: 36px 20px 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="transistors.html">TRANSISTORS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main" id="top">
+
+    <h1 class="page-title">Great Dane Distorted Reverb</h1>
+    <p class="page-subtitle">A reverb-first pedal with two independent pitched octave voices, a single Spread knob that fans them across the stereo field, and a continuous distortion stage. Big, lush, stereo, and destructive when you want it to be.</p>
+
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
+    </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Great Dane Distorted Reverb</h2>
+        <div class="platform">Terrarium + Daisy Seed · Stereo</div>
+        <p class="lede">The distorted reverb on Terrarium hardware: two independent pitched octave voices, a single Spread knob, and a continuous distortion stage feeding a lush ReverbSc reverb, on four simple two-position switches. Shimmer reverb, the Tracking octave mode, and the Fuzz distortion flavor are dropped here, but a dedicated <strong>Infinite Reverb</strong> switch is added. Stereo output preserves the spread.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → <strong>Octave A</strong> + <strong>Octave B</strong> (each pitched + spread) + dry mix → <strong>Distortion</strong> (amount knob, when engaged via FS2) → <strong>Reverb</strong> (Plate / Hall) → Volume → stereo output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Reverb (dry/wet mix; full = 100% wet)</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch A (−12 to +12 semitones)</td></tr>
+            <tr><td>KNOB 4</td><td>Pitch B (−12 to +12 semitones, independent)</td></tr>
+            <tr><td>KNOB 5</td><td>Spread (center = mono; right = A right / B left; left = A left / B right; equal-power)</td></tr>
+            <tr><td>KNOB 6</td><td>Distortion (clean → destroyed; flavor set by SW3)</td></tr>
+        </table>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Reverb — off = Plate (tight, bright) / on = Hall (long, warm)</td></tr>
+            <tr><td>SW2</td><td>Octave mode — off = Fixed / on = Drift (pitch wanders ±50 cents)</td></tr>
+            <tr><td>SW3</td><td>Distortion character — off = Warm OD (soft-clip tanh) / on = Bitcrush (sample-rate + bit reduction). Amount set by KNOB 6.</td></tr>
+            <tr><td>SW4</td><td>Infinite Reverb — on = freeze the tail into infinite sustain while still feeding input in; off = tail decays naturally</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass.</td></tr>
+            <tr><td>FS2</td><td>Distortion on/off.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> set Pitch A to +12 and Pitch B to −12 and turn Spread up to fan them apart for a stacked octave spread, and roll Reverb up on Hall. Flip SW4 (Infinite) to freeze a pad and play over it; stomp FS2 with SW3 on Bitcrush and the Distortion knob up for a crushed reverb wash.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged (not bypassed).</li>
+            <li><strong>LED 2 (right):</strong> Distortion active.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Great Dane Distorted Reverb</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">A reverb-FIRST pedal built around two independent pitched octave voices, a single Spread knob that fans them across the stereo field, and a continuous distortion stage. Both voices run through a clean granular pitch shifter — anywhere from a sub-octave (−12) through unison to an octave up (+12). One Spread knob fans them apart with equal-power panning: centered they sit mono in the middle, turn right and voice A swings right while B swings left, turn left and they cross over. The blended octaves and dry signal hit an optional distortion stage — its drive set continuously by the Distortion knob, its flavor (warm tube overdrive, heavier fuzz, or full digital bitcrush) picked by SW3 — and then drown in a big stereo ReverbSc reverb with Plate, Hall, and Shimmer characters. Big, lush, stereo, and destructive when you want it to be.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → <strong>Octave A</strong> (pitched + spread) + <strong>Octave B</strong> (pitched + spread) + dry signal mix → <strong>Distortion</strong> (amount knob, when engaged via FS2) → <strong>Reverb</strong> (Plate / Hall / Shimmer) → Volume → stereo output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Reverb</td><td>Reverb mix. Fully left = dry; fully right = 100% wet wash.</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch A</td><td>Octave voice A pitch — continuous from sub-octave (−12 semitones) through unison (center) to octave up (+12). Clean granular pitch shifter.</td></tr>
+            <tr><td>KNOB 4</td><td>Pitch B</td><td>Octave voice B pitch, same ±12 range, fully independent from A.</td></tr>
+            <tr><td>KNOB 5</td><td>Spread</td><td>Stereo spread of the two voices, equal-power. Center = both mono center; turn right = voice A pans right / voice B pans left; turn left = A left / B right.</td></tr>
+            <tr><td>KNOB 6</td><td>Distortion</td><td>Distortion drive amount: fully left = clean, fully right = destroyed. Scales smoothly within whatever flavor SW3 selects (only sounds when distortion is engaged via FS2).</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Reverb Character</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Plate — tight, bright, short-to-medium decay.</span>
+            <span class="pos">Center</span><span>Hall — spacious, warm, long decay.</span>
+            <span class="pos">Down</span><span>Shimmer — a pitch-shifted (+12) feedback loop in the reverb tail. Ethereal, crystalline.</span>
+        </div>
+
+        <h4>SW2 — Octave Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Fixed — Pitch A and B are set by the knobs, static.</span>
+            <span class="pos">Center</span><span>Tracking — knobs set a musical interval (snapped to semitones and glided) so harmonies stay in tune.</span>
+            <span class="pos">Down</span><span>Drift — pitch wanders slowly and randomly (±50 cents) around the knob setting. Detuned and dreamy.</span>
+        </div>
+
+        <h4>SW3 — Distortion Character</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Warm — soft-clip tanh overdrive. Gentle, tube-like breakup.</span>
+            <span class="pos">Center</span><span>Fuzz — harder clip, more compressed and aggressive, with a mild mid scoop.</span>
+            <span class="pos">Down</span><span>Bitcrush — sample-rate plus bit reduction (toward ~8 kHz / 6-bit at full). Digital destruction.</span>
+        </div>
+        <p>SW3 picks the <em>flavor</em>; the <strong>Distortion knob (KNOB 6)</strong> sets how hard it's driven, sweeping smoothly from clean to full within that flavor. The distortion only sounds when engaged with FS2.</p>
+
+        <h3>DIP Switches</h3>
+        <table class="control-table">
+            <tr><th>DIP</th><th>Function</th></tr>
+            <tr><td>DIP 1</td><td>Infinite Reverb — freezes the reverb tail into infinite sustain (feedback to ~100%) while still feeding new input in. Everything you play layers on top. Toggle off and the frozen tail decays naturally.</td></tr>
+            <tr><td>DIP 2</td><td>Octave Swap — the two voices randomly swap their pitch and spread side every 2–5 seconds. Unpredictable stereo movement and pitch interplay.</td></tr>
+            <tr><td>DIP 3</td><td>Swell Mode — kills the pick attack and fades each note in over ~200 ms (envelope follower → VCA, ~50 ms release). Violin-like swells; with reverb and octaves it turns the guitar into a synth pad.</td></tr>
+            <tr><td>DIP 4</td><td>MIDI — a note-on sets Pitch A to the interval between the played note and the guitar's detected pitch; note velocity scales Pitch B's interval.</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (relay-style true bypass; fires on release).</td></tr>
+            <tr><td>FS2</td><td>Distortion on/off.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = toggle).</td></tr>
+            <tr><td>CC 21</td><td>Distortion (≥ 64 = toggle).</td></tr>
+            <tr><td>Note On</td><td>When DIP 4 is on — sets Pitch A to the interval vs. the detected guitar pitch; velocity sets Pitch B's interval.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 2 (Reverb) to foot-swell the wet wash, or a Pitch knob for sweeping octave dives. Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> set Pitch A to +12 and Pitch B to −12, turn Spread fully right to throw them hard apart, Reverb past noon on Hall, and play — a wide stereo octave wash. Flip SW1 to Shimmer and hold a chord for endless crystalline cascades. Kick on DIP 1 (Infinite) to freeze a pad and solo over it, or DIP 3 (Swell) for bowed synth swells. Stomp FS2 with SW3 on Bitcrush and the Distortion knob cranked for a destroyed wall of noise.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Bypass status (engaged).</li>
+            <li><strong>LED 2:</strong> Distortion active.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Great Dane Distorted Reverb</h2>
+        <div class="platform">Hothouse + Daisy Seed · Stereo · 3-position toggles</div>
+        <p class="lede">The distorted reverb on Hothouse hardware: the same two independent pitched octave voices, single Spread knob, continuous distortion stage, and lush ReverbSc reverb (Plate / Hall / Shimmer), with the reverb character, octave mode, and distortion flavor on three 3-position toggles. Stereo output preserves the spread. No DIPs or MIDI (Infinite reverb, Octave Swap, Swell, and MIDI are dropped). <strong>Footswitches follow Hothouse convention</strong> — FS1 toggles distortion, FS2 bypasses.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → <strong>Octave A</strong> + <strong>Octave B</strong> (each pitched + spread) + dry mix → <strong>Distortion</strong> (amount knob, when engaged via FS1) → <strong>Reverb</strong> (Plate / Hall / Shimmer) → Volume → stereo output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Reverb</td><td>Dry/wet mix; full = 100% wet.</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch A</td><td>Voice A pitch, −12 to +12 semitones (clean granular shifter).</td></tr>
+            <tr><td>KNOB 4</td><td>Pitch B</td><td>Voice B pitch, independent ±12 semitones.</td></tr>
+            <tr><td>KNOB 5</td><td>Spread</td><td>Stereo spread of both voices, equal-power. Center = mono; right = A right / B left; left = A left / B right.</td></tr>
+            <tr><td>KNOB 6</td><td>Distortion</td><td>Drive amount: clean (left) → destroyed (right), within the flavor TOGGLE 3 selects. Only sounds when engaged via FS1.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Reverb Character</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Plate — tight, bright, short-to-medium decay.</span>
+            <span class="pos">Middle</span><span>Hall — spacious, warm, long decay.</span>
+            <span class="pos">Down</span><span>Shimmer — pitch-shifted (+12) feedback in the tail.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Octave Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Fixed — knobs set static pitches.</span>
+            <span class="pos">Middle</span><span>Tracking — knobs set a semitone interval, glided and in tune.</span>
+            <span class="pos">Down</span><span>Drift — pitch wanders ±50 cents around the setting.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Distortion Character</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Warm OD — soft-clip tanh overdrive.</span>
+            <span class="pos">Middle</span><span>Fuzz — harder clip with a mid scoop.</span>
+            <span class="pos">Down</span><span>Bitcrush — sample-rate + bit reduction.</span>
+        </div>
+        <p>TOGGLE 3 picks the flavor; KNOB 6 sets the drive amount from clean to full.</p>
+
+        <h3>Footswitches (note: reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Distortion on/off.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> set Pitch A +12 and Pitch B −12, turn Spread fully right to throw them across the stereo field, roll Reverb up on Hall, and stomp FS1 with TOGGLE 3 on Bitcrush and the Distortion knob up for a crushed stereo wash. Flip TOGGLE 1 to Shimmer for endless cascading octaves.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Distortion active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged (not bypassed).</li>
+        </ul>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
+
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
+</body>
+</html>

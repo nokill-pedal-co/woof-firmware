@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.W.O.O. — Auto Wah Octave Overload - NOKILL Pedal Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 62.5%; scroll-behavior: smooth; }
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+        .announcement-bar {
+            background: #121212;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            display: block;
+        }
+        .header-nav a {
+            font-size: 1.6rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+        .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 30px 100px;
+        }
+        .page-title {
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .toc {
+            background: #f7f7f5;
+            border: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 22px 26px;
+            margin-bottom: 40px;
+        }
+        .toc h3 {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            color: rgba(18, 18, 18, 0.55);
+        }
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 4px; }
+        .toc a {
+            display: block;
+            color: #121212;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 6px 10px;
+            border-left: 3px solid transparent;
+            transition: background 0.1s, border-color 0.1s;
+            cursor: pointer;
+        }
+        .toc a:hover {
+            background: rgba(18, 18, 18, 0.05);
+            border-left-color: rgba(18, 18, 18, 0.4);
+        }
+        .toc a.active {
+            background: #121212;
+            color: #fff;
+            border-left-color: #121212;
+            font-weight: 700;
+        }
+        .toc a.active .platform-tag {
+            background: #fff;
+            color: #121212;
+        }
+        .toc .platform-tag {
+            display: inline-block;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            background: #121212;
+            color: #fff;
+            padding: 2px 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .pedal {
+            display: none;
+            padding-top: 16px;
+            margin-bottom: 40px;
+        }
+        .pedal.active { display: block; }
+        .pedal h2 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .pedal .platform {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            color: rgba(18, 18, 18, 0.55);
+            margin-bottom: 16px;
+        }
+        .pedal .lede {
+            font-size: 1.7rem;
+            line-height: 1.55;
+            margin-bottom: 28px;
+            color: rgba(18, 18, 18, 0.85);
+        }
+        .pedal h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+            padding-bottom: 6px;
+        }
+        .pedal h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+        .pedal p { margin-bottom: 12px; }
+        .pedal ul, .pedal ol { margin-left: 22px; margin-bottom: 14px; }
+        .pedal li { margin-bottom: 6px; }
+        .pedal code {
+            background: #f0f0ee;
+            padding: 1px 6px;
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 1.4rem;
+            border-radius: 2px;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .control-table th {
+            background: #121212;
+            color: #fff;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+        }
+        .control-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            vertical-align: top;
+        }
+        .control-table td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+            width: 130px;
+        }
+        .control-table td:nth-child(2) {
+            font-style: italic;
+            color: rgba(18, 18, 18, 0.7);
+            width: 160px;
+        }
+
+        .callout {
+            border-left: 3px solid #121212;
+            background: #f7f7f5;
+            padding: 14px 20px;
+            margin: 18px 0;
+            font-size: 1.45rem;
+        }
+        .callout strong { display: inline-block; margin-right: 6px; }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px 18px;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .position-grid .pos {
+            font-weight: 700;
+            text-align: right;
+            color: rgba(18, 18, 18, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-size: 1.2rem;
+            padding-top: 2px;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(18, 18, 18, 0.5);
+            text-decoration: none;
+            margin-top: 18px;
+        }
+        .back-to-top:hover { color: #121212; text-decoration: underline; }
+
+        .footer {
+            border-top: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.55);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer a { color: rgba(18, 18, 18, 0.7); }
+    
+        /* --- per-effect platform toggle --- */
+        .platform-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 36px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            padding-bottom: 22px;
+        }
+        .ptab {
+            font-family: inherit;
+            font-size: 1.4rem;
+            letter-spacing: 0.6px;
+            color: #121212;
+            background: #fff;
+            border: 1px solid rgba(18, 18, 18, 0.25);
+            padding: 9px 22px;
+            cursor: pointer;
+            transition: background 0.12s, color 0.12s, border-color 0.12s;
+            border-radius: 999px;
+        }
+        .ptab:hover { border-color: #121212; }
+        .ptab.active {
+            background: #121212;
+            color: #fff;
+            border-color: #121212;
+            font-weight: 700;
+        }
+        /* --- index card grid --- */
+        .effect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .effect-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(18, 18, 18, 0.14);
+            padding: 24px 24px 20px;
+            text-decoration: none;
+            color: #121212;
+            background: #fff;
+            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
+        }
+        .effect-card:hover {
+            border-color: #121212;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
+        }
+        .effect-card h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .effect-card p {
+            font-size: 1.45rem;
+            line-height: 1.5;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #f0f0ee;
+            color: rgba(18, 18, 18, 0.7);
+            border: 1px solid rgba(18, 18, 18, 0.12);
+        }
+        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
+        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
+        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
+        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
+        @media (max-width: 600px) {
+            .effect-grid { grid-template-columns: 1fr; }
+            .header { padding: 18px 22px; }
+            .main { padding: 36px 20px 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="transistors.html">TRANSISTORS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main" id="top">
+
+    <h1 class="page-title">A.W.O.O. — Auto Wah Octave Overload</h1>
+    <p class="page-subtitle">A formant filter bank and an envelope reshaper chop your signal into short, pitch-bent bark bursts, with a sub-octave for chest rumble and a glitch stutter for broken-speaker grit. Yes — it makes your guitar bark like a dog.</p>
+
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
+    </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>A.W.O.O. — Auto Wah Octave Overload</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">The bark machine on Terrarium hardware: an envelope reshaper chops your guitar into short bark bursts, a three-band formant filter gives them the nasal "woof" vowel, and each burst bends down on its tail. Sub-octave adds chest rumble and a glitch stutter breaks the bark up like a bad speaker — all on four simple two-position switches. Hold the right footswitch to howl or growl.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → sub-octave mix (Sub) → <strong>envelope reshaper</strong> (bark bursts, Rate/Decay) → <strong>formant filter bank</strong> (~400/800/1200 Hz, shifted by Size, blended by Bark) → <strong>pitch bend</strong> (down per burst) → glitch stutter (SW4) → Volume → output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Bark (formant filter depth — hint of growl to full bark)</td></tr>
+            <tr><td>KNOB 3</td><td>Rate (bark burst speed — slow woofs to rapid yapping)</td></tr>
+            <tr><td>KNOB 4</td><td>Size (dog size — left = small/yip, right = big/woof)</td></tr>
+            <tr><td>KNOB 5</td><td>Sub (sub-octave chest rumble)</td></tr>
+            <tr><td>KNOB 6</td><td>Decay (bark length — short ruff to long wooof)</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>How the bark works:</strong> the reshaper opens an instant-attack gate on each trigger and lets it decay, chopping sustained notes into punchy bursts. The formant bank — three resonant bandpass filters at the dog-bark vowel resonances — colors those bursts, and a quick downward pitch bend on each one gives the bark its falling "woof" shape.
+        </div>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Bark style — off = single woof / on = rapid yap</td></tr>
+            <tr><td>SW2</td><td>Trigger mode — off = pick attack / on = LFO auto-bark</td></tr>
+            <tr><td>SW3</td><td>FSW2 mode — off = howl / on = growl</td></tr>
+            <tr><td>SW4</td><td>Glitch stutter on/off (random tiny buffer repeats)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass.</td></tr>
+            <tr><td>FS2</td><td>FSW2 — howl or growl per SW3 (momentary, held).</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> SW2 off (pick attack) with SW1 off (single woof), Bark past noon and a short Decay turns staccato picking into clipped barks. Flip SW1 on for a yap, add Sub for a bigger dog, and flip SW4 on for a broken-speaker stutter. Hold FS2 with SW3 off to howl.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged (not bypassed).</li>
+            <li><strong>LED 2 (right):</strong> FSW2 active, and blinks on each bark.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>A.W.O.O. — Auto Wah Octave Overload</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">A bark machine. A.W.O.O. takes your guitar and makes it bark like a dog: an envelope reshaper chops sustained notes into short, punchy bursts, a three-band formant filter colors each burst with the nasal "woof" vowel, and every bark gets a quick downward pitch bend on its tail. A clean sub-octave adds chest rumble, the Size knob sets the breed from yappy small dog to deep big dog, and DIP-enabled glitch and crush degrade the whole thing into a broken-walkie-talkie snarl. Hold the second footswitch to howl, growl, or whimper.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → sub-octave mix (Sub) → <strong>envelope reshaper</strong> (bark bursts, Rate/Decay) → <strong>formant filter bank</strong> (~400/800/1200 Hz, shifted by Size, blended by Bark) → <strong>pitch bend</strong> (down per burst) → glitch / crush (DIPs) → Volume → output. The reshaper gates first so the formant filters and bend shape discrete barks rather than a continuous tone.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Bark</td><td>Formant filter depth — the dry/formant blend. Low = your guitar with just a hint of nasal coloring (a subtle growl); high = the signal is fully voiced through the formant bank for a full dog bark.</td></tr>
+            <tr><td>KNOB 3</td><td>Rate</td><td>Bark burst speed. Drives the envelope reshaper: the LFO auto-bark interval and the spacing of bursts inside a double/yap group. CCW = single deliberate woofs; CW = rapid yapping.</td></tr>
+            <tr><td>KNOB 4</td><td>Size</td><td>Dog size — shifts all three formant frequencies together. Left = small dog (high formants, yip); center = medium dog; right = big dog (low formants, deep woof).</td></tr>
+            <tr><td>KNOB 5</td><td>Sub</td><td>Sub-octave depth. Mixes a clean octave-down voice underneath the bark for chest rumble and weight.</td></tr>
+            <tr><td>KNOB 6</td><td>Decay</td><td>How long each bark sustains before the gate closes. Short = a tight "ruff"; long = a drawn-out "wooooof". Also sets how far the pitch bend travels within a burst.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Bark Style</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Double bark — two bursts per trigger ("ruff ruff").</span>
+            <span class="pos">Left</span><span>Single woof — one burst per trigger.</span>
+            <span class="pos">Right</span><span>Rapid yap — 3–4 quick barks per trigger.</span>
+        </div>
+
+        <h4>SW2 — Trigger Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>LFO auto-bark — barks automatically at the Rate speed regardless of input.</span>
+            <span class="pos">Left</span><span>Pick attack — your picking dynamics trigger each bark.</span>
+            <span class="pos">Right</span><span>Envelope follower — harder picking makes a louder, more intense bark.</span>
+        </div>
+
+        <h4>SW3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Growl — sustained low rumble; bypasses the bark gate for a continuous menacing growl while FS2 is held.</span>
+            <span class="pos">Left</span><span>Howl — sustains the signal and bends pitch slowly upward while held ("awoooo").</span>
+            <span class="pos">Right</span><span>Whimper — pitch bends down, formants shift high, short soft bursts while held.</span>
+        </div>
+
+        <h3>DIP Switches</h3>
+        <table class="control-table">
+            <tr><th>DIP</th><th>Function</th></tr>
+            <tr><td>DIP 1</td><td>Multi-bark — adds 2–3 rapid barks per trigger (excited dog). Stacks with the Rate knob and SW1 style.</td></tr>
+            <tr><td>DIP 2</td><td>Glitch stutter — randomly repeats tiny chunks of the bark buffer at irregular intervals, like a bark through a broken speaker. Stacks with DIP 3.</td></tr>
+            <tr><td>DIP 3</td><td>Sample crush — bit-reduces and sample-rate crushes the bark. Dog barking through a walkie-talkie. Stacks with DIP 2.</td></tr>
+            <tr><td>DIP 4</td><td>MIDI bark — Note On triggers a bark, the note sets the formant (bark pitch), velocity sets intensity. With DIP 2 + DIP 3 on, MIDI triggers glitched, crushed barks.</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>FSW2 — howl / growl / whimper per SW3 (momentary, held).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = toggle).</td></tr>
+            <tr><td>CC 21</td><td>FSW2 (≥ 64 = active).</td></tr>
+            <tr><td>Note On</td><td>Triggers a bark when DIP 4 is enabled; note pitch sets the formant, velocity sets intensity.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 4 (Size) to foot-sweep the dog from small to large, or KNOB 3 (Rate). Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> for a classic bark, set SW2 to Pick attack, SW1 to Double bark, Bark past noon, Size at center, and a medium Decay — then pick staccato and it answers "ruff ruff." Turn on DIP 1 for an excited dog, or DIP 2 + DIP 3 for a junkyard-radio snarl. Hold FS2 with SW3 on Howl for a slow "awoooo."
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Bypass status (engaged).</li>
+            <li><strong>LED 2:</strong> FSW2 active, and blinks on each bark trigger.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>A.W.O.O. — Auto Wah Octave Overload</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">The bark machine on Hothouse hardware: envelope reshaper, three-band formant filter, sub-octave rumble, and per-burst pitch bend, with the trigger and voice options compressed into three 3-position toggles. No DIPs or MIDI. <strong>Footswitches are reversed from Terrarium</strong> per Hothouse convention — FS1 is FSW2, FS2 bypasses.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input → sub-octave mix (Sub) → <strong>envelope reshaper</strong> (bark bursts, Rate/Decay) → <strong>formant filter bank</strong> (~400/800/1200 Hz, shifted by Size, blended by Bark) → <strong>pitch bend</strong> (down per burst) → Volume → output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Bark</td><td>Formant filter depth (dry/formant blend). Low = a hint of growl; high = a full dog bark.</td></tr>
+            <tr><td>KNOB 3</td><td>Rate</td><td>Bark burst speed — LFO auto interval and intra-group spacing. CCW = deliberate woofs; CW = rapid yapping.</td></tr>
+            <tr><td>KNOB 4</td><td>Size</td><td>Dog size — shifts the formant frequencies. Left = small dog (yip); center = medium; right = big dog (deep woof).</td></tr>
+            <tr><td>KNOB 5</td><td>Sub</td><td>Sub-octave depth — chest rumble under the bark.</td></tr>
+            <tr><td>KNOB 6</td><td>Decay</td><td>Bark length — short "ruff" to drawn-out "wooooof".</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Bark Style</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Single woof — one burst per trigger.</span>
+            <span class="pos">Middle</span><span>Double bark — two bursts ("ruff ruff").</span>
+            <span class="pos">Down</span><span>Rapid yap — 3–4 quick barks per trigger.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Trigger Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Pick attack — playing dynamics trigger barks.</span>
+            <span class="pos">Middle</span><span>LFO auto-bark — barks at the Rate speed regardless of input.</span>
+            <span class="pos">Down</span><span>Envelope follower — harder picking = louder, more intense bark.</span>
+        </div>
+
+        <h4>TOGGLE 3 — FSW2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Howl — sustain + slow upward bend while FS1 is held ("awoooo").</span>
+            <span class="pos">Middle</span><span>Growl — sustained low rumble; bypasses the bark gate while held.</span>
+            <span class="pos">Down</span><span>Whimper — down bend, high formants, short soft bursts while held.</span>
+        </div>
+
+        <h3>Footswitches (note: reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>FSW2 — howl / growl / whimper per TOGGLE 3.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> TOGGLE 2 on Pick attack with TOGGLE 1 on Double bark answers your picking with "ruff ruff." Roll Size left and shorten Decay for a frantic small-dog yap; roll Size right with more Sub for a big-dog woof. Hold FS1 with TOGGLE 3 on Howl for a rising "awoooo."
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> FSW2 active, and blinks on each bark.</li>
+            <li><strong>LED 2 (right):</strong> Engaged (not bypassed).</li>
+        </ul>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
+
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
+</body>
+</html>

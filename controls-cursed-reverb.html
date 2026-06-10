@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controls Reference - NOKILL Pedal Co</title>
+    <title>Cursed Reverb - NOKILL Pedal Co</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -359,71 +359,212 @@
 
 <main class="main" id="top">
 
-    <h1 class="page-title">Controls Reference</h1>
-    <p class="page-subtitle">Pick an effect for full control documentation — knob ranges, switch positions, DIP behavior, footswitch gestures, MIDI mappings, and combination tips. Each page has a platform toggle for Terrarium, FunBox, Hothouse, and (where available) Synth.</p>
+    <h1 class="page-title">Cursed Reverb</h1>
+    <p class="page-subtitle">A Schroeder reverb (4 comb filters + 2 allpass diffusers) with pitch-shifted shimmer feedback, feedback saturation, and modulated delay times. Studio-grade ambience that can climb forever or freeze in place.</p>
 
-    <div class="effect-grid">
-        <a class="effect-card" href="controls-kelpie.html">
-            <h2>Kelpie</h2>
-            <p>Logic-noise pedal — frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-destroyer.html">
-            <h2>Fuzz Destroyer</h2>
-            <p>Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-modulator.html">
-            <h2>Fuzz Modulator</h2>
-            <p>Granular glitch fuzz with a grain engine and momentary delay repeats.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-cursed-reverb.html">
-            <h2>Cursed Reverb</h2>
-            <p>Shimmer reverb that descends into chaos — pitch-shifted feedback, saturation, and modulated delay times.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-doom-engine.html">
-            <h2>Doom Engine</h2>
-            <p>Distortion that gets weird — drive core with stackable rectify, ring mod, decimator, and resonant filter.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-echo-chamber.html">
-            <h2>Echo Chamber</h2>
-            <p>Multi-head tape delay with stretch and aging — three read heads, reverse mode, and degrading tape artifacts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-treat-octave-fuzz.html">
-            <h2>Treat Octave Fuzz</h2>
-            <p>Sleigh Bells-inspired octave destroyer — multi-octave layering into iMic-style ADC hard clipping.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-sag-did-ritual-wavefolder.html">
-            <h2>Sag-Dīd Ritual Wavefolder</h2>
-            <p>West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-awoo.html">
-            <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
-            <p>Makes your guitar bark like a dog — formant filter bank + envelope reshaper into pitch-bent bark bursts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-swamp-donkey.html">
-            <h2>Swamp Donkey</h2>
-            <p>Shrek-themed multi-effect — banjo twang, donkey bray, bitcrush pickle, and dark swamp reverb in layers.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-great-dane.html">
-            <h2>Great Dane Distorted Reverb</h2>
-            <p>Reverb-first pedal with two pitched octave voices, a stereo Spread knob, and a continuous distortion stage.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
     </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Cursed Reverb</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">A shimmer reverb that descends into chaos. Schroeder reverb (4 comb filters + 2 allpass diffusers) with pitch-shifted feedback, saturation, and modulated delay times. Pedal-style controls for a studio-grade ambient effect.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Range</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>0× to ~2×</td></tr>
+            <tr><td>KNOB 2</td><td>Decay</td><td>Reverb tail length. Feedback range 0.7–0.99 — tail is always audible, won't fully die.</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole damping in the feedback path. Higher = darker tail.</td></tr>
+            <tr><td>KNOB 4</td><td>Shimmer</td><td>Pitch-shifted feedback amount. The tail is fed through a grain pitch shifter before re-entering the reverb — at high settings the reverb climbs in pitch indefinitely.</td></tr>
+            <tr><td>KNOB 5</td><td>Warp</td><td>Delay time modulation depth. Slow chorusing of the reverb network.</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td><td>Dry/wet blend.</td></tr>
+        </table>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Shimmer interval (octave / fifth)</td></tr>
+            <tr><td>SW2</td><td>Saturate feedback (Padé tanh on the feedback bus)</td></tr>
+            <tr><td>SW3</td><td>Mod rate (slow / fast)</td></tr>
+            <tr><td>SW4</td><td>Shimmer direction (pitch up / down)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass</td></tr>
+            <tr><td>FS2</td><td>Momentary freeze — input is muted, current reverb tail loops infinitely</td></tr>
+        </table>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Cursed Reverb</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · True Stereo · MIDI · Expression</div>
+        <p class="lede">True-stereo shimmer reverb with per-channel comb/allpass length offsets and LFO phase offsets, plus the FunBox extras: MIDI knob takeover, learnable expression, and dual-footswitch gestures. The shimmer feedback path is mono-summed before re-injection so the stereo image stays coherent.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Decay</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (damping)</td></tr>
+            <tr><td>KNOB 4</td><td>Shimmer</td></tr>
+            <tr><td>KNOB 5</td><td>Warp (mod depth)</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Shimmer Interval & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Octave up (default).</span>
+            <span class="pos">Left</span><span>Fifth up.</span>
+            <span class="pos">Right</span><span>Octave down direction.</span>
+        </div>
+
+        <h4>SW2 — Saturate Feedback</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Padé tanh saturation on feedback.</span>
+        </div>
+
+        <h4>SW3 — Mod Rate</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Slow (default).</span>
+            <span class="pos">Left</span><span>Fast warble.</span>
+            <span class="pos">Right</span><span>Off — no mod.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release so dual-hold gestures don't toggle).</td></tr>
+            <tr><td>FS2</td><td>Momentary Freeze.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — toggles Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clears expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>Freeze latch (ORs with FS2 momentary).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>No default mapping — assign via FS1+FS2 hold-0.5 s Set Mode. Suggested target: KNOB 6 (Mix) for foot-controlled wet level.</p>
+
+        <h3>Stereo</h3>
+        <p>Per-channel comb filter lengths (1116/1341/1557/1733 vs 1139/1367/1583/1759) and allpass lengths (556/441 vs 571/454) with LFO phase offsets of 0.125 between channels. Shimmer feedback is mono-summed and re-injected to preserve coherence.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Freeze active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Cursed Reverb</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Schroeder reverb (4 combs + 2 allpass diffusers) with grain-based shimmer, OnePole damping, and modulated delay lines — on Hothouse hardware. Three 3-position toggles compress the Terrarium's four switches. <strong>Footswitches reversed from Terrarium</strong> per Hothouse convention.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level, scaled 2× to match bypass.</td></tr>
+            <tr><td>KNOB 2</td><td>Decay</td><td>Reverb time. Feedback range 0.75 → 0.995 (long tails, near-infinite at max).</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole damping filter in the comb feedback path. Lower = darker, more felt; higher = bright.</td></tr>
+            <tr><td>KNOB 4</td><td>Shimmer</td><td>Pitch-shifted feedback amount. Adds the selected interval back into the reverb loop for stacking octaves/fifths.</td></tr>
+            <tr><td>KNOB 5</td><td>Warp</td><td>LFO modulation depth on delay times. Higher = pitch-warbling, chorused reverb.</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td><td>Dry/wet blend.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Shimmer Interval & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Octave up — classic shimmer.</span>
+            <span class="pos">Middle</span><span>Octave down — sub-octave shimmer, doomy.</span>
+            <span class="pos">Down</span><span>Fifth up — perfect-fifth interval shimmer.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Saturate Feedback</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Padé tanh saturation on the feedback path — adds harmonics, helps long tails sit in the mix.</span>
+            <span class="pos">Middle/Down</span><span>Off — clean feedback.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Mod Rate</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Slow drift — wide, lush modulation.</span>
+            <span class="pos">Middle</span><span>Off — no modulation, static reverb.</span>
+            <span class="pos">Down</span><span>Fast warble — pronounced chorus/flutter.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention — reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass toggle.</td></tr>
+            <tr><td>FS2 (right)</td><td>Momentary Freeze — infinite hold, input muted while held.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Freeze active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader (Hothouse built-in).</p>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
 </main>
 
 <footer class="footer">
     <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
 </footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
 
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
 </body>
 </html>

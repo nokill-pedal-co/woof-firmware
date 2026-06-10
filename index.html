@@ -1415,10 +1415,15 @@
     const browserWarning    = document.getElementById('browserWarning');
     const controlsBtn       = document.getElementById('controlsBtn');
 
-    // Map FIRMWARE_DATA keys to controls.html section anchors.
+    // Map FIRMWARE_DATA keys to their per-effect controls page, with the
+    // matching platform pre-selected via the URL hash.
     function controlsAnchor(key) {
-        if (key === 'kelpie') return 'kelpie-terrarium';
-        return key.replace(/_/g, '-');
+        var platform = 'terrarium';
+        var slug = key;
+        if (/_funbox$/.test(key))        { platform = 'funbox';   slug = key.replace(/_funbox$/, ''); }
+        else if (/_hothouse$/.test(key)) { platform = 'hothouse'; slug = key.replace(/_hothouse$/, ''); }
+        else if (/_synth$/.test(key))    { platform = 'synth';    slug = key.replace(/_synth$/, ''); }
+        return 'controls-' + slug.replace(/_/g, '-') + '.html#' + platform;
     }
 
     // --- Check WebUSB support ---
@@ -1469,7 +1474,7 @@
         firmwareBinary = null;
 
         // Deep-link the controls button to this pedal's section.
-        controlsBtn.href = 'controls.html#' + controlsAnchor(key);
+        controlsBtn.href = controlsAnchor(key);
 
         // Show info
         let html = '<h4>' + selectedFirmware.name + '</h4>';
@@ -1477,7 +1482,7 @@
         html += '<div class="controls-list">';
         selectedFirmware.controls.forEach(function(c) {
             if (c.indexOf('See full controls') === 0 || c.indexOf('controls.html') !== -1) {
-                html += '<a href="controls.html#' + controlsAnchor(key) + '" target="_blank" style="color: var(--accent, #121212); text-decoration: underline;">See full controls reference →</a><br>';
+                html += '<a href="' + controlsAnchor(key) + '" target="_blank" style="color: var(--accent, #121212); text-decoration: underline;">See full controls reference →</a><br>';
                 return;
             }
             const parts = c.split(' = ');

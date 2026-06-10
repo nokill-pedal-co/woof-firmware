@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuzz Destroyer - NOKILL Pedal Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 62.5%; scroll-behavior: smooth; }
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+        .announcement-bar {
+            background: #121212;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            display: block;
+        }
+        .header-nav a {
+            font-size: 1.6rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+        .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 30px 100px;
+        }
+        .page-title {
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .toc {
+            background: #f7f7f5;
+            border: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 22px 26px;
+            margin-bottom: 40px;
+        }
+        .toc h3 {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            color: rgba(18, 18, 18, 0.55);
+        }
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 4px; }
+        .toc a {
+            display: block;
+            color: #121212;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 6px 10px;
+            border-left: 3px solid transparent;
+            transition: background 0.1s, border-color 0.1s;
+            cursor: pointer;
+        }
+        .toc a:hover {
+            background: rgba(18, 18, 18, 0.05);
+            border-left-color: rgba(18, 18, 18, 0.4);
+        }
+        .toc a.active {
+            background: #121212;
+            color: #fff;
+            border-left-color: #121212;
+            font-weight: 700;
+        }
+        .toc a.active .platform-tag {
+            background: #fff;
+            color: #121212;
+        }
+        .toc .platform-tag {
+            display: inline-block;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            background: #121212;
+            color: #fff;
+            padding: 2px 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .pedal {
+            display: none;
+            padding-top: 16px;
+            margin-bottom: 40px;
+        }
+        .pedal.active { display: block; }
+        .pedal h2 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .pedal .platform {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            color: rgba(18, 18, 18, 0.55);
+            margin-bottom: 16px;
+        }
+        .pedal .lede {
+            font-size: 1.7rem;
+            line-height: 1.55;
+            margin-bottom: 28px;
+            color: rgba(18, 18, 18, 0.85);
+        }
+        .pedal h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+            padding-bottom: 6px;
+        }
+        .pedal h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+        .pedal p { margin-bottom: 12px; }
+        .pedal ul, .pedal ol { margin-left: 22px; margin-bottom: 14px; }
+        .pedal li { margin-bottom: 6px; }
+        .pedal code {
+            background: #f0f0ee;
+            padding: 1px 6px;
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 1.4rem;
+            border-radius: 2px;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .control-table th {
+            background: #121212;
+            color: #fff;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+        }
+        .control-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            vertical-align: top;
+        }
+        .control-table td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+            width: 130px;
+        }
+        .control-table td:nth-child(2) {
+            font-style: italic;
+            color: rgba(18, 18, 18, 0.7);
+            width: 160px;
+        }
+
+        .callout {
+            border-left: 3px solid #121212;
+            background: #f7f7f5;
+            padding: 14px 20px;
+            margin: 18px 0;
+            font-size: 1.45rem;
+        }
+        .callout strong { display: inline-block; margin-right: 6px; }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px 18px;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .position-grid .pos {
+            font-weight: 700;
+            text-align: right;
+            color: rgba(18, 18, 18, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-size: 1.2rem;
+            padding-top: 2px;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(18, 18, 18, 0.5);
+            text-decoration: none;
+            margin-top: 18px;
+        }
+        .back-to-top:hover { color: #121212; text-decoration: underline; }
+
+        .footer {
+            border-top: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.55);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer a { color: rgba(18, 18, 18, 0.7); }
+    
+        /* --- per-effect platform toggle --- */
+        .platform-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 36px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            padding-bottom: 22px;
+        }
+        .ptab {
+            font-family: inherit;
+            font-size: 1.4rem;
+            letter-spacing: 0.6px;
+            color: #121212;
+            background: #fff;
+            border: 1px solid rgba(18, 18, 18, 0.25);
+            padding: 9px 22px;
+            cursor: pointer;
+            transition: background 0.12s, color 0.12s, border-color 0.12s;
+            border-radius: 999px;
+        }
+        .ptab:hover { border-color: #121212; }
+        .ptab.active {
+            background: #121212;
+            color: #fff;
+            border-color: #121212;
+            font-weight: 700;
+        }
+        /* --- index card grid --- */
+        .effect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .effect-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(18, 18, 18, 0.14);
+            padding: 24px 24px 20px;
+            text-decoration: none;
+            color: #121212;
+            background: #fff;
+            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
+        }
+        .effect-card:hover {
+            border-color: #121212;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
+        }
+        .effect-card h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .effect-card p {
+            font-size: 1.45rem;
+            line-height: 1.5;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #f0f0ee;
+            color: rgba(18, 18, 18, 0.7);
+            border: 1px solid rgba(18, 18, 18, 0.12);
+        }
+        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
+        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
+        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
+        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
+        @media (max-width: 600px) {
+            .effect-grid { grid-template-columns: 1fr; }
+            .header { padding: 18px 22px; }
+            .main { padding: 36px 20px 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="transistors.html">TRANSISTORS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main" id="top">
+
+    <h1 class="page-title">Fuzz Destroyer</h1>
+    <p class="page-subtitle">A high-gain stutter fuzz with self-oscillating feedback, octave up/down, wave fold and sample crush, plus a momentary stutter footswitch that works even when the pedal is bypassed.</p>
+
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
+    </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Fuzz Destroyer</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush. The momentary stutter footswitch is active even when the pedal is bypassed — useful for live tape-stop effects without committing to the fuzz character.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Drive (1× to 200× gain through the cascaded fuzz)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (post-fuzz LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Stab (feedback oscillation amount — feeds delay line back into fuzz input for self-oscillation)</td></tr>
+            <tr><td>KNOB 5</td><td>Gate (noise gate threshold — handy because the high gain otherwise screams when you're not playing)</td></tr>
+            <tr><td>KNOB 6</td><td>Stutter speed</td></tr>
+        </table>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Wave fold blend</td></tr>
+            <tr><td>SW2</td><td>Octave up</td></tr>
+            <tr><td>SW3</td><td>Sample crush (bit reduction)</td></tr>
+            <tr><td>SW4</td><td>Stutter shape (square / saw)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass toggle</td></tr>
+            <tr><td>FS2</td><td>Momentary stutter — works even when the pedal is bypassed</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Engaged.</li>
+            <li><strong>LED 2:</strong> Stutter active.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Fuzz Destroyer</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">Stutter fuzz with the FunBox extras. Self-oscillating feedback, octave up/down, wave fold + sample crush stacking, three stutter shapes, and a stutter-mode switch that turns the right footswitch from a hold-to-stutter into a tap-latch or always-on chopper. Stereo detune and MIDI-locked self-oscillation pitch round out the destruction.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level. Final clip is post-volume.</td></tr>
+            <tr><td>KNOB 2</td><td>Drive</td><td>1×–200× scaling. The cascade is harsh; even modest settings sound destroyed.</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole low-pass. Crank for ice-pick, roll back for the wall.</td></tr>
+            <tr><td>KNOB 4</td><td>Stab</td><td>Feedback oscillation depth — drives a short delay loop fed back into the fuzz input. At &gt;50% with no input the loop self-oscillates into a sustained squeal. With DIP_3 on, the squeal latches indefinitely; with MIDI Note On, the squeal pitch is locked to MIDI.</td></tr>
+            <tr><td>KNOB 5</td><td>Gate</td><td>Noise gate threshold for sputtery, velcro fuzz at high settings. At low settings the pedal hisses freely.</td></tr>
+            <tr><td>KNOB 6</td><td>Stutter Speed</td><td>Frequency of the stutter chopper when active.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Octave</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Off — straight fuzz, no octave generation.</span>
+            <span class="pos">Left</span><span>Octave up — full-wave rectifier creating a harsh octave-up tone.</span>
+            <span class="pos">Right</span><span>Octave down (NEW) — comparator-divider flip-flops on every other zero crossing, producing a CMOS/OC-2-style square sub-octave that's envelope-tracked and ring-modulated with the input. Thicker low end, with the original fundamental still poking through.</span>
+        </div>
+
+        <h4>SW2 — Stutter Shape</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Square chop — hard amplitude gate, on/off click.</span>
+            <span class="pos">Left</span><span>Triangle tremolo — smooth amplitude swell.</span>
+            <span class="pos">Right</span><span>Ramp saw (NEW) — linear ramp 0→1 then snap to 0. Each stutter pulse has a "kick"-style envelope.</span>
+        </div>
+
+        <h4>SW3 — Stutter Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Hold — original behavior. FS2 momentary; release = stutter off.</span>
+            <span class="pos">Left</span><span>Tap-latch — FS2 toggles stutter on/off. LED reflects state.</span>
+            <span class="pos">Right</span><span>Auto-on — stutter is always active when the pedal is engaged. FS2 momentarily <strong>disables</strong> stutter while held (a "kill" footswitch). Set-and-forget for live perpetual chopping.</span>
+        </div>
+
+        <h3>DIP Switches</h3>
+
+        <h4>DIP 1 — Wave Fold</h4>
+        <p>Carries over from Terrarium SW1. Wave-folder blended into the fuzz path, additive harmonics. Stacks with DIP_2.</p>
+
+        <h4>DIP 2 — Sample Crush</h4>
+        <p>Carries over from Terrarium SW3. Sample-rate decimator. Stacks with DIP_1 — together produces the "ultimate destruction" tone.</p>
+
+        <h4>DIP 3 — Self-Osc Lock</h4>
+        <p>When on AND Stab knob &gt; 50%, the input contribution to the feedback loop is suppressed and the loop self-oscillates regardless of whether you're playing. Result: pedal becomes a no-input drone tool. Stab knob still controls depth, Tone shapes the tail. Combined with MIDI Note On, you can play melodies on the squeal.</p>
+
+        <h4>DIP 4 — Stereo Detune</h4>
+        <p>Per-channel modulated delay (~12 ms center) with sine LFOs at 0.30 Hz (L) and 0.42 Hz (R), depth ±1 ms, phases offset. Result is a Boss-CE-style stereo chorus spread on the fuzz output. Off: both channels mono-identical. On: lush, wide, almost shoegaze. Detune buffers stay updated even when off, so re-engaging is instant.</p>
+
+        <div class="callout">
+            <strong>No-input drone patch:</strong> SW1 center, SW3 center (stutter hold mode), DIP_3 on, DIP_4 on. Stab to 70%, Tone to taste, Drive to ~12 o'clock. Don't play anything — pedal sustains its own squeal in stereo. Plug a MIDI keyboard, send Note On, and the squeal tracks the pitch.
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th><th>Behavior</th></tr>
+            <tr><td>FS1</td><td>Bypass</td><td>Toggle on FallingEdge. Stutter still works on the dry signal when bypassed.</td></tr>
+            <tr><td>FS2</td><td>Stutter</td><td>Behavior depends on SW3 (hold / tap-latch / auto-on).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold</td><td>Toggle Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold</td><td>Clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up</td><td>DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 with takeover.</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = press).</td></tr>
+            <tr><td>CC 21</td><td>Stutter on/off (≥ 64 = active). Overrides FS2 state in any SW3 mode.</td></tr>
+            <tr><td>CC 22</td><td>Octave step. Each receive cycles: off → up → down → off. Only takes effect when SW1 is centered (physical switch wins).</td></tr>
+            <tr><td>Note On</td><td>Stab pitch lock. Self-oscillation frequency is forced to MIDI note (mtof). Note Off returns to natural self-oscillation. Wins over DIP_3 lock — can stack (locked drone singing the MIDI pitch).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Same heel/toe learn flow as other FunBox pedals.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Stutter active (reflects SW3 mode + FS2 + CC 21).</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Fuzz Destroyer</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Stutter fuzz on Hothouse hardware. 3-position toggles for octave (up/off/down), voice character (fold/clean/crush), and stutter shape (square/triangle/ramp). Mono. <strong>Footswitches reversed from Terrarium</strong>: FS1 holds for stutter, FS2 bypasses. Wave-fold and sample-crush stacking is dropped — pick one or neither.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Drive (1×–200×)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Stab (feedback oscillation depth)</td></tr>
+            <tr><td>KNOB 5</td><td>Gate (noise gate threshold)</td></tr>
+            <tr><td>KNOB 6</td><td>Stutter Speed</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Octave</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Octave up.</span>
+            <span class="pos">Middle</span><span>Off.</span>
+            <span class="pos">Down</span><span>Octave down — comparator-divider sub-octave, ring-modulated with input.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Voice</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Wave fold blended into fuzz path.</span>
+            <span class="pos">Middle</span><span>Clean — no fold, no crush. Straight cascaded fuzz.</span>
+            <span class="pos">Down</span><span>Sample crush — sample-rate decimator on the fuzz output.</span>
+        </div>
+        <p style="font-size:1.4rem;color:rgba(18,18,18,0.6);margin-top:6px;">On Terrarium, fold and crush could stack. On Hothouse only one fits — exclusive selection.</p>
+
+        <h4>TOGGLE 3 — Stutter Shape</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Square chop.</span>
+            <span class="pos">Middle</span><span>Triangle tremolo.</span>
+            <span class="pos">Down</span><span>Ramp saw — linear ramp then snap-to-zero.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention — reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Momentary stutter — works even when bypassed.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass toggle.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Stutter active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s at any time (Hothouse built-in feature).</p>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
+
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
+</body>
+</html>

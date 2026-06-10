@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuzz Modulator - NOKILL Pedal Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 62.5%; scroll-behavior: smooth; }
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+        .announcement-bar {
+            background: #121212;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            display: block;
+        }
+        .header-nav a {
+            font-size: 1.6rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+        .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 30px 100px;
+        }
+        .page-title {
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .toc {
+            background: #f7f7f5;
+            border: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 22px 26px;
+            margin-bottom: 40px;
+        }
+        .toc h3 {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            color: rgba(18, 18, 18, 0.55);
+        }
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 4px; }
+        .toc a {
+            display: block;
+            color: #121212;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 6px 10px;
+            border-left: 3px solid transparent;
+            transition: background 0.1s, border-color 0.1s;
+            cursor: pointer;
+        }
+        .toc a:hover {
+            background: rgba(18, 18, 18, 0.05);
+            border-left-color: rgba(18, 18, 18, 0.4);
+        }
+        .toc a.active {
+            background: #121212;
+            color: #fff;
+            border-left-color: #121212;
+            font-weight: 700;
+        }
+        .toc a.active .platform-tag {
+            background: #fff;
+            color: #121212;
+        }
+        .toc .platform-tag {
+            display: inline-block;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            background: #121212;
+            color: #fff;
+            padding: 2px 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .pedal {
+            display: none;
+            padding-top: 16px;
+            margin-bottom: 40px;
+        }
+        .pedal.active { display: block; }
+        .pedal h2 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .pedal .platform {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            color: rgba(18, 18, 18, 0.55);
+            margin-bottom: 16px;
+        }
+        .pedal .lede {
+            font-size: 1.7rem;
+            line-height: 1.55;
+            margin-bottom: 28px;
+            color: rgba(18, 18, 18, 0.85);
+        }
+        .pedal h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+            padding-bottom: 6px;
+        }
+        .pedal h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+        .pedal p { margin-bottom: 12px; }
+        .pedal ul, .pedal ol { margin-left: 22px; margin-bottom: 14px; }
+        .pedal li { margin-bottom: 6px; }
+        .pedal code {
+            background: #f0f0ee;
+            padding: 1px 6px;
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 1.4rem;
+            border-radius: 2px;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .control-table th {
+            background: #121212;
+            color: #fff;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+        }
+        .control-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            vertical-align: top;
+        }
+        .control-table td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+            width: 130px;
+        }
+        .control-table td:nth-child(2) {
+            font-style: italic;
+            color: rgba(18, 18, 18, 0.7);
+            width: 160px;
+        }
+
+        .callout {
+            border-left: 3px solid #121212;
+            background: #f7f7f5;
+            padding: 14px 20px;
+            margin: 18px 0;
+            font-size: 1.45rem;
+        }
+        .callout strong { display: inline-block; margin-right: 6px; }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px 18px;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .position-grid .pos {
+            font-weight: 700;
+            text-align: right;
+            color: rgba(18, 18, 18, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-size: 1.2rem;
+            padding-top: 2px;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(18, 18, 18, 0.5);
+            text-decoration: none;
+            margin-top: 18px;
+        }
+        .back-to-top:hover { color: #121212; text-decoration: underline; }
+
+        .footer {
+            border-top: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.55);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer a { color: rgba(18, 18, 18, 0.7); }
+    
+        /* --- per-effect platform toggle --- */
+        .platform-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 36px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            padding-bottom: 22px;
+        }
+        .ptab {
+            font-family: inherit;
+            font-size: 1.4rem;
+            letter-spacing: 0.6px;
+            color: #121212;
+            background: #fff;
+            border: 1px solid rgba(18, 18, 18, 0.25);
+            padding: 9px 22px;
+            cursor: pointer;
+            transition: background 0.12s, color 0.12s, border-color 0.12s;
+            border-radius: 999px;
+        }
+        .ptab:hover { border-color: #121212; }
+        .ptab.active {
+            background: #121212;
+            color: #fff;
+            border-color: #121212;
+            font-weight: 700;
+        }
+        /* --- index card grid --- */
+        .effect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .effect-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(18, 18, 18, 0.14);
+            padding: 24px 24px 20px;
+            text-decoration: none;
+            color: #121212;
+            background: #fff;
+            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
+        }
+        .effect-card:hover {
+            border-color: #121212;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
+        }
+        .effect-card h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .effect-card p {
+            font-size: 1.45rem;
+            line-height: 1.5;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #f0f0ee;
+            color: rgba(18, 18, 18, 0.7);
+            border: 1px solid rgba(18, 18, 18, 0.12);
+        }
+        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
+        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
+        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
+        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
+        @media (max-width: 600px) {
+            .effect-grid { grid-template-columns: 1fr; }
+            .header { padding: 18px 22px; }
+            .main { padding: 36px 20px 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="transistors.html">TRANSISTORS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main" id="top">
+
+    <h1 class="page-title">Fuzz Modulator</h1>
+    <p class="page-subtitle">Three cascaded fuzz stages feeding a grain engine that fragments the signal into short windows and replays them at varying rates and directions — optionally re-fuzzing the granular output for compounding chaos.</p>
+
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
+    </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Fuzz Modulator</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">Granular glitch fuzz. Three cascaded fuzz stages (~300× total) into a grain engine that fragments the signal into short windows, plays them back at varying rates and directions, and optionally re-fuzzes the granular output for compounding chaos.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz (3-stage cascaded ~300×)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td></tr>
+            <tr><td>KNOB 4</td><td>Grain size (5–200 ms)</td></tr>
+            <tr><td>KNOB 5</td><td>Grain rate (0.5–40 Hz)</td></tr>
+            <tr><td>KNOB 6</td><td>Warp (playback speed of grains)</td></tr>
+        </table>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Grain direction (forward / reverse)</td></tr>
+            <tr><td>SW2</td><td>Grain feed (clean signal vs. re-fuzzed signal into the grain buffer)</td></tr>
+            <tr><td>SW3</td><td>Mod source (manual knob vs. envelope-driven grain rate)</td></tr>
+            <tr><td>SW4</td><td>Fuzz character (hard clip / wave fold)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass</td></tr>
+            <tr><td>FS2</td><td>Momentary delay repeats</td></tr>
+        </table>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Fuzz Modulator</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">Granular glitch fuzz with the FunBox extras. Same 3-stage cascaded fuzz feeding a grain buffer, plus stereo grain pingpong, wave-folding, hard stutter mode, an envelope-driven Warp, and MIDI-triggered grain capture. Footswitch 2 holds for momentary delay repeats.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level. Final hard-clip safety net is post-volume.</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz</td><td>3-stage cascaded clipping with asymmetric mid stage. Total gain ~4×–600× scaling. With DIP_1 on, the final stage swaps hard clip for a sine-based wave fold (more odd harmonics, smoother fold-back).</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td><td>OnePole low-pass post-fuzz. Higher = brighter.</td></tr>
+            <tr><td>KNOB 4</td><td>Grain Size</td><td>Capture window length, 5 ms to 200 ms. Short = hyper-stuttery; long = smearable, almost reverb-like at high rates.</td></tr>
+            <tr><td>KNOB 5</td><td>Grain Rate</td><td>Retrigger frequency, 0.5 Hz to 40 Hz. With SW3 in envelope or LFO mode, this is the baseline that gets modulated ±50%.</td></tr>
+            <tr><td>KNOB 6</td><td>Warp</td><td>Grain playback speed. Knob center ≈ 1× (original speed). Half-speed at low end (deep, dragging), 2× at top end (chipmunk, glitchy fast). With DIP_4 on, envelope multiplies this by 0.5×–2× based on input dynamics. With MIDI Note On held, MIDI pitch overrides Warp.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span><strong>Grain disabled.</strong> Pedal is a straight fuzz. Useful as a baseline.</span>
+            <span class="pos">Left</span><span>Forward grain — captured audio plays in the original direction.</span>
+            <span class="pos">Right</span><span>Reverse grain — captured audio plays backward. Combined with high Warp = warbly tape rewind effect.</span>
+        </div>
+
+        <h4>SW2 — Feed</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span><strong>Capture disabled.</strong> Grain buffer freezes; existing contents will play out and loop. Useful for "freezing" a captured texture.</span>
+            <span class="pos">Left</span><span>Clean repeats — grain captures pre-fuzz signal, plays back through the fuzz cascade. Each repeat sounds fresh.</span>
+            <span class="pos">Right</span><span>Re-fuzzed — grain captures post-fuzz signal, no second pass. Cleaner repeats with the original fuzz character intact.</span>
+        </div>
+
+        <h4>SW3 — Modulation Source</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Manual — knobs only.</span>
+            <span class="pos">Left</span><span>Envelope-follow — input level scales Grain Rate ±50%. Pluck harder = faster retrigger.</span>
+            <span class="pos">Right</span><span>LFO sweep — slow ~0.1 Hz triangle modulates Grain Rate ±50%. Hands-off slow-cycling glitch.</span>
+        </div>
+
+        <h3>DIP Switches — Bonus Modes</h3>
+
+        <h4>DIP 1 — Wave Fold</h4>
+        <p>Replaces the hard clip in the fuzz output stage with a sine-based wave folder (<code>sin(in × π/2)</code>). At high Fuzz settings produces strong odd harmonics with smooth fold-back instead of the clipper's flat-topped harshness. Pair with low Tone for a synthy, square-wave-meets-fold quality.</p>
+
+        <h4>DIP 2 — Stutter</h4>
+        <p>Skips the 1.3 ms anti-click crossfade on grain retrigger. Result: hard, clicky digital chop with no smoothing. Good for high-rate, percussive grain machine effects. Combine with very short Grain Size for granular drum-machine textures.</p>
+
+        <h4>DIP 3 — Stereo Pingpong</h4>
+        <p>Consecutive grains pan alternately to the left and right channels. The inactive channel still receives the fuzzed dry + delay signal so the pedal stays full-sounding while grains alternate. Without this DIP, both channels carry the same grain output. Especially good with envelope-modulated Grain Rate (SW3 left).</p>
+
+        <h4>DIP 4 — Auto-Warp</h4>
+        <p>Envelope follower drives Warp. Quiet input = Warp pulled down toward 0.5× of the knob value; loud input = pushed up to 2×. Plays well with light, dynamic playing — pluck softly for slow-mo grains, dig in for fast.</p>
+
+        <div class="callout">
+            <strong>Killer combo:</strong> SW1 forward, SW2 clean repeats, SW3 envelope, DIP_3 + DIP_4 on. Grain Rate ~3–8 Hz, small grain size. Result is a stereo, dynamics-responsive granular cloud that gets faster and higher-pitched the harder you play.
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th><th>Behavior</th></tr>
+            <tr><td>FS1</td><td>Bypass</td><td>Toggles on FallingEdge. Dry passes through unchanged + delay trail mixes in so repeats can decay naturally when toggled off mid-hold.</td></tr>
+            <tr><td>FS2</td><td>Momentary Repeats</td><td>Hold to engage delay feedback. Output of grain stage feeds back into the delay buffer. Release = feedback ramps back to zero.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold</td><td>Toggles Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold</td><td>Clears expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up</td><td>DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover — physical knob movement releases MIDI control)</td></tr>
+            <tr><td>CC 20</td><td>Bypass toggle (≥ 64 = press)</td></tr>
+            <tr><td>CC 21</td><td>Momentary Repeats hold (≥ 64 = on, &lt; 64 = off)</td></tr>
+            <tr><td>CC 22</td><td>Grain Trigger — any value forces a fresh grain capture at the current write index with current knob params. Use this to manually re-arm a grain on demand.</td></tr>
+            <tr><td>Note On</td><td>Warp pitch lock — overrides Warp to play the grain at the MIDI note's pitch. Baseline = MIDI 60 (C4) = 1× warp. Formula: <code>warp = 2^((note - 60) / 12)</code>.</td></tr>
+            <tr><td>Note Off</td><td>Returns to knob/Auto-Warp control.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Same heel/toe learn flow as the FunBox Kelpie. Hold FS1+FS2 for 0.5 s to enter Set Mode, position the pedal at heel and adjust knobs, position at toe and adjust, exit by holding FS1+FS2 again. Hold for 2 s to clear all mappings.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Repeats active. Overridden during Expression Set Mode.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Fuzz Modulator</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">The Fuzz Modulator core on Hothouse hardware: 3-stage cascaded fuzz into a grain buffer, with three 3-position toggles for direction, feed, and modulation source. Mono. <strong>Footswitches reversed from Terrarium</strong> — FS1 holds for delay repeats, FS2 bypasses. Wave Fold mode dropped (no fourth switch slot).</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz (3-stage cascaded ~300×, hard clip output stage)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Grain Size (5–200 ms)</td></tr>
+            <tr><td>KNOB 5</td><td>Grain Rate (0.5–40 Hz)</td></tr>
+            <tr><td>KNOB 6</td><td>Warp (playback speed; half to double)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Forward grain.</span>
+            <span class="pos">Middle</span><span>Grain disabled — pure fuzz.</span>
+            <span class="pos">Down</span><span>Reverse grain.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Feed</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Clean repeats — grain captures pre-fuzz, plays back through fuzz.</span>
+            <span class="pos">Middle</span><span>Capture disabled — buffer freezes, existing grain content loops.</span>
+            <span class="pos">Down</span><span>Re-fuzzed — grain captures post-fuzz, single pass.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Modulation Source</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Manual — knobs only.</span>
+            <span class="pos">Middle</span><span>Envelope-follow — input level scales Grain Rate ±50%.</span>
+            <span class="pos">Down</span><span>LFO sweep — ~0.1 Hz triangle modulates Grain Rate ±50%.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention — reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Momentary Delay Repeats — hold for echoes.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass toggle.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Repeats active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s at any time to enter the bootloader (Hothouse built-in feature).</p>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
+
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
+</body>
+</html>

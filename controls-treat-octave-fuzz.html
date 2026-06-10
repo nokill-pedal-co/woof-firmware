@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controls Reference - NOKILL Pedal Co</title>
+    <title>Treat Octave Fuzz - NOKILL Pedal Co</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -359,71 +359,216 @@
 
 <main class="main" id="top">
 
-    <h1 class="page-title">Controls Reference</h1>
-    <p class="page-subtitle">Pick an effect for full control documentation — knob ranges, switch positions, DIP behavior, footswitch gestures, MIDI mappings, and combination tips. Each page has a platform toggle for Terrarium, FunBox, Hothouse, and (where available) Synth.</p>
+    <h1 class="page-title">Treat Octave Fuzz</h1>
+    <p class="page-subtitle">A "Treats"-inspired octave destroyer: sub, dry, octave-up and +2-octave voices slammed into an iMic-style asymmetric hard clipper for that flat-topped, harsh, digital fuzz. The Lo-Fi Drop footswitch degrades to phone-speaker territory on demand.</p>
 
-    <div class="effect-grid">
-        <a class="effect-card" href="controls-kelpie.html">
-            <h2>Kelpie</h2>
-            <p>Logic-noise pedal — frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-destroyer.html">
-            <h2>Fuzz Destroyer</h2>
-            <p>Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-modulator.html">
-            <h2>Fuzz Modulator</h2>
-            <p>Granular glitch fuzz with a grain engine and momentary delay repeats.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-cursed-reverb.html">
-            <h2>Cursed Reverb</h2>
-            <p>Shimmer reverb that descends into chaos — pitch-shifted feedback, saturation, and modulated delay times.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-doom-engine.html">
-            <h2>Doom Engine</h2>
-            <p>Distortion that gets weird — drive core with stackable rectify, ring mod, decimator, and resonant filter.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-echo-chamber.html">
-            <h2>Echo Chamber</h2>
-            <p>Multi-head tape delay with stretch and aging — three read heads, reverse mode, and degrading tape artifacts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-treat-octave-fuzz.html">
-            <h2>Treat Octave Fuzz</h2>
-            <p>Sleigh Bells-inspired octave destroyer — multi-octave layering into iMic-style ADC hard clipping.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-sag-did-ritual-wavefolder.html">
-            <h2>Sag-Dīd Ritual Wavefolder</h2>
-            <p>West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-awoo.html">
-            <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
-            <p>Makes your guitar bark like a dog — formant filter bank + envelope reshaper into pitch-bent bark bursts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-swamp-donkey.html">
-            <h2>Swamp Donkey</h2>
-            <p>Shrek-themed multi-effect — banjo twang, donkey bray, bitcrush pickle, and dark swamp reverb in layers.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-great-dane.html">
-            <h2>Great Dane Distorted Reverb</h2>
-            <p>Reverb-first pedal with two pitched octave voices, a stereo Spread knob, and a continuous distortion stage.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
     </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Treat Octave Fuzz</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono</div>
+        <p class="lede">Sleigh Bells / "Treats"-inspired octave destroyer. Multi-octave layering (sub, dry, octave up, +2 octaves) slammed into iMic-style ADC hard clipping for that flat-topped, harsh, digital fuzz. Lo-Fi Drop footswitch instantly degrades to phone-speaker territory.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume (0× to 2×)</td></tr>
+            <tr><td>KNOB 2</td><td>Slam (iMic clip gain 1× to 50×)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (post-clip LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Sub (sub-octave voice level)</td></tr>
+            <tr><td>KNOB 5</td><td>Dry (clean voice level — yes, you can solo any one voice)</td></tr>
+            <tr><td>KNOB 6</td><td>Up (octave-up voice level)</td></tr>
+        </table>
+
+        <div class="callout">
+            <strong>iMic clipping:</strong> asymmetric hard clip with positive ceiling at 0.9 and negative floor at -1.0. Flat-topped, harsh, digital — modeled on the original iMic ADC behavior that made the "Treats" record sound the way it does.
+        </div>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>+2 Octaves (adds 2-octaves-up voice)</td></tr>
+            <tr><td>SW2</td><td>Sub mode (mono divider / poly granular)</td></tr>
+            <tr><td>SW3</td><td>Bit Crush (sample-rate reduction in addition to clipping)</td></tr>
+            <tr><td>SW4</td><td>FS2 mode selector (momentary / latching for Lo-Fi Drop)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass</td></tr>
+            <tr><td>FS2</td><td>Lo-Fi Drop — bandpass filter + crush + bit reduce + 3× gain compensation. Tap or hold depending on SW4.</td></tr>
+        </table>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Treat Octave Fuzz</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">Octave fuzz with stereo-detuned sub and octave-up voices for chorus-like width on the octave stacking. iMic asymmetric hard clip preserved. Sub-octave detuned ±3¢ L/R; octave-up detuned ±3¢ reverse; dry stays centered.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Slam (iMic clip gain)</td></tr>
+            <tr><td>KNOB 3</td><td>Tone</td></tr>
+            <tr><td>KNOB 4</td><td>Sub level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry level</td></tr>
+            <tr><td>KNOB 6</td><td>Up (octave-up level)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — +2 Octaves & Sub Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Mono divider sub, no +2 octave.</span>
+            <span class="pos">Left</span><span>+2 octave voice on.</span>
+            <span class="pos">Right</span><span>Poly sub mode (granular pitch shift).</span>
+        </div>
+
+        <h4>SW2 — Bit Crush</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Bit crush on.</span>
+        </div>
+
+        <h4>SW3 — Lo-Fi Flavor</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Lo-Fi disabled (FS2 inert).</span>
+            <span class="pos">Left</span><span>Tape.</span>
+            <span class="pos">Right</span><span>Doom.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>Lo-Fi Drop — tap = latch, hold = momentary.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mapping.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>Lo-Fi Drop (≥ 64 = active).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 2 (Slam) for foot-controlled distortion intensity. Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <h3>Stereo</h3>
+        <p>Sub-octave detuned −3¢ L / +3¢ R (in poly mode via per-channel grain rates, in mono mode via per-channel divider). Octave-up detuned +3¢ L / −3¢ R via fractional read-back delay (1024-sample ring buffer). Dry stays centered. Octave-up is rectified <code>fabsf(dry)</code> so each channel is DC-blocked after the detune read.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Lo-Fi active.</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Treat Octave Fuzz</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Sleigh Bells / "Treats" inspired octave fuzz. POG-style multi-octave layering slammed into an iMic-style asymmetric hard clipper (pos 0.9, neg −1.0). Flat-topped, harsh, digital — NOT a soft-clip Padé tanh. <strong>Footswitches reversed from Terrarium</strong>.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume (0–2×)</td></tr>
+            <tr><td>KNOB 2</td><td>Slam — iMic clip gain. THE distortion.</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (post-clip LP filter)</td></tr>
+            <tr><td>KNOB 4</td><td>Sub level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry level (clean octave)</td></tr>
+            <tr><td>KNOB 6</td><td>Up (octave-up level)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — +2 Octaves</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>+2 octave voice on.</span>
+            <span class="pos">Middle/Down</span><span>Off.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Sub Mode + Bit Crush</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Poly sub (granular pitch shift), no bit crush.</span>
+            <span class="pos">Middle</span><span>Mono divider (zero-crossing), no bit crush.</span>
+            <span class="pos">Down</span><span>Mono divider + bit crush.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Lo-Fi Flavor (FS2 mode)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Tape — Lo-Fi Drop sounds vintage/warm.</span>
+            <span class="pos">Middle</span><span>Lo-Fi disabled — FS2 inert.</span>
+            <span class="pos">Down</span><span>Doom — Lo-Fi Drop sounds heavy/dark.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass.</td></tr>
+            <tr><td>FS2 (right)</td><td>Lo-Fi Drop — tap = latch, hold = momentary. Bandpass + crush + bit reduce + 3× gain compensation.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> Lo-Fi active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader.</p>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
 </main>
 
 <footer class="footer">
     <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
 </footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
 
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
 </body>
 </html>

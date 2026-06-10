@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controls Reference - NOKILL Pedal Co</title>
+    <title>Echo Chamber - NOKILL Pedal Co</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -359,71 +359,210 @@
 
 <main class="main" id="top">
 
-    <h1 class="page-title">Controls Reference</h1>
-    <p class="page-subtitle">Pick an effect for full control documentation — knob ranges, switch positions, DIP behavior, footswitch gestures, MIDI mappings, and combination tips. Each page has a platform toggle for Terrarium, FunBox, Hothouse, and (where available) Synth.</p>
+    <h1 class="page-title">Echo Chamber</h1>
+    <p class="page-subtitle">A multi-head tape delay: three read heads at different speeds, a reverse head, DOD Rubberneck-style pitch stretch, and degrading tape artifacts — all running from an SDRAM buffer.</p>
 
-    <div class="effect-grid">
-        <a class="effect-card" href="controls-kelpie.html">
-            <h2>Kelpie</h2>
-            <p>Logic-noise pedal — frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-destroyer.html">
-            <h2>Fuzz Destroyer</h2>
-            <p>Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-modulator.html">
-            <h2>Fuzz Modulator</h2>
-            <p>Granular glitch fuzz with a grain engine and momentary delay repeats.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-cursed-reverb.html">
-            <h2>Cursed Reverb</h2>
-            <p>Shimmer reverb that descends into chaos — pitch-shifted feedback, saturation, and modulated delay times.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-doom-engine.html">
-            <h2>Doom Engine</h2>
-            <p>Distortion that gets weird — drive core with stackable rectify, ring mod, decimator, and resonant filter.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-echo-chamber.html">
-            <h2>Echo Chamber</h2>
-            <p>Multi-head tape delay with stretch and aging — three read heads, reverse mode, and degrading tape artifacts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-treat-octave-fuzz.html">
-            <h2>Treat Octave Fuzz</h2>
-            <p>Sleigh Bells-inspired octave destroyer — multi-octave layering into iMic-style ADC hard clipping.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-sag-did-ritual-wavefolder.html">
-            <h2>Sag-Dīd Ritual Wavefolder</h2>
-            <p>West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-awoo.html">
-            <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
-            <p>Makes your guitar bark like a dog — formant filter bank + envelope reshaper into pitch-bent bark bursts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-swamp-donkey.html">
-            <h2>Swamp Donkey</h2>
-            <p>Shrek-themed multi-effect — banjo twang, donkey bray, bitcrush pickle, and dark swamp reverb in layers.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
-        <a class="effect-card" href="controls-great-dane.html">
-            <h2>Great Dane Distorted Reverb</h2>
-            <p>Reverb-first pedal with two pitched octave voices, a stereo Spread knob, and a continuous distortion stage.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span></div>
-        </a>
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
     </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Echo Chamber</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono · SDRAM buffer</div>
+        <p class="lede">Multi-head tape delay with stretch and aging. Three read heads at different speeds (one fixed at the main delay time, two more switchable at 66% and 133% relative), reverse mode on the third head, DOD Rubberneck-style stretch, and degrading tape artifacts.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Feedback (recirculation amount)</td></tr>
+            <tr><td>KNOB 2</td><td>Speed (delay time 50 ms – 2 s)</td></tr>
+            <tr><td>KNOB 3</td><td>Mix (extra heads blend level)</td></tr>
+            <tr><td>KNOB 4</td><td>Wet Level (0× to 2×)</td></tr>
+            <tr><td>KNOB 5</td><td>Dry Level (0× to 2×)</td></tr>
+            <tr><td>KNOB 6</td><td>Tone (LP filter on feedback path)</td></tr>
+        </table>
+
+        <h3>Switches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Head 2 on/off (66% speed — faster echo layer)</td></tr>
+            <tr><td>SW2</td><td>Head 3 on/off (133% speed — slower echo layer)</td></tr>
+            <tr><td>SW3</td><td>Head 3 direction (forward / reverse)</td></tr>
+            <tr><td>SW4</td><td>FS2 mode selector — determines what the FS2 footswitch does (stretch / age)</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass</td></tr>
+            <tr><td>FS2 (SW4 = stretch)</td><td>Pitch drop and rebound — DOD Rubberneck-style: hold = pitch drops smoothly, release = pitch rises back. Lets you "scratch" the delay buffer.</td></tr>
+            <tr><td>FS2 (SW4 = age)</td><td>Tape aging — adds dropouts, flutter, and noise to the extra-head signal while held. Sounds like the tape is degrading in real time.</td></tr>
+        </table>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Echo Chamber</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo Ping-Pong · MIDI · Expression</div>
+        <p class="lede">Multi-head tape delay with stereo ping-pong heads — Head 1 panned left, Head 2 right, Head 3 center. Single mono SDRAM buffer keeps feedback structure identical to the Terrarium build; only the output mix is panned.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Feedback</td></tr>
+            <tr><td>KNOB 2</td><td>Speed (50 ms – 2 s)</td></tr>
+            <tr><td>KNOB 3</td><td>Mix (extra heads blend)</td></tr>
+            <tr><td>KNOB 4</td><td>Wet Level</td></tr>
+            <tr><td>KNOB 5</td><td>Dry Level</td></tr>
+            <tr><td>KNOB 6</td><td>Tone</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Head 2</h4>
+        <div class="position-grid">
+            <span class="pos">Center / Right</span><span>Off.</span>
+            <span class="pos">Left</span><span>Head 2 on.</span>
+        </div>
+
+        <h4>SW2 — Head 3 & Direction</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>Off.</span>
+            <span class="pos">Left</span><span>Head 3 forward.</span>
+            <span class="pos">Right</span><span>Head 3 reverse.</span>
+        </div>
+
+        <h4>SW3 — FS2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>FS2 inert.</span>
+            <span class="pos">Left</span><span>Stretch.</span>
+            <span class="pos">Right</span><span>Age.</span>
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (fires on release).</td></tr>
+            <tr><td>FS2</td><td>Momentary X (Stretch or Age per SW3).</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mapping.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = bypassed).</td></tr>
+            <tr><td>CC 21</td><td>FS2 X latch.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults to KNOB 1 (Feedback) — sweep delay self-oscillation with a foot. Reassign via Set Mode.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> X active.</li>
+            <li><strong>LED 2:</strong> Engaged.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Echo Chamber</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">Multi-head tape delay (3 heads at speed / 66% / 133%) with 144K-sample SDRAM buffer. Stretch and Age effects on FS2. <strong>Footswitches reversed from Terrarium</strong>.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Feedback (delay recirculation, 0–95%)</td></tr>
+            <tr><td>KNOB 2</td><td>Speed (delay time 50 ms – 2 s)</td></tr>
+            <tr><td>KNOB 3</td><td>Mix (extra heads blend — 0 = main only, max = all equal)</td></tr>
+            <tr><td>KNOB 4</td><td>Wet Level (0–2×)</td></tr>
+            <tr><td>KNOB 5</td><td>Dry Level (0–2×)</td></tr>
+            <tr><td>KNOB 6</td><td>Tone (feedback LP filter 200 Hz – 12 kHz)</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Head 2 (66% speed)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>On — Head 2 plays at 2/3 the main delay time.</span>
+            <span class="pos">Middle/Down</span><span>Off.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Head 3 (133% speed, direction-switchable)</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>On, forward.</span>
+            <span class="pos">Middle</span><span>Off.</span>
+            <span class="pos">Down</span><span>On, reverse.</span>
+        </div>
+
+        <h4>TOGGLE 3 — FS2 Mode</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Stretch — DOD Rubberneck-style pitch drop/rebound on FS2 hold.</span>
+            <span class="pos">Middle</span><span>FS2 inert — pressing the footswitch does nothing.</span>
+            <span class="pos">Down</span><span>Age — dropouts, flutter, and noise on extra heads while FS2 held.</span>
+        </div>
+
+        <h3>Footswitches (Hothouse convention)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Bypass toggle.</td></tr>
+            <tr><td>FS2 (right)</td><td>X — Stretch or Age (per TOGGLE 3).</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Engaged.</li>
+            <li><strong>LED 2 (right):</strong> X active.</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader.</p>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
 </main>
 
 <footer class="footer">
     <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
 </footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
 
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
 </body>
 </html>

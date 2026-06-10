@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelpie - NOKILL Pedal Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 62.5%; scroll-behavior: smooth; }
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+        .announcement-bar {
+            background: #121212;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 1.3rem;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img {
+            height: 36px;
+            width: auto;
+            display: block;
+        }
+        .header-nav a {
+            font-size: 1.6rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+        .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 30px 100px;
+        }
+        .page-title {
+            font-size: 4rem;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 40px;
+        }
+
+        .toc {
+            background: #f7f7f5;
+            border: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 22px 26px;
+            margin-bottom: 40px;
+        }
+        .toc h3 {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            color: rgba(18, 18, 18, 0.55);
+        }
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 4px; }
+        .toc a {
+            display: block;
+            color: #121212;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 6px 10px;
+            border-left: 3px solid transparent;
+            transition: background 0.1s, border-color 0.1s;
+            cursor: pointer;
+        }
+        .toc a:hover {
+            background: rgba(18, 18, 18, 0.05);
+            border-left-color: rgba(18, 18, 18, 0.4);
+        }
+        .toc a.active {
+            background: #121212;
+            color: #fff;
+            border-left-color: #121212;
+            font-weight: 700;
+        }
+        .toc a.active .platform-tag {
+            background: #fff;
+            color: #121212;
+        }
+        .toc .platform-tag {
+            display: inline-block;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            background: #121212;
+            color: #fff;
+            padding: 2px 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .pedal {
+            display: none;
+            padding-top: 16px;
+            margin-bottom: 40px;
+        }
+        .pedal.active { display: block; }
+        .pedal h2 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .pedal .platform {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            color: rgba(18, 18, 18, 0.55);
+            margin-bottom: 16px;
+        }
+        .pedal .lede {
+            font-size: 1.7rem;
+            line-height: 1.55;
+            margin-bottom: 28px;
+            color: rgba(18, 18, 18, 0.85);
+        }
+        .pedal h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 32px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.15);
+            padding-bottom: 6px;
+        }
+        .pedal h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-top: 22px;
+            margin-bottom: 8px;
+        }
+        .pedal p { margin-bottom: 12px; }
+        .pedal ul, .pedal ol { margin-left: 22px; margin-bottom: 14px; }
+        .pedal li { margin-bottom: 6px; }
+        .pedal code {
+            background: #f0f0ee;
+            padding: 1px 6px;
+            font-family: ui-monospace, "SF Mono", Menlo, monospace;
+            font-size: 1.4rem;
+            border-radius: 2px;
+        }
+
+        .control-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .control-table th {
+            background: #121212;
+            color: #fff;
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+        }
+        .control-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            vertical-align: top;
+        }
+        .control-table td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+            width: 130px;
+        }
+        .control-table td:nth-child(2) {
+            font-style: italic;
+            color: rgba(18, 18, 18, 0.7);
+            width: 160px;
+        }
+
+        .callout {
+            border-left: 3px solid #121212;
+            background: #f7f7f5;
+            padding: 14px 20px;
+            margin: 18px 0;
+            font-size: 1.45rem;
+        }
+        .callout strong { display: inline-block; margin-right: 6px; }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 8px 18px;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+        }
+        .position-grid .pos {
+            font-weight: 700;
+            text-align: right;
+            color: rgba(18, 18, 18, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-size: 1.2rem;
+            padding-top: 2px;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(18, 18, 18, 0.5);
+            text-decoration: none;
+            margin-top: 18px;
+        }
+        .back-to-top:hover { color: #121212; text-decoration: underline; }
+
+        .footer {
+            border-top: 1px solid rgba(18, 18, 18, 0.1);
+            padding: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: rgba(18, 18, 18, 0.55);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer a { color: rgba(18, 18, 18, 0.7); }
+    
+        /* --- per-effect platform toggle --- */
+        .platform-toggle {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 36px;
+            border-bottom: 1px solid rgba(18, 18, 18, 0.1);
+            padding-bottom: 22px;
+        }
+        .ptab {
+            font-family: inherit;
+            font-size: 1.4rem;
+            letter-spacing: 0.6px;
+            color: #121212;
+            background: #fff;
+            border: 1px solid rgba(18, 18, 18, 0.25);
+            padding: 9px 22px;
+            cursor: pointer;
+            transition: background 0.12s, color 0.12s, border-color 0.12s;
+            border-radius: 999px;
+        }
+        .ptab:hover { border-color: #121212; }
+        .ptab.active {
+            background: #121212;
+            color: #fff;
+            border-color: #121212;
+            font-weight: 700;
+        }
+        /* --- index card grid --- */
+        .effect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .effect-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(18, 18, 18, 0.14);
+            padding: 24px 24px 20px;
+            text-decoration: none;
+            color: #121212;
+            background: #fff;
+            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
+        }
+        .effect-card:hover {
+            border-color: #121212;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
+        }
+        .effect-card h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+        .effect-card p {
+            font-size: 1.45rem;
+            line-height: 1.5;
+            color: rgba(18, 18, 18, 0.7);
+            margin-bottom: 18px;
+            flex-grow: 1;
+        }
+        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge {
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: #f0f0ee;
+            color: rgba(18, 18, 18, 0.7);
+            border: 1px solid rgba(18, 18, 18, 0.12);
+        }
+        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
+        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
+        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
+        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
+        @media (max-width: 600px) {
+            .effect-grid { grid-template-columns: 1fr; }
+            .header { padding: 18px 22px; }
+            .main { padding: 36px 20px 80px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="transistors.html">TRANSISTORS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main" id="top">
+
+    <h1 class="page-title">Kelpie</h1>
+    <p class="page-subtitle">A logic-noise chaos engine built on a fuzz foundation: ring-mod frequency divider, XOR/AND gating, a Schmitt oscillator, and cross-corruption between them. The FunBox build adds a pitch-tracked drone that breathes and grows the more you feed it.</p>
+
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="terrarium">Terrarium</button>
+        <button class="ptab" data-platform="funbox">FunBox</button>
+        <button class="ptab" data-platform="hothouse">Hothouse</button>
+        <button class="ptab" data-platform="synth">Synth</button>
+    </div>
+
+    <section class="pedal" data-platform="terrarium">
+<h2>Kelpie</h2>
+        <div class="platform">Terrarium + Daisy Seed · Mono · SPDT toggles</div>
+        <p class="lede">Original Kelpie firmware. Logic-noise pedal with frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation. SPDT (2-position) toggles — each switch is on/off only, no third state.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch (osc freq + divide ratio)</td></tr>
+            <tr><td>KNOB 4</td><td>Rate (logic clock speed)</td></tr>
+            <tr><td>KNOB 5</td><td>Bleed (cross-corruption depth)</td></tr>
+            <tr><td>KNOB 6</td><td>Thresh (gate trigger threshold)</td></tr>
+        </table>
+
+        <h3>SPDT Toggles</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Function</th></tr>
+            <tr><td>SW1</td><td>Divide (sub-octave) on/off</td></tr>
+            <tr><td>SW2</td><td>Gate (XOR logic) on/off</td></tr>
+            <tr><td>SW3</td><td>Osc (Schmitt oscillator) on/off</td></tr>
+            <tr><td>SW4</td><td>Crosstalk (osc &amp; divider modulate each other) on/off</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass</td></tr>
+            <tr><td>FS2</td><td>Kelpie engage</td></tr>
+        </table>
+    </section>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Kelpie</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression</div>
+        <p class="lede">A pitch-tracked drone monster grafted onto the Kelpie chaos engine. Engages a free-running Schmitt oscillator that locks to the last note you played — drones indefinitely, breathes on its own, and gets bigger the more you feed it. Mixes with the guitar signal so you can play over the drone you just summoned.</p>
+
+        <p><strong>Using a synth?</strong> A synth-optimized version is available in the flasher — select &ldquo;Synth&rdquo; from the Signal dropdown. It includes an input pad for line-level sources.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level. Unity around 12 o'clock; up to ~2× past noon. Final hard-clip safety net is post-volume.</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz</td><td>3-stage cascaded clipping. Asymmetric mid stage (positive half pushed harder for even harmonics). Total gain 4× to ~600× scaling on a square curve — bottom half is usable, top half is wall-of-noise territory.</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch</td><td>Chaos oscillator base frequency 20 Hz–4 kHz (square curve), AND drone fallback frequency when no pitch is being tracked. Also sets the divider's divide ratio (inversely — high pitch = low divisor).</td></tr>
+            <tr><td>KNOB 4</td><td>Rate</td><td>Logic clock speed (1 Hz–2 kHz, square curve). Controls how often the comparator's S&amp;H samples — at low rates you get stuttering, at high rates the gating becomes a noise carpet. Also scales the chaos oscillator 0.2×–5× when drone is OFF.</td></tr>
+            <tr><td>KNOB 5</td><td>Bleed / Drone Level</td><td><strong>Dual-purpose:</strong> when DIP_1 is OFF, this is Bleed (cross-corruption depth between divider, oscillator, and gate — adds wobble, side-band frequencies, and unstable interactions). When DIP_1 is ON, it becomes Drone Level (0–1 mix of the drone voice with the chaos+guitar output). Internal chaos bleed is fixed at 0.3 in drone mode.</td></tr>
+            <tr><td>KNOB 6</td><td>Threshold</td><td>Schmitt comparator trigger level (0.02–0.98). Low = comparator fires on any signal (drone-friendly). High = only loud playing fires the gate. Affects the gate's sparseness when SW2 is engaged.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Divide</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>OFF. Divider bypassed.</span>
+            <span class="pos">Left</span><span>Square sub-octave. The divider counts input zero-crossings and toggles every N crossings (N set by Pitch knob, modulated by Bleed). Produces a hard square wave one or more octaves below input pitch — ring-modulates the chaos signal.</span>
+            <span class="pos">Right</span><span>PWM-warped sub. Same divider, but the duty cycle is modulated by the input envelope (with Bleed adding warp depth). Gives a rubbery, formant-like quality.</span>
+        </div>
+
+        <h4>SW2 — Gate</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>OFF. Signal passes ungated.</span>
+            <span class="pos">Left</span><span>XOR gate. The held comparator XOR's against the divider/osc state. Hard-chopped, clicky, almost MIDI-like in feel.</span>
+            <span class="pos">Right</span><span>AND gate. Output only sounds when comparator AND chaos voices all align. Sparse, sputtering, much quieter — rewarding to play melodic lines through.</span>
+        </div>
+
+        <h4>SW3 — Oscillator</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>OFF in normal mode; <strong>forced ON when DIP_1 (drone) is engaged</strong> regardless of switch position.</span>
+            <span class="pos">Left</span><span>Square wave. Single-frequency Schmitt-style oscillator at Pitch × Rate freq. In drone mode, follows the pitch tracker.</span>
+            <span class="pos">Right</span><span>Square + sub-square. Adds a second flip-flop running at half the osc frequency, summed in. Fatter, hollow body. Recommended for drone mode.</span>
+        </div>
+
+        <h3>DIP Switches — Drone Engine</h3>
+
+        <h4>DIP 1 — Drone</h4>
+        <p>Engages the drone engine. With DIP_1 on AND Kelpie engaged (FS2):</p>
+        <ul>
+            <li>The Schmitt oscillator free-runs continuously at the <em>tracked pitch</em> of your last played note (or the Pitch knob frequency if you haven't played yet).</li>
+            <li>The drone voice is <strong>mixed</strong> with the guitar+chaos output — you can still play over it.</li>
+            <li>Internal chaos bleed is held at fixed 0.3 to keep the engine stable while you control drone mix via the Bleed knob.</li>
+            <li>The drone <strong>holds indefinitely</strong> through silence — the last detected pitch persists until you play something else.</li>
+        </ul>
+
+        <div class="callout">
+            <strong>Pitch tracker:</strong> dry input is band-passed (70 Hz HP + 1.2 kHz LP), zero-crossings are detected with hysteresis (±0.02), period is converted to frequency, then smoothed with a one-pole filter and slew-limited. Tracker only updates when the envelope follower is above 0.005 — below that, the last value is held. Tracking range ~60 Hz–1500 Hz (covers full guitar range).
+        </div>
+
+        <h4>DIP 2 — Sub-Growl</h4>
+        <p>When the drone is on, the divider's square output (one octave below tracked pitch, possibly more depending on Pitch knob) is summed into the drone voice and scaled to prevent clipping. Adds a fat, throat-y low end — the difference between the drone as a sapling and the drone as a giant.</p>
+
+        <h4>DIP 3 — Breathing</h4>
+        <p>A ~0.5 Hz triangle LFO modulates drone amplitude over a 0.4–1.0 range. The drone audibly inhales and exhales on its own. Pair with low Drone Level for a subtle "alive" texture; crank Drone Level for full drone-on-stage swells.</p>
+
+        <h4>DIP 4 — Feed Me</h4>
+        <p>Envelope follower on dry input drives two simultaneous modulations of the drone:</p>
+        <ul>
+            <li><strong>Gain swell:</strong> drone amplitude boosts up to 1.8× during loud playing, decays back over ~1 second of silence. Pluck harder = drone roars louder.</li>
+            <li><strong>Pitch bend:</strong> the drone's frequency bends up to +5% (~+1 semitone) on each pluck, then settles. Adds an organic "responding to you" quality.</li>
+        </ul>
+        <p>Envelope follower: fast attack (0.01), slow release (0.0008). The drone always returns to baseline because the release is gentle but inevitable.</p>
+
+        <div class="callout">
+            <strong>Killer combo:</strong> DIP_1 + DIP_3 + DIP_4 together. Drone breathes baseline, and surges when you play. Crank Bleed (drone level) to 60–80%, Pitch low (around 9 o'clock for E2-ish fundamental), Threshold high so the gate only fires on intentional notes. Play sparse single notes and let the drone react.
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th><th>Behavior</th></tr>
+            <tr><td>FS1</td><td>Bypass</td><td>Toggles on release (so it doesn't double-fire during a hold gesture). Uses true software bypass — when off, dry signal passes through unmodified.</td></tr>
+            <tr><td>FS2</td><td>Kelpie engage</td><td>Tap-latch / hold-momentary. Quick tap (under 300 ms) latches Kelpie on/off. Hold longer than 300 ms = momentary engage that releases when you let go. <strong>Must be engaged for any drone or chaos to sound.</strong></td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold</td><td>Toggles Expression Set Mode. LEDs change behavior to indicate mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold</td><td>Clears all expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up</td><td>Enters DFU bootloader for firmware flashing.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th><th>Notes</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6</td><td>0–127 maps to knob 0.0–1.0. Physical knob movement releases MIDI takeover for that knob.</td></tr>
+            <tr><td>CC 20</td><td>Bypass</td><td>Value ≥ 64 = pressed (toggles bypass).</td></tr>
+            <tr><td>CC 21</td><td>Kelpie engage</td><td>≥ 64 latches Kelpie on, &lt; 64 latches off.</td></tr>
+            <tr><td>Note On</td><td>Pitch override</td><td>Forces oscillator base frequency to the MIDI note (mtof). In drone mode, this overrides the pitch tracker so MIDI controls the drone pitch directly while the note is held.</td></tr>
+            <tr><td>Note Off</td><td>Release</td><td>Returns oscillator to knob/tracker control.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <ol>
+            <li>Hold FS1+FS2 for 0.5 s — enters Expression Set Mode (LEDs pulse).</li>
+            <li>Move the expression pedal to your <em>heel</em> position. Set knobs to the values you want at heel.</li>
+            <li>Move the expression pedal to your <em>toe</em> position. Set knobs to the values you want at toe.</li>
+            <li>Hold FS1+FS2 for 0.5 s again to exit. Mappings are saved.</li>
+            <li>To clear all expression mappings, hold FS1+FS2 for 2 s.</li>
+        </ol>
+        <p>The expression pedal interpolates between heel and toe positions across all six knobs. Knobs you didn't touch in either position aren't mapped.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> bypass status — on when engaged.</li>
+            <li><strong>LED 2 (right):</strong> Kelpie active. Overridden during Expression Set Mode for visual feedback.</li>
+        </ul>
+    </section>
+
+    <section class="pedal" data-platform="hothouse">
+<h2>Kelpie</h2>
+        <div class="platform">Hothouse + Daisy Seed · Mono · 3-position toggles</div>
+        <p class="lede">The classic Kelpie chaos engine on Hothouse hardware: fuzz foundation with engageable logic-noise layer (ring-mod divider, XOR/bit-crush gating, Schmitt oscillator, and crosstalk). No drone mode — for that, see the FunBox variant. <strong>Footswitch convention is reversed from Terrarium</strong> per Hothouse standard: FS1 engages, FS2 bypasses.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level.</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz</td><td>2-stage cascaded tanh saturation, gain/saturation foundation layer.</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch</td><td>Oscillator base frequency + divide ratio. Higher = faster osc, smaller divisor (less octave drop).</td></tr>
+            <tr><td>KNOB 4</td><td>Rate</td><td>Logic clock speed. Slow = stuttery, fast = noise wall.</td></tr>
+            <tr><td>KNOB 5</td><td>Bleed</td><td>Cross-corruption depth between logic layers (osc warps divider, divider warps osc).</td></tr>
+            <tr><td>KNOB 6</td><td>Thresh</td><td>Logic gate trigger threshold (when to fire the comparator).</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>TOGGLE 1 — Divide</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Ring-mod divider (normal polarity).</span>
+            <span class="pos">Middle</span><span>OFF.</span>
+            <span class="pos">Down</span><span>Inverted-polarity ring mod — same divider, sign-flipped, gives a different phase relationship with the input.</span>
+        </div>
+
+        <h4>TOGGLE 2 — Gate</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>XOR logic gate. Hard chop, clicky transitions.</span>
+            <span class="pos">Middle</span><span>OFF.</span>
+            <span class="pos">Down</span><span>Bit-crush gate — sample-rate reduction in the gaps when the gate would normally drop. Creates digital granular grit.</span>
+        </div>
+
+        <h4>TOGGLE 3 — Osc / Crosstalk</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Schmitt oscillator only.</span>
+            <span class="pos">Middle</span><span>OFF.</span>
+            <span class="pos">Down</span><span>Schmitt oscillator + crosstalk. Oscillator and divider modulate each other's frequency/ratio via Bleed.</span>
+        </div>
+
+        <h3>Footswitches (note: reversed from Terrarium)</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1 (left)</td><td>Kelpie engage — turns on all active toggle-switch effects.</td></tr>
+            <tr><td>FS2 (right)</td><td>Bypass.</td></tr>
+        </table>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> Kelpie active.</li>
+            <li><strong>LED 2 (right):</strong> Engaged (not bypassed).</li>
+        </ul>
+
+        <h3>DFU</h3>
+        <p>Hold FOOTSWITCH_1 for 2 s to enter the bootloader (Hothouse built-in feature).</p>
+    </section>
+
+    <section class="pedal" data-platform="synth">
+<h2>Kelpie</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo · MIDI · Expression · Synth-optimized</div>
+        <p class="lede">A pitch-tracked drone monster grafted onto the Kelpie chaos engine. Engages a free-running Schmitt oscillator that locks to the last note you played — drones indefinitely, breathes on its own, and gets bigger the more you feed it. Mixes with the guitar signal so you can play over the drone you just summoned.</p>
+
+        <div class="callout"><strong>Synth-optimized:</strong> Synth-optimized version with 12&nbsp;dB input pad for line-level sources. Extended volume range.</div>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Volume</td><td>Output level, extended to a 0&ndash;4× range to compensate for the line-level input pad. Final hard-clip safety net is post-volume.</td></tr>
+            <tr><td>KNOB 2</td><td>Fuzz</td><td>3-stage cascaded clipping. Asymmetric mid stage (positive half pushed harder for even harmonics). Total gain 4× to ~600× scaling on a square curve — bottom half is usable, top half is wall-of-noise territory.</td></tr>
+            <tr><td>KNOB 3</td><td>Pitch</td><td>Chaos oscillator base frequency 20 Hz–4 kHz (square curve), AND drone fallback frequency when no pitch is being tracked. Also sets the divider's divide ratio (inversely — high pitch = low divisor).</td></tr>
+            <tr><td>KNOB 4</td><td>Rate</td><td>Logic clock speed (1 Hz–2 kHz, square curve). Controls how often the comparator's S&amp;H samples — at low rates you get stuttering, at high rates the gating becomes a noise carpet. Also scales the chaos oscillator 0.2×–5× when drone is OFF.</td></tr>
+            <tr><td>KNOB 5</td><td>Bleed / Drone Level</td><td><strong>Dual-purpose:</strong> when DIP_1 is OFF, this is Bleed (cross-corruption depth between divider, oscillator, and gate — adds wobble, side-band frequencies, and unstable interactions). When DIP_1 is ON, it becomes Drone Level (0–1 mix of the drone voice with the chaos+guitar output). Internal chaos bleed is fixed at 0.3 in drone mode.</td></tr>
+            <tr><td>KNOB 6</td><td>Threshold</td><td>Schmitt comparator trigger level (0.02–0.98). Low = comparator fires on any signal (drone-friendly). High = only loud playing fires the gate. Affects the gate's sparseness when SW2 is engaged.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Divide</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>OFF. Divider bypassed.</span>
+            <span class="pos">Left</span><span>Square sub-octave. The divider counts input zero-crossings and toggles every N crossings (N set by Pitch knob, modulated by Bleed). Produces a hard square wave one or more octaves below input pitch — ring-modulates the chaos signal.</span>
+            <span class="pos">Right</span><span>PWM-warped sub. Same divider, but the duty cycle is modulated by the input envelope (with Bleed adding warp depth). Gives a rubbery, formant-like quality.</span>
+        </div>
+
+        <h4>SW2 — Gate</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>OFF. Signal passes ungated.</span>
+            <span class="pos">Left</span><span>XOR gate. The held comparator XOR's against the divider/osc state. Hard-chopped, clicky, almost MIDI-like in feel.</span>
+            <span class="pos">Right</span><span>AND gate. Output only sounds when comparator AND chaos voices all align. Sparse, sputtering, much quieter — rewarding to play melodic lines through.</span>
+        </div>
+
+        <h4>SW3 — Oscillator</h4>
+        <div class="position-grid">
+            <span class="pos">Center</span><span>OFF in normal mode; <strong>forced ON when DIP_1 (drone) is engaged</strong> regardless of switch position.</span>
+            <span class="pos">Left</span><span>Square wave. Single-frequency Schmitt-style oscillator at Pitch × Rate freq. In drone mode, follows the pitch tracker.</span>
+            <span class="pos">Right</span><span>Square + sub-square. Adds a second flip-flop running at half the osc frequency, summed in. Fatter, hollow body. Recommended for drone mode.</span>
+        </div>
+
+        <h3>DIP Switches — Drone Engine</h3>
+
+        <h4>DIP 1 — Drone</h4>
+        <p>Engages the drone engine. With DIP_1 on AND Kelpie engaged (FS2):</p>
+        <ul>
+            <li>The Schmitt oscillator free-runs continuously at the <em>tracked pitch</em> of your last played note (or the Pitch knob frequency if you haven't played yet).</li>
+            <li>The drone voice is <strong>mixed</strong> with the guitar+chaos output — you can still play over it.</li>
+            <li>Internal chaos bleed is held at fixed 0.3 to keep the engine stable while you control drone mix via the Bleed knob.</li>
+            <li>The drone <strong>holds indefinitely</strong> through silence — the last detected pitch persists until you play something else.</li>
+        </ul>
+
+        <div class="callout">
+            <strong>Pitch tracker:</strong> dry input is band-passed (70 Hz HP + 1.2 kHz LP), zero-crossings are detected with hysteresis (±0.02), period is converted to frequency, then smoothed with a one-pole filter and slew-limited. Tracker only updates when the envelope follower is above 0.005 — below that, the last value is held. Tracking range ~60 Hz–1500 Hz (covers full guitar range).
+        </div>
+
+        <h4>DIP 2 — Sub-Growl</h4>
+        <p>When the drone is on, the divider's square output (one octave below tracked pitch, possibly more depending on Pitch knob) is summed into the drone voice and scaled to prevent clipping. Adds a fat, throat-y low end — the difference between the drone as a sapling and the drone as a giant.</p>
+
+        <h4>DIP 3 — Breathing</h4>
+        <p>A ~0.5 Hz triangle LFO modulates drone amplitude over a 0.4–1.0 range. The drone audibly inhales and exhales on its own. Pair with low Drone Level for a subtle "alive" texture; crank Drone Level for full drone-on-stage swells.</p>
+
+        <h4>DIP 4 — Feed Me</h4>
+        <p>Envelope follower on dry input drives two simultaneous modulations of the drone:</p>
+        <ul>
+            <li><strong>Gain swell:</strong> drone amplitude boosts up to 1.8× during loud playing, decays back over ~1 second of silence. Pluck harder = drone roars louder.</li>
+            <li><strong>Pitch bend:</strong> the drone's frequency bends up to +5% (~+1 semitone) on each pluck, then settles. Adds an organic "responding to you" quality.</li>
+        </ul>
+        <p>Envelope follower: fast attack (0.01), slow release (0.0008). The drone always returns to baseline because the release is gentle but inevitable.</p>
+
+        <div class="callout">
+            <strong>Killer combo:</strong> DIP_1 + DIP_3 + DIP_4 together. Drone breathes baseline, and surges when you play. Crank Bleed (drone level) to 60–80%, Pitch low (around 9 o'clock for E2-ish fundamental), Threshold high so the gate only fires on intentional notes. Play sparse single notes and let the drone react.
+        </div>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th><th>Behavior</th></tr>
+            <tr><td>FS1</td><td>Bypass</td><td>Toggles on release (so it doesn't double-fire during a hold gesture). Uses true software bypass — when off, dry signal passes through unmodified.</td></tr>
+            <tr><td>FS2</td><td>Kelpie engage</td><td>Tap-latch / hold-momentary. Quick tap (under 300 ms) latches Kelpie on/off. Hold longer than 300 ms = momentary engage that releases when you let go. <strong>Must be engaged for any drone or chaos to sound.</strong></td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold</td><td>Toggles Expression Set Mode. LEDs change behavior to indicate mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold</td><td>Clears all expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up</td><td>Enters DFU bootloader for firmware flashing.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th><th>Notes</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6</td><td>0–127 maps to knob 0.0–1.0. Physical knob movement releases MIDI takeover for that knob.</td></tr>
+            <tr><td>CC 20</td><td>Bypass</td><td>Value ≥ 64 = pressed (toggles bypass).</td></tr>
+            <tr><td>CC 21</td><td>Kelpie engage</td><td>≥ 64 latches Kelpie on, &lt; 64 latches off.</td></tr>
+            <tr><td>Note On</td><td>Pitch override</td><td>Forces oscillator base frequency to the MIDI note (mtof). In drone mode, this overrides the pitch tracker so MIDI controls the drone pitch directly while the note is held.</td></tr>
+            <tr><td>Note Off</td><td>Release</td><td>Returns oscillator to knob/tracker control.</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <ol>
+            <li>Hold FS1+FS2 for 0.5 s — enters Expression Set Mode (LEDs pulse).</li>
+            <li>Move the expression pedal to your <em>heel</em> position. Set knobs to the values you want at heel.</li>
+            <li>Move the expression pedal to your <em>toe</em> position. Set knobs to the values you want at toe.</li>
+            <li>Hold FS1+FS2 for 0.5 s again to exit. Mappings are saved.</li>
+            <li>To clear all expression mappings, hold FS1+FS2 for 2 s.</li>
+        </ol>
+        <p>The expression pedal interpolates between heel and toe positions across all six knobs. Knobs you didn't touch in either position aren't mapped.</p>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1 (left):</strong> bypass status — on when engaged.</li>
+            <li><strong>LED 2 (right):</strong> Kelpie active. Overridden during Expression Set Mode for visual feedback.</li>
+        </ul>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
+
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
+</body>
+</html>
