@@ -177,6 +177,28 @@
             margin-bottom: 8px;
         }
 
+        /* --- Trust badge (official = built & tested by NOKILL; vs community) --- */
+        .trust-badge {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 9px;
+            margin-bottom: 10px;
+            border-radius: 999px;
+        }
+        .trust-badge.official {
+            background: #e7f6ec;
+            color: #1f6b3a;
+            border: 1px solid #cfe9d7;
+        }
+        .trust-badge.community {
+            background: #fdeede;
+            color: #8a5215;
+            border: 1px solid #f3ddc2;
+        }
+
         .firmware-info .controls-list {
             font-size: 1.3rem;
             color: rgba(18, 18, 18, 0.65);
@@ -1358,6 +1380,33 @@
                 'See full controls reference at /controls.html'
             ]
         },
+        faint_vox_funbox: {
+            name: 'Faint Vox (FunBox)',
+            file: 'faint_vox_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'Cold, robotic, electroclash VOCAL effect — nasal formant honk, grit, bitcrush, and a bipolar PITCH knob (center = unity, CCW down, CW up). Built for vocals, works on guitar. Stack an octave-up harmony or sub-octave, quantize the pitch to stepped-robot semitones, thin it through a telephone EQ, and color it with chorus or metallic ring mod.',
+            controls: [
+                'KNOB 1 = Level (0-2x)',
+                'KNOB 2 = Pitch (BIPOLAR: center detent = unity, CCW = down -12 st, CW = up +12 st)',
+                'KNOB 3 = Drive (clean to destroyed; flavor set by SW1)',
+                'KNOB 4 = Formant (nasal/robotic honk intensity + resonance)',
+                'KNOB 5 = Crush (clean to ~6-bit/~6 kHz digital grit)',
+                'KNOB 6 = Mix (dry/wet)',
+                'SW1 Drive voice: U=Warm OD / C=Fuzz / D=Diode (asymmetric)',
+                'SW2 Formant voicing: U=Chest / C=Neutral / D=Nasal (most robotic)',
+                'SW3 Modulation: U=Off / C=Chorus / D=Ring mod (metallic)',
+                'DIP1 = Pitch Quantize (snap to whole semitones)',
+                'DIP2 = Sub Octave (adds octave-down layer)',
+                'DIP3 = Telephone EQ (thin ~400-3000 Hz radio voice)',
+                'DIP4 = reserved (MIDI always parsed)',
+                'FS1 = Bypass, FS2 = Harmony on/off (stacks octave-up voice)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = harmony',
+                'See full controls reference at /controls.html'
+            ]
+        },
         fuzz_destroyer_synth: {
             name: 'Fuzz Destroyer (Synth)',
             file: 'fuzz_destroyer_synth_funbox.bin',
@@ -1749,8 +1798,14 @@
         // Deep-link the controls button to this pedal's section.
         controlsBtn.href = controlsAnchor(key);
 
-        // Show info
+        // Show info. Trust model: entries default to official (built & tested
+        // by NOKILL/Alex) unless explicitly marked official:false — future
+        // user-generated effects set official:false to flag them as untested.
+        const isOfficial = (selectedFirmware.official !== false);
         let html = '<h4>' + selectedFirmware.name + '</h4>';
+        html += isOfficial
+            ? '<span class="trust-badge official">&#10003; Official &middot; built &amp; tested by NOKILL</span><br>'
+            : '<span class="trust-badge community">&#9888; Community &middot; user-generated, untested</span><br>';
         html += '<p style="font-size:1.3rem;color:rgba(18,18,18,0.65);margin-bottom:10px;">' + selectedFirmware.desc + '</p>';
         html += '<div class="controls-list">';
         selectedFirmware.controls.forEach(function(c) {

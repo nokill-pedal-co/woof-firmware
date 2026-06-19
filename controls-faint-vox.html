@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controls Reference - NOKILL Pedal Co</title>
+    <title>Faint Vox - NOKILL Pedal Co</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -257,7 +257,7 @@
             margin: 0 auto;
         }
         .footer a { color: rgba(18, 18, 18, 0.7); }
-    
+
         /* --- per-effect platform toggle --- */
         .platform-toggle {
             display: flex;
@@ -286,59 +286,7 @@
             border-color: #121212;
             font-weight: 700;
         }
-        /* --- index card grid --- */
-        .effect-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 18px;
-            margin-top: 10px;
-        }
-        .effect-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(18, 18, 18, 0.14);
-            padding: 24px 24px 20px;
-            text-decoration: none;
-            color: #121212;
-            background: #fff;
-            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
-        }
-        .effect-card:hover {
-            border-color: #121212;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
-        }
-        .effect-card h2 {
-            font-size: 2.1rem;
-            font-weight: 700;
-            line-height: 1.25;
-            margin-bottom: 8px;
-        }
-        .effect-card p {
-            font-size: 1.45rem;
-            line-height: 1.5;
-            color: rgba(18, 18, 18, 0.7);
-            margin-bottom: 18px;
-            flex-grow: 1;
-        }
-        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
-        .badge {
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 3px 9px;
-            border-radius: 999px;
-            background: #f0f0ee;
-            color: rgba(18, 18, 18, 0.7);
-            border: 1px solid rgba(18, 18, 18, 0.12);
-        }
-        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
-        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
-        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
-        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
         @media (max-width: 600px) {
-            .effect-grid { grid-template-columns: 1fr; }
             .header { padding: 18px 22px; }
             .main { padding: 36px 20px 80px; }
         }
@@ -359,76 +307,141 @@
 
 <main class="main" id="top">
 
-    <h1 class="page-title">Controls Reference</h1>
-    <p class="page-subtitle">Pick an effect for full control documentation — knob ranges, switch positions, DIP behavior, footswitch gestures, MIDI mappings, and combination tips. Each page has a platform toggle for Terrarium, FunBox, Hothouse, and (where available) Synth.</p>
+    <h1 class="page-title">Faint Vox</h1>
+    <p class="page-subtitle">A cold, robotic, electroclash vocal effect — nasal formant honk, distortion grit, and digital bitcrush, fronted by a bipolar pitch knob. Built for vocals, plays great on guitar too. Inspired by the heavily-processed synth-punk/new-wave vocal sound.</p>
 
-    <div class="effect-grid">
-        <a class="effect-card" href="controls-kelpie.html">
-            <h2>Kelpie</h2>
-            <p>Logic-noise pedal — frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-destroyer.html">
-            <h2>Fuzz Destroyer</h2>
-            <p>Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-fuzz-modulator.html">
-            <h2>Fuzz Modulator</h2>
-            <p>Granular glitch fuzz with a grain engine and momentary delay repeats.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-cursed-reverb.html">
-            <h2>Cursed Reverb</h2>
-            <p>Shimmer reverb that descends into chaos — pitch-shifted feedback, saturation, and modulated delay times.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-doom-engine.html">
-            <h2>Doom Engine</h2>
-            <p>Distortion that gets weird — drive core with stackable rectify, ring mod, decimator, and resonant filter.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-echo-chamber.html">
-            <h2>Echo Chamber</h2>
-            <p>Multi-head tape delay with stretch and aging — three read heads, reverse mode, and degrading tape artifacts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-treat-octave-fuzz.html">
-            <h2>Treat Octave Fuzz</h2>
-            <p>Sleigh Bells-inspired octave destroyer — multi-octave layering into iMic-style ADC hard clipping.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-sag-did-ritual-wavefolder.html">
-            <h2>Sag-Dīd Ritual Wavefolder</h2>
-            <p>West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-awoo.html">
-            <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
-            <p>Makes your guitar bark like a dog — formant filter bank + envelope reshaper into pitch-bent bark bursts.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-swamp-donkey.html">
-            <h2>Swamp Donkey</h2>
-            <p>Shrek-themed multi-effect — banjo twang, donkey bray, bitcrush pickle, and dark swamp reverb in layers.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-great-dane.html">
-            <h2>Great Dane Distorted Reverb</h2>
-            <p>Reverb-first pedal with two pitched octave voices, a stereo Spread knob, and a continuous distortion stage.</p>
-            <div class="badge-row"><span class="badge t">T</span><span class="badge fb">FB</span><span class="badge hh">HH</span><span class="badge synth">Synth</span></div>
-        </a>
-        <a class="effect-card" href="controls-faint-vox.html">
-            <h2>Faint Vox</h2>
-            <p>Cold robotic electroclash vocal effect — nasal formant honk, grit, bitcrush, and a bipolar pitch up/down knob.</p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
+    <div class="platform-toggle" data-default="funbox">
+        <button class="ptab" data-platform="funbox">FunBox</button>
     </div>
+
+    <section class="pedal" data-platform="funbox">
+<h2>Faint Vox</h2>
+        <div class="platform">FunBox v3 + Daisy Seed · Stereo out · MIDI · Expression</div>
+        <p class="lede">A vocal-processing effect that chases a cold, nasal, robotic, electroclash voice — the heavily-distorted, formant-honked, digitally-degraded vocal of synth-punk new-wave records. The signal is summed to mono, run through a clean granular pitch shifter on a <strong>bipolar Pitch knob</strong> (center detent = unity, turn down to drop an octave, up to climb one), then shaped by a resonant <strong>formant</strong> stage that adds the nasal "honk," driven through one of three distortion flavors, degraded by a <strong>bitcrush/decimator</strong>, and finally colored with chorus or metallic ring modulation. Stack an octave-up harmony with the footswitch, drop in a sub-octave or telephone-radio EQ on the DIPs, and quantize the pitch to whole semitones for a stepped-robot effect. Voiced to sit musical, not just harsh.</p>
+
+        <h3>Signal Chain</h3>
+        <p>Input (L+R)/2 → <strong>Pitch shift</strong> (bipolar, optional semitone quantize) → + <strong>Harmony</strong> (octave-up, FS2) + <strong>Sub</strong> (octave-down, DIP 2) → <strong>Formant honk</strong> (resonant band-pass, SW2 voicing) → <strong>Drive</strong> (SW1 flavor, amount = KNOB 3) → <strong>Bitcrush</strong> (KNOB 5) → <strong>Telephone EQ</strong> (DIP 3) → DC block → <strong>Modulation</strong> (SW3) → dry/wet <strong>Mix</strong> → <strong>Level</strong> → NaN-guard + clamp → stereo output.</p>
+
+        <h3>Knobs</h3>
+        <table class="control-table">
+            <tr><th>Knob</th><th>Function</th><th>Behavior</th></tr>
+            <tr><td>KNOB 1</td><td>Level</td><td>Output level (0–2×).</td></tr>
+            <tr><td>KNOB 2</td><td>Pitch</td><td><strong>Bipolar.</strong> Center is detented to unity (no shift). Turn counter-clockwise to pitch down to −12 semitones; clockwise to pitch up to +12. Clean granular pitch shifter.</td></tr>
+            <tr><td>KNOB 3</td><td>Drive</td><td>Distortion amount: fully left = clean, fully right = destroyed. Scales smoothly within whatever flavor SW1 selects.</td></tr>
+            <tr><td>KNOB 4</td><td>Formant</td><td>Intensity of the nasal/robotic formant honk — raises the resonant band-pass blend and its resonance. The headline "vowel" tone control.</td></tr>
+            <tr><td>KNOB 5</td><td>Crush</td><td>Bitcrush + sample-rate reduction: fully left = clean, fully right = ~6-bit / ~6 kHz digital grit.</td></tr>
+            <tr><td>KNOB 6</td><td>Mix</td><td>Dry/wet blend. Fully left = dry; fully right = 100% processed.</td></tr>
+        </table>
+
+        <h3>3-Position Toggles</h3>
+
+        <h4>SW1 — Drive Voice</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Warm — soft-clip tanh overdrive. Gentle, tube-like breakup.</span>
+            <span class="pos">Center</span><span>Fuzz — harder clip with a mid scoop. More compressed and aggressive.</span>
+            <span class="pos">Down</span><span>Diode — asymmetric clip, gnarlier, with even-harmonic bite.</span>
+        </div>
+        <p>SW1 picks the <em>flavor</em>; the <strong>Drive knob (KNOB 3)</strong> sets how hard it's pushed.</p>
+
+        <h4>SW2 — Formant Voicing</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Chest — low formants (~600 / 1100 Hz). Fuller, chestier vowel.</span>
+            <span class="pos">Center</span><span>Neutral — mid formants (~1000 / 1800 Hz).</span>
+            <span class="pos">Down</span><span>Nasal — high formants (~1700 / 2600 Hz). The most robotic, honking voice.</span>
+        </div>
+
+        <h4>SW3 — Modulation</h4>
+        <div class="position-grid">
+            <span class="pos">Up</span><span>Off — dry robotic tone, no modulation.</span>
+            <span class="pos">Center</span><span>Chorus — synthy stereo doubling and width.</span>
+            <span class="pos">Down</span><span>Ring mod — metallic, cold ring modulation for a dalek-ish edge.</span>
+        </div>
+
+        <h3>DIP Switches</h3>
+        <table class="control-table">
+            <tr><th>DIP</th><th>Function</th></tr>
+            <tr><td>DIP 1</td><td>Pitch Quantize — snaps the pitch shift to whole semitones for a stepped, robotic pitch instead of a continuous glide.</td></tr>
+            <tr><td>DIP 2</td><td>Sub Octave — adds an octave-down layer under the voice for thickness and menace.</td></tr>
+            <tr><td>DIP 3</td><td>Telephone EQ — steep band-limit (~400–3000 Hz) for a thin radio/telephone voice.</td></tr>
+            <tr><td>DIP 4</td><td>Reserved — MIDI is always parsed regardless; held for future use.</td></tr>
+        </table>
+
+        <h3>Footswitches</h3>
+        <table class="control-table">
+            <tr><th>Switch</th><th>Action</th></tr>
+            <tr><td>FS1</td><td>Bypass (relay-style true bypass; fires on release).</td></tr>
+            <tr><td>FS2</td><td>Harmony on/off — stacks an octave-up ghost voice that tracks the Pitch knob.</td></tr>
+            <tr><td>FS1+FS2</td><td>0.5 s hold — Expression Set Mode.</td></tr>
+            <tr><td>FS1+FS2</td><td>2 s hold — clear expression mappings.</td></tr>
+            <tr><td>FS1+FS2</td><td>at power-up — DFU bootloader.</td></tr>
+        </table>
+
+        <h3>MIDI</h3>
+        <table class="control-table">
+            <tr><th>Message</th><th>Mapping</th></tr>
+            <tr><td>CC 14–19</td><td>Knobs 1–6 (with takeover).</td></tr>
+            <tr><td>CC 20</td><td>Bypass (≥ 64 = toggle).</td></tr>
+            <tr><td>CC 21</td><td>Harmony (≥ 64 = toggle).</td></tr>
+        </table>
+
+        <h3>Expression Jack</h3>
+        <p>Defaults unmapped — suggested target: KNOB 2 (Pitch) for foot-controlled pitch dives/climbs, or KNOB 6 (Mix) to swell the effect in. Assign via FS1+FS2 0.5 s Set Mode.</p>
+
+        <div class="callout">
+            <strong>Usage tip:</strong> for the cold robot, set SW2 to Nasal, SW3 to Ring mod, push Formant past noon, add a touch of Crush, and keep Pitch near center (or quantized via DIP 1 for stepped pitch). For a stacked synth-vocal, kick on Harmony (FS2) and turn Pitch up. Dial Mix back from full if it gets too synthetic over a vocal.
+        </div>
+
+        <h3>LEDs</h3>
+        <ul>
+            <li><strong>LED 1:</strong> Bypass status (engaged).</li>
+            <li><strong>LED 2:</strong> Harmony active.</li>
+        </ul>
+
+        <div class="callout">
+            <strong>Tune by ear:</strong> this is a first-pass voicing. The parameters most likely to want adjustment after listening: the formant center frequencies / resonance (the make-or-break for "nasal robotic"), the ring-mod carrier (fixed ~110 Hz — lower for growl, higher for metallic), the drive amounts per flavor, and the harmony/sub mix levels.
+        </div>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
 </main>
 
 <footer class="footer">
     <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
 </footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
 
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
 </body>
 </html>
