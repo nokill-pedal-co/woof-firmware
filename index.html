@@ -1407,6 +1407,30 @@
                 'See full controls reference at /controls.html'
             ]
         },
+        gnarler_funbox: {
+            name: 'GNARLER (FunBox)',
+            file: 'gnarler_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'AI-GENERATED DEMO — the first effect produced by the WOOF Workshop agent loop, not yet hardware-tested. A full-wave-rectification octave-up fuzz that dissolves into glitchy, aliased, bitcrushed wavefold madness as the Chaos knob rises. Footswitch slams Chaos to max.',
+            controls: [
+                'KNOB 1 = Level (0-2x output)',
+                'KNOB 2 = Fuzz (gain into clipper; light crunch to full saturation)',
+                'KNOB 3 = Tone (post-clip LP, dark to open)',
+                'KNOB 4 = Chaos (0 = stable octave fuzz, 1 = full bitcrush + wavefold glitch)',
+                'KNOB 5 = Oct Mix (0 = clean fuzz only, 1 = full octave-up)',
+                'KNOB 6 = Gate (noise gate threshold; 0 = off)',
+                'SW1 Clip flavour: L=Warm (tanh) / C=Fuzz (hard) / R=WaveFold',
+                'SW2 Chaos character: L=Crush only / C=Fold only / R=Crush + Fold',
+                'SW3 Octave mode: L=Sub only / C=Oct-up only / R=Oct-up + Sub',
+                'DIP1-4 = unused by this effect',
+                'FS1 = Bypass, FS2 = Chaos Spike (tap toggles Chaos to max; LED2 = active)',
+                'FS1+FS2 hold 0.5s = Expression Set Mode',
+                'FS1+FS2 hold 2s = Clear expression mappings',
+                'MIDI: CC 14-19 = knobs, CC 20 = bypass, CC 21 = Chaos Spike',
+                'See full controls reference at /controls.html'
+            ]
+        },
         fuzz_destroyer_synth: {
             name: 'Fuzz Destroyer (Synth)',
             file: 'fuzz_destroyer_synth_funbox.bin',
