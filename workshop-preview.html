@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>WOOF Workshop (Prototype) - NOKILL Pedal Co</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 62.5%; scroll-behavior: smooth; }
+        body {
+            font-family: 'Assistant', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: #121212;
+            background: #FFFFFF;
+            letter-spacing: 0.4px;
+            line-height: 1.6;
+        }
+        /* --- prototype banner --- */
+        .proto-bar {
+            background: #8a5215;
+            color: #fff;
+            text-align: center;
+            padding: 9px 20px;
+            font-size: 1.25rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 50px;
+            border-bottom: 0.1rem solid rgba(18, 18, 18, 0.08);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #121212;
+            display: inline-block;
+            line-height: 0;
+        }
+        .header-logo img { height: 36px; width: auto; display: block; }
+        .header-nav a {
+            font-size: 1.6rem;
+            color: #121212;
+            text-decoration: none;
+            letter-spacing: 0.6px;
+            margin-left: 30px;
+        }
+        .header-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+        .main { max-width: 900px; margin: 0 auto; padding: 50px 30px 100px; }
+        .page-title { font-size: 4rem; font-weight: 400; line-height: 1.2; margin-bottom: 8px; }
+        .page-subtitle { font-size: 1.5rem; color: rgba(18, 18, 18, 0.7); margin-bottom: 30px; }
+
+        .callout {
+            border-left: 3px solid #121212;
+            background: #f7f7f5;
+            padding: 14px 20px;
+            margin: 18px 0 36px;
+            font-size: 1.45rem;
+        }
+        .callout.warn { border-left-color: #8a5215; background: #fdeede; }
+        .callout strong { display: inline-block; margin-right: 6px; }
+
+        .step {
+            border: 1px solid rgba(18, 18, 18, 0.12);
+            padding: 28px 30px;
+            margin-bottom: 28px;
+        }
+        .step-num {
+            display: inline-block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(18, 18, 18, 0.55);
+            margin-bottom: 8px;
+        }
+        .step h2 { font-size: 2.6rem; font-weight: 400; margin-bottom: 6px; }
+        .step .step-desc { font-size: 1.45rem; color: rgba(18, 18, 18, 0.7); margin-bottom: 22px; }
+
+        label.field-label { display:block; font-weight:700; font-size:1.4rem; margin-bottom:8px; }
+        textarea, input[type=text], select {
+            font-family: inherit;
+            font-size: 1.4rem;
+            color: #121212;
+            background: #fff;
+            border: 1px solid rgba(18, 18, 18, 0.25);
+            padding: 10px 12px;
+            width: 100%;
+            border-radius: 4px;
+        }
+        textarea:focus, input:focus, select:focus { outline: 2px solid #121212; outline-offset: 1px; border-color:#121212; }
+        textarea { min-height: 90px; resize: vertical; }
+
+        .control-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 1.35rem; }
+        .control-table th {
+            background: #121212; color: #fff; text-align: left; padding: 9px 12px;
+            font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1.1px; font-weight: 700;
+        }
+        .control-table td { padding: 10px 12px; border-bottom: 1px solid rgba(18, 18, 18, 0.1); vertical-align: top; }
+        .control-table td.cname { font-weight: 700; white-space: nowrap; width: 150px; }
+        .control-table td.cwiring { font-family: ui-monospace,"SF Mono",Menlo,monospace; font-size:1.1rem; color: rgba(18,18,18,0.55); width: 150px; }
+        .group-row td {
+            background: #f0f0ee; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.2px; font-size: 1.1rem; color: rgba(18,18,18,0.6);
+        }
+        .pos-row { display:flex; gap:8px; flex-wrap:wrap; }
+        .pos-row > div { flex:1; min-width:120px; }
+        .pos-row .poslabel { font-size:1.05rem; text-transform:uppercase; letter-spacing:1px; color:rgba(18,18,18,0.5); margin-bottom:3px; }
+        .fixed-pill {
+            display:inline-block; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+            padding:2px 8px; border-radius:999px; background:#ecebff; color:#3b3a8c; border:1px solid #d6d4f5; margin-left:6px;
+        }
+        .chk-grid { display:flex; flex-wrap:wrap; gap:6px 18px; }
+        .chk-grid label { font-size:1.3rem; font-weight:400; display:flex; align-items:center; gap:6px; }
+        .chk-grid input { width:auto; }
+        .hint { font-size:1.15rem; color: rgba(18,18,18,0.5); margin-top:4px; }
+
+        /* buttons */
+        .btn {
+            font-family: inherit; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.6px;
+            background: #121212; color: #fff; border: 1px solid #121212;
+            padding: 13px 30px; cursor: pointer; border-radius: 999px;
+            transition: background 0.12s, color 0.12s;
+        }
+        .btn:hover { background:#000; }
+        .btn:disabled { opacity:0.4; cursor:not-allowed; }
+        .btn.ghost { background:#fff; color:#121212; }
+        .btn.ghost:hover { background:#f0f0ee; }
+
+        /* chat */
+        .chat {
+            border: 1px solid rgba(18,18,18,0.12); border-radius: 8px;
+            background: #fafafa; padding: 18px; max-height: 460px; overflow-y: auto;
+        }
+        .bubble { max-width: 80%; padding: 11px 15px; margin-bottom: 12px; border-radius: 14px; font-size: 1.35rem; line-height:1.5; }
+        .bubble.agent { background: #fff; border: 1px solid rgba(18,18,18,0.12); border-bottom-left-radius: 4px; }
+        .bubble.user { background: #121212; color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+        .bubble .who { display:block; font-size:1rem; text-transform:uppercase; letter-spacing:1.2px; opacity:0.55; margin-bottom:4px; }
+        .chat-input-row { display:flex; gap:10px; margin-top:14px; }
+        .chat-input-row input { flex:1; }
+        .turn-counter { font-size:1.2rem; color:rgba(18,18,18,0.5); margin-top:10px; text-align:center; }
+
+        /* build / result */
+        .build-progress { font-family: ui-monospace,"SF Mono",Menlo,monospace; font-size:1.3rem; background:#121212; color:#7CFC9B; padding:18px; border-radius:6px; min-height:60px; white-space:pre-wrap; display:none; }
+        .build-progress.visible { display:block; }
+        .result { display:none; margin-top:20px; border:1px solid #cfe9d7; background:#e7f6ec; border-radius:8px; padding:24px; }
+        .result.visible { display:block; }
+        .result h3 { font-size:2rem; font-weight:700; margin-bottom:6px; }
+        .result .effect-name { font-size:1.5rem; color:#1f6b3a; margin-bottom:16px; }
+        .deliverable { display:flex; align-items:center; gap:12px; background:#fff; border:1px solid rgba(18,18,18,0.12); border-radius:6px; padding:12px 16px; margin-bottom:10px; font-size:1.35rem; }
+        .deliverable .dicon { font-size:2rem; }
+        .deliverable .dmeta { flex:1; }
+        .deliverable .dmeta strong { display:block; }
+        .deliverable .dmeta span { font-size:1.15rem; color:rgba(18,18,18,0.55); }
+
+        .footer {
+            border-top: 1px solid rgba(18, 18, 18, 0.1); padding: 30px; text-align: center;
+            font-size: 1.3rem; color: rgba(18, 18, 18, 0.55); max-width: 1200px; margin: 0 auto;
+        }
+        .footer a { color: rgba(18, 18, 18, 0.7); }
+
+        @media (max-width: 600px) {
+            .header { padding: 18px 22px; }
+            .main { padding: 30px 18px 80px; }
+            .bubble { max-width: 92%; }
+            .control-table td.cwiring { display:none; }
+            .control-table th.cwiring { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="proto-bar">⚠ Prototype — front-end mockup only, not wired to a real backend</div>
+
+<header class="header">
+    <a href="https://nokillpedal.co" class="header-logo" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a>
+    <nav class="header-nav">
+        <a href="index.html">FLASHER</a>
+        <a href="controls.html">CONTROLS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="https://nokillpedal.co">SHOP</a>
+    </nav>
+</header>
+
+<main class="main" id="top">
+
+    <h1 class="page-title">WOOF Workshop</h1>
+    <p class="page-subtitle">Describe the pedal you want. We build the firmware, you flash it. — This is an early preview of the customer flow.</p>
+
+    <div class="callout warn">
+        <strong>Heads up:</strong> this page is a <strong>UX prototype</strong>. The intake form is real and generated live from the WOOF hardware control schema, but the chat refinement and the “Build” step are <strong>canned mockups</strong> — there is no agent or compiler behind them yet. It’s here so we can feel the flow end-to-end.
+    </div>
+
+    <!-- STEP 1 : VIBE -->
+    <section class="step">
+        <span class="step-num">Step 1 of 4</span>
+        <h2>The vibe</h2>
+        <p class="step-desc">One open-ended box. Tell us the sound, the band, the feeling, the use — anything. This is the only free-text input; everything else is guided so we can only build what the hardware and our vetted DSP library actually support.</p>
+        <label class="field-label" for="vibe">Overall vibe</label>
+        <textarea id="vibe" placeholder="e.g. A cold, robotic, electroclash vocal — nasal and distorted like the lead singer of The Faint, with a knob that pitches up and down."></textarea>
+    </section>
+
+    <!-- STEP 2 : INTAKE FORM -->
+    <section class="step">
+        <span class="step-num">Step 2 of 4</span>
+        <h2>Map your controls</h2>
+        <p class="step-desc">Every physical control on the WOOF (GuitarML FunBox v3 + Daisy Seed), one row each. Pick from the guided options — these come straight from the control schema, so each choice is something the firmware can actually do. Reserved/template-owned controls are shown read-only.</p>
+        <table class="control-table" id="intakeTable">
+            <thead><tr><th class="cname">Control</th><th class="cwiring">Firmware</th><th>Assigned behavior</th></tr></thead>
+            <tbody id="intakeBody"><!-- generated from schema --></tbody>
+        </table>
+        <p class="hint" id="schemaMeta"></p>
+    </section>
+
+    <!-- STEP 3 : CHAT REFINEMENT -->
+    <section class="step">
+        <span class="step-num">Step 3 of 4</span>
+        <h2>Refine it together</h2>
+        <p class="step-desc">After you submit, the WOOF Workshop agent talks it through with you — usually around ten quick turns — to lock the details before building. Below is a canned example of that conversation.</p>
+        <div class="callout warn" style="margin-top:0;"><strong>Mockup:</strong> this exchange is scripted to show the feel. The input box is disabled.</div>
+        <div class="chat" id="chat"></div>
+        <div class="turn-counter" id="turnCounter"></div>
+        <div style="margin-top:14px; display:flex; gap:10px;">
+            <button class="btn ghost" id="nextTurnBtn" type="button">Play next turn ▶</button>
+            <button class="btn ghost" id="autoBtn" type="button">Auto-play all</button>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" placeholder="Type a reply… (disabled in prototype)" disabled>
+            <button class="btn" disabled>Send</button>
+        </div>
+    </section>
+
+    <!-- STEP 4 : BUILD -->
+    <section class="step">
+        <span class="step-num">Step 4 of 4</span>
+        <h2>Build &amp; flash</h2>
+        <p class="step-desc">When the spec is locked, we compile your firmware and hand back a flashable <code>.bin</code> plus a generated control page. From there it goes straight into the flasher.</p>
+        <button class="btn" id="buildBtn" type="button">Build my WOOF →</button>
+        <div class="build-progress" id="buildProgress"></div>
+
+        <div class="result" id="result">
+            <h3>✓ Your WOOF is ready <span class="fixed-pill">mock</span></h3>
+            <div class="effect-name" id="resultName">—</div>
+            <div class="deliverable">
+                <span class="dicon">💾</span>
+                <div class="dmeta"><strong id="binName">your_effect_funbox.bin</strong><span>~100 KB · fits the 128 KB flash sector · STM32H750 @ 0x08000000</span></div>
+                <button class="btn ghost" type="button" onclick="alert('Prototype: no real .bin is generated yet.');">Download</button>
+            </div>
+            <div class="deliverable">
+                <span class="dicon">📄</span>
+                <div class="dmeta"><strong>Control page</strong><span>Auto-generated knob/switch/DIP reference, styled like the rest of the site.</span></div>
+                <button class="btn ghost" type="button" onclick="alert('Prototype: control page would be generated and published here.');">Preview</button>
+            </div>
+            <div class="deliverable">
+                <span class="dicon">⚡</span>
+                <div class="dmeta"><strong>Flash it</strong><span>Your effect would appear in the flasher under FunBox, tagged “Community” until tested.</span></div>
+                <a class="btn" href="index.html" target="_blank">Open flasher</a>
+            </div>
+            <p class="hint" id="resultSummary" style="margin-top:14px;"></p>
+        </div>
+    </section>
+
+    <p class="hint">WOOF Workshop · prototype build · <span id="schemaVerLine"></span></p>
+</main>
+
+<footer class="footer">
+    <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
+</footer>
+
+<!-- Embedded WOOF control schema (self-contained copy of woof-workshop/schema/controls.schema.json v0.1.0) -->
+<script type="application/json" id="woof-schema">
+{
+  "schemaName": "woof-funbox-control-set",
+  "schemaVersion": "0.1.0",
+  "platform": { "board": "GuitarML FunBox v3", "mcu": "STM32H750 (Daisy Seed)", "sampleRateHz": 48000, "flashSectorBytes": 131072, "binLoadAddress": "0x08000000" },
+  "parameterRoles": {
+    "level": "Output / mix level (0..2x typical).",
+    "drive": "Distortion / gain-into-clipper amount.",
+    "tone": "Single-knob tilt / low-pass tone control.",
+    "filter_cutoff": "Filter cutoff frequency (OnePole / Svf).",
+    "filter_resonance": "Filter resonance / Q (Svf).",
+    "mix": "Dry/wet blend for an effect (0..1).",
+    "reverb_decay": "Reverb feedback / decay time.",
+    "delay_time": "Delay line time.",
+    "feedback": "Delay/reverb feedback amount.",
+    "mod_rate": "LFO / modulation rate.",
+    "mod_depth": "LFO / modulation depth.",
+    "pitch_interval": "Pitch-shift interval in semitones (-12..+12).",
+    "fold_amount": "Wavefolder fold amount.",
+    "crush_amount": "Bitcrush / sample-rate reduction amount.",
+    "octave_mix": "Octave-voice blend level.",
+    "gate_threshold": "Noise-gate threshold."
+  },
+  "controls": [
+    { "id":"knob_1","label":"Knob 1","type":"knob","firmware":{"enum":"Funbox::KNOB_1","midiTakeoverCC":14},"conventionDefault":"level","allowedBehaviors":{"type":"single-select","options":["level","drive","tone","filter_cutoff","filter_resonance","mix","reverb_decay","delay_time","feedback","mod_rate","mod_depth","pitch_interval","fold_amount","crush_amount","octave_mix","gate_threshold"]}},
+    { "id":"knob_2","label":"Knob 2","type":"knob","firmware":{"enum":"Funbox::KNOB_2","midiTakeoverCC":15},"conventionDefault":"tone","allowedBehaviors":{"type":"single-select","options":["level","drive","tone","filter_cutoff","filter_resonance","mix","reverb_decay","delay_time","feedback","mod_rate","mod_depth","pitch_interval","fold_amount","crush_amount","octave_mix","gate_threshold"]}},
+    { "id":"knob_3","label":"Knob 3","type":"knob","firmware":{"enum":"Funbox::KNOB_3","midiTakeoverCC":16},"conventionDefault":"mix","allowedBehaviors":{"type":"single-select","options":["level","drive","tone","filter_cutoff","filter_resonance","mix","reverb_decay","delay_time","feedback","mod_rate","mod_depth","pitch_interval","fold_amount","crush_amount","octave_mix","gate_threshold"]}},
+    { "id":"knob_4","label":"Knob 4","type":"knob","firmware":{"enum":"Funbox::KNOB_4","midiTakeoverCC":17},"conventionDefault":"filter_cutoff","allowedBehaviors":{"type":"single-select","options":["level","drive","tone","filter_cutoff","filter_resonance","mix","reverb_decay","delay_time","feedback","mod_rate","mod_depth","pitch_interval","fold_amount","crush_amount","octave_mix","gate_threshold"]}},
+    { "id":"knob_5","label":"Knob 5","type":"knob","firmware":{"enum":"Funbox::KNOB_5","midiTakeoverCC":18},"conventionDefault":"mod_rate","allowedBehaviors":{"type":"single-select","options":["level","drive","tone","filter_cutoff","filter_resonance","mix","reverb_decay","delay_time","feedback","mod_rate","mod_depth","pitch_interval","fold_amount","crush_amount","octave_mix","gate_threshold"]}},
+    { "id":"knob_6","label":"Knob 6","type":"knob","firmware":{"enum":"Funbox::KNOB_6","midiTakeoverCC":19},"conventionDefault":"drive","allowedBehaviors":{"type":"single-select","options":["level","drive","tone","filter_cutoff","filter_resonance","mix","reverb_decay","delay_time","feedback","mod_rate","mod_depth","pitch_interval","fold_amount","crush_amount","octave_mix","gate_threshold"]}},
+    { "id":"switch_1","label":"Toggle Switch 1","type":"toggle","kind":"3-position (ON-OFF-ON)","firmware":{"enum":"Funbox::SWITCH_1","positions":["left","center","right"]},"allowedBehaviors":{"type":"mode-select","maxModes":3,"exampleOptions":["clip flavour (warm/fuzz/crush)","reverb character (plate/hall/shimmer)","filter type (lp/bp/hp)","octave mode (fixed/track/drift)"]}},
+    { "id":"switch_2","label":"Toggle Switch 2","type":"toggle","kind":"3-position (ON-OFF-ON)","firmware":{"enum":"Funbox::SWITCH_2","positions":["left","center","right"]},"allowedBehaviors":{"type":"mode-select","maxModes":3,"exampleOptions":["range select (low/mid/high)","voice count","modulation shape (sine/tri/square)"]}},
+    { "id":"switch_3","label":"Toggle Switch 3","type":"toggle","kind":"3-position (ON-OFF-ON)","firmware":{"enum":"Funbox::SWITCH_3","positions":["left","center","right"]},"allowedBehaviors":{"type":"mode-select","maxModes":3,"exampleOptions":["distortion flavour","tone stack voicing","octave (down/off/up)"]}},
+    { "id":"footswitch_1","label":"Footswitch 1","type":"footswitch","kind":"momentary (firmware-latched)","reserved":true,"firmware":{"enum":"Funbox::FOOTSWITCH_1"},"allowedBehaviors":{"type":"fixed","options":["bypass"],"note":"FS1 is a FIXED control owned by the template. Not user-assignable."}},
+    { "id":"footswitch_2","label":"Footswitch 2","type":"footswitch","kind":"momentary (assignable latch)","firmware":{"enum":"Funbox::FOOTSWITCH_2"},"conventionDefault":"effect_toggle","allowedBehaviors":{"type":"single-select","options":["effect_toggle","momentary_hold","tap_tempo","boost_toggle","freeze_hold","secondary_bypass"]}},
+    { "id":"dip_1","label":"DIP Switch 1","type":"dip","kind":"2-position latching","firmware":{"enum":"Funbox::SWITCH_DIP_1"},"allowedBehaviors":{"type":"boolean-mode","note":"On/off mode flag (e.g. freeze, alternate routing, MIDI enable)."}},
+    { "id":"dip_2","label":"DIP Switch 2","type":"dip","kind":"2-position latching","firmware":{"enum":"Funbox::SWITCH_DIP_2"},"allowedBehaviors":{"type":"boolean-mode"}},
+    { "id":"dip_3","label":"DIP Switch 3","type":"dip","kind":"2-position latching","availability":"v2/v3 boards only","firmware":{"enum":"Funbox::SWITCH_DIP_3"},"allowedBehaviors":{"type":"boolean-mode"}},
+    { "id":"dip_4","label":"DIP Switch 4","type":"dip","kind":"2-position latching","availability":"v2/v3 boards only","firmware":{"enum":"Funbox::SWITCH_DIP_4"},"conventionDefault":"midi_enable","allowedBehaviors":{"type":"boolean-mode","note":"Often used to enable MIDI note handling, mirroring great_dane DIP_4."}},
+    { "id":"expression","label":"Expression Pedal","type":"expression","kind":"TRS expression jack (0..1)","availability":"v3 board only","firmware":{"member":"hw.expression"},"allowedTargets":{"type":"multi-select","options":["knob_1","knob_2","knob_3","knob_4","knob_5","knob_6"],"note":"Expression sweeps one or more knob parameters between user-set heel and toe positions."}},
+    { "id":"midi","label":"USB/TRS MIDI","type":"midi","kind":"MIDI in/out","firmware":{"fixedMap":{"CC14_19":"Knobs 1..6 takeover (FIXED)","CC20":"Bypass toggle","CC21":"FS2 action toggle"}},"allowedBehaviors":{"type":"multi-select","options":["knob_cc_takeover_14_19","bypass_cc_20","aux_toggle_cc_21","note_on_handling"],"note":"CC14-21 map is FIXED and template-owned. note_on_handling is the only effect-specific MIDI option."}},
+    { "id":"led_1","label":"LED 1","type":"led","kind":"indicator","firmware":{"enum":"Funbox::LED_1"},"conventionDefault":"bypass_status","allowedBehaviors":{"type":"single-select","options":["bypass_status","effect_active","tempo_blink","custom"]}},
+    { "id":"led_2","label":"LED 2","type":"led","kind":"indicator","firmware":{"enum":"Funbox::LED_2"},"conventionDefault":"effect_active","allowedBehaviors":{"type":"single-select","options":["effect_active","bypass_status","tempo_blink","custom"]}}
+  ],
+  "booleanModeOptions": ["midi_enable","freeze_hold","sub_octave","octave_up","alternate_routing","stereo_widen","gate_enable","tone_bypass"]
+}
+</script>
+
+<script>
+(function () {
+    "use strict";
+    var schema = JSON.parse(document.getElementById('woof-schema').textContent);
+    var roles = schema.parameterRoles || {};
+    var boolOpts = schema.booleanModeOptions || [];
+
+    // Human-readable label for a parameter role / option token.
+    function pretty(tok) {
+        return tok.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+    }
+    function roleTitle(tok) { return roles[tok] ? roles[tok] : ''; }
+
+    function groupHeading(type) {
+        switch (type) {
+            case 'knob': return 'Knobs';
+            case 'toggle': return '3-Position Toggle Switches';
+            case 'footswitch': return 'Footswitches';
+            case 'dip': return 'DIP Switches';
+            case 'expression': return 'Expression';
+            case 'midi': return 'MIDI';
+            case 'led': return 'Indicators (LEDs)';
+            default: return type;
+        }
+    }
+
+    function selectFor(id, options, selected, titleFn) {
+        var s = '<select data-control="' + id + '">';
+        options.forEach(function (o) {
+            var sel = (o === selected) ? ' selected' : '';
+            var t = titleFn ? titleFn(o) : '';
+            s += '<option value="' + o + '"' + sel + (t ? ' title="' + t.replace(/"/g,'&quot;') + '"' : '') + '>' + pretty(o) + '</option>';
+        });
+        s += '</select>';
+        return s;
+    }
+
+    function controlCell(c) {
+        var ab = c.allowedBehaviors || {};
+        var tgt = c.allowedTargets || {};
+        // Continuous single-selects (knobs, FS2, LEDs)
+        if (ab.type === 'single-select') {
+            var titleFn = (c.type === 'knob') ? roleTitle : null;
+            return selectFor(c.id, ab.options, c.conventionDefault || ab.options[0], titleFn) +
+                (c.type === 'knob' ? '<div class="hint">' + (roleTitle(c.conventionDefault) || '') + '</div>' : '');
+        }
+        // 3-position toggles: pick a function, then name each position
+        if (ab.type === 'mode-select') {
+            var opts = (ab.exampleOptions || []).slice();
+            var html = selectFor(c.id, opts, opts[0], null);
+            html += '<div class="pos-row" style="margin-top:8px;">';
+            ['left','center','right'].forEach(function (p) {
+                html += '<div><div class="poslabel">' + p + '</div>' +
+                        '<input type="text" data-pos="' + c.id + '-' + p + '" placeholder="' + p + ' mode"></div>';
+            });
+            html += '</div><div class="hint">Up to 3 modes — one per switch position.</div>';
+            return html;
+        }
+        // Fixed (FS1)
+        if (ab.type === 'fixed') {
+            return '<select disabled><option>' + pretty(ab.options[0]) + '</option></select>' +
+                   '<span class="fixed-pill">fixed</span>' +
+                   (ab.note ? '<div class="hint">' + ab.note + '</div>' : '');
+        }
+        // Boolean-mode (DIPs): pick what the ON state does
+        if (ab.type === 'boolean-mode') {
+            var def = c.conventionDefault && boolOpts.indexOf(c.conventionDefault) === -1 ? [c.conventionDefault].concat(boolOpts) : boolOpts;
+            return '<label class="poslabel" style="display:block;margin-bottom:3px;">ON enables…</label>' +
+                   selectFor(c.id, def, c.conventionDefault || def[0], null) +
+                   (ab.note ? '<div class="hint">' + ab.note + '</div>' : '');
+        }
+        // Multi-select (expression targets, MIDI)
+        if (ab.type === 'multi-select' || tgt.type === 'multi-select') {
+            var mopts = (tgt.options || ab.options || []);
+            var fixedNote = ab.note || tgt.note || '';
+            var h = '<div class="chk-grid">';
+            mopts.forEach(function (o) {
+                var isFixed = (c.type === 'midi' && o !== 'note_on_handling');
+                h += '<label><input type="checkbox" data-multi="' + c.id + '" value="' + o + '"' +
+                     (isFixed ? ' checked disabled' : '') + '> ' + pretty(o) + (isFixed ? ' 🔒' : '') + '</label>';
+            });
+            h += '</div>';
+            if (fixedNote) h += '<div class="hint">' + fixedNote + '</div>';
+            return h;
+        }
+        return '<span class="hint">—</span>';
+    }
+
+    // Build the table grouped by control type, in schema order.
+    var body = document.getElementById('intakeBody');
+    var lastType = null;
+    var html = '';
+    schema.controls.forEach(function (c) {
+        if (c.type !== lastType) {
+            html += '<tr class="group-row"><td colspan="3">' + groupHeading(c.type) + '</td></tr>';
+            lastType = c.type;
+        }
+        var wiring = (c.firmware && (c.firmware.enum || c.firmware.member)) || (c.firmware && c.firmware.fixedMap ? 'CC 14–21' : '—');
+        var avail = c.availability ? ' <span class="hint" style="display:inline;">(' + c.availability + ')</span>' : '';
+        html += '<tr>' +
+            '<td class="cname">' + c.label + avail + '</td>' +
+            '<td class="cwiring">' + wiring + '</td>' +
+            '<td>' + controlCell(c) + '</td>' +
+        '</tr>';
+    });
+    body.innerHTML = html;
+
+    document.getElementById('schemaMeta').textContent =
+        'Generated from ' + schema.schemaName + ' v' + schema.schemaVersion + ' · ' +
+        schema.platform.board + ' · ' + schema.controls.length + ' controls · flash sector ' +
+        schema.platform.flashSectorBytes + ' B.';
+    document.getElementById('schemaVerLine').textContent =
+        'schema ' + schema.schemaName + ' v' + schema.schemaVersion;
+
+    // ---- Step 3: canned chat ----
+    var script = [
+        { who:'agent', text:"Hi! I'm the WOOF Workshop builder. Tell me about the pedal you want and I'll map it onto your WOOF." },
+        { who:'user',  text:"A cold, robotic, electroclash vocal — nasal and distorted like the lead singer of The Faint. And a knob that pitches up and down." },
+        { who:'agent', text:"Love it. So the headline move is a bipolar pitch knob — center = unity, left pitches down, right pitches up. I'll put that on Knob 2. Good?" },
+        { who:'user',  text:"Yes. Make it musical, not just noise." },
+        { who:'agent', text:"Got it. For the \"robotic\" tone I'll add a nasal formant honk on Knob 4, drive on Knob 6, and a bitcrush on Knob 5 for the digital edge. Knob 1 = level, Knob 3 = dry/wet mix." },
+        { who:'user',  text:"What do the toggle switches do?" },
+        { who:'agent', text:"SW1 = drive flavour (warm / fuzz / diode), SW2 = formant voicing (chest / neutral / nasal), SW3 = modulation (off / chorus / ring-mod). Ring-mod is what gets you the metallic dalek edge." },
+        { who:'user',  text:"Perfect. Can I stack an octave harmony with my foot?" },
+        { who:'agent', text:"Yes — Footswitch 2 toggles an octave-up harmony voice that tracks the pitch knob. FS1 stays bypass (reserved). DIP1 quantizes pitch to semitones, DIP2 adds a sub-octave, DIP3 is a telephone EQ." },
+        { who:'user',  text:"That's it. Build it." },
+        { who:'agent', text:"On it — compiling your firmware and generating the control page. This normally takes a minute. 🛠️" }
+    ];
+    var chat = document.getElementById('chat');
+    var counter = document.getElementById('turnCounter');
+    var idx = 0;
+    function renderTurn() {
+        if (idx >= script.length) return;
+        var t = script[idx++];
+        var b = document.createElement('div');
+        b.className = 'bubble ' + t.who;
+        b.innerHTML = '<span class="who">' + (t.who === 'agent' ? 'WOOF builder' : 'You') + '</span>' + t.text;
+        chat.appendChild(b);
+        chat.scrollTop = chat.scrollHeight;
+        counter.textContent = 'Turn ' + idx + ' of ' + script.length;
+        if (idx >= script.length) {
+            document.getElementById('nextTurnBtn').disabled = true;
+            document.getElementById('autoBtn').disabled = true;
+        }
+    }
+    renderTurn(); // show first turn
+    document.getElementById('nextTurnBtn').addEventListener('click', renderTurn);
+    document.getElementById('autoBtn').addEventListener('click', function () {
+        this.disabled = true;
+        var iv = setInterval(function () {
+            if (idx >= script.length) { clearInterval(iv); return; }
+            renderTurn();
+        }, 700);
+    });
+
+    // ---- Step 4: mock build ----
+    var buildSteps = [
+        '› Validating control map against schema v' + schema.schemaVersion + '…  ok',
+        '› Selecting DSP building blocks (pitch shifter, formant, bitcrush, drive)…  ok',
+        '› Generating effect from great_dane scaffold…  ok',
+        '› Compiling for STM32H750 (arm-none-eabi-gcc -O2)…',
+        '› Linking + sanitizer/limiter safety pass…  ok',
+        '› Output: 100,612 bytes  (fits 131,072 B sector)  ✓',
+        '› Building control page…  ok',
+        '✓ Done.'
+    ];
+    document.getElementById('buildBtn').addEventListener('click', function () {
+        var btn = this;
+        btn.disabled = true;
+        var prog = document.getElementById('buildProgress');
+        var result = document.getElementById('result');
+        result.classList.remove('visible');
+        prog.classList.add('visible');
+        prog.textContent = '';
+        var i = 0;
+        var iv = setInterval(function () {
+            if (i >= buildSteps.length) {
+                clearInterval(iv);
+                // personalize result from the vibe + a couple of picks
+                var vibe = (document.getElementById('vibe').value || '').trim();
+                var name = deriveName(vibe);
+                document.getElementById('resultName').textContent = name.display;
+                document.getElementById('binName').textContent = name.slug + '_funbox.bin';
+                document.getElementById('resultSummary').textContent = summarize(vibe);
+                result.classList.add('visible');
+                btn.disabled = false;
+                btn.textContent = 'Rebuild';
+                return;
+            }
+            prog.textContent += (prog.textContent ? '\n' : '') + buildSteps[i++];
+        }, 480);
+    });
+
+    function deriveName(vibe) {
+        var slug = 'custom_woof';
+        var display = 'Custom WOOF';
+        if (vibe) {
+            var words = vibe.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(/\s+/).filter(Boolean).slice(0,2);
+            if (words.length) {
+                slug = words.join('_');
+                display = words.map(pretty).join(' ');
+            }
+        }
+        return { slug: slug, display: display };
+    }
+    function summarize(vibe) {
+        var sels = document.querySelectorAll('#intakeBody select[data-control]');
+        var k = [];
+        sels.forEach(function (s) {
+            if (/^knob_/.test(s.getAttribute('data-control'))) k.push(pretty(s.value));
+        });
+        return 'Spec captured — vibe: "' + (vibe || '(none entered)') + '". Knob map: ' + k.join(', ') + '. (Prototype — nothing was actually compiled.)';
+    }
+})();
+</script>
+</body>
+</html>
