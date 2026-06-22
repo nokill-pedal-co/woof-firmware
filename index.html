@@ -633,6 +633,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        moog_mangler_dirty_ring_mod_funbox: {
+            name: 'Moog Mangler — Dirty Ring Mod (FunBox)',
+            file: 'moog_mangler_dirty_ring_mod_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A MoogerFooger-flavoured ring modulator: a tunable carrier oscillator multiplies your signal for clangy, metallic, bell-and-robot tones, then a grit stage smears dirt over the whole thing. Sweep the carrier with a knob or the LFO, push the drive, and chase those classic Moog ring-mod textures.',
+            controls: [
+                'KNOB 1 = Carrier frequency (sweeps the ring-mod oscillator pitch, low growl to high clang)',
+                'KNOB 2 = Tone (post-mod tilt low-pass to tame harsh upper harmonics)',
+                'KNOB 3 = Mix (dry/ring-mod blend)',
+                'KNOB 4 = Drive (dirt amount into the clipper)',
+                'KNOB 5 = LFO rate (modulates the carrier frequency)',
+                'KNOB 6 = LFO depth (how far the LFO sweeps the carrier)',
+                'SW1 = Carrier frequency range: left = low (sub/growl) / center = mid / right = high (bell/clang)',
+                'SW2 = Dirt flavour: left = warm (tanh) / center = fuzz / right = wavefold (nasty)',
+                'SW3 = LFO shape: left = sine / center = triangle / right = square (hard chops)',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Boost toggle (kicks in extra drive + output for a louder, dirtier mode)',
+                'DIP1 = Dirt placement: pre ring-mod / post ring-mod',
+                'DIP2 = LFO destination: carrier frequency / drive amount (tremolo-ish grit pulse)',
+                'DIP3 = Carrier tracking: fixed pitch / track input pitch (carrier follows played note for harmonic ring-mod)',
+                'DIP4 = MIDI note handling on/off (played note sets carrier frequency)',
+                'Expression = Sweeps carrier frequency (assign to KNOB_1 via the set-mode gesture; great for live "wah-into-ringmod" sweeps)',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         flasher_smoke_test_funbox: {
             name: 'Flasher Smoke Test (FunBox)',
             file: 'flasher_smoke_test_funbox.bin',
