@@ -633,6 +633,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        vocal_box_funbox: {
+            name: 'Vocal Box (FunBox)',
+            file: 'vocal_box_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A talk-box flavour without the tube — a sweepable formant/vowel filter that makes your guitar "talk." Pumping a resonant peak across vowel shapes gives that Frampton-style mouth-and-throat quality, with your playing dynamics opening and closing the "mouth."',
+            controls: [
+                'KNOB 1 = Output level',
+                'KNOB 2 = Vowel sweep (morphs the formant filter between vowel shapes)',
+                'KNOB 3 = Dry/wet mix',
+                'KNOB 4 = Formant resonance (Q — sharper = more vocal/nasal)',
+                'KNOB 5 = Envelope amount (how much pick dynamics push the vowel sweep)',
+                'KNOB 6 = Drive into the formant filter (adds bite/buzz like a tube reed)',
+                'SW1 = Vowel set: left = ah→oh, center = ah→ee, right = ee→oo',
+                'SW2 = Envelope response: left = slow/smooth, center = medium, right = fast/percussive',
+                'SW3 = Voice tone: left = dark, center = neutral, right = bright (tilt on the wet voice)',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Effect toggle (vocal voice in/out, leaving dry through)',
+                'DIP1 = Sweep source: off = Vowel knob/expression, on = envelope-driven',
+                'DIP2 = Sub-octave thicken under the voice (chesty/throaty body)',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI enable',
+                'Expression = sweeps the Vowel knob (KNOB_2) heel-to-toe — your foot is the "mouth"',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         poodle_eq_funbox: {
             name: 'Poodle EQ (FunBox)',
             file: 'poodle_eq_funbox.bin',
