@@ -633,6 +633,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        poodle_eq_funbox: {
+            name: 'Poodle EQ (FunBox)',
+            file: 'poodle_eq_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A pristine, sweepable tone-shaping pedal: a tilt/tone stage stacked with a fully-sweepable resonant filter and a switchable filter character, so you can dial anything from a gentle tilt to a vocal wah-like peak. Clean, musical, and built to sit anywhere in your chain.',
+            controls: [
+                'KNOB 1 = Output level',
+                'KNOB 2 = Tone (tilt: dark ↔ bright)',
+                'KNOB 3 = Filter cutoff (sweepable EQ point)',
+                'KNOB 4 = Filter resonance / Q (peak sharpness)',
+                'KNOB 5 = Mix (dry ↔ filtered blend)',
+                'KNOB 6 = Drive (subtle saturation for warmth/presence)',
+                'SW1 = Filter type: left = low-pass / center = band-pass (peak) / right = high-pass',
+                'SW2 = Cutoff range: left = low / center = mid / right = high (focuses KNOB_3\'s sweep)',
+                'SW3 = Tilt voicing: left = warm / center = flat / right = bright',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Boost toggle (clean level lift via output stage)',
+                'DIP1 = Drive engage (on = saturation in path, off = fully clean EQ)',
+                'DIP2 = Resonance safety (on = tamed Q to avoid harsh peaks)',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI enable',
+                'Expression = Sweeps filter cutoff (KNOB_3) heel-to-toe for wah-style EQ moves',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         moog_mangler_dirty_ring_mod_funbox: {
             name: 'Moog Mangler — Dirty Ring Mod (FunBox)',
             file: 'moog_mangler_dirty_ring_mod_funbox.bin',
