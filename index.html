@@ -1866,6 +1866,49 @@
         }
     });
 
+    // --- Deep link: ?effect=<registry-key> (optional &platform=) ------------
+    // The WOOF Workshop hands users a link like
+    //   https://nokill-pedal-co.github.io/woof-firmware/?effect=gnarler_funbox
+    // On load we set the platform + signal filters and preselect that effect so
+    // it's loaded and ready to flash. The slug is the exact FIRMWARE_DATA key
+    // (e.g. 'gnarler_funbox', 'faint_vox_funbox', 'great_dane_synth'). The
+    // platform/signal are read from the registry entry itself, so an explicit
+    // &platform= is optional and only used as a hint. Unknown/missing slug =>
+    // silent fall-back to the default landing state (no error).
+    function applyDeepLink() {
+        try {
+            var params = new URLSearchParams(window.location.search);
+            var slug = (params.get('effect') || '').trim();
+            if (!slug) return;                       // no param: unchanged
+            var item = FIRMWARE_DATA[slug];
+            if (!item) return;                       // unknown slug: graceful no-op
+
+            var platform = item.platform || 'terrarium';
+            var signal   = item.signal   || 'guitar';
+
+            platformSelect.value = platform;
+            signalSelect.value   = signal;
+            refreshFirmwareList();                   // repopulate for this filter
+
+            // Only proceed if the option actually exists in the dropdown.
+            var exists = Array.prototype.some.call(firmwareSelect.options,
+                function(o) { return o.value === slug; });
+            if (!exists) return;
+
+            firmwareSelect.value = slug;
+            firmwareSelect.dispatchEvent(new Event('change'));   // load + show info
+
+            // Bring it into view and focus it so it's obviously ready.
+            if (firmwareSelect.scrollIntoView) {
+                firmwareSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            try { firmwareSelect.focus({ preventScroll: true }); } catch (e) { firmwareSelect.focus(); }
+        } catch (e) {
+            /* never let a bad link break the page */
+        }
+    }
+    applyDeepLink();
+
     // --- Connect ---
     connectBtn.addEventListener('click', async function() {
         try {
