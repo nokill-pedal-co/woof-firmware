@@ -633,6 +633,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        wicked_game_fuzz_trem_funbox: {
+            name: 'Wicked Game Fuzz-Trem (FunBox)',
+            file: 'wicked_game_fuzz_trem_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A vintage Fuzz Face that goes from a gentle hairy tear to a spitting gnarl, with a lush amp-style tremolo on top — smooth and dreamy or square-wave choppy — plus a swirling phaser after the fuzz for that wide, hypnotic Isaak shimmer.',
+            controls: [
+                'KNOB 1 = Output level (volume)',
+                'KNOB 2 = Tone (post-fuzz tilt/low-pass)',
+                'KNOB 3 = Fuzz drive (gain into the clipper)',
+                'KNOB 4 = Tremolo rate (mod_rate)',
+                'KNOB 5 = Tremolo depth (mod_depth)',
+                'KNOB 6 = Fuzz mix (dry blend back in for clarity / partial fuzz)',
+                'SW1 = Fuzz voicing: left = Germanium (warm, soft, saggy), center = blended, right = Silicon (brighter, harder, gnarlier)',
+                'SW2 = Tremolo shape: left = smooth sine, center = triangle, right = choppy square',
+                'SW3 = Phaser amount: left = off (bypassed), center = subtle swirl, right = deep wide sweep',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Tremolo engage: short tap = latch tremolo on/off; press-and-hold = momentary (trem runs while held, off on release)',
+                'DIP1 = Tremolo always-on (latch trem on regardless of FS2)',
+                'DIP2 = unused / available',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI note handling enable (off by default)',
+                'Expression = sweeps Tremolo rate (KNOB_4) heel-to-toe for live speed swells',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         vocal_box_funbox: {
             name: 'Vocal Box (FunBox)',
             file: 'vocal_box_funbox.bin',
