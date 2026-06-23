@@ -509,6 +509,12 @@
                 <div class="step-label">STEP 1</div>
                 <div class="step-title">Select Platform &amp; Firmware</div>
                 <div class="step-desc">Choose your pedal platform, then the firmware to flash.</div>
+                <div class="step-label">LIBRARY</div>
+                <select class="firmware-select" id="trustSelect" style="margin-bottom:12px;">
+                    <option value="official" selected>Official &mdash; built &amp; tested by NOKILL</option>
+                    <option value="community">Community &mdash; user-generated, untested</option>
+                    <option value="all">All effects</option>
+                </select>
                 <select class="firmware-select" id="platformSelect" style="margin-bottom:12px;">
                     <option value="funbox" selected>FunBox</option>
                     <option value="hothouse">Hothouse</option>
@@ -1915,6 +1921,7 @@
     // --- DOM refs ---
     const platformSelect    = document.getElementById('platformSelect');
     const signalSelect      = document.getElementById('signalSelect');
+    const trustSelect       = document.getElementById('trustSelect');
     const firmwareSelect    = document.getElementById('firmwareSelect');
     const firmwareInfo      = document.getElementById('firmwareInfo');
     const connectBtn        = document.getElementById('connectBtn');
@@ -1949,13 +1956,20 @@
     }
 
     // --- Platform selection: populate firmware dropdown with matching pedals ---
-    function populateFirmwareSelect(platform, signal) {
+    function populateFirmwareSelect(platform, signal, trust) {
         firmwareSelect.innerHTML = '<option value="" disabled selected>Select a pedal...</option>';
         for (const key in FIRMWARE_DATA) {
             const item = FIRMWARE_DATA[key];
             const itemPlatform = item.platform || 'terrarium';
             const itemSignal = item.signal || 'guitar';
-            if (itemPlatform === platform && itemSignal === signal) {
+            // Trust filter: entries default to official unless official:false.
+            // 'official' shows vetted only, 'community' shows user-generated
+            // only, 'all' shows both. Default is 'official'.
+            const itemOfficial = (item.official !== false);
+            const trustOk = (trust === 'all')
+                ? true
+                : (trust === 'community' ? !itemOfficial : itemOfficial);
+            if (itemPlatform === platform && itemSignal === signal && trustOk) {
                 const opt = document.createElement('option');
                 opt.value = key;
                 opt.textContent = item.name;
@@ -1973,10 +1987,11 @@
         hideStatus(flashStatus);
     }
     function refreshFirmwareList() {
-        populateFirmwareSelect(platformSelect.value, signalSelect.value);
+        populateFirmwareSelect(platformSelect.value, signalSelect.value, trustSelect.value);
     }
     platformSelect.addEventListener('change', refreshFirmwareList);
     signalSelect.addEventListener('change', refreshFirmwareList);
+    trustSelect.addEventListener('change', refreshFirmwareList);
     refreshFirmwareList();
 
     // --- Firmware selection ---
@@ -2050,6 +2065,11 @@
 
             platformSelect.value = platform;
             signalSelect.value   = signal;
+            // Make sure the trust filter won't hide the linked effect: a link to
+            // a community effect must preselect it even though the default view
+            // is Official-only. Point the Library filter at the effect's own
+            // lane (official vs community) so it's guaranteed visible.
+            trustSelect.value = (item.official !== false) ? 'official' : 'community';
             refreshFirmwareList();                   // repopulate for this filter
 
             // Only proceed if the option actually exists in the dropdown.
