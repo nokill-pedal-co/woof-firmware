@@ -487,7 +487,7 @@
     <main class="main">
         <h1 class="page-title">Firmware Flasher</h1>
         <p class="page-subtitle">
-            Flash firmware directly to your Terrarium or FunBox pedal from the browser.
+            Flash firmware directly to your WOOF pedal from the browser.
             No software to install &mdash; just USB and Chrome.
         </p>
 
@@ -508,17 +508,12 @@
             <div class="step">
                 <div class="step-label">STEP 1</div>
                 <div class="step-title">Select Platform &amp; Firmware</div>
-                <div class="step-desc">Choose your pedal platform, then the firmware to flash.</div>
+                <div class="step-desc">Choose your signal type, then the firmware to flash.</div>
                 <div class="step-label">LIBRARY</div>
                 <select class="firmware-select" id="trustSelect" style="margin-bottom:12px;">
                     <option value="official" selected>Official &mdash; built &amp; tested by NOKILL</option>
                     <option value="community">Community &mdash; user-generated, untested</option>
                     <option value="all">All effects</option>
-                </select>
-                <select class="firmware-select" id="platformSelect" style="margin-bottom:12px;">
-                    <option value="funbox" selected>FunBox</option>
-                    <option value="hothouse">Hothouse</option>
-                    <option value="terrarium">Terrarium</option>
                 </select>
                 <div class="step-label">SIGNAL TYPE</div>
                 <select class="firmware-select" id="signalSelect" style="margin-bottom:12px;">
@@ -603,16 +598,6 @@
                         <div class="step-label">EFFECT</div>
                         <select class="firmware-select" id="bugEffect" required>
                             <option value="" disabled selected>Select an effect...</option>
-                        </select>
-                    </div>
-
-                    <div class="step">
-                        <div class="step-label">PLATFORM</div>
-                        <select class="firmware-select" id="bugPlatform" required>
-                            <option value="" disabled selected>Select a platform...</option>
-                            <option value="Terrarium">Terrarium</option>
-                            <option value="FunBox">FunBox</option>
-                            <option value="Hothouse">Hothouse</option>
                         </select>
                     </div>
 
@@ -1250,7 +1235,7 @@
             name: 'Doom Engine (FunBox)',
             file: 'doom_engine_funbox.bin',
             platform: 'funbox',
-            desc: 'All four effects stackable on FunBox toggles — rectify + ring mod can layer. Stereo ring-mod detune, MIDI, expression.',
+            desc: 'All four effects stackable on WOOF toggles — rectify + ring mod can layer. Stereo ring-mod detune, MIDI, expression.',
             controls: [
                 'KNOB 1 = Volume',
                 'KNOB 2 = Drive (1-150x)',
@@ -1690,7 +1675,7 @@
             file: 'doom_engine_synth_funbox.bin',
             platform: 'funbox',
             signal: 'synth',
-            desc: 'All four effects stackable on FunBox toggles — rectify + ring mod can layer. Stereo ring-mod detune, MIDI, expression. Synth-optimized: ~12 dB input pad for line-level sources, Volume extended to 0-4x to compensate.',
+            desc: 'All four effects stackable on WOOF toggles — rectify + ring mod can layer. Stereo ring-mod detune, MIDI, expression. Synth-optimized: ~12 dB input pad for line-level sources, Volume extended to 0-4x to compensate.',
             controls: [
                 'KNOB 1 = Volume (0-4x, compensates input pad)',
                 'KNOB 2 = Drive (1-150x)',
@@ -1919,9 +1904,18 @@
     let firmwareBinary = null;
 
     // --- DOM refs ---
-    const platformSelect    = document.getElementById('platformSelect');
     const signalSelect      = document.getElementById('signalSelect');
     const trustSelect       = document.getElementById('trustSelect');
+
+    // FunBox is the only platform shown in the UI right now. Other platforms
+    // (Terrarium/Hothouse) stay in FIRMWARE_DATA but are filtered out below.
+    const PLATFORM = 'funbox';
+    // Display-only: strip the "(FunBox)" suffix from effect names everywhere it
+    // shows to the user. Keys/files/slugs are untouched. Other parenthetical
+    // tags (e.g. "(Synth)") are left intact.
+    function displayName(name) {
+        return (name || '').replace(/\s*\(FunBox\)/gi, '').trim();
+    }
     const firmwareSelect    = document.getElementById('firmwareSelect');
     const firmwareInfo      = document.getElementById('firmwareInfo');
     const connectBtn        = document.getElementById('connectBtn');
@@ -1972,7 +1966,7 @@
             if (itemPlatform === platform && itemSignal === signal && trustOk) {
                 const opt = document.createElement('option');
                 opt.value = key;
-                opt.textContent = item.name;
+                opt.textContent = displayName(item.name);
                 firmwareSelect.appendChild(opt);
             }
         }
@@ -1987,9 +1981,8 @@
         hideStatus(flashStatus);
     }
     function refreshFirmwareList() {
-        populateFirmwareSelect(platformSelect.value, signalSelect.value, trustSelect.value);
+        populateFirmwareSelect(PLATFORM, signalSelect.value, trustSelect.value);
     }
-    platformSelect.addEventListener('change', refreshFirmwareList);
     signalSelect.addEventListener('change', refreshFirmwareList);
     trustSelect.addEventListener('change', refreshFirmwareList);
     refreshFirmwareList();
@@ -2007,7 +2000,7 @@
         // by NOKILL/Alex) unless explicitly marked official:false — future
         // user-generated effects set official:false to flag them as untested.
         const isOfficial = (selectedFirmware.official !== false);
-        let html = '<h4>' + selectedFirmware.name + '</h4>';
+        let html = '<h4>' + displayName(selectedFirmware.name) + '</h4>';
         html += isOfficial
             ? '<span class="trust-badge official">&#10003; Official &middot; built &amp; tested by NOKILL</span><br>'
             : '<span class="trust-badge community">&#9888; Community &middot; user-generated, untested</span><br>';
@@ -2035,7 +2028,7 @@
         try {
             firmwareBinary = await fetchFirmware(selectedFirmware.file);
             showStatus(connectStatus, 'info',
-                'Firmware loaded: ' + selectedFirmware.name + ' (' + firmwareBinary.byteLength.toLocaleString() + ' bytes)');
+                'Firmware loaded: ' + displayName(selectedFirmware.name) + ' (' + firmwareBinary.byteLength.toLocaleString() + ' bytes)');
         } catch (e) {
             showStatus(connectStatus, 'error',
                 'Could not download ' + selectedFirmware.file + ': ' + e.message);
@@ -2060,11 +2053,12 @@
             var item = FIRMWARE_DATA[slug];
             if (!item) return;                       // unknown slug: graceful no-op
 
-            var platform = item.platform || 'terrarium';
-            var signal   = item.signal   || 'guitar';
+            var signal = item.signal || 'guitar';
 
-            platformSelect.value = platform;
-            signalSelect.value   = signal;
+            // Platform is fixed to FunBox in the UI; a non-FunBox effect just
+            // won't appear in the list and falls through the exists-check below
+            // as a graceful no-op.
+            signalSelect.value = signal;
             // Make sure the trust filter won't hide the linked effect: a link to
             // a community effect must preselect it even though the default view
             // is Official-only. Point the Library filter at the effect's own
@@ -2137,7 +2131,7 @@
             await flashDfuSe(device, firmwareBinary, FLASH_START);
 
             showStatus(flashStatus, 'success',
-                'Flash complete! Your ' + selectedFirmware.name + ' firmware is now running. You can disconnect the USB cable.');
+                'Flash complete! Your ' + displayName(selectedFirmware.name) + ' firmware is now running. You can disconnect the USB cable.');
         } catch(e) {
             showStatus(flashStatus, 'error', 'Flash failed: ' + e.message);
         } finally {
@@ -2332,7 +2326,6 @@
 
         const bugForm        = document.getElementById('bugForm');
         const bugEffect      = document.getElementById('bugEffect');
-        const bugPlatform    = document.getElementById('bugPlatform');
         const bugDescription = document.getElementById('bugDescription');
         const bugSubmit      = document.getElementById('bugSubmit');
         const bugStatus      = document.getElementById('bugStatus');
@@ -2361,7 +2354,7 @@
 
             const payload = {
                 effect: bugEffect.value,
-                platform: bugPlatform.value,
+                platform: 'FunBox',
                 description: bugDescription.value.trim(),
                 browser: navigator.userAgent
             };
