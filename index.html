@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        midnight_caller_funbox: {
+            name: 'Midnight Caller (FunBox)',
+            file: 'midnight_caller_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A glassy, melancholic jangle machine — fast chorus-y swirl dissolving into a cold, spring-like space. Clean it shimmers and reflects; pushed harder it thickens into a haunted, seasick-tape wash you can freeze into a pad and play over.',
+            controls: [
+                'KNOB 1 = Level (output)',
+                'KNOB 2 = Tone (tilt; rolls off highs for the colder, foggier voicing)',
+                'KNOB 3 = Mix (dry/wet blend for the whole modulation + reverb wet path)',
+                'KNOB 4 = Reverb decay (short spring-ish to long, cavernous tails)',
+                'KNOB 5 = Mod rate (chorus/flanger/phaser sweep speed)',
+                'KNOB 6 = Mod depth (how wide the pitch/comb swirl moves; also sets chorus detune width)',
+                'SW1 = Modulation character: left = chorus (gentle) / center = flanger (deeper comb swirl) / right = phaser (hollow sweep)',
+                'SW2 = Reverb character: left = bright/plate / center = spring / right = dark/hall',
+                'SW3 = Mod LFO shape: left = sine (smooth) / center = triangle / right = slow random drift (warbly, detuned-tape feel)',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Freeze/hold (sustains the current reverb wash into a pad while you play over it)',
+                'DIP1 = Pre-reverb soft saturation on/off (clean jangle vs. a touch of warmth/grit)',
+                'DIP2 = Modulation placement: off = pre-reverb (swirls dry tone) / on = post-reverb (swirls the whole wet wash)',
+                'DIP3 = High-pass on the wet path (thins the reverb so it stays cold and doesn\'t mud up)',
+                'DIP4 = Chorus detune intensity: off = subtle (gentle warble) / on = heavy (wide, haunted seasick drift)',
+                'Expression = sweeps Mod rate (KNOB_5) heel→toe for a swelling, accelerating swirl; remappable to any knob via the set-mode gesture',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         rat_dropping2_funbox: {
             name: 'Alex\'s Rat Droppings (FunBox)',
             file: 'rat_dropping2_funbox.bin',
