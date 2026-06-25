@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        alex_test_build_funbox: {
+            name: 'Alex Test Build (FunBox)',
+            file: 'alex_test_build_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A bare-bones test build: true-bypass drive into volume, with the footswitches lighting up their LEDs when engaged. Minimal by design — most controls left open for experimenting.',
+            controls: [
+                'KNOB 1 = Volume (output level)',
+                'KNOB 2 = Drive (gain into soft clipper)',
+                'KNOB 3 = unused / available',
+                'KNOB 4 = unused / available',
+                'KNOB 5 = unused / available',
+                'KNOB 6 = unused / available',
+                'SW1 = unused / available',
+                'SW2 = unused / available',
+                'SW3 = unused / available',
+                'FS1 = Bypass (fixed) — lights LED_1 when effect is engaged',
+                'FS2 = Effect toggle (test) — lights LED_2 when engaged',
+                'DIP1 = unused / available',
+                'DIP2 = unused / available',
+                'DIP3 = unused / available',
+                'DIP4 = unused / available',
+                'Expression = unused / available',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         costa_mesa_funbox: {
             name: 'Costa Mesa (FunBox)',
             file: 'costa_mesa_funbox.bin',
