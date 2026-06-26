@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
     <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <title>Controls Reference - NOKILL Pedal Co</title>
+    <title>RAT Drop II - NOKILL Pedal Co</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -261,7 +261,7 @@
             margin: 0 auto;
         }
         .footer a { color: rgba(18, 18, 18, 0.7); }
-    
+
         /* --- per-effect platform toggle --- */
         .platform-toggle {
             display: flex;
@@ -290,59 +290,7 @@
             border-color: #121212;
             font-weight: 700;
         }
-        /* --- index card grid --- */
-        .effect-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 18px;
-            margin-top: 10px;
-        }
-        .effect-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(18, 18, 18, 0.14);
-            padding: 24px 24px 20px;
-            text-decoration: none;
-            color: #121212;
-            background: #fff;
-            transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
-        }
-        .effect-card:hover {
-            border-color: #121212;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.08);
-        }
-        .effect-card h2 {
-            font-size: 2.1rem;
-            font-weight: 700;
-            line-height: 1.25;
-            margin-bottom: 8px;
-        }
-        .effect-card p {
-            font-size: 1.45rem;
-            line-height: 1.5;
-            color: rgba(18, 18, 18, 0.7);
-            margin-bottom: 18px;
-            flex-grow: 1;
-        }
-        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
-        .badge {
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 3px 9px;
-            border-radius: 999px;
-            background: #f0f0ee;
-            color: rgba(18, 18, 18, 0.7);
-            border: 1px solid rgba(18, 18, 18, 0.12);
-        }
-        .badge.t  { background: #ecebff; color: #3b3a8c; border-color: #d6d4f5; }
-        .badge.fb { background: #e7f6ec; color: #1f6b3a; border-color: #cfe9d7; }
-        .badge.hh { background: #fdeede; color: #8a5215; border-color: #f3ddc2; }
-        .badge.synth { background: #fce8f1; color: #8c2b5a; border-color: #f5d2e2; }
         @media (max-width: 600px) {
-            .effect-grid { grid-template-columns: 1fr; }
             .header { padding: 18px 22px; }
             .main { padding: 36px 20px 80px; }
         }
@@ -363,123 +311,80 @@
 
 <main class="main" id="top">
 
-    <h1 class="page-title">Controls Reference</h1>
-    <p class="page-subtitle">Pick an effect for full control documentation — knob ranges, switch positions, DIP behavior, footswitch gestures, MIDI mappings, and combination tips.</p>
+    <h1 class="page-title">RAT Drop II</h1>
+    <p class="page-subtitle">A snarling second-gen ProCo RAT-style distortion with hard-clipping bite and tilt tone, plus a switchable pitch drop (-2 or -4 semitones) for chunky riffs and an onboard delay for space. Delay time is set by a coarse switch plus a fine speed knob.</p>
 
-    <div class="effect-grid">
-        <a class="effect-card" href="controls-alex-test-build.html">
-            <h2>Alex Test Build</h2>
-            <p>A bare-bones test build: true-bypass drive into volume, with the footswitches lighting up their LEDs when engaged. Minimal by design — most controls left open f</p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-costa-mesa.html">
-            <h2>Costa Mesa</h2>
-            <p>An early LA goth punk sound, pushed deep into the gloom — snarling mid-gain punk drive with the high end pulled back, a slow swirly chorus, and a damped cathedr</p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-skinwalker.html">
-            <h2>Skinwalker</h2>
-            <p>A snarling vintage fuzz with five selectable voicings — from spitty Fuzz Face creaminess to the gated Tone Bender bite and Bosstone rasp — plus a footswitchable</p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-midnight-caller.html">
-            <h2>Midnight Caller</h2>
-            <p>A glassy, melancholic jangle machine — fast chorus-y swirl dissolving into a cold, spring-like space. Clean it shimmers and reflects; pushed harder it thickens </p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-rat-drop-ii.html">
-            <h2>RAT Drop II</h2>
-            <p>A snarling second-gen ProCo RAT-style distortion with hard-clipping bite and tilt tone, plus a switchable pitch drop (-2 or -4 semitones) for chunky riffs and an onboard delay for space.</p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-rat-dropping2.html">
-            <h2>Alex's Rat Droppings</h2>
-            <p>A snarling second-gen ProCo RAT-style hard-clipper with tilt tone, a switchable octave-ish pitch drop (-2 or -4 semitones) for chunky riffs, and a footswitchabl</p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-rat-dropping.html">
-            <h2>Rat Dropping</h2>
-            <p>A snarling RAT-style hard-clip distortion with tilt tone, a switchable octave-ish pitch drop (-2 or -4 semis) for chunky riffs, and an onboard delay for space. </p>
-            <div class="badge-row"><span class="badge fb">FB</span></div>
-        </a>
-        <a class="effect-card" href="controls-cold-cathedral.html">
-            <h2>Cold Cathedral</h2>
-            <p>A clean guitar dissolving into a long, dark cavern of reverb — the tail rolls off the highs as it decays, while a slow detuned swirl warbles underneath like agi</p>
-        </a>
-        <a class="effect-card" href="controls-wicked-game-fuzz-trem.html">
-            <h2>Wicked Game Fuzz-Trem</h2>
-            <p>A vintage Fuzz Face that goes from a gentle hairy tear to a spitting gnarl, with a lush amp-style tremolo on top — smooth and dreamy or square-wave choppy — plu</p>
-        </a>
-        <a class="effect-card" href="controls-vocal-box.html">
-            <h2>Vocal Box</h2>
-            <p>A talk-box flavour without the tube — a sweepable formant/vowel filter that makes your guitar &quot;talk.&quot; Pumping a resonant peak across vowel shapes gives that Fra</p>
-        </a>
-        <a class="effect-card" href="controls-poodle-eq.html">
-            <h2>Poodle EQ</h2>
-            <p>A pristine, sweepable tone-shaping pedal: a tilt/tone stage stacked with a fully-sweepable resonant filter and a switchable filter character, so you can dial an</p>
-        </a>
-        <a class="effect-card" href="controls-moog-mangler-dirty-ring-mod.html">
-            <h2>Moog Mangler — Dirty Ring Mod</h2>
-            <p>A MoogerFooger-flavoured ring modulator: a tunable carrier oscillator multiplies your signal for clangy, metallic, bell-and-robot tones, then a grit stage smear</p>
-        </a>
-        <a class="effect-card" href="controls-kelpie.html">
-            <h2>Kelpie</h2>
-            <p>Logic-noise pedal — frequency divider, XOR gating, Schmitt oscillator, and crosstalk over a fuzz foundation.</p>
-        </a>
-        <a class="effect-card" href="controls-fuzz-destroyer.html">
-            <h2>Fuzz Destroyer</h2>
-            <p>Stutter fuzz with feedback oscillation, wave folding, octave up, and sample crush.</p>
-        </a>
-        <a class="effect-card" href="controls-fuzz-modulator.html">
-            <h2>Fuzz Modulator</h2>
-            <p>Granular glitch fuzz with a grain engine and momentary delay repeats.</p>
-        </a>
-        <a class="effect-card" href="controls-cursed-reverb.html">
-            <h2>Cursed Reverb</h2>
-            <p>Shimmer reverb that descends into chaos — pitch-shifted feedback, saturation, and modulated delay times.</p>
-        </a>
-        <a class="effect-card" href="controls-doom-engine.html">
-            <h2>Doom Engine</h2>
-            <p>Distortion that gets weird — drive core with stackable rectify, ring mod, decimator, and resonant filter.</p>
-        </a>
-        <a class="effect-card" href="controls-echo-chamber.html">
-            <h2>Echo Chamber</h2>
-            <p>Multi-head tape delay with stretch and aging — three read heads, reverse mode, and degrading tape artifacts.</p>
-        </a>
-        <a class="effect-card" href="controls-treat-octave-fuzz.html">
-            <h2>Treat Octave Fuzz</h2>
-            <p>Sleigh Bells-inspired octave destroyer — multi-octave layering into iMic-style ADC hard clipping.</p>
-        </a>
-        <a class="effect-card" href="controls-sag-did-ritual-wavefolder.html">
-            <h2>Sag-Dīd Ritual Wavefolder</h2>
-            <p>West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, and a sweepable phaser.</p>
-        </a>
-        <a class="effect-card" href="controls-awoo.html">
-            <h2>A.W.O.O. — Auto Wah Octave Overload</h2>
-            <p>Makes your guitar bark like a dog — formant filter bank + envelope reshaper into pitch-bent bark bursts.</p>
-        </a>
-        <a class="effect-card" href="controls-swamp-donkey.html">
-            <h2>Swamp Donkey</h2>
-            <p>Shrek-themed multi-effect — banjo twang, donkey bray, bitcrush pickle, and dark swamp reverb in layers.</p>
-        </a>
-        <a class="effect-card" href="controls-great-dane.html">
-            <h2>Great Dane Distorted Reverb</h2>
-            <p>Reverb-first pedal with two pitched octave voices, a stereo Spread knob, and a continuous distortion stage.</p>
-        </a>
-        <a class="effect-card" href="controls-faint-vox.html">
-            <h2>Faint Vox</h2>
-            <p>Cold robotic electroclash vocal effect — nasal formant honk, grit, bitcrush, and a bipolar pitch up/down knob.</p>
-        </a>
-        <a class="effect-card" href="controls-gnarler.html">
-            <h2>GNARLER <span class="badge" style="background:#fdeede;color:#8a5215;border-color:#f3ddc2;">Community</span></h2>
-            <p>AI-generated octave-up fuzz that dissolves into bitcrushed wavefold chaos. First effect from the WOOF Workshop agent — untested.</p>
-        </a>
+    <div class="platform-toggle" style="display:none" data-default="funbox">
+        <button class="ptab" data-platform="funbox">WOOF</button>
     </div>
+
+    <section class="pedal" data-platform="funbox">
+        <h2>RAT Drop II</h2>
+        <div class="platform">WOOF v3 + Daisy Seed · Stereo out · MIDI · Expression</div>
+        <p class="lede" style="background:#fdeede;border-left:3px solid #8a5215;padding:12px 16px;border-radius:4px;">⚠ <strong>Community effect</strong> — AI-generated by the WOOF Workshop and not yet hardware-tested. Flash at your own risk.</p>
+        <p class="lede">A snarling second-gen ProCo RAT-style distortion with hard-clipping bite and tilt tone, plus a switchable pitch drop (-2 or -4 semitones) for chunky riffs and an onboard delay for space. Delay time is set by a coarse switch plus a fine speed knob.</p>
+        <h3>Controls</h3>
+        <table class="control-table">
+            <tr><th>Control</th><th>Function</th></tr>
+            <tr><td>KNOB 1</td><td>Output level (master volume)</td></tr>
+            <tr><td>KNOB 2</td><td>Drive / gain into the clipper</td></tr>
+            <tr><td>KNOB 3</td><td>Tone (RAT-style tilt / low-pass)</td></tr>
+            <tr><td>KNOB 4</td><td>Delay mix (dry/wet of the echo)</td></tr>
+            <tr><td>KNOB 5</td><td>Delay feedback (number of repeats)</td></tr>
+            <tr><td>KNOB 6</td><td>Delay speed (fine delay-time control within the SWITCH_2 range)</td></tr>
+            <tr><td>SW1</td><td>Drop interval: left = -2 semitones / center = off (unison) / right = -4 semitones</td></tr>
+            <tr><td>SW2</td><td>Delay time range: left = slow / center = medium / right = fast</td></tr>
+            <tr><td>SW3</td><td>Drop tracking: left = clean granular drop / center = off (no drop voice) / right = grittier (drop voice fed pre-distortion)</td></tr>
+            <tr><td>FS1</td><td>Bypass (fixed)</td></tr>
+            <tr><td>FS2</td><td>Delay on/off toggle</td></tr>
+            <tr><td>DIP1</td><td>Clip flavour: off = hard clip (classic RAT) / on = warm tanh drive</td></tr>
+            <tr><td>DIP2</td><td>unused / available</td></tr>
+            <tr><td>DIP3</td><td>unused / available</td></tr>
+            <tr><td>DIP4</td><td>MIDI enable (note + CC handling)</td></tr>
+            <tr><td>Expression</td><td>sweeps Drive (KNOB_2) heel-to-toe for a foot-controlled gain swell</td></tr>
+        </table>
+    </section>
+
+    <p style="margin-top:40px;"><a class="back-to-top" href="controls.html">&larr; All effects</a></p>
 </main>
 
 <footer class="footer">
     <p>Built by NOKILL Pedal Co. Source: <a href="https://github.com/nokill-pedal-co/woof-firmware">github.com/nokill-pedal-co/woof-firmware</a></p>
 </footer>
+<script>
+(function () {
+    var tabs = document.querySelectorAll('.ptab');
+    var panels = document.querySelectorAll('.pedal');
+    var def = document.querySelector('.platform-toggle').dataset.default;
 
+    function show(plat) {
+        var found = false;
+        panels.forEach(function (p) {
+            var match = (p.dataset.platform === plat);
+            p.classList.toggle('active', match);
+            if (match) found = true;
+        });
+        tabs.forEach(function (t) {
+            t.classList.toggle('active', t.dataset.platform === plat);
+        });
+        return found;
+    }
+
+    tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+            var plat = t.dataset.platform;
+            show(plat);
+            if (history.replaceState) history.replaceState(null, '', '#' + plat);
+        });
+    });
+
+    window.addEventListener('hashchange', function () {
+        show(location.hash.slice(1) || def);
+    });
+
+    var initial = location.hash.slice(1);
+    if (!initial || !show(initial)) show(def);
+})();
+</script>
 </body>
 </html>
