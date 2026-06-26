@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        anubis_wall_of_death_funbox: {
+            name: 'Anubis Wall of Death (FunBox)',
+            file: 'anubis_wall_of_death_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A merciless wall of fuzz — stacked saturation into a wavefolder, fattened with a sub-octave for chest-caving low end, then voiced and unleashed. Stomp FS2 to slam in a bitcrushed "glitch" layer that smears the wall into digital ruin, with SWITCH_3 setting the octave personality of that glitch.',
+            controls: [
+                'KNOB 1 = Volume (output level)',
+                'KNOB 2 = Drive (gain into the fuzz/clipper stack)',
+                'KNOB 3 = Fold amount (wavefolder intensity for extra harmonic chaos)',
+                'KNOB 4 = Tone (low-pass tilt to tame or open the wall)',
+                'KNOB 5 = Sub-octave mix (blend of the always-on octave-down voice)',
+                'KNOB 6 = Glitch amount (bitcrush/sample-rate-reduction depth for the FS2 layer)',
+                'SW1 = Fuzz flavour: left = warm (DistWarm), center = fuzz (DistFuzz), right = hard clip (gnarly square)',
+                'SW2 = Fold mode: left = triangle fold, center = off (clip only), right = sine fold (Buchla-style)',
+                'SW3 = Glitch octave mode: left = octave down (sub-smear), center = unison (raw bitcrush), right = octave up (screaming digital)',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Glitch toggle (latches the bitcrush "wall-of-death" layer in/out)',
+                'DIP1 = Gate enable (noise gate to choke runaway hiss between notes)',
+                'DIP2 = High-gain boost (extra pre-gain stage for maximum wall)',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI enable (CC takeover + bypass/aux over MIDI)',
+                'Expression = sweeps Drive (KNOB_2) for foot-controlled gain swells; assignable to others via set-mode',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         alex_test_build_funbox: {
             name: 'Alex Test Build (FunBox)',
             file: 'alex_test_build_funbox.bin',
