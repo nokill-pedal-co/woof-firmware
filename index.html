@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        son_of_skinwalker_funbox: {
+            name: 'Son of Skinwalker (FunBox)',
+            file: 'son_of_skinwalker_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A vintage fuzz monster that chains a switchable treble boost into one of three classic fuzz banks, splits an octave-up voice on top, then squares it through gated clipping and a tilt tone — splattery Tone Bender gating, gnarly Fuzz Face hair, and ring-mod octave bite, all with a sag-y voltage-starve knob.',
+            controls: [
+                'KNOB 1 = Output level',
+                'KNOB 2 = Tone (post-fuzz low-pass tilt)',
+                'KNOB 3 = Drive / fuzz amount',
+                'KNOB 4 = Gate threshold (tightens the splat)',
+                'KNOB 5 = Octave-up blend (level of octave voice into the fuzz)',
+                'KNOB 6 = Voltage starve (CW = less voltage = more sag/sputter/collapse)',
+                'SW1 = Fuzz bank: left = Fuzz Face / center = Tone Bender / right = Fuzzrite',
+                'SW2 = Sub-voice within bank: left / center / right (FF: Ge / Si / Ge-Si blend · TB: MkI / MkII / MkIII · Fuzzrite: Si / Ge / 3×Ge) — meaning follows SW1\'s bank',
+                'SW3 = Octave voice mode: left = SuperFuzz style / center = Green Ringer / right = OpAmp clean style',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Octave-up toggle (engages/disengages the octave voice)',
+                'DIP1 = Gate enable (on = gated fuzz, off = open/sustaining)',
+                'DIP2 = Pre-fuzz treble boost (on = more high-end into the clipper)',
+                'DIP3 = Clipping placement (off = pre-tone clipping, on = post-tone clipping)',
+                'DIP4 = Symmetrical clip diode type (off = Ge softer, on = Si harder)',
+                'Expression = unused / available (map to any knob via heel/toe set-mode gesture)',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
 
         anubis_wall_of_death_funbox: {
             name: 'Anubis Wall of Death (FunBox)',
