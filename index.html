@@ -624,6 +624,32 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        anubis_wall_of_death2_funbox: {
+            name: 'Anubis Wall of Death (FunBox)',
+            file: 'anubis_wall_of_death2_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A merciless wall of fuzz — stacked saturation into a wavefolder for that ragged, gated-edge sustain that never dies. Stomp FS2 to slam in a snarling sub-octave glitch voice that turns the wall into something subterranean and broken.',
+            controls: [
+                'KNOB 1 = Volume (output level)',
+                'KNOB 2 = Drive (gain into the fuzz/clip stage)',
+                'KNOB 3 = Fold amount (wavefolder for extra ragged harmonics on top of the fuzz)',
+                'KNOB 4 = Tone (low-pass tilt to tame or unleash the top end)',
+                'KNOB 5 = Octave mix (level of the sub-octave glitch voice — the FS2 effect)',
+                'KNOB 6 = Gate threshold (tightens the wall\'s decay into a gated splat, or lets it bloom)',
+                'SW1 = Fuzz flavour: left = warm fuzz / center = full fuzz / right = fuzz + hard clip (most savage)',
+                'SW2 = Fold character: left = off (pure fuzz) / center = triangle fold / right = sine fold (Serge-style chaos)',
+                'SW3 = Sub-octave voicing: left = clean sub / center = sub + fuzz / right = sub + fold (most broken)',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Toggle the sub-octave glitch voice on/off',
+                'DIP1 = Pre-gate on/off (gate before fuzz for tighter attack vs. open wall)',
+                'DIP2 = Stereo spread on/off (slight L/R drift for width)',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI enable (bypass/aux CC handling)',
+                'Expression = unused / available (suggest sweeping KNOB_2 drive or KNOB_5 octave mix via the heel/toe set-mode gesture)',
+                'See full controls reference at /controls.html'
+            ]
+        },
 
         anubis_wall_of_death_funbox: {
             name: 'Anubis Wall of Death (FunBox)',
@@ -652,32 +678,6 @@
             ]
         },
 
-        alex_test_build_funbox: {
-            name: 'Alex Test Build (FunBox)',
-            file: 'alex_test_build_funbox.bin',
-            platform: 'funbox',
-            official: false,
-            desc: 'A bare-bones test build: true-bypass drive into volume, with the footswitches lighting up their LEDs when engaged. Minimal by design — most controls left open for experimenting.',
-            controls: [
-                'KNOB 1 = Volume (output level)',
-                'KNOB 2 = Drive (gain into soft clipper)',
-                'KNOB 3 = unused / available',
-                'KNOB 4 = unused / available',
-                'KNOB 5 = unused / available',
-                'KNOB 6 = unused / available',
-                'SW1 = unused / available',
-                'SW2 = unused / available',
-                'SW3 = unused / available',
-                'FS1 = Bypass (fixed) — lights LED_1 when effect is engaged',
-                'FS2 = Effect toggle (test) — lights LED_2 when engaged',
-                'DIP1 = unused / available',
-                'DIP2 = unused / available',
-                'DIP3 = unused / available',
-                'DIP4 = unused / available',
-                'Expression = unused / available',
-                'See full controls reference at /controls.html'
-            ]
-        },
 
         costa_mesa_funbox: {
             name: 'Costa Mesa (FunBox)',
