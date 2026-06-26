@@ -2269,7 +2269,7 @@
             var slug = (params.get('effect') || '').trim();
             if (!slug) return;                       // no param: unchanged
             var item = FIRMWARE_DATA[slug];
-            if (!item) return;                       // unknown slug: graceful no-op
+            if (!item) { deepLinkNotReady(slug, params); return; }  // not deployed yet?
 
             var signal = item.signal || 'guitar';
 
@@ -2292,6 +2292,11 @@
             firmwareSelect.value = slug;
             firmwareSelect.dispatchEvent(new Event('change'));   // load + show info
 
+            // Tidy the retry/cache-bust params out of the visible URL once resolved.
+            if ((params.get('_retry') || params.get('_cb')) && window.history && history.replaceState) {
+                history.replaceState(null, '', window.location.pathname + '?effect=' + encodeURIComponent(slug));
+            }
+
             // Bring it into view and focus it so it's obviously ready.
             if (firmwareSelect.scrollIntoView) {
                 firmwareSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -2300,6 +2305,43 @@
         } catch (e) {
             /* never let a bad link break the page */
         }
+    }
+
+    // A just-published effect may not be on GitHub Pages yet — Pages rebuilds for
+    // up to ~1-2 min after the Workshop commits the new FIRMWARE_DATA entry + bin.
+    // So a deep link clicked immediately after a build can land before deploy.
+    // Instead of silently failing, show a notice and auto-retry with a cache-
+    // busting reload until the entry appears (bounded), so the link reliably
+    // preselects once it's live.
+    function deepLinkNotReady(slug, params) {
+        var MAX_RETRIES = 10;     // ~10 x 9s ≈ 90s of patience for a slow rebuild
+        var DELAY_MS = 9000;
+        var safeSlug = String(slug).replace(/[<>&"]/g, '');
+        var n = parseInt(params.get('_retry') || '0', 10);
+        if (!(n >= 0)) n = 0;
+        if (n >= MAX_RETRIES) {
+            firmwareInfo.innerHTML = '<h4>Still publishing…</h4>'
+                + '<p style="font-size:1.3rem;color:rgba(18,18,18,0.65);">We couldn\'t find <strong>'
+                + safeSlug + '</strong> yet. If you just built it, give it another minute and refresh this page — '
+                + 'GitHub Pages can take a little while to go live.</p>';
+            firmwareInfo.classList.add('visible');
+            return;
+        }
+        firmwareInfo.innerHTML = '<h4>Loading your effect…</h4>'
+            + '<p style="font-size:1.3rem;color:rgba(18,18,18,0.65);">Your freshly-built effect <strong>'
+            + safeSlug + '</strong> is still deploying (this can take up to a minute). '
+            + 'Retrying automatically… (' + (n + 1) + '/' + MAX_RETRIES + ')</p>';
+        firmwareInfo.classList.add('visible');
+        setTimeout(function () {
+            try {
+                var u = new URL(window.location.href);
+                u.searchParams.set('_retry', String(n + 1));
+                u.searchParams.set('_cb', String(Date.now()));   // force a fresh index.html fetch (bypass cache)
+                window.location.replace(u.toString());
+            } catch (e) {
+                window.location.reload();
+            }
+        }, DELAY_MS);
     }
     applyDeepLink();
 
