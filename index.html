@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        imperfect_pitch_funbox: {
+            name: 'Imperfect Pitch (FunBox)',
+            file: 'imperfect_pitch_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A clean dual pitch-shifter that drifts: a downward voice and an upward voice, each centered on a chosen interval and wobbled by a shared LFO across up to an octave. Set the phase relationship between the two voices and let one voice modulate at a whole-number multiple of the other for rolling, interlocking pitch motion.',
+            controls: [
+                'KNOB 1 = Negative-shift voice level (octave_mix for the down voice)',
+                'KNOB 2 = Clean / dry signal level (level)',
+                'KNOB 3 = Positive-shift voice level (octave_mix for the up voice)',
+                'KNOB 4 = Negative-shift modulation depth (mod_depth): ±1 semitone up to ±1 octave around its center',
+                'KNOB 5 = Modulation rate (mod_rate): shared base LFO speed, 0.01 Hz → 100 Hz, logarithmic sweep (midpoint ≈ 1 Hz)',
+                'KNOB 6 = Positive-shift modulation depth (mod_depth): ±1 semitone up to ±1 octave around its center',
+                'SW1 = Negative-shift center: left = down 1 octave / center = down a fifth / right = down a third',
+                'SW2 = LFO phase relationship: left = 180° out of phase / center = 90° out of phase / right = in phase',
+                'SW3 = Positive-shift center: left = up a third / center = up a fifth / right = up 1 octave',
+                'FS1 = Bypass (fixed, latching)',
+                'FS2 = Momentary state-flip: while held, inverts the current bypass state (engaged↔bypassed); releases back',
+                'DIP1 = Rate-multiplier target: off = positive voice runs at base rate & negative voice is multiplied; on = negative voice runs at base rate & positive voice is multiplied',
+                'DIP2 = Multiplier bit (MSB of the 3-bit multiplier value)',
+                'DIP3 = Multiplier bit (middle bit)',
+                'DIP4 = Multiplier bit (LSB of the 3-bit multiplier value)',
+                'Expression = Sweeps the base modulation rate (KNOB_5 / mod_rate), same 0.01 Hz → 100 Hz logarithmic range, between user-set heel and toe positions',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         son_of_skinwalker_funbox: {
             name: 'Son of Skinwalker (FunBox)',
             file: 'son_of_skinwalker_funbox.bin',
