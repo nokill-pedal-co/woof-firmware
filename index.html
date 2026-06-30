@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        frogman_vibrato_funbox: {
+            name: 'Frogman Vibrato (FunBox)',
+            file: 'frogman_vibrato_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A croaking, lo-fi pitch-warbler: a vibrato whose depth and a resonant filter both breathe with your picking dynamics, with a sample-and-hold mode that turns the modulation into stepped, random "ribbit" jumps. Think swampy, voltage-starved vibe with a wet resonant edge.',
+            controls: [
+                'KNOB 1 = Level (output level, audio taper)',
+                'KNOB 2 = Envelope sensitivity (how strongly your pick dynamics drive the modulation, linear)',
+                'KNOB 3 = Decay (envelope release time / how long the modulation hangs after a note, linear)',
+                'KNOB 4 = Vibrato depth (modulation depth, reverse audio taper)',
+                'KNOB 5 = Vibrato speed (LFO / S+H rate, reverse audio taper)',
+                'KNOB 6 = Resonance (Svf filter Q, audio taper)',
+                'SW1 = Filter type: left = low-pass / center = band-pass / right = high-pass',
+                'SW2 = Lo-fi character: left = clean / center = mild bitcrush / right = heavy crush + sample-rate reduction',
+                'SW3 = Modulation target: left = pitch only / center = pitch + filter / right = filter only',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Mod source toggle: smooth envelope-vibrato vs. sample-and-hold stepped mode (active)',
+                'DIP1 = Envelope polarity: normal (mod opens up) vs. inverted (mod closes down)',
+                'DIP2 = S+H smoothing: stepped (hard jumps) vs. glided (slewed between steps)',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI enable (note handling off by default)',
+                'Expression = unused / available (assignable at runtime to any knob, e.g. vibrato depth or speed)',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         imperfect_pitch_funbox: {
             name: 'Imperfect Pitch (FunBox)',
             file: 'imperfect_pitch_funbox.bin',
