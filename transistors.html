@@ -1208,6 +1208,16 @@ const CIRCUITS = {
       "stock": { Q1:[90, 110],  Q2:[110, 140],  Q3:[130, 170] },
     }
   },
+  "harmonic-percolator": {
+    name: "Harmonic Percolator (germanium Q1)",
+    polarity: "PNP",
+    description: "Interfax Harmonic Percolator — a mixed-polarity fuzz: one germanium PNP (Q1, matched here) into one silicon NPN (Q2). The germanium is the character transistor — pick it LOW gain (hFE ~30–100) and leakage-tolerant; exact part barely matters (2N404 / 2N404A, 2N1303 / 2N1305, 2N527, 2N652, GT402, AC125 / AC128, SFT337, NTE102A, most 2SB-series germaniums). Q2 is just an NPN silicon jellybean (2N3904, 2N2222 metal-can for looks, or 2N5088), so it isn't matched here.",
+    positions: ["Q1"],
+    voicings: {
+      "stock (low-gain)": { Q1:[30, 80] },
+      "hotter":           { Q1:[80, 120] },
+    }
+  },
   "rangemaster": {
     name: "Rangemaster (1 transistor)",
     polarity: "PNP",
