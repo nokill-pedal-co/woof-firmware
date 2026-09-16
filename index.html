@@ -624,6 +624,33 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        bill_s_pedal_funbox: {
+            name: 'Bill\'s Pedal (FunBox)',
+            file: 'bill_s_pedal_funbox.bin',
+            platform: 'funbox',
+            official: false,
+            desc: 'A transient re-shaper that listens to your two-finger attack and fires a sharp, pitch-tracked thumb-snap on every new note — turning smooth fingerstyle into percussive slap articulation, not just a brighter EQ.',
+            controls: [
+                'KNOB 1 = Slap/Effect Amount (mix: blend of the synthetic snap + transient shaping into your dry note)',
+                'KNOB 2 = Attack / Sensitivity (gate_threshold: how hard you must dig in to trigger a new snap)',
+                'KNOB 3 = Output Level (level)',
+                'KNOB 4 = Snap Tone (tone: dark thump ↔ bright click for the synthetic snap)',
+                'KNOB 5 = Snap Decay (mod_depth, repurposed: length of the percussive burst — tight tick ↔ fuller thump)',
+                'KNOB 6 = Drive (drive: grit into the snap for aggressive slap bite)',
+                'SW1 = Snap character: left = warm thumb / center = balanced / right = bright pop-slap',
+                'SW2 = Trigger speed: left = relaxed (avoids double-triggers) / center = normal / right = fast (fingerstyle rolls)',
+                'SW3 = unused / available',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Boost toggle (extra output level for solos/choruses)',
+                'DIP1 = Dry note enable (on = hear your original note under the slap; off = snap-forward)',
+                'DIP2 = unused / available',
+                'DIP3 = unused / available',
+                'DIP4 = MIDI enable',
+                'Expression = sweeps Slap/Effect Amount (heel = subtle, toe = full slap) — assign live via the set-mode gesture',
+                'See full controls reference at /controls.html'
+            ]
+        },
+
         frogman_vibrato_funbox: {
             name: 'Frogman Vibrato (FunBox)',
             file: 'frogman_vibrato_funbox.bin',
