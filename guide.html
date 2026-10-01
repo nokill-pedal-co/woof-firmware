@@ -91,6 +91,13 @@ a:hover { text-decoration: underline; }
   max-width: 640px;
 }
 
+.hero .disclosure {
+  font-size: 1.4rem;
+  color: rgba(18,18,18,0.6);
+  margin-top: 12px;
+}
+.hero .disclosure a { text-decoration: underline; }
+
 /* Progress */
 .progress-container {
   background: rgba(18,18,18,0.04);
@@ -272,6 +279,7 @@ a:hover { text-decoration: underline; }
 }
 .task-detail li { margin-bottom: 6px; }
 .task-detail strong { font-weight: 700; }
+.task-detail a { text-decoration: underline; }
 .task-detail code {
   background: rgba(18,18,18,0.06);
   padding: 2px 6px;
@@ -352,12 +360,13 @@ a:hover { text-decoration: underline; }
   <div class="hero">
     <h1>Pedal Builder Launch Guide</h1>
     <p>Everything you need to move from selling on Reverb to running your own Shopify store. One step at a time, no web experience needed.</p>
+    <p class="disclosure">Updated October 2026. Some links in this guide are affiliate links: if you sign up or buy through one, NOKILL may get a commission at no extra cost to you. I only link to stuff I'd recommend anyway. As an Amazon Associate I earn from qualifying purchases.</p>
   </div>
 
   <div class="progress-container">
     <div class="progress-header">
       <span class="progress-label">Your Progress</span>
-      <span class="progress-count" id="progressCount">0 / 44 tasks</span>
+      <span class="progress-count" id="progressCount"></span>
     </div>
     <div class="progress-bar-bg">
       <div class="progress-bar-fill" id="progressFill"></div>
@@ -380,6 +389,37 @@ a:hover { text-decoration: underline; }
 <div class="footer">&copy; 2026 NOKILL Pedal Co</div>
 
 <script>
+// Every outside link in the guide lives here. When an affiliate program approves you,
+// paste your tracking URL over `url`. `aff: true` marks the link rel="sponsored".
+const LINKS = {
+  reverbExport:  { url: "https://help.reverb.com/hc/en-us/articles/41988480773019-How-to-export-your-orders" },
+  reverbCsv:     { url: "https://help.reverb.com/hc/en-us/articles/41988465024539-CSV-upload-manage-inventory-guide" },
+  reverbShopify: { url: "https://help.reverb.com/hc/en-us/sections/360002280333-Shopify" },
+  syncgear:      { url: "https://apps.shopify.com/syncgear" },
+  shopify:       { url: "https://www.shopify.com/", aff: true },               // Shopify Affiliate Program (Impact)
+  namecheap:     { url: "https://www.namecheap.com/", aff: true },             // Namecheap (Impact)
+  cloudflare:    { url: "https://www.cloudflare.com/products/registrar/" },
+  workspace:     { url: "https://workspace.google.com/", aff: true },          // Google Workspace Referral Program
+  zoho:          { url: "https://www.zoho.com/mail/" },
+  judgeme:       { url: "https://apps.shopify.com/judgeme" },
+  klaviyo:       { url: "https://www.klaviyo.com/" },
+  omnisend:      { url: "https://www.omnisend.com/", aff: true },              // Omnisend (Impact)
+  pirateship:    { url: "https://www.pirateship.com/" },
+  labelPrinter:  { url: "https://munbyn.com/", aff: true },                    // MUNBYN (Awin)
+  scale:         { url: "https://www.amazon.com/s?k=digital+shipping+scale", aff: true },   // Amazon Associates
+  lightbox:      { url: "https://www.amazon.com/s?k=photo+light+box", aff: true },          // Amazon Associates
+  tripod:        { url: "https://www.amazon.com/s?k=phone+tripod", aff: true },             // Amazon Associates
+  mailers:       { url: "https://www.amazon.com/s?k=corrugated+mailer+boxes", aff: true },  // Amazon Associates
+  dataAdvisor:   { url: "https://chromewebstore.google.com/detail/fdgfkebogiimcoedlicjlajpkdmockpc" },
+  adsManager:    { url: "https://adsmanager.facebook.com/" },
+};
+
+function L(key, text) {
+  const link = LINKS[key];
+  const rel = link.aff ? "sponsored noopener" : "noopener";
+  return `<a href="${link.url}" target="_blank" rel="${rel}">${text}</a>`;
+}
+
 const SECTIONS = [
   {
     id: "before-reverb",
@@ -390,34 +430,44 @@ const SECTIONS = [
         id: "export-sales",
         title: "Export your Reverb sales history",
         desc: "Save a record of everything you've sold so far",
-        detail: `<p>You want a copy of all your past sales before you leave. Here's how:</p>
+        detail: `<p>Get a copy of your past sales before you change anything. Reverb has a built-in export:</p>
 <ol>
-  <li>Log into <strong>Reverb.com</strong> and go to <strong>My Selling</strong>.</li>
-  <li>Click <strong>Orders</strong> in the left sidebar.</li>
-  <li>Look for an <strong>Export</strong> or <strong>Download CSV</strong> button near the top right.</li>
-  <li>Download the file and save it somewhere safe (a folder on your desktop works).</li>
+  <li>Log into Reverb and open your <strong>Orders</strong> page in the seller dashboard.</li>
+  <li>Set a <strong>Start Date</strong> and <strong>End Date</strong>. Go back as far as your shop goes.</li>
+  <li>Click <strong>Export</strong> in the top right, then <strong>Orders</strong>.</li>
+  <li>When it's ready, click <strong>Download Export</strong> and save the CSV somewhere safe.</li>
 </ol>
-<p>This gives you a spreadsheet with buyer names, emails, dates, and amounts. You'll want this for your records and for potential warranty questions later.</p>
+<p>You get order numbers, buyer names and addresses, SKUs, prices, and shipping. Keep it for your records and for warranty questions down the road. (${L("reverbExport", "Reverb's help page on this")})</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  If you don't see an export button, just screenshot each page of your order history. It's not perfect, but it's better than losing that info.
+  Run this again right before you close or pause your Reverb shop so the file covers everything.
 </div>`
       },
       {
         id: "save-photos",
-        title: "Save all your product photos",
-        desc: "Download every image you've uploaded to Reverb",
-        detail: `<p>Your product photos are one of the most valuable things you have. Don't assume they'll always be on Reverb.</p>
-<ol>
-  <li>Go to each of your <strong>active listings</strong> on Reverb.</li>
-  <li>Right-click each photo and choose <strong>Save image as...</strong></li>
-  <li>Create a folder for each pedal model and save the photos there.</li>
-</ol>
-<p>You'll reuse these on your Shopify store. Organize them now and it'll save you time later.</p>
+        title: "Save your listings and photos",
+        desc: "Back up every description and image you've put on Reverb",
+        detail: `<p>Your photos and descriptions took real work. Don't count on them staying on Reverb forever.</p>
+<ul>
+  <li><strong>Listings CSV:</strong> In Reverb, go to <strong>Manage Inventory</strong> &gt; <strong>Export Your Listings</strong>. Reverb emails you a download link (it expires, so grab it quickly). This needs at least 10 completed sales. If you're not there yet, email Reverb's integrations team and ask them to turn it on. (${L("reverbCsv", "Reverb's CSV guide")})</li>
+  <li><strong>Photos:</strong> Reverb doesn't have a bulk photo download. Either right-click and save each one, or skip it and use an import app (next task), which brings the photos over for you.</li>
+</ul>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  If you have the original high-resolution photos on your phone or camera, even better. Reverb sometimes compresses images, so originals will look sharper on your new store.
+  If you still have the original photos on your phone or camera, use those on your new store. They'll be sharper than anything you pull back off a website.
 </div>`
+      },
+      {
+        id: "import-listings",
+        title: "Bring your listings into Shopify",
+        desc: "Import them with an app instead of retyping everything",
+        detail: `<p>If you have more than a handful of listings, don't rebuild them by hand. Once your Shopify store exists (see the Shopify section below), install an import app:</p>
+<ol>
+  <li>${L("syncgear", "SyncGear")} is a Shopify app built for Reverb. It pulls your Reverb listings into Shopify, photos included. It's free for up to 25 one-time imports. Paid plans ($14.99/month and up) add ongoing inventory syncing.</li>
+  <li>Install it, connect your Reverb account, pick the listings, and import.</li>
+  <li>Go through each imported product afterward. Check the price, photos, and description, and fix anything that came over weird.</li>
+</ol>
+<p>Got just a few pedals? Typing them in by hand is fine. See "Add your products" below.</p>`
       },
       {
         id: "dual-channel",
@@ -425,13 +475,14 @@ const SECTIONS = [
         desc: "You can sell on both, but there are trade-offs",
         detail: `<p>You have two options:</p>
 <ul>
-  <li><strong>Option A: Sell on both.</strong> Keep your Reverb listings active and also sell on Shopify. More work, but more visibility while you build up your own traffic.</li>
-  <li><strong>Option B: Go all-in on Shopify.</strong> Close your Reverb shop and send everyone to your own site. Cleaner, but you lose Reverb's built-in audience.</li>
+  <li><strong>Option A: Sell on both.</strong> Keep your Reverb listings up and sell on Shopify too. More visibility while you build your own traffic.</li>
+  <li><strong>Option B: Go all-in on Shopify.</strong> Close your Reverb shop and send everyone to your site. Simpler, but you lose Reverb's built-in buyers.</li>
 </ul>
-<p>Most builders start with Option A and gradually shift more sales to their own store. There's no rush to close Reverb.</p>
+<p>The math: Reverb takes a 5% selling fee plus 3.19% + $0.49 for payment processing, both charged on the total including shipping. That's roughly 8.5% of every sale. Shopify Payments on the Basic plan is 2.9% + 30¢ per order, plus your monthly plan.</p>
+<p>Most builders start with Option A and shift more sales to their own store over time. If you do sell on both, Reverb's free ${L("reverbShopify", "Shopify integration")} lets Shopify run the show: you manage inventory in Shopify and it updates Reverb. It matches products by SKU, so give every pedal a unique SKU. When one sells on one platform, it doesn't stay listed on the other.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  If you sell on both, keep your prices the same. You don't want customers finding a lower price on one platform and feeling ripped off on the other.
+  Keep your prices the same on both. Nobody likes finding out they paid more than the next guy.
 </div>`
       }
     ]
@@ -445,53 +496,52 @@ const SECTIONS = [
         id: "choose-domain",
         title: "Choose your domain name",
         desc: "Pick a web address that matches your brand",
-        detail: `<p>Your domain name is your web address — like <code>nokillpedal.co</code>. Here's how to pick a good one:</p>
+        detail: `<p>Your domain name is your web address, like <code>nokillpedal.co</code>. Here's how to pick a good one:</p>
 <ul>
   <li>Keep it short and easy to spell.</li>
-  <li>Match your brand name if possible.</li>
-  <li><code>.com</code> is the most common, but <code>.co</code> or <code>.shop</code> work great too.</li>
-  <li>Avoid hyphens and numbers — they're hard to say out loud.</li>
+  <li>Match your brand name if you can.</li>
+  <li><code>.com</code> is the most common, but <code>.co</code> or <code>.shop</code> work too.</li>
+  <li>Skip hyphens and numbers. They're hard to say out loud.</li>
 </ul>
 <p>Test it by saying it to someone: "Check out my site at ___." If they can spell it without asking, you're good.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Search for your name on Instagram and Facebook too. You want the same name everywhere so people can find you easily.
+  Check that the name is free on Instagram and Facebook too. You want the same name everywhere.
 </div>`
       },
       {
         id: "register-domain",
-        title: "Register your domain (~$10-15/year)",
+        title: "Register your domain (~$10-20/year)",
         desc: "Buy your web address from a domain registrar",
-        detail: `<p>A domain registrar is just a company that sells web addresses. Good options:</p>
+        detail: `<p>A registrar is just a company that sells web addresses. Good options:</p>
 <ul>
-  <li><strong>Shopify Domains</strong> — Easiest option. Buy it right inside Shopify and it connects automatically. No extra setup.</li>
-  <li><strong>Namecheap</strong> — Popular, affordable, good support. Usually around $10/year for a .com.</li>
-  <li><strong>Cloudflare Registrar</strong> — Sells domains at cost (no markup). Slightly more technical but cheapest long-term.</li>
-  <li><strong>Squarespace Domains</strong> — Simple interface, easy to use.</li>
+  <li><strong>Through Shopify:</strong> The easiest. Buy it inside your Shopify admin (Settings &gt; Domains) and it connects itself. Starts around $9-15/year depending on the ending.</li>
+  <li>${L("namecheap", "<strong>Namecheap</strong>")}: Popular and cheap, with good support.</li>
+  <li>${L("cloudflare", "<strong>Cloudflare Registrar</strong>")}: Sells domains at cost with no markup. A bit more technical.</li>
 </ul>
-<p>If you don't want to deal with any technical stuff, buy through Shopify directly. It costs a couple dollars more per year but saves you the headache of connecting things manually.</p>
+<p>If you don't want to deal with any setup, buy through Shopify. It also unlocks Shopify's free email forwarding (next section), which only works on domains Shopify manages.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Turn on auto-renew so you don't accidentally lose your domain. If it expires, someone else can buy it.
+  Turn on auto-renew. If your domain expires, someone else can grab it.
 </div>`
       },
       {
         id: "connect-domain",
         title: "Connect your domain to Shopify",
         desc: "Point your web address to your new store",
-        detail: `<p>If you bought your domain through Shopify, skip this step — it's already connected.</p>
-<p>If you bought it somewhere else (Namecheap, Cloudflare, etc.), you need to tell it where to point. Here's how:</p>
+        detail: `<p>Bought it through Shopify? Skip this. It's already connected.</p>
+<p>Bought it somewhere else? You need to point it at Shopify:</p>
 <ol>
   <li>In Shopify, go to <strong>Settings</strong> &gt; <strong>Domains</strong> &gt; <strong>Connect existing domain</strong>.</li>
-  <li>Type in your domain name and click <strong>Next</strong>.</li>
-  <li>Shopify will show you DNS settings (DNS stands for Domain Name System — it's basically the internet's address book that tells browsers where to find your site).</li>
-  <li>Log into your domain registrar and find the <strong>DNS settings</strong> or <strong>Nameservers</strong> section.</li>
-  <li>Copy the settings Shopify gave you and paste them in.</li>
-  <li>Save and wait. It can take up to 48 hours, but usually works within a few hours.</li>
+  <li>Type in your domain and click <strong>Next</strong>.</li>
+  <li>Shopify shows you DNS settings. DNS is the internet's address book: it tells browsers where your site lives.</li>
+  <li>Log into your registrar and find its <strong>DNS settings</strong>.</li>
+  <li>Copy in the records Shopify gave you.</li>
+  <li>Save and wait. It can take up to 48 hours but usually works within a few.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  If this feels confusing, just buy the domain through Shopify instead. The extra $2-3/year is worth the zero-hassle setup.
+  If this feels confusing, buy the domain through Shopify instead. A few extra bucks a year is worth zero hassle.
 </div>`
       }
     ]
@@ -505,31 +555,29 @@ const SECTIONS = [
         id: "pro-email",
         title: "Set up a professional email address",
         desc: "Get an email like you@yourbrand.com",
-        detail: `<p>A professional email (like <code>hello@yourbrand.com</code>) looks more legit than a Gmail address. Options:</p>
+        detail: `<p>An address like <code>hello@yourbrand.com</code> looks more legit than a Gmail. Options:</p>
 <ul>
-  <li><strong>Shopify Email</strong> — Free forwarding. Emails sent to your domain get forwarded to your personal email. Easy to set up in Settings &gt; Domains.</li>
-  <li><strong>Google Workspace</strong> — $6/month. Full Gmail with your domain name. Best if you want to send AND receive from your brand address.</li>
-  <li><strong>Zoho Mail</strong> — Free plan for one user. Good budget option with send and receive.</li>
+  <li><strong>Shopify forwarding (free):</strong> Mail sent to your domain lands in your personal inbox. Set it up in Settings &gt; Domains &gt; your domain &gt; Email forwarding. This only works if Shopify manages your domain. It won't forward to Yahoo or AOL addresses.</li>
+  <li>${L("workspace", "<strong>Google Workspace</strong>")}: Full Gmail on your own domain, about $7/month per person on a yearly plan. Best if you want to send AND receive as your brand.</li>
+  <li>${L("zoho", "<strong>Zoho Mail</strong>")}: Its free plan covers up to 5 people on one domain. The catch: you use Zoho's website or app, not the Gmail or Apple Mail app you already have.</li>
 </ul>
-<p>At minimum, set up email forwarding so <code>hello@yourdomain.com</code> sends messages to your personal inbox.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Start with Shopify's free forwarding. You can always upgrade to Google Workspace later when you're making more sales and want a more professional setup.
+  Start with free forwarding. Upgrade to Google Workspace once replying from your brand address actually matters to you.
 </div>`
       },
       {
         id: "update-email",
         title: "Update your email everywhere",
         desc: "Swap your old email for your new one on all platforms",
-        detail: `<p>Once you have your professional email, update it in these places:</p>
+        detail: `<p>Once you have your brand email, update it in these places:</p>
 <ul>
-  <li>Your Instagram bio</li>
+  <li>Your Instagram contact button</li>
   <li>Your Facebook page</li>
-  <li>Any forum profiles (The Gear Page, Reddit, DIYstompboxes, etc.)</li>
-  <li>Your business cards or stickers (if you have them)</li>
-  <li>Any supplier accounts</li>
-</ul>
-<p>This keeps everything consistent and makes your brand look put-together.</p>`
+  <li>Forum profiles (The Gear Page, Reddit, DIYstompboxes, etc.)</li>
+  <li>Business cards or stickers, the next time you print them</li>
+  <li>Supplier accounts</li>
+</ul>`
       }
     ]
   },
@@ -542,177 +590,190 @@ const SECTIONS = [
         id: "create-account",
         title: "Create your Shopify account",
         desc: "Sign up and start your free trial",
-        detail: `<p>Go to <strong>shopify.com</strong> and sign up. Shopify usually offers a free trial (often 3 days free, then $1/month for 3 months).</p>
+        detail: `<p>Go to ${L("shopify", "Shopify")} and sign up. Right now new stores get 3 days free, then $1/month for the first 3 months.</p>
 <ol>
   <li>Click <strong>Start free trial</strong>.</li>
-  <li>Enter your email, password, and store name.</li>
-  <li>Answer the quick setup questions — pick "I'm just starting" if asked.</li>
-  <li>You'll land on your Shopify dashboard (called the "admin").</li>
+  <li>Enter your email and store name.</li>
+  <li>Answer the setup questions. Pick "I'm just starting" if it asks.</li>
+  <li>You'll land on your dashboard, which Shopify calls the "admin."</li>
 </ol>
-<p>The <strong>Basic</strong> plan ($39/month after trial) is all you need to start.</p>
+<p>The <strong>Basic</strong> plan is all you need to start: $39/month, or $29/month if you pay for a year up front.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Don't stress about the plan right now. Use the trial period to build everything, then pick a plan when you're ready to launch.
+  The $1 months give you plenty of time to build everything before you're paying full price. No need to rush to launch.
 </div>`
       },
       {
         id: "pick-theme",
         title: "Pick and customize your theme",
         desc: "Choose how your store looks",
-        detail: `<p>A theme controls the visual design of your store. Shopify gives you free ones.</p>
+        detail: `<p>A theme controls how your store looks. Shopify's free ones are good.</p>
 <ol>
-  <li>In your Shopify admin, go to <strong>Online Store</strong> &gt; <strong>Themes</strong>.</li>
-  <li>Click <strong>Explore free themes</strong>.</li>
-  <li>Good picks for pedal builders: <strong>Dawn</strong> (clean, modern), <strong>Craft</strong> (handmade vibe), or <strong>Sense</strong> (bold).</li>
-  <li>Click <strong>Add</strong>, then <strong>Customize</strong> to start editing.</li>
+  <li>In your admin, go to <strong>Online Store</strong> &gt; <strong>Themes</strong>.</li>
+  <li>New stores start on <strong>Horizon</strong>. It's clean and works for a pedal shop as-is.</li>
+  <li>Want a different look? Browse the free themes. Horizon has sister themes (Atelier, Heritage, Ritual, and others) built the same way.</li>
+  <li>Click <strong>Customize</strong> to start editing.</li>
 </ol>
-<p>Don't overthink this — you can always change it later. Just pick something clean and start adding your content.</p>
+<p>Don't overthink it. You can switch later. Pick something clean and start adding content.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Keep it simple. A clean, fast-loading store with great product photos will outsell a fancy, cluttered one every time.
+  A clean, fast store with great photos beats a fancy, cluttered one every time.
 </div>`
       },
       {
         id: "add-products",
         title: "Add your products",
         desc: "Create a listing for each pedal you sell",
-        detail: `<p>For each pedal:</p>
+        detail: `<p>If you imported from Reverb, just check each product over. Otherwise, for each pedal:</p>
 <ol>
   <li>Go to <strong>Products</strong> &gt; <strong>Add product</strong>.</li>
-  <li>Add the <strong>title</strong> (pedal name).</li>
-  <li>Write a <strong>description</strong> — keep it conversational. Talk about what the pedal sounds like, who it's for, and what makes it special.</li>
-  <li>Upload your <strong>photos</strong> (the ones you saved from Reverb). First photo is the main one customers see.</li>
-  <li>Set the <strong>price</strong>.</li>
-  <li>Set <strong>inventory</strong> — track quantity if you make them in batches, or uncheck "Track quantity" if you build to order.</li>
-  <li>Add <strong>weight</strong> for shipping calculations.</li>
+  <li>Add the <strong>title</strong> (the pedal name).</li>
+  <li>Write a <strong>description</strong>: what it sounds like, who it's for, what makes it different.</li>
+  <li>Upload your <strong>photos</strong>. The first one is the main image.</li>
+  <li>Set the <strong>price</strong> and a <strong>SKU</strong> (a short unique code, like <code>WMR-001</code>).</li>
+  <li>Set <strong>inventory</strong>. Track quantity if you build in batches, or uncheck "Track quantity" if you build to order.</li>
+  <li>Add the <strong>weight</strong> (boxed) for shipping rates.</li>
   <li>Click <strong>Save</strong>.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  For descriptions, talk like you'd talk to another player at a jam. "This thing cleans up beautifully with your volume knob" beats "Features unity gain bypass architecture."
+  Shopify's built-in AI (Shopify Magic) can draft a description for you. Use it to get unstuck, then rewrite it the way you'd actually talk. "This thing cleans up great with your volume knob" beats "Features unity gain bypass architecture."
 </div>`
       },
       {
         id: "collections",
         title: "Create collections",
         desc: "Group your pedals into categories",
-        detail: `<p>Collections are groups of products (like "Overdrives," "Fuzz," "All Pedals"). They help customers browse.</p>
+        detail: `<p>Collections are groups of products, like "Overdrives," "Fuzz," or "All Pedals." They help people browse.</p>
 <ol>
   <li>Go to <strong>Products</strong> &gt; <strong>Collections</strong>.</li>
   <li>Click <strong>Create collection</strong>.</li>
   <li>Name it (e.g., "Overdrive Pedals").</li>
-  <li>Choose <strong>Manual</strong> — this lets you hand-pick which products go in.</li>
-  <li>Add the relevant products.</li>
-  <li>Create at least an "All Pedals" collection and one per category.</li>
+  <li>Choose <strong>Manual</strong> so you hand-pick which products go in.</li>
+  <li>Add the products.</li>
+  <li>Make at least an "All Pedals" collection plus one per category.</li>
 </ol>`
       },
       {
         id: "tags",
         title: "Add tags to your products",
         desc: "Tags help with filtering and organization",
-        detail: `<p>Tags are labels you add to products so customers can filter them. For example: "overdrive," "fuzz," "germanium," "silicon," "under-200."</p>
+        detail: `<p>Tags are labels that help you sort and filter products, e.g., "overdrive," "fuzz," "germanium," "under-200."</p>
 <ol>
-  <li>Open a product in your Shopify admin.</li>
-  <li>Scroll down to <strong>Tags</strong> on the right side.</li>
-  <li>Type a tag and press Enter. Add several relevant tags per product.</li>
+  <li>Open a product in your admin.</li>
+  <li>Find <strong>Tags</strong> on the right side.</li>
+  <li>Type a tag and press Enter. Add a few per product.</li>
   <li>Click <strong>Save</strong>.</li>
 </ol>
-<p>Keep your tags consistent — always use "overdrive" not sometimes "OD" and sometimes "overdrive."</p>`
+<p>Stay consistent: always "overdrive," never sometimes "OD."</p>`
       },
       {
         id: "navigation",
         title: "Set up your navigation menus",
         desc: "Create the links at the top and bottom of your site",
-        detail: `<p>Navigation is the menu at the top of your store. Customers use it to find things.</p>
+        detail: `<p>Navigation is the menu at the top of your store.</p>
 <ol>
-  <li>Go to <strong>Online Store</strong> &gt; <strong>Navigation</strong>.</li>
+  <li>Type <strong>Menus</strong> into the search bar at the top of your admin and open it.</li>
   <li>Click <strong>Main menu</strong>.</li>
-  <li>Add links to: your collections (e.g., "All Pedals," "Overdrive"), your About page, and your Contact page.</li>
-  <li>Keep it simple — 4-6 links maximum.</li>
+  <li>Add links to your collections ("All Pedals," "Overdrive"), your About page, and your Contact page.</li>
+  <li>Keep it to 4-6 links.</li>
 </ol>
-<p>Also set up the <strong>Footer menu</strong> with links to: Shipping Policy, Return Policy, Contact, and FAQ.</p>`
+<p>Then set up the <strong>Footer menu</strong> with Shipping Policy, Return Policy, Contact, and FAQ.</p>`
       },
       {
         id: "collection-pages",
         title: "Design your collection pages",
         desc: "Make your product grid look good",
-        detail: `<p>Collection pages show a grid of products. You can customize how they look:</p>
+        detail: `<p>Collection pages show a grid of products.</p>
 <ol>
   <li>Go to <strong>Online Store</strong> &gt; <strong>Themes</strong> &gt; <strong>Customize</strong>.</li>
-  <li>In the top dropdown, switch to a <strong>Collection page</strong>.</li>
-  <li>Adjust the grid layout (how many products per row).</li>
-  <li>Make sure product images are consistent in size — square photos work best for grids.</li>
+  <li>Use the page picker at the top to switch to a <strong>collection</strong> page.</li>
+  <li>Set how many products show per row.</li>
+  <li>Keep images the same shape. Square works best in a grid.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Shoot all your pedal photos on the same background with the same lighting. This makes your collection pages look professional, even with just a few products.
+  Shoot every pedal on the same background with the same light. A cheap ${L("lightbox", "photo light box")} makes this easy and makes even a three-pedal store look pro.
 </div>`
       },
       {
         id: "product-pages",
         title: "Polish your product pages",
         desc: "Make each pedal page convincing",
-        detail: `<p>Each product page is a sales page. Make it count:</p>
+        detail: `<p>Every product page is a sales pitch:</p>
 <ul>
-  <li><strong>Multiple photos</strong> — front, back, side, guts shot, on a pedalboard.</li>
-  <li><strong>Clear description</strong> — what it sounds like, what it pairs well with, what makes it unique.</li>
-  <li><strong>Specs section</strong> — power requirements, dimensions, bypass type, etc.</li>
-  <li><strong>Demo video</strong> — embed a YouTube video if you have one (paste the link in the description using the video embed button).</li>
+  <li><strong>Multiple photos:</strong> front, back, side, guts shot, on a board.</li>
+  <li><strong>Clear description:</strong> what it sounds like, what it stacks well with, what makes it yours.</li>
+  <li><strong>Specs:</strong> power (9V center-negative, current draw), size, bypass type.</li>
+  <li><strong>Demo video:</strong> embed a YouTube demo with the video button in the description editor.</li>
 </ul>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  A good guts shot builds trust. Pedal people love seeing clean wiring and quality components. It shows you care about the build, not just the enclosure.
+  Show the guts. Pedal people love clean wiring and good parts. It proves you care about the build, not just the paint job.
 </div>`
       },
       {
         id: "homepage",
         title: "Build your homepage",
         desc: "Create a welcoming front page",
-        detail: `<p>Your homepage is the first thing most visitors see. Keep it focused:</p>
+        detail: `<p>Most visitors see your homepage first. Keep it focused:</p>
 <ol>
   <li>Go to <strong>Online Store</strong> &gt; <strong>Themes</strong> &gt; <strong>Customize</strong>.</li>
-  <li>Add a <strong>hero image</strong> (a big banner photo) — a great shot of your flagship pedal or your workbench.</li>
-  <li>Add a <strong>Featured collection</strong> section showing your pedals.</li>
-  <li>Add a short <strong>About</strong> blurb — who you are and why you build.</li>
-  <li>Keep it to 3-4 sections. Don't overload it.</li>
+  <li>Add a big <strong>hero image</strong>: your best pedal or your bench.</li>
+  <li>Add a <strong>featured collection</strong> showing your pedals.</li>
+  <li>Add a short <strong>About</strong> blurb: who you are and why you build.</li>
+  <li>Stop at 3-4 sections.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Your story matters. Buyers on your own site want to know the person behind the pedals. A short, honest "About" section goes a long way.
+  People buying from your own site want to know who's behind the pedals. A short, honest About section goes a long way.
 </div>`
       },
       {
         id: "payments",
         title: "Set up payments",
         desc: "Connect Shopify Payments so you can get paid",
-        detail: `<p>You need to tell Shopify how to send you money.</p>
+        detail: `<p>Tell Shopify where to send your money:</p>
 <ol>
   <li>Go to <strong>Settings</strong> &gt; <strong>Payments</strong>.</li>
-  <li>Click <strong>Activate Shopify Payments</strong>.</li>
+  <li>Activate <strong>Shopify Payments</strong>.</li>
   <li>Enter your business info, bank account, and tax details.</li>
-  <li>This gives your customers credit card, Apple Pay, Google Pay, and Shop Pay options.</li>
+  <li>That turns on credit cards, Apple Pay, Google Pay, and Shop Pay.</li>
 </ol>
-<p>Shopify Payments has no extra transaction fees (beyond the standard credit card processing rate of ~2.9% + 30 cents).</p>
+<p>On the Basic plan, US cards cost 2.9% + 30¢ per order, with no extra Shopify transaction fee.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Also enable <strong>PayPal</strong> as a backup — some customers prefer it and it takes about two minutes to set up in the same Payments section.
+  Turn on <strong>PayPal</strong> too. Some buyers won't check out without it, and it's a two-minute setup on the same page.
 </div>`
       },
       {
         id: "shipping",
         title: "Configure shipping rates",
         desc: "Set up how much you charge for shipping",
-        detail: `<p>Go to <strong>Settings</strong> &gt; <strong>Shipping and delivery</strong>. You have a few options:</p>
+        detail: `<p>Go to <strong>Settings</strong> &gt; <strong>Shipping and delivery</strong>. Your options:</p>
 <ul>
-  <li><strong>Flat rate</strong> — Charge the same amount for every order (e.g., $8 shipping). Simple and predictable.</li>
-  <li><strong>Free shipping</strong> — Build the cost into your pedal price. Customers love "free shipping."</li>
-  <li><strong>Calculated rates</strong> — Shopify calculates based on weight and destination. Accurate but can surprise customers with high costs.</li>
+  <li><strong>Flat rate:</strong> Same charge on every order (e.g., $8). Simple and predictable.</li>
+  <li><strong>Free shipping:</strong> Build the cost into the price. People love "free shipping."</li>
+  <li><strong>Calculated rates:</strong> Shopify works it out from weight and destination. Accurate, but it can surprise people at checkout.</li>
 </ul>
-<p>Most small pedal builders do best with flat-rate or free shipping.</p>
+<p>Most small builders do best with flat rate or free shipping.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  If your pedals are all roughly the same size and weight, flat rate is the easiest. Just weigh a boxed-up pedal and check USPS Priority Mail pricing to set your rate.
+  If your pedals are all about the same size, weigh one boxed up, check the USPS Ground Advantage price, and set a flat rate from that.
 </div>`
+      },
+      {
+        id: "shipping-setup",
+        title: "Get set up to ship",
+        desc: "Labels, a scale, and boxes so orders go out fast",
+        detail: `<p>On Reverb, buying labels was built in. On Shopify it is too: open an order and click <strong>Create shipping label</strong>. Shopify Shipping gets you discounted USPS and UPS rates and fills in the address for you.</p>
+<p>A few cheap things make shipping way faster:</p>
+<ul>
+  <li>${L("scale", "<strong>A shipping scale</strong>")}: Weigh the box so you don't overpay (or underpay) on postage.</li>
+  <li>${L("labelPrinter", "<strong>A 4x6 thermal label printer</strong>")}: No ink, no tape, no cutting paper labels. Worth it once you're shipping a few a week.</li>
+  <li>${L("mailers", "<strong>Mailer boxes</strong>")}: Find one size that fits your pedals with padding and buy it in bulk.</li>
+</ul>
+<p>Prefer to buy labels outside Shopify? ${L("pirateship", "Pirate Ship")} is free and gets similar discounted rates.</p>`
       },
       {
         id: "essential-pages",
@@ -720,31 +781,29 @@ const SECTIONS = [
         desc: "Add About, Contact, Shipping Policy, and Return Policy pages",
         detail: `<p>Every store needs a few basic pages. Go to <strong>Online Store</strong> &gt; <strong>Pages</strong> and create:</p>
 <ul>
-  <li><strong>About</strong> — Your story. Why you build pedals. A photo of you or your workspace.</li>
-  <li><strong>Contact</strong> — Use Shopify's built-in contact form (select "contact" as the page template).</li>
-  <li><strong>Shipping Policy</strong> — How fast you ship, what carrier you use, international shipping (yes/no).</li>
-  <li><strong>Return Policy</strong> — Be clear. Most builders do "no returns on custom orders, 14-day return on stock pedals."</li>
-  <li><strong>FAQ</strong> — Answer common questions: power supply, warranty, build times, etc.</li>
+  <li><strong>About:</strong> Your story, why you build, a photo of you or your bench.</li>
+  <li><strong>Contact:</strong> Pick the "contact" page template to get Shopify's built-in form.</li>
+  <li><strong>FAQ:</strong> Power supply, warranty, build times, international shipping.</li>
 </ul>
+<p>For the legal stuff, go to <strong>Settings</strong> &gt; <strong>Policies</strong>. Open each one (Refund, Shipping, Privacy, Terms) and click <strong>Insert template</strong> for a starting draft. Edit it to match how you actually do things.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Shopify has free policy generators in Settings &gt; Policies. They give you a starting template you can customize. Saves a lot of writing.
+  Be clear about returns. A lot of builders do "no returns on custom orders, 14 days on stock pedals."
 </div>`
       },
       {
         id: "test-order",
         title: "Place a test order",
         desc: "Make sure everything works before going live",
-        detail: `<p>Before you launch, buy something from your own store to make sure it all works.</p>
+        detail: `<p>Buy something from your own store before anyone else does. If you're using Shopify Payments:</p>
 <ol>
-  <li>In Shopify admin, go to <strong>Settings</strong> &gt; <strong>Payments</strong>.</li>
-  <li>Scroll down and enable <strong>Bogus Gateway</strong> (this is a fake payment method for testing).</li>
-  <li>Go to your store, add a product to cart, and check out.</li>
-  <li>Use the test credit card numbers Shopify provides.</li>
-  <li>Complete the order and check that you get a confirmation email.</li>
-  <li>Go back to Settings &gt; Payments and switch back to <strong>Shopify Payments</strong> when done.</li>
+  <li>Go to <strong>Settings</strong> &gt; <strong>Payments</strong> and click <strong>Manage</strong> on Shopify Payments.</li>
+  <li>Check <strong>Enable test mode</strong> and save.</li>
+  <li>Go to your store, add a pedal to the cart, and check out with the test card <code>4242 4242 4242 4242</code> (any future expiration date, any 3-digit code).</li>
+  <li>Make sure the order shows up and you get the confirmation email.</li>
+  <li><strong>Turn test mode back off.</strong> Real customers can't pay while it's on.</li>
 </ol>
-<p>This confirms your checkout, emails, and shipping are all working correctly.</p>`
+<p>Not on Shopify Payments? Use the <strong>Test payment gateway</strong> instead. Find it under Settings &gt; Payments &gt; See all other providers.</p>`
       }
     ]
   },
@@ -757,64 +816,59 @@ const SECTIONS = [
         id: "create-ig",
         title: "Create your Instagram account",
         desc: "Set up a dedicated account for your pedal brand",
-        detail: `<p>If you don't already have a brand Instagram, create one:</p>
+        detail: `<p>If you don't have a brand account yet:</p>
 <ol>
-  <li>Download Instagram (or use the website).</li>
-  <li>Sign up with your <strong>professional email</strong> (the one you set up earlier).</li>
-  <li>Use your <strong>brand name</strong> as the username. Keep it identical to your domain if possible.</li>
-  <li>Add a profile photo — your logo or a photo of your flagship pedal.</li>
+  <li>Sign up in the Instagram app with your <strong>brand email</strong>.</li>
+  <li>Use your <strong>brand name</strong> as the username, matching your domain if you can.</li>
+  <li>Use your logo or your flagship pedal as the profile photo.</li>
 </ol>`
       },
       {
         id: "business-ig",
         title: "Switch to a Business account",
-        desc: "Unlock analytics and the ability to run ads",
-        detail: `<p>A Business account is free and gives you useful features:</p>
+        desc: "Unlock insights, boosting, and the Shopify connection",
+        detail: `<p>A Business account is free:</p>
 <ol>
-  <li>Go to your profile, tap the <strong>three lines</strong> (hamburger menu) in the top right.</li>
-  <li>Tap <strong>Settings and privacy</strong>.</li>
-  <li>Tap <strong>Account type and tools</strong> &gt; <strong>Switch to professional account</strong>.</li>
+  <li>Go to your profile and tap the <strong>☰</strong> menu in the top right.</li>
+  <li>Under <strong>For professionals</strong>, tap <strong>Account type and tools</strong> &gt; <strong>Switch to professional account</strong>.</li>
+  <li>Pick a category like "Musical Instrument Store."</li>
   <li>Choose <strong>Business</strong> (not Creator).</li>
-  <li>Pick a category like "Musical Instrument Store" or "Shopping & Retail."</li>
+  <li>When it asks, connect a Facebook Page. You'll need one later anyway (see the pixel section).</li>
 </ol>
-<p>This gives you access to analytics (called Insights), the ability to boost posts, and lets you add a contact button and shop link to your profile.</p>
-<div class="tip-box">
-  <strong>Pedal builder tip</strong>
-  You need a Business account to run ads or boost posts later. Do this step now even if you're not planning to advertise yet.
-</div>`
+<p>You get Insights (your stats), boosting, a contact button, and the hookup to Shopify.</p>`
       },
       {
         id: "optimize-profile",
         title: "Optimize your profile",
         desc: "Make your bio clear and link to your store",
-        detail: `<p>Your Instagram bio is prime real estate. Make it count:</p>
+        detail: `<p>Your bio is prime real estate:</p>
 <ul>
-  <li><strong>Name field:</strong> Your brand name + what you do. Example: "NOKILL Pedal Co | Handbuilt Pedals"</li>
-  <li><strong>Bio:</strong> One sentence about what you build, one about where to buy. Keep it short.</li>
-  <li><strong>Link:</strong> Your Shopify store URL. Use Linkpop (Shopify's free link-in-bio tool) if you want multiple links.</li>
-  <li><strong>Contact button:</strong> Add your professional email.</li>
+  <li><strong>Name field:</strong> Brand name + what you do. Example: "NOKILL Pedal Co | Handbuilt Pedals"</li>
+  <li><strong>Bio:</strong> One line about what you build, one about where to buy.</li>
+  <li><strong>Links:</strong> Instagram lets you add up to 5. Put your store first. You don't need a separate link-in-bio service for this.</li>
+  <li><strong>Contact button:</strong> Your brand email.</li>
 </ul>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Don't waste your bio on a quote or emoji art. People land on your profile for 3 seconds. Tell them what you make and where to buy it.
+  People give your profile about 3 seconds. Tell them what you make and where to buy it. Save the quotes for captions.
 </div>`
       },
       {
         id: "first-posts",
         title: "Post your first 9 photos",
         desc: "Fill your grid so your profile doesn't look empty",
-        detail: `<p>When someone visits your profile, they see your grid. An empty grid looks abandoned. Post 9 photos before you start promoting:</p>
+        detail: `<p>An empty grid looks abandoned. Post 9 before you start promoting:</p>
 <ul>
-  <li>3 product shots (clean, well-lit photos of your pedals)</li>
-  <li>2 process shots (building, soldering, testing on the bench)</li>
-  <li>2 "in action" shots (pedal on a board, at a gig, in a studio)</li>
-  <li>1 workbench/workspace shot</li>
-  <li>1 about-you shot (your hands working, a tool you love, your story)</li>
+  <li>3 product shots (clean and well lit)</li>
+  <li>2 process shots (building, soldering, testing)</li>
+  <li>2 "in action" shots (on a board, at a gig, in a studio)</li>
+  <li>1 shot of your bench</li>
+  <li>1 shot of you (your hands working, your story)</li>
 </ul>
-<p>Write real captions. Talk about what you're building, why you chose certain components, or what inspired the design.</p>
+<p>Write real captions about what you're building and why.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  You can post all 9 in one day — just space them out over a few hours. After that, aim for 3-4 posts per week to stay visible.
+  Short Reels of just the pedal sound get way more reach than photos. A ${L("tripod", "phone tripod")} and your amp is all you need. After the first 9 posts, aim for 3-4 a week.
 </div>`
       }
     ]
@@ -828,101 +882,83 @@ const SECTIONS = [
         id: "what-is-boost",
         title: "Understand what boosting is",
         desc: "Boosting = paying to show your post to more people",
-        detail: `<p>Boosting is the simplest form of Instagram advertising. Here's how it works:</p>
+        detail: `<p>Boosting is the simplest kind of Instagram ad:</p>
 <ul>
-  <li>You pick a post you've already published.</li>
-  <li>You pay Instagram to show it to more people beyond your followers.</li>
-  <li>You choose who sees it (age, location, interests) and how much to spend.</li>
-  <li>It runs for a set number of days, then stops automatically.</li>
+  <li>Pick a post you've already published.</li>
+  <li>Pay to show it to people who don't follow you yet.</li>
+  <li>Set where, roughly who, and how much to spend.</li>
+  <li>It runs for the days you choose, then stops on its own.</li>
 </ul>
-<p>Think of it like putting a flyer on a bigger bulletin board. Your post is the flyer — boosting just puts it in front of more eyes.</p>
 <div class="info-box">
-  <strong>How much does it cost?</strong> You set your own budget. You can boost a post for as little as $5-10 for a few days. Most pedal builders spend $20-50 per boost to start.
+  <strong>How much?</strong> You set the budget. A few dollars a day for a few days is enough to learn something. Most builders start around $20-50 per boost.
 </div>`
       },
       {
         id: "pick-post",
         title: "Pick the right post to boost",
         desc: "Not every post is worth boosting",
-        detail: `<p>Boost posts that already perform well organically (without paying). Signs of a good post to boost:</p>
+        detail: `<p>Boost posts that already did well without paying. Look for one that:</p>
 <ul>
-  <li>It got more likes or comments than your average post.</li>
-  <li>It shows your pedal clearly — not a blurry photo or a meme.</li>
-  <li>It has a clear call to action ("Link in bio" or "Available now").</li>
-  <li>It's a demo video or a high-quality product shot.</li>
+  <li>Got more likes or comments than usual.</li>
+  <li>Shows the pedal clearly.</li>
+  <li>Says what to do next ("Available now, link in bio").</li>
+  <li>Is a demo Reel or a really strong product shot.</li>
 </ul>
-<p>Don't boost random posts. Boost the ones that already resonate with your audience.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Short demo videos (15-30 seconds of just the pedal sound) tend to perform the best as boosted posts. Guitarists stop scrolling when they hear a good tone.
+  15-30 second demo Reels usually boost best. Guitarists stop scrolling when they hear a good tone.
 </div>`
       },
       {
         id: "boost-walkthrough",
         title: "Step-by-step: boost a post",
         desc: "Follow these exact steps to set up your first boost",
-        detail: `<p>Here's exactly how to do it:</p>
-<ol>
-  <li>Open Instagram and go to the post you want to boost.</li>
-  <li>Tap the <strong>Boost post</strong> button below the image.</li>
-  <li><strong>Choose your goal:</strong>
+        detail: `<ol>
+  <li>Open the post in Instagram and tap <strong>Boost</strong>.</li>
+  <li><strong>Goal:</strong> Pick <strong>More website visits</strong> and set the link to your pedal's product page. A product page works better than your homepage.</li>
+  <li><strong>Audience:</strong> Instagram now uses <strong>Advantage+ audience</strong> by default. Here's what still works:
     <ul>
-      <li><strong>"More website visits"</strong> — Pick this one. It sends people to your store.</li>
-      <li>Set the destination to your Shopify store URL.</li>
+      <li><strong>Location</strong> and <strong>minimum age</strong> are hard limits. Set location to where you ship and minimum age to 18.</li>
+      <li><strong>Interests</strong> like "guitar," "effects units," and "electric guitar" are now only suggestions. Instagram uses them as a starting point and then shows the post to whoever it thinks will click.</li>
     </ul>
   </li>
-  <li><strong>Choose your audience:</strong>
-    <ul>
-      <li>Select <strong>"Create your own"</strong> audience.</li>
-      <li><strong>Interests:</strong> Add "guitar pedals," "electric guitar," "pedalboard," "guitar effects."</li>
-      <li><strong>Age:</strong> 21-55 works well for pedal buyers.</li>
-      <li><strong>Location:</strong> United States (or wherever you ship).</li>
-    </ul>
-  </li>
-  <li><strong>Set your budget:</strong>
-    <ul>
-      <li>Start with <strong>$5/day for 5 days = $25 total</strong>. That's a good test.</li>
-      <li>You can always increase it later if it works well.</li>
-    </ul>
-  </li>
-  <li>Review everything and tap <strong>Boost post</strong>.</li>
+  <li><strong>Budget:</strong> Start with <strong>$5/day for 5 days ($25 total)</strong>.</li>
+  <li>Review and tap <strong>Boost post</strong>.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Your first boost is a test. Don't spend $100 right away. Spend $25, see what happens, learn from the results, then try again with tweaks.
+  Your first boost is a test. Spend $25, see what happens, adjust, and try again. Don't drop $100 on the first one.
 </div>`
       },
       {
         id: "read-results",
         title: "Read your boost results",
         desc: "Understand what the numbers mean",
-        detail: `<p>After your boost ends (or while it's running), tap <strong>View Insights</strong> on the boosted post. Here's what the numbers mean:</p>
+        detail: `<p>Tap <strong>View insights</strong> on the boosted post:</p>
 <ul>
-  <li><strong>Reach</strong> — How many unique people saw your post. Higher is better.</li>
-  <li><strong>Impressions</strong> — Total times your post was shown (one person might see it twice).</li>
-  <li><strong>Website clicks</strong> — How many people tapped through to your store. This is the most important number.</li>
-  <li><strong>Cost per click</strong> — How much you paid for each store visit. Under $1 is great, under $2 is decent.</li>
-  <li><strong>Engagement</strong> — Likes, comments, saves. These are nice but clicks matter more.</li>
+  <li><strong>Reach:</strong> How many different people saw it.</li>
+  <li><strong>Link clicks:</strong> How many tapped through to your store. This is the number that matters.</li>
+  <li><strong>Cost per click:</strong> What each store visit cost you. Under $1 is great, under $2 is fine.</li>
+  <li><strong>Engagement:</strong> Likes, comments, saves. Nice, but clicks pay the bills.</li>
 </ul>
 <div class="info-box">
-  <strong>Quick math:</strong> If you spent $25 and got 30 website clicks, that's about $0.83 per click. If 1 in 30 visitors buys a $150 pedal, you spent $25 to make a $150 sale. That's a great return.
+  <strong>Quick math:</strong> $25 for 30 clicks is about 83¢ a click. If 1 of those 30 people buys a $150 pedal, you spent $25 to make a $150 sale.
 </div>`
       },
       {
         id: "boost-mistakes",
         title: "Common boosting mistakes to avoid",
         desc: "Learn from other builders' mistakes",
-        detail: `<p>Don't waste money on these common mistakes:</p>
-<ul>
-  <li><strong>Boosting a bad photo.</strong> If the photo isn't eye-catching, no amount of money will fix it.</li>
-  <li><strong>Picking "More profile visits" as your goal.</strong> You want store visits, not profile visits. Always choose "More website visits."</li>
-  <li><strong>Targeting too broad.</strong> "People interested in music" is too wide. Narrow it to guitar-specific interests.</li>
-  <li><strong>Targeting too narrow.</strong> If your audience is under 10,000 people, it's too small. Aim for 100,000-500,000.</li>
-  <li><strong>Giving up after one boost.</strong> Your first boost is a learning experience. Try 3-4 different posts with different audiences before deciding if boosting works for you.</li>
+        detail: `<ul>
+  <li><strong>Boosting a bad post.</strong> If it didn't grab anyone for free, paying won't fix it.</li>
+  <li><strong>Picking "More profile visits."</strong> You want store visits. Choose "More website visits."</li>
+  <li><strong>Fighting the targeting.</strong> You can't fence Instagram in with interests anymore. Make a post guitarists will stop for and let the algorithm find them.</li>
+  <li><strong>Judging it in a day.</strong> Let a boost run its full length before deciding.</li>
+  <li><strong>Quitting after one.</strong> Try 3-4 different posts before you decide boosting isn't for you.</li>
 </ul>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Keep a simple note of each boost: which post, how much you spent, how many clicks, any sales. After a few boosts, you'll see patterns in what works.
+  Keep a simple log for each boost: which post, how much you spent, clicks, sales. After a few you'll see what works.
 </div>`
       }
     ]
@@ -930,91 +966,84 @@ const SECTIONS = [
   {
     id: "pixel",
     icon: "🔗",
-    title: "Connect Shopify Pixel to Instagram",
+    title: "Connect Shopify to Instagram",
     tasks: [
       {
         id: "install-fb-channel",
         title: "Install the Facebook & Instagram sales channel",
-        desc: "This free Shopify app connects your store to Meta (Facebook/Instagram)",
-        detail: `<p>The "Facebook & Instagram" sales channel is a free app built into Shopify that connects your store to Meta (the company that owns Facebook and Instagram).</p>
+        desc: "Free Shopify app that connects your store to Meta",
+        detail: `<p>Meta owns Facebook and Instagram. This free channel links your store to both. Before you start, you need:</p>
+<ul>
+  <li>A <strong>Facebook Page</strong> for your brand. Even if you never post there, make a basic one with your name and logo.</li>
+  <li>Your Instagram <strong>Business account</strong> linked to that Page.</li>
+  <li>Your store <strong>live, with no password page</strong>. Do this task after launch if you're still building.</li>
+</ul>
 <ol>
-  <li>In your Shopify admin, go to <strong>Sales channels</strong> in the left sidebar.</li>
-  <li>Click the <strong>+</strong> button next to "Sales channels."</li>
-  <li>Find <strong>Facebook & Instagram</strong> and click <strong>Add channel</strong>.</li>
-  <li>Follow the prompts to connect — it will ask you to log into your Facebook account.</li>
-</ol>
-<div class="tip-box">
-  <strong>Pedal builder tip</strong>
-  You need a Facebook page for your brand to do this, even if you never post on Facebook. Just create a basic one with your brand name and logo — it takes 5 minutes.
-</div>`
-      },
-      {
-        id: "connect-meta",
-        title: "Connect Meta Business Suite",
-        desc: "Link your Instagram Business account to Shopify",
-        detail: `<p>Meta Business Suite is the dashboard where Facebook and Instagram advertising is managed. During the sales channel setup:</p>
-<ol>
-  <li>Shopify will prompt you to connect to <strong>Meta Business Suite</strong>.</li>
-  <li>Log in with the Facebook account that manages your Instagram Business page.</li>
-  <li>Select your <strong>Facebook Page</strong> and <strong>Instagram account</strong> from the dropdowns.</li>
-  <li>Agree to the terms and click <strong>Connect</strong>.</li>
-</ol>
-<p>If you don't have a Meta Business Suite account, it will create one for you automatically during this process.</p>`
+  <li>In your admin, click <strong>Sales channels</strong> in the left sidebar, then <strong>+</strong>.</li>
+  <li>Add <strong>Facebook &amp; Instagram</strong>.</li>
+  <li>Log into Facebook and pick your <strong>business portfolio</strong>, <strong>Page</strong>, and <strong>Instagram account</strong>. If you don't have a business portfolio, it makes one for you.</li>
+  <li>Accept the terms and connect.</li>
+</ol>`
       },
       {
         id: "what-is-pixel",
         title: "Understand what the pixel does",
-        desc: "The pixel tracks visitors so you can advertise to them later",
-        detail: `<p>The <strong>Meta Pixel</strong> is a tiny piece of tracking code (called a "pixel" because it's literally a 1x1 invisible image) that Shopify adds to your store. Here's what it does in plain English:</p>
+        desc: "It tracks visitors so you can advertise to them later",
+        detail: `<p>The <strong>Meta Pixel</strong> is a bit of tracking code that the channel adds to your store for you. In plain English:</p>
 <ul>
-  <li>When someone visits your store, the pixel quietly notes "this person was here."</li>
-  <li>When they look at a product, it notes "they looked at this pedal."</li>
-  <li>When they add to cart or buy, it notes that too.</li>
-  <li>Later, when you boost a post or run an ad, Instagram can show it to those specific people.</li>
+  <li>Someone visits your store and the pixel notes "this person was here."</li>
+  <li>They look at a pedal and it notes which one.</li>
+  <li>They add to cart or buy and it notes that too.</li>
+  <li>Later, your boosts and ads can be shown to those exact people.</li>
 </ul>
-<p>This is called <strong>retargeting</strong> — showing ads to people who already showed interest. It's much more effective than showing ads to random strangers.</p>
+<p>That's called <strong>retargeting</strong>: showing ads to people who already showed interest. It works way better than ads to strangers.</p>
 <div class="info-box">
-  <strong>Is this creepy?</strong> It's the same technology every online store uses. Shopify handles it all — you don't write any code or touch anything technical.
+  <strong>Do I have to code anything?</strong> No. Shopify handles all of it. You never touch the code.
 </div>`
       },
       {
         id: "verify-pixel",
-        title: "Verify the pixel is working",
-        desc: "Make sure the tracking code is actually running on your store",
-        detail: `<p>After connecting everything, verify it's working:</p>
+        title: "Turn up data sharing and check it's working",
+        desc: "Make sure the tracking is actually running on your store",
+        detail: `<ol>
+  <li>In Shopify, open <strong>Facebook &amp; Instagram</strong> &gt; <strong>Settings</strong> &gt; <strong>Data sharing settings</strong>.</li>
+  <li>Set it to <strong>Maximum</strong>. This adds Meta's Conversions API, which keeps tracking working when browsers block the pixel.</li>
+  <li>For a second check, install Meta's free Chrome extension, ${L("dataAdvisor", "Meta Ads Data Advisor")} (it used to be called Pixel Helper).</li>
+  <li>Visit your store. The extension should show your pixel firing.</li>
+</ol>`
+      },
+      {
+        id: "product-tagging",
+        title: "Tag your pedals in posts",
+        desc: "Let people tap a pedal in a post and land on its page",
+        detail: `<p>Once the channel is connected and Meta approves your shop (usually a few days), your Shopify products show up in Instagram.</p>
 <ol>
-  <li>In Shopify, go to the <strong>Facebook & Instagram</strong> sales channel.</li>
-  <li>Look for a <strong>Data sharing</strong> or <strong>Pixel</strong> section.</li>
-  <li>It should show a green status or "Active."</li>
-  <li>For extra confidence: install the <strong>Meta Pixel Helper</strong> browser extension (free, for Chrome).</li>
-  <li>Visit your own store — the extension will show a green icon if the pixel is firing.</li>
+  <li>When you make a post or Reel, tap <strong>Tag products</strong>.</li>
+  <li>Pick the pedal from your catalog.</li>
+  <li>Anyone who taps the tag lands on that pedal's page in your store, where they check out.</li>
 </ol>
-<div class="tip-box">
-  <strong>Pedal builder tip</strong>
-  Set your data sharing level to <strong>Enhanced</strong> or <strong>Maximum</strong> in the Facebook & Instagram channel settings. This gives the pixel more data to work with, which makes your ads smarter over time.
-</div>`
+<p>Checkout used to happen inside Instagram. Meta phased that out, so every tagged sale now goes through your own store.</p>`
       },
       {
         id: "retargeting-audiences",
         title: "Set up retargeting audiences",
         desc: "Create groups of people to show ads to later",
-        detail: `<p>Now that the pixel is collecting data, you can create "audiences" — groups of people based on what they did on your site.</p>
+        detail: `<p>With the pixel collecting data, you can build "audiences": groups of people based on what they did on your site.</p>
 <ol>
-  <li>Go to <strong>Meta Business Suite</strong> (business.facebook.com).</li>
-  <li>Navigate to <strong>Audiences</strong> (under All Tools &gt; Audiences).</li>
+  <li>Open ${L("adsManager", "Meta Ads Manager")} and go to <strong>Audiences</strong>.</li>
   <li>Click <strong>Create audience</strong> &gt; <strong>Custom audience</strong> &gt; <strong>Website</strong>.</li>
-  <li>Create these audiences:
+  <li>Make these three:
     <ul>
-      <li><strong>"All visitors - 30 days"</strong> — Anyone who visited your store in the last 30 days.</li>
-      <li><strong>"Viewed product - 14 days"</strong> — People who looked at a product page recently.</li>
-      <li><strong>"Added to cart - 7 days"</strong> — People who added something to cart but didn't buy (these are HOT leads).</li>
+      <li><strong>All visitors, 30 days</strong></li>
+      <li><strong>Viewed a product, 14 days</strong></li>
+      <li><strong>Added to cart, 7 days</strong>: people who almost bought. These are your hottest leads.</li>
     </ul>
   </li>
 </ol>
-<p>These audiences won't have many people in them at first. That's normal. As your store gets more traffic, they'll grow, and your ads will get more effective.</p>
+<p>They'll be tiny at first. That's normal. They grow as your traffic does.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  The "added to cart but didn't buy" audience is gold. A simple boosted post that reminds them about the pedal they almost bought can recover a surprising number of sales.
+  Retargeting runs from Ads Manager, not the Boost button. When you're ready, run a small ad to the "added to cart" audience showing the pedal they almost bought. It wins back a surprising number of sales.
 </div>`
       }
     ]
@@ -1026,121 +1055,115 @@ const SECTIONS = [
     tasks: [
       {
         id: "email-marketing",
-        title: "Set up email marketing with Shopify Email",
+        title: "Set up email marketing",
         desc: "Send emails to past customers and subscribers",
-        detail: `<p>Email is one of the highest-converting marketing channels. Shopify Email is built in and free for up to 10,000 emails/month.</p>
+        detail: `<p>Email is one of the best ways to sell to people who already like you. Shopify's built-in tool, now called <strong>Shopify Messaging</strong>, gives you 10,000 free emails a month.</p>
 <ol>
-  <li>Go to <strong>Marketing</strong> &gt; <strong>Campaigns</strong> in your Shopify admin.</li>
-  <li>Click <strong>Create campaign</strong> &gt; <strong>Shopify Email</strong>.</li>
-  <li>Pick a template and customize it with your branding.</li>
-  <li>Add a <strong>newsletter signup form</strong> to your store (most themes have this built in — check your theme settings under "Footer" or "Newsletter").</li>
+  <li>In your admin, go to <strong>Marketing</strong> and create an email campaign. Shopify will have you install Shopify Messaging the first time.</li>
+  <li>Pick a template and add your logo and colors.</li>
+  <li>Make sure your theme's <strong>newsletter signup</strong> is turned on, usually in the footer.</li>
+  <li>Turn on the free <strong>abandoned checkout</strong> email. It reminds people who got to checkout and stopped.</li>
 </ol>
-<p>What to email about:</p>
-<ul>
-  <li>New pedal launches</li>
-  <li>Limited drops and restocks</li>
-  <li>Behind-the-scenes build updates</li>
-  <li>Special offers for subscribers</li>
-</ul>
+<p>What to send: new pedal launches, limited runs and restocks, and build updates from the bench.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Don't email every day. Once every week or two is enough. Make every email worth opening — if you wouldn't want to read it, don't send it.
+  Every week or two is plenty. If you wouldn't open it, don't send it. If you outgrow Shopify Messaging, ${L("klaviyo", "Klaviyo")} and ${L("omnisend", "Omnisend")} are the usual next steps. Both have free plans to start.
 </div>`
       },
       {
         id: "limited-drops",
         title: "Use limited drops and urgency",
         desc: "Create excitement with small batches",
-        detail: `<p>Limited drops work incredibly well for pedal builders because you genuinely build in small batches. Use that to your advantage:</p>
+        detail: `<p>You already build in small batches. Use that:</p>
 <ul>
-  <li><strong>Announce a specific quantity:</strong> "I built 5 of these. When they're gone, they're gone."</li>
-  <li><strong>Set a drop date and time:</strong> "Available Friday at noon ET." This creates anticipation.</li>
-  <li><strong>Tease it ahead of time:</strong> Post build progress photos leading up to the drop.</li>
-  <li><strong>Use Shopify's inventory tracking</strong> to show "Only 2 left" on the product page.</li>
+  <li><strong>Say how many:</strong> "I built 5 of these. When they're gone, they're gone."</li>
+  <li><strong>Set a time:</strong> "Friday at noon ET." It gives people something to wait for.</li>
+  <li><strong>Tease it:</strong> Post build progress leading up to the drop.</li>
+  <li><strong>Track inventory</strong> so the page shows how many are left.</li>
 </ul>
-<p>This isn't fake scarcity — you actually only have 5. That's the beauty of being a small builder.</p>
+<p>It isn't fake scarcity. You really only made 5.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Email your list AND post on Instagram when you drop. Hit both channels at the same time for maximum impact.
+  Email your list and post on Instagram at the same moment the drop goes live.
 </div>`
       },
       {
         id: "reviews",
         title: "Collect customer reviews with Judge.me",
         desc: "Social proof helps new customers trust you",
-        detail: `<p>Reviews from real buyers are incredibly powerful. <strong>Judge.me</strong> is a free Shopify app that automatically asks customers for reviews after they receive their pedal.</p>
+        detail: `<p>Reviews from real players sell pedals. ${L("judgeme", "Judge.me")} automatically emails customers asking for a review after their order arrives. Its free plan covers unlimited reviews, including photo and video reviews.</p>
 <ol>
-  <li>In Shopify, go to <strong>Apps</strong> &gt; <strong>Shopify App Store</strong>.</li>
-  <li>Search for <strong>Judge.me</strong> and install the free plan.</li>
-  <li>Follow the setup wizard — it will add review sections to your product pages.</li>
-  <li>Configure it to send a review request email <strong>14 days after delivery</strong> (gives them time to play with the pedal).</li>
+  <li>In your admin, go to <strong>Apps</strong> and search the Shopify App Store for <strong>Judge.me</strong>.</li>
+  <li>Install it on the free plan.</li>
+  <li>Follow the setup. It adds review sections to your product pages.</li>
+  <li>Set the request email to go out about <strong>14 days after delivery</strong>, so they've had time to play it.</li>
 </ol>
-<p>Once you have 5-10 reviews, they start doing the selling for you. New visitors see that real people love your pedals.</p>
+<p>Your Reverb reviews don't move over automatically. Screenshot a few good ones and put them on your About page or homepage.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Include a small card in your packaging that says "Love your new pedal? Leave a review!" with a QR code linking to your store. Personal touches like this boost review rates.
+  Put a card in the box that says "Love it? Leave a review," with a QR code to your store.
 </div>`
       },
       {
         id: "bundles",
         title: "Offer bundles and cross-sells",
         desc: "Increase your average order value",
-        detail: `<p>Getting a customer to buy two pedals is cheaper than finding two separate customers. Try these tactics:</p>
+        detail: `<p>Selling one customer two pedals is cheaper than finding two customers:</p>
 <ul>
-  <li><strong>Bundles:</strong> Offer a discount when someone buys two or more pedals together. Create a separate product listing for the bundle.</li>
-  <li><strong>Patch cables / accessories:</strong> Sell small add-ons. Even a $5 sticker or patch cable adds up.</li>
-  <li><strong>"Pairs well with"</strong> — In your product descriptions, mention which of your other pedals stack well with this one.</li>
+  <li><strong>Bundles:</strong> A discount for buying two or more together.</li>
+  <li><strong>Add-ons:</strong> Stickers, patch cables, a power cable. Small stuff adds up.</li>
+  <li><strong>"Stacks well with":</strong> Name your other pedals that pair with this one in the description.</li>
 </ul>
-<p>You can also use Shopify's <strong>automatic discounts</strong> (Settings &gt; Discounts) to create "Buy 2, save 10%" deals.</p>`
+<p>For "Buy 2, save 10%," go to <strong>Discounts</strong> &gt; <strong>Create discount</strong> and choose <strong>Automatic discount</strong> so nobody needs a code.</p>`
       },
       {
         id: "seo",
         title: "Product page SEO basics",
         desc: "Help people find your pedals on Google",
-        detail: `<p>SEO (Search Engine Optimization) means making your pages show up when people search on Google. The basics are simple:</p>
+        detail: `<p>SEO means showing up when people search Google. The basics:</p>
 <ul>
-  <li><strong>Product titles:</strong> Include what it is. "Thunderclap Overdrive Pedal" is better than just "Thunderclap."</li>
-  <li><strong>Descriptions:</strong> Write at least 100 words. Use natural language that includes terms people search for: "overdrive pedal," "handmade," "boutique," your pedal name.</li>
-  <li><strong>Image alt text:</strong> When you upload photos, add a description in the alt text field (e.g., "Thunderclap overdrive guitar pedal - front view"). This helps Google understand your images.</li>
-  <li><strong>Page title and meta description:</strong> Scroll down on each product page to the "Search engine listing" section and customize the title and description.</li>
+  <li><strong>Titles:</strong> Say what it is. "Thunderclap Overdrive Pedal" beats "Thunderclap."</li>
+  <li><strong>Descriptions:</strong> At least 100 words, in normal language, using the words people search for ("overdrive pedal," "handmade," "boutique").</li>
+  <li><strong>Image alt text:</strong> Describe each photo ("Thunderclap overdrive guitar pedal, front").</li>
+  <li><strong>Search listing:</strong> At the bottom of each product, edit the "Search engine listing" title and description.</li>
 </ul>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  SEO is a long game. It takes months to start showing up in search results. Do the basics now and let it build over time while you focus on Instagram and email.
+  SEO takes months to kick in. Do the basics now and let it build while you focus on Instagram and email.
 </div>`
       },
       {
         id: "community",
         title: "Join pedal communities",
         desc: "Build relationships on Reddit, TGP, and Facebook groups",
-        detail: `<p>The pedal community is tight-knit. Being part of it helps people discover your brand:</p>
+        detail: `<p>The pedal world is small. Being part of it is how people find you:</p>
 <ul>
-  <li><strong>Reddit:</strong> Join r/guitarpedals, r/diypedals, and r/letstradepedals. Be helpful, share build photos, answer questions. Don't just post ads.</li>
-  <li><strong>The Gear Page (TGP):</strong> The "Effects" subforum is full of pedal enthusiasts. Participate in discussions before promoting.</li>
-  <li><strong>Facebook Groups:</strong> Search for guitar pedal buy/sell/trade groups and gear-specific groups.</li>
-  <li><strong>DIYstompboxes.com:</strong> Great if you want to connect with other builders.</li>
+  <li><strong>Reddit:</strong> r/guitarpedals, r/diypedals, r/letstradepedals. Help people, share builds, answer questions. Don't just post ads.</li>
+  <li><strong>The Gear Page:</strong> The Effects forum is full of pedal nerds. Join in before you promote.</li>
+  <li><strong>Facebook groups:</strong> Pedal buy/sell/trade groups and brand-specific groups.</li>
+  <li><strong>DIYstompboxes:</strong> Good for connecting with other builders.</li>
 </ul>
-<p>The rule everywhere: give more than you take. Be a community member first, a seller second.</p>
+<p>Give more than you take. Member first, seller second.</p>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  When someone on Reddit asks "what overdrive should I get?" and your pedal is genuinely a good answer, mention it — but be transparent that you're the builder. People respect honesty.
+  When someone asks "what overdrive should I get?" and yours really is a good answer, say so, and say you built it. People respect that.
 </div>`
       },
       {
         id: "repeat-customers",
         title: "Build repeat customer strategies",
         desc: "Turn one-time buyers into lifelong fans",
-        detail: `<p>Repeat customers are the backbone of a sustainable pedal business. Here's how to keep them coming back:</p>
+        detail: `<p>Repeat customers keep a small pedal company alive:</p>
 <ul>
-  <li><strong>Follow-up email:</strong> Two weeks after delivery, send a personal email asking how they like the pedal. This builds a relationship, not just a transaction.</li>
-  <li><strong>Early access:</strong> Give past customers first dibs on new drops. They feel special, and they convert at higher rates.</li>
-  <li><strong>Loyalty discount:</strong> Offer a small discount code in their order confirmation for their next purchase (e.g., "THANKS10" for 10% off).</li>
-  <li><strong>Handwritten notes:</strong> Include a short thank-you note in every package. This is surprisingly effective and costs nothing.</li>
-  <li><strong>Social engagement:</strong> When customers post photos of your pedal on their board, like, comment, and reshare. Make them feel like part of the brand.</li>
+  <li><strong>Follow up:</strong> Two weeks after delivery, send a personal email asking how they like it.</li>
+  <li><strong>Early access:</strong> Give past buyers first shot at new drops.</li>
+  <li><strong>Next-order code:</strong> Put a small discount code in the order confirmation (e.g., "THANKS10").</li>
+  <li><strong>Handwritten notes:</strong> A short thank-you in every box. Costs nothing, people remember it.</li>
+  <li><strong>Reshare:</strong> When customers post your pedal on their board, like it, comment, and share it.</li>
 </ul>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  A handwritten note and a sticker cost you under $0.50 but create a lasting impression. Some builders even include a pick or a piece of candy. Small touches make people talk about your brand.
+  A note and a sticker cost under 50¢ and get people talking about you.
 </div>`
       }
     ]
@@ -1154,48 +1177,62 @@ const SECTIONS = [
         id: "final-test",
         title: "Place one more test order",
         desc: "Double-check everything works end-to-end",
-        detail: `<p>Before you announce your store to the world, do one final test:</p>
+        detail: `<p>Before you tell anyone:</p>
 <ol>
-  <li>Open your store in a private/incognito browser window (so you see it as a new visitor would).</li>
-  <li>Browse your products — do the photos load? Are descriptions clear?</li>
-  <li>Add a product to cart and go through checkout (use Bogus Gateway again).</li>
-  <li>Check the confirmation email — does it look professional?</li>
-  <li>Verify your shipping rates look right at checkout.</li>
-  <li>Click every link in your navigation — make sure nothing is broken.</li>
+  <li>Open your store in a private/incognito window so you see it like a new visitor.</li>
+  <li>Browse the products. Do photos load? Do descriptions read right?</li>
+  <li>Check out in test mode (see "Place a test order" above), then turn test mode off.</li>
+  <li>Read the confirmation email. Does it look right?</li>
+  <li>Check that the shipping rates at checkout are what you expect.</li>
+  <li>Click every menu link. Nothing should be broken.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Ask a friend to browse your store and try to buy something (use a test mode). Fresh eyes catch things you've gone blind to after building it yourself.
+  Have a friend click around while test mode is on. Fresh eyes catch what you've stopped seeing.
 </div>`
       },
       {
         id: "mobile-check",
         title: "Check your store on mobile",
         desc: "Most of your traffic will come from phones",
-        detail: `<p>Over 70% of Instagram traffic goes to mobile. Your store HAS to look good on a phone.</p>
+        detail: `<p>Pretty much everyone coming from Instagram is on a phone. Your store has to work there.</p>
 <ol>
   <li>Open your store on your phone.</li>
-  <li>Check: Can you read the text without zooming? Do photos look good? Is the "Add to cart" button easy to tap?</li>
-  <li>Go through the full checkout process on your phone.</li>
-  <li>Check it on both a small phone and a larger one if you can.</li>
+  <li>Can you read everything without zooming? Do photos look good? Is "Add to cart" easy to hit?</li>
+  <li>Go all the way through checkout on the phone.</li>
+  <li>Try a small phone and a big one if you can.</li>
 </ol>
-<p>If anything looks cramped, cut-off, or hard to tap, go back to your theme editor and adjust. Most Shopify themes are responsive (they adapt to screen size) but sometimes things need tweaking.</p>`
+<p>If something looks cramped or cut off, fix it in the theme editor. It has a phone preview button at the top.</p>`
+      },
+      {
+        id: "go-live",
+        title: "Pick a plan and remove the password page",
+        desc: "Your store is hidden behind a password until you do this",
+        detail: `<p>New Shopify stores are password-protected so nobody sees them half-built. To open up:</p>
+<ol>
+  <li>Pick your plan if you haven't yet (Settings &gt; Plan).</li>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Preferences</strong>.</li>
+  <li>Under <strong>Password protection</strong>, uncheck <strong>Restrict access with password</strong> and save.</li>
+  <li>Open your domain in a private window. You should see your store, not a password box.</li>
+</ol>
+<p>Now go back and finish the Facebook &amp; Instagram channel if you skipped it. It needs the store to be live.</p>`
       },
       {
         id: "announce-launch",
         title: "Announce your launch",
         desc: "Tell the world your store is open",
-        detail: `<p>You've done the work. Now it's time to tell people. Launch day plan:</p>
+        detail: `<p>Launch day plan:</p>
 <ol>
-  <li><strong>Instagram post:</strong> Post a great product shot with a caption announcing your new store. Include the link in your bio.</li>
-  <li><strong>Instagram Stories:</strong> Post 3-5 stories throughout the day — your store, products, behind the scenes.</li>
-  <li><strong>Email your list:</strong> If you have email subscribers, send a launch announcement.</li>
-  <li><strong>Tell your communities:</strong> Post in the Reddit, TGP, and Facebook groups you're part of (check each group's self-promotion rules first).</li>
-  <li><strong>Text your friends:</strong> Seriously. Word of mouth matters, especially on day one.</li>
+  <li><strong>Instagram post:</strong> Your best pedal shot or demo Reel announcing the store. Tag the product.</li>
+  <li><strong>Stories:</strong> 3-5 through the day: the store, the pedals, the bench.</li>
+  <li><strong>Email your list:</strong> If you have subscribers, send the announcement.</li>
+  <li><strong>Tell your communities:</strong> Post in your Reddit, TGP, and Facebook groups. Check each one's self-promo rules first.</li>
+  <li><strong>Reverb:</strong> If you're keeping your shop, put your website in your Reverb shop profile.</li>
+  <li><strong>Text your friends.</strong> Seriously. Word of mouth matters most on day one.</li>
 </ol>
 <div class="tip-box">
   <strong>Pedal builder tip</strong>
-  Consider offering a small launch-day discount (10-15% off or free shipping) to drive those first few sales. Early sales mean early reviews, which fuel more sales.
+  A small launch deal (10-15% off or free shipping) gets the first few sales in. First sales mean first reviews, and reviews bring more sales.
 </div>`
       }
     ]
