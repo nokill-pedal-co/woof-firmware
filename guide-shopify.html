@@ -1,0 +1,1273 @@
+<style>
+#nk-guide { --nk-ink: #121212; --nk-soft: rgba(18,18,18,0.6); --nk-line: rgba(18,18,18,0.08); --nk-tint: rgba(18,18,18,0.03);
+  color: var(--nk-ink); font-size: 16px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
+#nk-guide *, #nk-guide *::before, #nk-guide *::after { box-sizing: border-box; }
+#nk-guide p { margin: 0 0 10px; }
+#nk-guide a { color: var(--nk-ink); text-decoration: underline; }
+#nk-guide .nk-intro { font-size: 18px; color: rgba(18,18,18,0.75); margin-bottom: 8px; }
+#nk-guide .nk-disclosure { font-size: 14px; color: var(--nk-soft); margin-bottom: 28px; }
+#nk-guide .nk-progress { display: none; background: var(--nk-tint); border: 1px solid var(--nk-line); padding: 18px 22px; margin-bottom: 28px; }
+#nk-guide.nk-js .nk-progress { display: block; }
+#nk-guide .nk-progress-head { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+#nk-guide .nk-progress-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+#nk-guide .nk-progress-count { color: var(--nk-soft); }
+#nk-guide .nk-bar { height: 6px; background: var(--nk-line); }
+#nk-guide .nk-bar-fill { height: 100%; width: 0; background: var(--nk-ink); transition: width 0.3s ease; }
+#nk-guide .nk-done-banner { display: none; background: var(--nk-ink); color: #fff; padding: 22px; margin-bottom: 24px; text-align: center; }
+#nk-guide .nk-done-banner.show { display: block; }
+#nk-guide .nk-done-banner strong { display: block; font-size: 22px; margin-bottom: 4px; }
+#nk-guide .nk-section { border: 1px solid var(--nk-line); margin-bottom: 14px; }
+#nk-guide summary { list-style: none; cursor: pointer; }
+#nk-guide summary::-webkit-details-marker { display: none; }
+#nk-guide .nk-section-header { display: flex; align-items: center; padding: 16px 20px; background: rgba(18,18,18,0.02); }
+#nk-guide .nk-section[open] > .nk-section-header { border-bottom: 1px solid var(--nk-line); }
+#nk-guide .nk-section-header:hover { background: rgba(18,18,18,0.04); }
+#nk-guide .nk-section-icon { font-size: 22px; margin-right: 14px; flex-shrink: 0; }
+#nk-guide .nk-section-info { flex: 1; display: flex; flex-direction: column; }
+#nk-guide .nk-section-title { font-size: 18px; font-weight: 700; line-height: 1.3; }
+#nk-guide .nk-section-meta { font-size: 13px; color: var(--nk-soft); margin-top: 2px; }
+#nk-guide .nk-chevron { font-size: 13px; color: rgba(18,18,18,0.4); margin-left: 10px; transition: transform 0.2s ease; }
+#nk-guide .nk-section[open] .nk-chevron { transform: rotate(180deg); }
+#nk-guide .nk-task { border-bottom: 1px solid var(--nk-line); }
+#nk-guide .nk-task:last-child { border-bottom: none; }
+#nk-guide .nk-task-row { display: flex; align-items: flex-start; padding: 14px 20px 4px; }
+#nk-guide .nk-check { display: none; width: 20px; height: 20px; min-width: 20px; padding: 0; margin: 2px 14px 0 0; border: 2px solid var(--nk-ink); background: #fff; cursor: pointer; align-items: center; justify-content: center; }
+#nk-guide.nk-js .nk-check { display: flex; }
+#nk-guide .nk-check svg { display: none; width: 12px; height: 12px; }
+#nk-guide .nk-task.done .nk-check { background: var(--nk-ink); }
+#nk-guide .nk-task.done .nk-check svg { display: block; }
+#nk-guide .nk-task-content { flex: 1; }
+#nk-guide .nk-task-title { font-size: 16px; font-weight: 700; line-height: 1.3; }
+#nk-guide .nk-task-desc { font-size: 14px; color: var(--nk-soft); margin-top: 2px; }
+#nk-guide .nk-task.done .nk-task-title { text-decoration: line-through; color: rgba(18,18,18,0.4); }
+#nk-guide .nk-task.done .nk-task-desc { color: rgba(18,18,18,0.35); }
+#nk-guide .nk-more > summary { display: inline-block; margin: 4px 20px 12px; font-size: 13px; color: rgba(18,18,18,0.55); border: 1px solid rgba(18,18,18,0.15); padding: 1px 8px; }
+#nk-guide.nk-js .nk-more > summary { margin-left: 54px; }
+#nk-guide .nk-more > summary:hover { background: rgba(18,18,18,0.04); }
+#nk-guide .nk-more[open] > summary { margin-bottom: 0; }
+#nk-guide .nk-detail { padding: 14px 20px 18px 20px; background: rgba(18,18,18,0.02); border-top: 1px solid rgba(18,18,18,0.06); margin-top: 10px; font-size: 15px; line-height: 1.65; }
+#nk-guide.nk-js .nk-detail { padding-left: 54px; }
+#nk-guide .nk-detail ol, #nk-guide .nk-detail ul { margin: 8px 0 12px 20px; padding: 0; }
+#nk-guide .nk-detail li { margin-bottom: 6px; }
+#nk-guide .nk-detail code { background: rgba(18,18,18,0.06); padding: 2px 6px; font-size: 13.5px; font-family: monospace; }
+#nk-guide .tip-box { background: rgba(18,18,18,0.04); border-left: 3px solid var(--nk-ink); padding: 12px 16px; margin: 12px 0 4px; font-size: 14px; }
+#nk-guide .tip-box strong:first-child { display: block; margin-bottom: 4px; font-size: 13.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+#nk-guide .info-box { background: rgba(18,18,18,0.04); border: 1px solid var(--nk-line); padding: 12px 16px; margin: 12px 0 4px; font-size: 14px; }
+#nk-guide .nk-reset { display: none; margin: 26px auto 0; background: none; border: 1px solid rgba(18,18,18,0.15); color: rgba(18,18,18,0.5); padding: 8px 20px; font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer; }
+#nk-guide.nk-js .nk-reset { display: block; }
+#nk-guide .nk-reset:hover { border-color: var(--nk-ink); color: var(--nk-ink); }
+@media (max-width: 600px) {
+  #nk-guide .nk-section-header { padding: 14px 16px; }
+  #nk-guide .nk-task-row { padding: 12px 16px 4px; }
+  #nk-guide .nk-more > summary, #nk-guide.nk-js .nk-more > summary { margin-left: 16px; }
+  #nk-guide .nk-detail, #nk-guide.nk-js .nk-detail { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+<div id="nk-guide">
+<p class="nk-intro">Everything you need to move from selling on Reverb to running your own Shopify store. One step at a time, no web experience needed.</p>
+<p class="nk-disclosure">Updated October 2026. Some links in this guide are affiliate links: if you sign up or buy through one, NOKILL may get a commission at no extra cost to you. I only link to stuff I'd recommend anyway. As an Amazon Associate I earn from qualifying purchases.</p>
+<div class="nk-progress">
+  <div class="nk-progress-head"><span class="nk-progress-label">Your Progress</span><span class="nk-progress-count">0 / 48 tasks</span></div>
+  <div class="nk-bar"><div class="nk-bar-fill"></div></div>
+</div>
+<div class="nk-done-banner"><strong>You're ready to launch!</strong>Every task is done. Time to share your store with the world.</div>
+
+<details class="nk-section" data-section="before-reverb">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">📦</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Before You Leave Reverb</span>
+      <span class="nk-section-meta">4 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="export-sales">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Export your Reverb sales history" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Export your Reverb sales history</div>
+          <div class="nk-task-desc">Save a record of everything you've sold so far</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Get a copy of your past sales before you change anything. Reverb has a built-in export:</p>
+<ol>
+  <li>Log into Reverb and open your <strong>Orders</strong> page in the seller dashboard.</li>
+  <li>Set a <strong>Start Date</strong> and <strong>End Date</strong>. Go back as far as your shop goes.</li>
+  <li>Click <strong>Export</strong> in the top right, then <strong>Orders</strong>.</li>
+  <li>When it's ready, click <strong>Download Export</strong> and save the CSV somewhere safe.</li>
+</ol>
+<p>You get order numbers, buyer names and addresses, SKUs, prices, and shipping. Keep it for your records and for warranty questions down the road. (<a href="https://help.reverb.com/hc/en-us/articles/41988480773019-How-to-export-your-orders" target="_blank" rel="noopener">Reverb's help page on this</a>)</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Run this again right before you close or pause your Reverb shop so the file covers everything.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="save-photos">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Save your listings and photos" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Save your listings and photos</div>
+          <div class="nk-task-desc">Back up every description and image you've put on Reverb</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Your photos and descriptions took real work. Don't count on them staying on Reverb forever.</p>
+<ul>
+  <li><strong>Listings CSV:</strong> In Reverb, go to <strong>Manage Inventory</strong> &gt; <strong>Export Your Listings</strong>. Reverb emails you a download link (it expires, so grab it quickly). This needs at least 10 completed sales. If you're not there yet, email Reverb's integrations team and ask them to turn it on. (<a href="https://help.reverb.com/hc/en-us/articles/41988465024539-CSV-upload-manage-inventory-guide" target="_blank" rel="noopener">Reverb's CSV guide</a>)</li>
+  <li><strong>Photos:</strong> Reverb doesn't have a bulk photo download. Either right-click and save each one, or skip it and use an import app (next task), which brings the photos over for you.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If you still have the original photos on your phone or camera, use those on your new store. They'll be sharper than anything you pull back off a website.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="import-listings">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Bring your listings into Shopify" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Bring your listings into Shopify</div>
+          <div class="nk-task-desc">Import them with an app instead of retyping everything</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>If you have more than a handful of listings, don't rebuild them by hand. Once your Shopify store exists (see the Shopify section below), install an import app:</p>
+<ol>
+  <li><a href="https://apps.shopify.com/syncgear" target="_blank" rel="noopener">SyncGear</a> is a Shopify app built for Reverb. It pulls your Reverb listings into Shopify, photos included. It's free for up to 25 one-time imports. Paid plans ($14.99/month and up) add ongoing inventory syncing.</li>
+  <li>Install it, connect your Reverb account, pick the listings, and import.</li>
+  <li>Go through each imported product afterward. Check the price, photos, and description, and fix anything that came over weird.</li>
+</ol>
+<p>Got just a few pedals? Typing them in by hand is fine. See "Add your products" below.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="dual-channel">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Decide: keep Reverb or go all-in on Shopify?" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Decide: keep Reverb or go all-in on Shopify?</div>
+          <div class="nk-task-desc">You can sell on both, but there are trade-offs</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>You have two options:</p>
+<ul>
+  <li><strong>Option A: Sell on both.</strong> Keep your Reverb listings up and sell on Shopify too. More visibility while you build your own traffic.</li>
+  <li><strong>Option B: Go all-in on Shopify.</strong> Close your Reverb shop and send everyone to your site. Simpler, but you lose Reverb's built-in buyers.</li>
+</ul>
+<p>The math: Reverb takes a 5% selling fee plus 3.19% + $0.49 for payment processing, both charged on the total including shipping. That's roughly 8.5% of every sale. Shopify Payments on the Basic plan is 2.9% + 30¢ per order, plus your monthly plan.</p>
+<p>Most builders start with Option A and shift more sales to their own store over time. If you do sell on both, Reverb's free <a href="https://help.reverb.com/hc/en-us/sections/360002280333-Shopify" target="_blank" rel="noopener">Shopify integration</a> lets Shopify run the show: you manage inventory in Shopify and it updates Reverb. It matches products by SKU, so give every pedal a unique SKU. When one sells on one platform, it doesn't stay listed on the other.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Keep your prices the same on both. Nobody likes finding out they paid more than the next guy.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="domain">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">🌐</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Get Your Domain Name</span>
+      <span class="nk-section-meta">3 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="choose-domain">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Choose your domain name" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Choose your domain name</div>
+          <div class="nk-task-desc">Pick a web address that matches your brand</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Your domain name is your web address, like <code>nokillpedal.co</code>. Here's how to pick a good one:</p>
+<ul>
+  <li>Keep it short and easy to spell.</li>
+  <li>Match your brand name if you can.</li>
+  <li><code>.com</code> is the most common, but <code>.co</code> or <code>.shop</code> work too.</li>
+  <li>Skip hyphens and numbers. They're hard to say out loud.</li>
+</ul>
+<p>Test it by saying it to someone: "Check out my site at ___." If they can spell it without asking, you're good.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Check that the name is free on Instagram and Facebook too. You want the same name everywhere.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="register-domain">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Register your domain (~$10-20/year)" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Register your domain (~$10-20/year)</div>
+          <div class="nk-task-desc">Buy your web address from a domain registrar</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>A registrar is just a company that sells web addresses. Good options:</p>
+<ul>
+  <li><strong>Through Shopify:</strong> The easiest. Buy it inside your Shopify admin (Settings &gt; Domains) and it connects itself. Starts around $9-15/year depending on the ending.</li>
+  <li><a href="https://www.namecheap.com/" target="_blank" rel="sponsored noopener"><strong>Namecheap</strong></a>: Popular and cheap, with good support.</li>
+  <li><a href="https://www.cloudflare.com/products/registrar/" target="_blank" rel="noopener"><strong>Cloudflare Registrar</strong></a>: Sells domains at cost with no markup. A bit more technical.</li>
+</ul>
+<p>If you don't want to deal with any setup, buy through Shopify. It also unlocks Shopify's free email forwarding (next section), which only works on domains Shopify manages.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Turn on auto-renew. If your domain expires, someone else can grab it.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="connect-domain">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Connect your domain to Shopify" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Connect your domain to Shopify</div>
+          <div class="nk-task-desc">Point your web address to your new store</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Bought it through Shopify? Skip this. It's already connected.</p>
+<p>Bought it somewhere else? You need to point it at Shopify:</p>
+<ol>
+  <li>In Shopify, go to <strong>Settings</strong> &gt; <strong>Domains</strong> &gt; <strong>Connect existing domain</strong>.</li>
+  <li>Type in your domain and click <strong>Next</strong>.</li>
+  <li>Shopify shows you DNS settings. DNS is the internet's address book: it tells browsers where your site lives.</li>
+  <li>Log into your registrar and find its <strong>DNS settings</strong>.</li>
+  <li>Copy in the records Shopify gave you.</li>
+  <li>Save and wait. It can take up to 48 hours but usually works within a few.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If this feels confusing, buy the domain through Shopify instead. A few extra bucks a year is worth zero hassle.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="email">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">📧</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Set Up Your Email</span>
+      <span class="nk-section-meta">2 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="pro-email">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Set up a professional email address" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Set up a professional email address</div>
+          <div class="nk-task-desc">Get an email like you@yourbrand.com</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>An address like <code>hello@yourbrand.com</code> looks more legit than a Gmail. Options:</p>
+<ul>
+  <li><strong>Shopify forwarding (free):</strong> Mail sent to your domain lands in your personal inbox. Set it up in Settings &gt; Domains &gt; your domain &gt; Email forwarding. This only works if Shopify manages your domain. It won't forward to Yahoo or AOL addresses.</li>
+  <li><a href="https://workspace.google.com/" target="_blank" rel="sponsored noopener"><strong>Google Workspace</strong></a>: Full Gmail on your own domain, about $7/month per person on a yearly plan. Best if you want to send AND receive as your brand.</li>
+  <li><a href="https://www.zoho.com/mail/" target="_blank" rel="noopener"><strong>Zoho Mail</strong></a>: Its free plan covers up to 5 people on one domain. The catch: you use Zoho's website or app, not the Gmail or Apple Mail app you already have.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Start with free forwarding. Upgrade to Google Workspace once replying from your brand address actually matters to you.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="update-email">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Update your email everywhere" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Update your email everywhere</div>
+          <div class="nk-task-desc">Swap your old email for your new one on all platforms</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Once you have your brand email, update it in these places:</p>
+<ul>
+  <li>Your Instagram contact button</li>
+  <li>Your Facebook page</li>
+  <li>Forum profiles (The Gear Page, Reddit, DIYstompboxes, etc.)</li>
+  <li>Business cards or stickers, the next time you print them</li>
+  <li>Supplier accounts</li>
+</ul></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="shopify">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">🛒</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Build Your Shopify Store</span>
+      <span class="nk-section-meta">14 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="create-account">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Create your Shopify account" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Create your Shopify account</div>
+          <div class="nk-task-desc">Sign up and start your free trial</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Go to <a href="https://www.shopify.com/" target="_blank" rel="sponsored noopener">Shopify</a> and sign up. Right now new stores get 3 days free, then $1/month for the first 3 months.</p>
+<ol>
+  <li>Click <strong>Start free trial</strong>.</li>
+  <li>Enter your email and store name.</li>
+  <li>Answer the setup questions. Pick "I'm just starting" if it asks.</li>
+  <li>You'll land on your dashboard, which Shopify calls the "admin."</li>
+</ol>
+<p>The <strong>Basic</strong> plan is all you need to start: $39/month, or $29/month if you pay for a year up front.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  The $1 months give you plenty of time to build everything before you're paying full price. No need to rush to launch.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="pick-theme">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Pick and customize your theme" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Pick and customize your theme</div>
+          <div class="nk-task-desc">Choose how your store looks</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>A theme controls how your store looks. Shopify's free ones are good.</p>
+<ol>
+  <li>In your admin, go to <strong>Online Store</strong> &gt; <strong>Themes</strong>.</li>
+  <li>New stores start on <strong>Horizon</strong>. It's clean and works for a pedal shop as-is.</li>
+  <li>Want a different look? Browse the free themes. Horizon has sister themes (Atelier, Heritage, Ritual, and others) built the same way.</li>
+  <li>Click <strong>Customize</strong> to start editing.</li>
+</ol>
+<p>Don't overthink it. You can switch later. Pick something clean and start adding content.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  A clean, fast store with great photos beats a fancy, cluttered one every time.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="add-products">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Add your products" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Add your products</div>
+          <div class="nk-task-desc">Create a listing for each pedal you sell</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>If you imported from Reverb, just check each product over. Otherwise, for each pedal:</p>
+<ol>
+  <li>Go to <strong>Products</strong> &gt; <strong>Add product</strong>.</li>
+  <li>Add the <strong>title</strong> (the pedal name).</li>
+  <li>Write a <strong>description</strong>: what it sounds like, who it's for, what makes it different.</li>
+  <li>Upload your <strong>photos</strong>. The first one is the main image.</li>
+  <li>Set the <strong>price</strong> and a <strong>SKU</strong> (a short unique code, like <code>WMR-001</code>).</li>
+  <li>Set <strong>inventory</strong>. Track quantity if you build in batches, or uncheck "Track quantity" if you build to order.</li>
+  <li>Add the <strong>weight</strong> (boxed) for shipping rates.</li>
+  <li>Click <strong>Save</strong>.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Shopify's built-in AI (Shopify Magic) can draft a description for you. Use it to get unstuck, then rewrite it the way you'd actually talk. "This thing cleans up great with your volume knob" beats "Features unity gain bypass architecture."
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="collections">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Create collections" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Create collections</div>
+          <div class="nk-task-desc">Group your pedals into categories</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Collections are groups of products, like "Overdrives," "Fuzz," or "All Pedals." They help people browse.</p>
+<ol>
+  <li>Go to <strong>Products</strong> &gt; <strong>Collections</strong>.</li>
+  <li>Click <strong>Create collection</strong>.</li>
+  <li>Name it (e.g., "Overdrive Pedals").</li>
+  <li>Choose <strong>Manual</strong> so you hand-pick which products go in.</li>
+  <li>Add the products.</li>
+  <li>Make at least an "All Pedals" collection plus one per category.</li>
+</ol></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="tags">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Add tags to your products" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Add tags to your products</div>
+          <div class="nk-task-desc">Tags help with filtering and organization</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Tags are labels that help you sort and filter products, e.g., "overdrive," "fuzz," "germanium," "under-200."</p>
+<ol>
+  <li>Open a product in your admin.</li>
+  <li>Find <strong>Tags</strong> on the right side.</li>
+  <li>Type a tag and press Enter. Add a few per product.</li>
+  <li>Click <strong>Save</strong>.</li>
+</ol>
+<p>Stay consistent: always "overdrive," never sometimes "OD."</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="navigation">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Set up your navigation menus" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Set up your navigation menus</div>
+          <div class="nk-task-desc">Create the links at the top and bottom of your site</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Navigation is the menu at the top of your store.</p>
+<ol>
+  <li>Type <strong>Menus</strong> into the search bar at the top of your admin and open it.</li>
+  <li>Click <strong>Main menu</strong>.</li>
+  <li>Add links to your collections ("All Pedals," "Overdrive"), your About page, and your Contact page.</li>
+  <li>Keep it to 4-6 links.</li>
+</ol>
+<p>Then set up the <strong>Footer menu</strong> with Shipping Policy, Return Policy, Contact, and FAQ.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="collection-pages">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Design your collection pages" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Design your collection pages</div>
+          <div class="nk-task-desc">Make your product grid look good</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Collection pages show a grid of products.</p>
+<ol>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Themes</strong> &gt; <strong>Customize</strong>.</li>
+  <li>Use the page picker at the top to switch to a <strong>collection</strong> page.</li>
+  <li>Set how many products show per row.</li>
+  <li>Keep images the same shape. Square works best in a grid.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Shoot every pedal on the same background with the same light. A cheap <a href="https://www.amazon.com/s?k=photo+light+box" target="_blank" rel="sponsored noopener">photo light box</a> makes this easy and makes even a three-pedal store look pro.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="product-pages">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Polish your product pages" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Polish your product pages</div>
+          <div class="nk-task-desc">Make each pedal page convincing</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Every product page is a sales pitch:</p>
+<ul>
+  <li><strong>Multiple photos:</strong> front, back, side, guts shot, on a board.</li>
+  <li><strong>Clear description:</strong> what it sounds like, what it stacks well with, what makes it yours.</li>
+  <li><strong>Specs:</strong> power (9V center-negative, current draw), size, bypass type.</li>
+  <li><strong>Demo video:</strong> embed a YouTube demo with the video button in the description editor.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Show the guts. Pedal people love clean wiring and good parts. It proves you care about the build, not just the paint job.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="homepage">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Build your homepage" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Build your homepage</div>
+          <div class="nk-task-desc">Create a welcoming front page</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Most visitors see your homepage first. Keep it focused:</p>
+<ol>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Themes</strong> &gt; <strong>Customize</strong>.</li>
+  <li>Add a big <strong>hero image</strong>: your best pedal or your bench.</li>
+  <li>Add a <strong>featured collection</strong> showing your pedals.</li>
+  <li>Add a short <strong>About</strong> blurb: who you are and why you build.</li>
+  <li>Stop at 3-4 sections.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  People buying from your own site want to know who's behind the pedals. A short, honest About section goes a long way.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="payments">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Set up payments" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Set up payments</div>
+          <div class="nk-task-desc">Connect Shopify Payments so you can get paid</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Tell Shopify where to send your money:</p>
+<ol>
+  <li>Go to <strong>Settings</strong> &gt; <strong>Payments</strong>.</li>
+  <li>Activate <strong>Shopify Payments</strong>.</li>
+  <li>Enter your business info, bank account, and tax details.</li>
+  <li>That turns on credit cards, Apple Pay, Google Pay, and Shop Pay.</li>
+</ol>
+<p>On the Basic plan, US cards cost 2.9% + 30¢ per order, with no extra Shopify transaction fee.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Turn on <strong>PayPal</strong> too. Some buyers won't check out without it, and it's a two-minute setup on the same page.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="shipping">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Configure shipping rates" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Configure shipping rates</div>
+          <div class="nk-task-desc">Set up how much you charge for shipping</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Go to <strong>Settings</strong> &gt; <strong>Shipping and delivery</strong>. Your options:</p>
+<ul>
+  <li><strong>Flat rate:</strong> Same charge on every order (e.g., $8). Simple and predictable.</li>
+  <li><strong>Free shipping:</strong> Build the cost into the price. People love "free shipping."</li>
+  <li><strong>Calculated rates:</strong> Shopify works it out from weight and destination. Accurate, but it can surprise people at checkout.</li>
+</ul>
+<p>Most small builders do best with flat rate or free shipping.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  If your pedals are all about the same size, weigh one boxed up, check the USPS Ground Advantage price, and set a flat rate from that.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="shipping-setup">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Get set up to ship" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Get set up to ship</div>
+          <div class="nk-task-desc">Labels, a scale, and boxes so orders go out fast</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>On Reverb, buying labels was built in. On Shopify it is too: open an order and click <strong>Create shipping label</strong>. Shopify Shipping gets you discounted USPS and UPS rates and fills in the address for you.</p>
+<p>A few cheap things make shipping way faster:</p>
+<ul>
+  <li><a href="https://www.amazon.com/s?k=digital+shipping+scale" target="_blank" rel="sponsored noopener"><strong>A shipping scale</strong></a>: Weigh the box so you don't overpay (or underpay) on postage.</li>
+  <li><a href="https://munbyn.com/" target="_blank" rel="sponsored noopener"><strong>A 4x6 thermal label printer</strong></a>: No ink, no tape, no cutting paper labels. Worth it once you're shipping a few a week.</li>
+  <li><a href="https://www.amazon.com/s?k=corrugated+mailer+boxes" target="_blank" rel="sponsored noopener"><strong>Mailer boxes</strong></a>: Find one size that fits your pedals with padding and buy it in bulk.</li>
+</ul>
+<p>Prefer to buy labels outside Shopify? <a href="https://www.pirateship.com/" target="_blank" rel="noopener">Pirate Ship</a> is free and gets similar discounted rates.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="essential-pages">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Create essential pages" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Create essential pages</div>
+          <div class="nk-task-desc">Add About, Contact, Shipping Policy, and Return Policy pages</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Every store needs a few basic pages. Go to <strong>Online Store</strong> &gt; <strong>Pages</strong> and create:</p>
+<ul>
+  <li><strong>About:</strong> Your story, why you build, a photo of you or your bench.</li>
+  <li><strong>Contact:</strong> Pick the "contact" page template to get Shopify's built-in form.</li>
+  <li><strong>FAQ:</strong> Power supply, warranty, build times, international shipping.</li>
+</ul>
+<p>For the legal stuff, go to <strong>Settings</strong> &gt; <strong>Policies</strong>. Open each one (Refund, Shipping, Privacy, Terms) and click <strong>Insert template</strong> for a starting draft. Edit it to match how you actually do things.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Be clear about returns. A lot of builders do "no returns on custom orders, 14 days on stock pedals."
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="test-order">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Place a test order" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Place a test order</div>
+          <div class="nk-task-desc">Make sure everything works before going live</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Buy something from your own store before anyone else does. If you're using Shopify Payments:</p>
+<ol>
+  <li>Go to <strong>Settings</strong> &gt; <strong>Payments</strong> and click <strong>Manage</strong> on Shopify Payments.</li>
+  <li>Check <strong>Enable test mode</strong> and save.</li>
+  <li>Go to your store, add a pedal to the cart, and check out with the test card <code>4242 4242 4242 4242</code> (any future expiration date, any 3-digit code).</li>
+  <li>Make sure the order shows up and you get the confirmation email.</li>
+  <li><strong>Turn test mode back off.</strong> Real customers can't pay while it's on.</li>
+</ol>
+<p>Not on Shopify Payments? Use the <strong>Test payment gateway</strong> instead. Find it under Settings &gt; Payments &gt; See all other providers.</p></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="instagram">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">📸</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Set Up Instagram</span>
+      <span class="nk-section-meta">4 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="create-ig">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Create your Instagram account" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Create your Instagram account</div>
+          <div class="nk-task-desc">Set up a dedicated account for your pedal brand</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>If you don't have a brand account yet:</p>
+<ol>
+  <li>Sign up in the Instagram app with your <strong>brand email</strong>.</li>
+  <li>Use your <strong>brand name</strong> as the username, matching your domain if you can.</li>
+  <li>Use your logo or your flagship pedal as the profile photo.</li>
+</ol></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="business-ig">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Switch to a Business account" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Switch to a Business account</div>
+          <div class="nk-task-desc">Unlock insights, boosting, and the Shopify connection</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>A Business account is free:</p>
+<ol>
+  <li>Go to your profile and tap the <strong>☰</strong> menu in the top right.</li>
+  <li>Under <strong>For professionals</strong>, tap <strong>Account type and tools</strong> &gt; <strong>Switch to professional account</strong>.</li>
+  <li>Pick a category like "Musical Instrument Store."</li>
+  <li>Choose <strong>Business</strong> (not Creator).</li>
+  <li>When it asks, connect a Facebook Page. You'll need one later anyway (see the pixel section).</li>
+</ol>
+<p>You get Insights (your stats), boosting, a contact button, and the hookup to Shopify.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="optimize-profile">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Optimize your profile" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Optimize your profile</div>
+          <div class="nk-task-desc">Make your bio clear and link to your store</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Your bio is prime real estate:</p>
+<ul>
+  <li><strong>Name field:</strong> Brand name + what you do. Example: "NOKILL Pedal Co | Handbuilt Pedals"</li>
+  <li><strong>Bio:</strong> One line about what you build, one about where to buy.</li>
+  <li><strong>Links:</strong> Instagram lets you add up to 5. Put your store first. You don't need a separate link-in-bio service for this.</li>
+  <li><strong>Contact button:</strong> Your brand email.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  People give your profile about 3 seconds. Tell them what you make and where to buy it. Save the quotes for captions.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="first-posts">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Post your first 9 photos" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Post your first 9 photos</div>
+          <div class="nk-task-desc">Fill your grid so your profile doesn't look empty</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>An empty grid looks abandoned. Post 9 before you start promoting:</p>
+<ul>
+  <li>3 product shots (clean and well lit)</li>
+  <li>2 process shots (building, soldering, testing)</li>
+  <li>2 "in action" shots (on a board, at a gig, in a studio)</li>
+  <li>1 shot of your bench</li>
+  <li>1 shot of you (your hands working, your story)</li>
+</ul>
+<p>Write real captions about what you're building and why.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Short Reels of just the pedal sound get way more reach than photos. A <a href="https://www.amazon.com/s?k=phone+tripod" target="_blank" rel="sponsored noopener">phone tripod</a> and your amp is all you need. After the first 9 posts, aim for 3-4 a week.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="boost">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">🚀</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Boost Your Instagram Posts</span>
+      <span class="nk-section-meta">5 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="what-is-boost">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Understand what boosting is" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Understand what boosting is</div>
+          <div class="nk-task-desc">Boosting = paying to show your post to more people</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Boosting is the simplest kind of Instagram ad:</p>
+<ul>
+  <li>Pick a post you've already published.</li>
+  <li>Pay to show it to people who don't follow you yet.</li>
+  <li>Set where, roughly who, and how much to spend.</li>
+  <li>It runs for the days you choose, then stops on its own.</li>
+</ul>
+<div class="info-box">
+  <strong>How much?</strong> You set the budget. A few dollars a day for a few days is enough to learn something. Most builders start around $20-50 per boost.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="pick-post">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Pick the right post to boost" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Pick the right post to boost</div>
+          <div class="nk-task-desc">Not every post is worth boosting</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Boost posts that already did well without paying. Look for one that:</p>
+<ul>
+  <li>Got more likes or comments than usual.</li>
+  <li>Shows the pedal clearly.</li>
+  <li>Says what to do next ("Available now, link in bio").</li>
+  <li>Is a demo Reel or a really strong product shot.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  15-30 second demo Reels usually boost best. Guitarists stop scrolling when they hear a good tone.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="boost-walkthrough">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Step-by-step: boost a post" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Step-by-step: boost a post</div>
+          <div class="nk-task-desc">Follow these exact steps to set up your first boost</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><ol>
+  <li>Open the post in Instagram and tap <strong>Boost</strong>.</li>
+  <li><strong>Goal:</strong> Pick <strong>More website visits</strong> and set the link to your pedal's product page. A product page works better than your homepage.</li>
+  <li><strong>Audience:</strong> Instagram now uses <strong>Advantage+ audience</strong> by default. Here's what still works:
+    <ul>
+      <li><strong>Location</strong> and <strong>minimum age</strong> are hard limits. Set location to where you ship and minimum age to 18.</li>
+      <li><strong>Interests</strong> like "guitar," "effects units," and "electric guitar" are now only suggestions. Instagram uses them as a starting point and then shows the post to whoever it thinks will click.</li>
+    </ul>
+  </li>
+  <li><strong>Budget:</strong> Start with <strong>$5/day for 5 days ($25 total)</strong>.</li>
+  <li>Review and tap <strong>Boost post</strong>.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Your first boost is a test. Spend $25, see what happens, adjust, and try again. Don't drop $100 on the first one.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="read-results">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Read your boost results" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Read your boost results</div>
+          <div class="nk-task-desc">Understand what the numbers mean</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Tap <strong>View insights</strong> on the boosted post:</p>
+<ul>
+  <li><strong>Reach:</strong> How many different people saw it.</li>
+  <li><strong>Link clicks:</strong> How many tapped through to your store. This is the number that matters.</li>
+  <li><strong>Cost per click:</strong> What each store visit cost you. Under $1 is great, under $2 is fine.</li>
+  <li><strong>Engagement:</strong> Likes, comments, saves. Nice, but clicks pay the bills.</li>
+</ul>
+<div class="info-box">
+  <strong>Quick math:</strong> $25 for 30 clicks is about 83¢ a click. If 1 of those 30 people buys a $150 pedal, you spent $25 to make a $150 sale.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="boost-mistakes">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Common boosting mistakes to avoid" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Common boosting mistakes to avoid</div>
+          <div class="nk-task-desc">Learn from other builders' mistakes</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><ul>
+  <li><strong>Boosting a bad post.</strong> If it didn't grab anyone for free, paying won't fix it.</li>
+  <li><strong>Picking "More profile visits."</strong> You want store visits. Choose "More website visits."</li>
+  <li><strong>Fighting the targeting.</strong> You can't fence Instagram in with interests anymore. Make a post guitarists will stop for and let the algorithm find them.</li>
+  <li><strong>Judging it in a day.</strong> Let a boost run its full length before deciding.</li>
+  <li><strong>Quitting after one.</strong> Try 3-4 different posts before you decide boosting isn't for you.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Keep a simple log for each boost: which post, how much you spent, clicks, sales. After a few you'll see what works.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="pixel">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">🔗</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Connect Shopify to Instagram</span>
+      <span class="nk-section-meta">5 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="install-fb-channel">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Install the Facebook & Instagram sales channel" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Install the Facebook & Instagram sales channel</div>
+          <div class="nk-task-desc">Free Shopify app that connects your store to Meta</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Meta owns Facebook and Instagram. This free channel links your store to both. Before you start, you need:</p>
+<ul>
+  <li>A <strong>Facebook Page</strong> for your brand. Even if you never post there, make a basic one with your name and logo.</li>
+  <li>Your Instagram <strong>Business account</strong> linked to that Page.</li>
+  <li>Your store <strong>live, with no password page</strong>. Do this task after launch if you're still building.</li>
+</ul>
+<ol>
+  <li>In your admin, click <strong>Sales channels</strong> in the left sidebar, then <strong>+</strong>.</li>
+  <li>Add <strong>Facebook &amp; Instagram</strong>.</li>
+  <li>Log into Facebook and pick your <strong>business portfolio</strong>, <strong>Page</strong>, and <strong>Instagram account</strong>. If you don't have a business portfolio, it makes one for you.</li>
+  <li>Accept the terms and connect.</li>
+</ol></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="what-is-pixel">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Understand what the pixel does" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Understand what the pixel does</div>
+          <div class="nk-task-desc">It tracks visitors so you can advertise to them later</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>The <strong>Meta Pixel</strong> is a bit of tracking code that the channel adds to your store for you. In plain English:</p>
+<ul>
+  <li>Someone visits your store and the pixel notes "this person was here."</li>
+  <li>They look at a pedal and it notes which one.</li>
+  <li>They add to cart or buy and it notes that too.</li>
+  <li>Later, your boosts and ads can be shown to those exact people.</li>
+</ul>
+<p>That's called <strong>retargeting</strong>: showing ads to people who already showed interest. It works way better than ads to strangers.</p>
+<div class="info-box">
+  <strong>Do I have to code anything?</strong> No. Shopify handles all of it. You never touch the code.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="verify-pixel">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Turn up data sharing and check it's working" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Turn up data sharing and check it's working</div>
+          <div class="nk-task-desc">Make sure the tracking is actually running on your store</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><ol>
+  <li>In Shopify, open <strong>Facebook &amp; Instagram</strong> &gt; <strong>Settings</strong> &gt; <strong>Data sharing settings</strong>.</li>
+  <li>Set it to <strong>Maximum</strong>. This adds Meta's Conversions API, which keeps tracking working when browsers block the pixel.</li>
+  <li>For a second check, install Meta's free Chrome extension, <a href="https://chromewebstore.google.com/detail/fdgfkebogiimcoedlicjlajpkdmockpc" target="_blank" rel="noopener">Meta Ads Data Advisor</a> (it used to be called Pixel Helper).</li>
+  <li>Visit your store. The extension should show your pixel firing.</li>
+</ol></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="product-tagging">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Tag your pedals in posts" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Tag your pedals in posts</div>
+          <div class="nk-task-desc">Let people tap a pedal in a post and land on its page</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Once the channel is connected and Meta approves your shop (usually a few days), your Shopify products show up in Instagram.</p>
+<ol>
+  <li>When you make a post or Reel, tap <strong>Tag products</strong>.</li>
+  <li>Pick the pedal from your catalog.</li>
+  <li>Anyone who taps the tag lands on that pedal's page in your store, where they check out.</li>
+</ol>
+<p>Checkout used to happen inside Instagram. Meta phased that out, so every tagged sale now goes through your own store.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="retargeting-audiences">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Set up retargeting audiences" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Set up retargeting audiences</div>
+          <div class="nk-task-desc">Create groups of people to show ads to later</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>With the pixel collecting data, you can build "audiences": groups of people based on what they did on your site.</p>
+<ol>
+  <li>Open <a href="https://adsmanager.facebook.com/" target="_blank" rel="noopener">Meta Ads Manager</a> and go to <strong>Audiences</strong>.</li>
+  <li>Click <strong>Create audience</strong> &gt; <strong>Custom audience</strong> &gt; <strong>Website</strong>.</li>
+  <li>Make these three:
+    <ul>
+      <li><strong>All visitors, 30 days</strong></li>
+      <li><strong>Viewed a product, 14 days</strong></li>
+      <li><strong>Added to cart, 7 days</strong>: people who almost bought. These are your hottest leads.</li>
+    </ul>
+  </li>
+</ol>
+<p>They'll be tiny at first. That's normal. They grow as your traffic does.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Retargeting runs from Ads Manager, not the Boost button. When you're ready, run a small ad to the "added to cart" audience showing the pedal they almost bought. It wins back a surprising number of sales.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="sales">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">💰</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Increase Your Sales</span>
+      <span class="nk-section-meta">7 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="email-marketing">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Set up email marketing" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Set up email marketing</div>
+          <div class="nk-task-desc">Send emails to past customers and subscribers</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Email is one of the best ways to sell to people who already like you. Shopify's built-in tool, now called <strong>Shopify Messaging</strong>, gives you 10,000 free emails a month.</p>
+<ol>
+  <li>In your admin, go to <strong>Marketing</strong> and create an email campaign. Shopify will have you install Shopify Messaging the first time.</li>
+  <li>Pick a template and add your logo and colors.</li>
+  <li>Make sure your theme's <strong>newsletter signup</strong> is turned on, usually in the footer.</li>
+  <li>Turn on the free <strong>abandoned checkout</strong> email. It reminds people who got to checkout and stopped.</li>
+</ol>
+<p>What to send: new pedal launches, limited runs and restocks, and build updates from the bench.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Every week or two is plenty. If you wouldn't open it, don't send it. If you outgrow Shopify Messaging, <a href="https://www.klaviyo.com/" target="_blank" rel="noopener">Klaviyo</a> and <a href="https://www.omnisend.com/" target="_blank" rel="sponsored noopener">Omnisend</a> are the usual next steps. Both have free plans to start.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="limited-drops">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Use limited drops and urgency" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Use limited drops and urgency</div>
+          <div class="nk-task-desc">Create excitement with small batches</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>You already build in small batches. Use that:</p>
+<ul>
+  <li><strong>Say how many:</strong> "I built 5 of these. When they're gone, they're gone."</li>
+  <li><strong>Set a time:</strong> "Friday at noon ET." It gives people something to wait for.</li>
+  <li><strong>Tease it:</strong> Post build progress leading up to the drop.</li>
+  <li><strong>Track inventory</strong> so the page shows how many are left.</li>
+</ul>
+<p>It isn't fake scarcity. You really only made 5.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Email your list and post on Instagram at the same moment the drop goes live.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="reviews">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Collect customer reviews with Judge.me" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Collect customer reviews with Judge.me</div>
+          <div class="nk-task-desc">Social proof helps new customers trust you</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Reviews from real players sell pedals. <a href="https://apps.shopify.com/judgeme" target="_blank" rel="noopener">Judge.me</a> automatically emails customers asking for a review after their order arrives. Its free plan covers unlimited reviews, including photo and video reviews.</p>
+<ol>
+  <li>In your admin, go to <strong>Apps</strong> and search the Shopify App Store for <strong>Judge.me</strong>.</li>
+  <li>Install it on the free plan.</li>
+  <li>Follow the setup. It adds review sections to your product pages.</li>
+  <li>Set the request email to go out about <strong>14 days after delivery</strong>, so they've had time to play it.</li>
+</ol>
+<p>Your Reverb reviews don't move over automatically. Screenshot a few good ones and put them on your About page or homepage.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Put a card in the box that says "Love it? Leave a review," with a QR code to your store.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="bundles">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Offer bundles and cross-sells" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Offer bundles and cross-sells</div>
+          <div class="nk-task-desc">Increase your average order value</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Selling one customer two pedals is cheaper than finding two customers:</p>
+<ul>
+  <li><strong>Bundles:</strong> A discount for buying two or more together.</li>
+  <li><strong>Add-ons:</strong> Stickers, patch cables, a power cable. Small stuff adds up.</li>
+  <li><strong>"Stacks well with":</strong> Name your other pedals that pair with this one in the description.</li>
+</ul>
+<p>For "Buy 2, save 10%," go to <strong>Discounts</strong> &gt; <strong>Create discount</strong> and choose <strong>Automatic discount</strong> so nobody needs a code.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="seo">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Product page SEO basics" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Product page SEO basics</div>
+          <div class="nk-task-desc">Help people find your pedals on Google</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>SEO means showing up when people search Google. The basics:</p>
+<ul>
+  <li><strong>Titles:</strong> Say what it is. "Thunderclap Overdrive Pedal" beats "Thunderclap."</li>
+  <li><strong>Descriptions:</strong> At least 100 words, in normal language, using the words people search for ("overdrive pedal," "handmade," "boutique").</li>
+  <li><strong>Image alt text:</strong> Describe each photo ("Thunderclap overdrive guitar pedal, front").</li>
+  <li><strong>Search listing:</strong> At the bottom of each product, edit the "Search engine listing" title and description.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  SEO takes months to kick in. Do the basics now and let it build while you focus on Instagram and email.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="community">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Join pedal communities" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Join pedal communities</div>
+          <div class="nk-task-desc">Build relationships on Reddit, TGP, and Facebook groups</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>The pedal world is small. Being part of it is how people find you:</p>
+<ul>
+  <li><strong>Reddit:</strong> r/guitarpedals, r/diypedals, r/letstradepedals. Help people, share builds, answer questions. Don't just post ads.</li>
+  <li><strong>The Gear Page:</strong> The Effects forum is full of pedal nerds. Join in before you promote.</li>
+  <li><strong>Facebook groups:</strong> Pedal buy/sell/trade groups and brand-specific groups.</li>
+  <li><strong>DIYstompboxes:</strong> Good for connecting with other builders.</li>
+</ul>
+<p>Give more than you take. Member first, seller second.</p>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  When someone asks "what overdrive should I get?" and yours really is a good answer, say so, and say you built it. People respect that.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="repeat-customers">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Build repeat customer strategies" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Build repeat customer strategies</div>
+          <div class="nk-task-desc">Turn one-time buyers into lifelong fans</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Repeat customers keep a small pedal company alive:</p>
+<ul>
+  <li><strong>Follow up:</strong> Two weeks after delivery, send a personal email asking how they like it.</li>
+  <li><strong>Early access:</strong> Give past buyers first shot at new drops.</li>
+  <li><strong>Next-order code:</strong> Put a small discount code in the order confirmation (e.g., "THANKS10").</li>
+  <li><strong>Handwritten notes:</strong> A short thank-you in every box. Costs nothing, people remember it.</li>
+  <li><strong>Reshare:</strong> When customers post your pedal on their board, like it, comment, and share it.</li>
+</ul>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  A note and a sticker cost under 50¢ and get people talking about you.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<details class="nk-section" data-section="launch">
+  <summary class="nk-section-header">
+    <span class="nk-section-icon">🎸</span>
+    <span class="nk-section-info">
+      <span class="nk-section-title">Final Checks Before Launch</span>
+      <span class="nk-section-meta">4 tasks</span>
+    </span>
+    <span class="nk-chevron">&#9660;</span>
+  </summary>
+  <div class="nk-section-body">
+    <div class="nk-task" data-id="final-test">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Place one more test order" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Place one more test order</div>
+          <div class="nk-task-desc">Double-check everything works end-to-end</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Before you tell anyone:</p>
+<ol>
+  <li>Open your store in a private/incognito window so you see it like a new visitor.</li>
+  <li>Browse the products. Do photos load? Do descriptions read right?</li>
+  <li>Check out in test mode (see "Place a test order" above), then turn test mode off.</li>
+  <li>Read the confirmation email. Does it look right?</li>
+  <li>Check that the shipping rates at checkout are what you expect.</li>
+  <li>Click every menu link. Nothing should be broken.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  Have a friend click around while test mode is on. Fresh eyes catch what you've stopped seeing.
+</div></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="mobile-check">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Check your store on mobile" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Check your store on mobile</div>
+          <div class="nk-task-desc">Most of your traffic will come from phones</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Pretty much everyone coming from Instagram is on a phone. Your store has to work there.</p>
+<ol>
+  <li>Open your store on your phone.</li>
+  <li>Can you read everything without zooming? Do photos look good? Is "Add to cart" easy to hit?</li>
+  <li>Go all the way through checkout on the phone.</li>
+  <li>Try a small phone and a big one if you can.</li>
+</ol>
+<p>If something looks cramped or cut off, fix it in the theme editor. It has a phone preview button at the top.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="go-live">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Pick a plan and remove the password page" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Pick a plan and remove the password page</div>
+          <div class="nk-task-desc">Your store is hidden behind a password until you do this</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>New Shopify stores are password-protected so nobody sees them half-built. To open up:</p>
+<ol>
+  <li>Pick your plan if you haven't yet (Settings &gt; Plan).</li>
+  <li>Go to <strong>Online Store</strong> &gt; <strong>Preferences</strong>.</li>
+  <li>Under <strong>Password protection</strong>, uncheck <strong>Restrict access with password</strong> and save.</li>
+  <li>Open your domain in a private window. You should see your store, not a password box.</li>
+</ol>
+<p>Now go back and finish the Facebook &amp; Instagram channel if you skipped it. It needs the store to be live.</p></div>
+      </details>
+    </div>
+    <div class="nk-task" data-id="announce-launch">
+      <div class="nk-task-row">
+        <button type="button" class="nk-check" aria-label="Mark done: Announce your launch" aria-pressed="false"><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6L5 9L10 3" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+        <div class="nk-task-content">
+          <div class="nk-task-title">Announce your launch</div>
+          <div class="nk-task-desc">Tell the world your store is open</div>
+        </div>
+      </div>
+      <details class="nk-more">
+        <summary>details</summary>
+        <div class="nk-detail"><p>Launch day plan:</p>
+<ol>
+  <li><strong>Instagram post:</strong> Your best pedal shot or demo Reel announcing the store. Tag the product.</li>
+  <li><strong>Stories:</strong> 3-5 through the day: the store, the pedals, the bench.</li>
+  <li><strong>Email your list:</strong> If you have subscribers, send the announcement.</li>
+  <li><strong>Tell your communities:</strong> Post in your Reddit, TGP, and Facebook groups. Check each one's self-promo rules first.</li>
+  <li><strong>Reverb:</strong> If you're keeping your shop, put your website in your Reverb shop profile.</li>
+  <li><strong>Text your friends.</strong> Seriously. Word of mouth matters most on day one.</li>
+</ol>
+<div class="tip-box">
+  <strong>Pedal builder tip</strong>
+  A small launch deal (10-15% off or free shipping) gets the first few sales in. First sales mean first reviews, and reviews bring more sales.
+</div></div>
+      </details>
+    </div>
+  </div>
+</details>
+<button type="button" class="nk-reset">Reset all progress</button>
+</div>

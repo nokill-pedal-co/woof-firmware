@@ -1,0 +1,17 @@
+<div id="nk-guide-mount">
+<p>Loading the guide... If it doesn't show up, <a href="https://nokill-pedal-co.github.io/woof-firmware/guide.html">open it here</a>.</p>
+</div>
+<script>
+(function () {
+  var base = "https://nokill-pedal-co.github.io/woof-firmware/";
+  fetch(base + "guide-shopify.html", { cache: "no-cache" })
+    .then(function (r) { if (!r.ok) throw r.status; return r.text(); })
+    .then(function (html) {
+      document.getElementById("nk-guide-mount").innerHTML = html;
+      var s = document.createElement("script");
+      s.src = base + "guide-shopify.js";
+      document.body.appendChild(s);
+    })
+    .catch(function () {});
+})();
+</script>
