@@ -302,10 +302,10 @@ footer a { color: var(--ink); }
     { name: "Gated Sputter", sum: "Op-amp hard clip with a big dead zone: notes chop off and velcro as they decay. After the Pharaoh Hound and Cunucu.", v: [["Pharaoh", 60, 5, 2, 1, 600, 1500, 100], ["Hyper", 120, 5, 2, 0, 800, 0, 90], ["Velcro", 80, 5, 2, 0, 800, 0, 120]] },
     { name: "Superfuzz", sum: "A rectified octave into a hard clip. TONE sets how deep the mid notch goes.", v: [["Flat", 40, 5, 2, 2, 900, 0, 120], ["Super", 40, 5, 2, 2, 800, 0, 120], ["Expander", 70, 5, 3, 2, 650, 0, 120]] },
     { name: "Factory", sum: "After the Border Collie Factory. STAB feeds the output back through a bandpass. Below about 37% it squeals on its own, and your playing chokes the squeal.", v: [["Factory", 50, 5, 2, 0, 800, 0, 100], ["Squeal", 70, 5, 2, 0, 800, 0, 100], ["Velcro", 50, 5, 2, 0, 800, 0, 110]] },
-    { name: "Feral Factory", sum: "The Factory with an LFO on its bias (rhythmic sputter) or its squeal pitch. FS2 latches the squeal into a drone on your last note.", v: [["LFO > bias", 70, 5, 2, 0, 800, 0, 100], ["LFO > squeal", 70, 5, 2, 0, 800, 0, 100], ["LFO > both", 70, 5, 2, 0, 800, 0, 100]] },
+    { name: "Feral Factory", sum: "The Factory with an LFO on its bias (rhythmic sputter) or its squeal pitch. Hold FS2 and the squeal drones on your last note until you let go.", v: [["LFO > bias", 70, 5, 2, 0, 800, 0, 100], ["LFO > squeal", 70, 5, 2, 0, 800, 0, 100], ["LFO > both", 70, 5, 2, 0, 800, 0, 100]] },
     { name: "Swarm Factory", sum: "A pitch tracker spawns square-wave voices at an interval over your note, with a drone an octave under them, on top of a Factory-style fuzz.", v: [["Pair", 80, 5, 2, 0, 800, 0, 100], ["Lead + drone", 80, 5, 2, 0, 800, 0, 100], ["Swarm", 80, 5, 2, 0, 800, 0, 100]] },
     { name: "8-bit", sum: "Your note becomes a square wave. An LFO sweeps its pulse width, toggle 2 left adds a flip-flop sub, and CRUSH lowers the bits and sample rate.", v: [["Square", 1, 0, 1, 0, 800, 0, 80], ["Gated chip", 1, 0, 1, 0, 800, 0, 80], ["Glitch", 1, 0, 1, 0, 800, 0, 80]] },
-    { name: "Theremin", sum: "A tracking oscillator follows your playing with glide and vibrato. FUZZ drives it, and FS2 holds the pitch.", v: [["Sine", 1, 0, 1, 0, 800, 0, 80], ["Ether", 1, 0, 1, 0, 800, 0, 80], ["Saw lead", 1, 0, 1, 0, 800, 0, 80]] },
+    { name: "Theremin", sum: "A tracking oscillator follows your playing with glide and vibrato. FUZZ drives it, and holding FS2 freezes the pitch.", v: [["Sine", 1, 0, 1, 0, 800, 0, 80], ["Ether", 1, 0, 1, 0, 800, 0, 80], ["Saw lead", 1, 0, 1, 0, 800, 0, 80]] },
     { name: "Ring Fuzz", sum: "A fuzz multiplied by a carrier wave: a fixed frequency (FREQ), or one that follows your note (TRACK). Toggle 1 picks the fuzz underneath.", v: [["Ge core", 26, 5, 2, 0, 800, 0, 80], ["Si core", 45, 5, 2, 0, 800, 0, 110], ["Muff core", 12, 5, 2, 1, 450, 1100, 60]] },
     { name: "Parallel Drive", sum: "An op-amp drive in parallel with a fuzz path. XOVER keeps the low end on the drive side, so the fuzz never turns to mud. Toggle 1 picks the fuzz.", v: [["Ge fuzz", 26, 5, 2, 0, 800, 0, 80], ["Muff fuzz", 12, 5, 2, 1, 450, 1100, 60], ["Gated fuzz", 120, 5, 2, 0, 800, 0, 90]] }
   ];
@@ -365,7 +365,7 @@ footer a { color: var(--ink); }
     hicut: { name: "HI CUT", def: 1, sum: "Low-pass on the output. Tames fizz into a clean amp or a desk.", arc: ["dark", "warm", "open"], read: function (v) { return v >= 0.99 ? "Open" : "Low-pass " + fmtHz(1500 * Math.pow(12, v)); } },
     boost: { name: "BOOST", def: 0, sum: "A treble booster ahead of the fuzz, Rangemaster style: more gain, weighted to the top.", arc: ["off", "push", "screaming"], read: function (v) { return v < 0.02 ? "Off" : "Level ×" + (1 + v).toFixed(2) + " + treble ×" + (4 * v).toFixed(1); } },
     width: { name: "WIDTH", def: 0, sum: "Stereo spread from a 10 ms, high-passed side signal. Sums back to mono cleanly.", arc: ["mono", "wide", "widest"], read: function (v) { return v < 0.02 ? "Mono" : "Side level " + pct(v * 0.6); } },
-    gate: { name: "GATE", def: 0, sum: "Noise gate on the wet signal, keyed from your guitar. Off when FS2 is holding a drone.", arc: ["off", "medium", "tight"], read: function (v) { return v <= 0.02 ? "Off" : "Opens at " + (-78 + 48 * v).toFixed(0) + " dBFS"; } }
+    gate: { name: "GATE", def: 0, sum: "Noise gate on the wet signal, keyed from your guitar. Off while FS2 is held for a drone or freeze.", arc: ["off", "medium", "tight"], read: function (v) { return v <= 0.02 ? "Off" : "Opens at " + (-78 + 48 * v).toFixed(0) + " dBFS"; } }
   };
   function knob(key, s) { return P[key].dyn ? slotX(s.slot, P[key].dyn) : P[key]; }
   var PAGES = [
@@ -380,13 +380,12 @@ footer a { color: var(--ink); }
     { name: "PAGE", where: "Toggle 3", sum: "Which six controls the knobs drive.", pos: ["L", "C", "R"],
       desc: ["Live: FUZZ · TONE · BIAS / OCTAVE · A · B", "Fine tune: LOW CUT · MIDS · PRESENCE / TEMP · CLEANUP · C6", "Utility: MIX · VOL · HI CUT / BOOST · WIDTH · GATE"] }
   ];
-  function holdSlot(s) { return s === 10 || s === 11 || s === 13; }
   var FOOT = [
     { name: "FS1", where: "Left footswitch", sum: "Bypass on/off. LED 1 lit means the effect is on.", list: ["Tap: effect on / bypass.", "Hold both: expression set mode, as on every WOOF pedal.", "Hold both at power-up: flash mode."] },
-    { name: "FS2", where: "Right footswitch", sum: "A latch. On most circuits it's LEAD: more fuzz and +3 dB for solos. On Feral, Swarm and Theremin it's HOLD.", list: ["LEAD: FUZZ +15% and +3 dB.", "HOLD on Feral Factory: the squeal latches into a drone on your last note.", "HOLD on Swarm and Theremin: freezes the pitch and level, so the voices drone while you play over them.", "LED 2 shows the latch."] }
+    { name: "FS2", where: "Right footswitch", sum: "Channel recall. Dire Wolf holds two complete sounds, A and B: circuit, voicing, octave and all 18 knobs. Tap FS2 to jump between them. The panel edits whichever channel you're on. Click FS2 on the drawing again to flip channels.", list: ["Tap (under 0.4 s): switch channel. LED 2 lit = channel B. The switch fades over 2 ms, so there's no click.", "Hold about a second, then let go: copy this channel to the other one and land there. Then change the DIPs or knobs to build the second sound.", "After a switch, knobs pick up the way they do after a page change: sweep one past its stored value to take over. DIPs and toggles change the channel only when you move them, so they can disagree with what you hear.", "On Feral, Swarm and Theremin a hold is momentary instead: from 0.4 s the drone (Feral) or pitch freeze (Swarm, Theremin) runs while you hold. Taps still switch channels.", "Both channels start as the panel at power-up; they aren't saved when the power goes off.", "MIDI CC 21 switches channel."] }
   ];
 
-  var S = { page: 0, t1: 1, t2: 1, slot: 0, sel: { kind: "knob", i: 0 }, pos: {}, led1: true };
+  var S = { page: 0, t1: 1, t2: 1, slot: 0, sel: { kind: "knob", i: 0 }, pos: {}, led1: true, chB: false };
   ["fuzz", "tone", "bias", "octave", "lowcut", "mids", "presence", "temp", "cleanup", "mix", "vol", "hicut", "boost", "width", "gate"].forEach(function (k) { S.pos[k] = P[k].def; });
   S.pos.a = 0.3; S.pos.b = 0.5; S.pos.c6 = 0;
   var el = function (id) { return document.getElementById(id); };
@@ -427,8 +426,11 @@ footer a { color: var(--ink); }
       b.className = "ctl foot"; b.type = "button";
       b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
       b.setAttribute("aria-label", f.where + ", " + f.name);
-      b.innerHTML = '<span class="led' + ((i === 0 ? S.led1 : false) ? " on" : "") + '"></span><span class="fs"></span><span class="silk">' + (i === 1 ? (holdSlot(S.slot) ? "HOLD" : "LEAD") : f.name) + "</span>";
-      b.onclick = function () { if (i === 0 && S.sel.kind === "foot" && S.sel.i === 0) S.led1 = !S.led1; S.sel = { kind: "foot", i: i }; render(); };
+      b.innerHTML = '<span class="led' + ((i === 0 ? S.led1 : S.chB) ? " on" : "") + '"></span><span class="fs"></span><span class="silk">' + (i === 1 ? "A / B" : f.name) + "</span>";
+      b.onclick = function () {
+        if (S.sel.kind === "foot" && S.sel.i === i) { if (i === 0) S.led1 = !S.led1; else S.chB = !S.chB; }
+        S.sel = { kind: "foot", i: i }; render();
+      };
       fWrap.appendChild(b);
     });
     var d = el("dip"); d.innerHTML = "";
@@ -445,7 +447,8 @@ footer a { color: var(--ink); }
     el("strip").innerHTML = '<span class="chip algo">' + S.slot + " <b>" + C[S.slot].name + "</b></span>" +
       '<span class="chip">voicing <b>' + C[S.slot].v[S.t1][0] + "</b></span>" +
       '<span class="chip">octave <b>' + TOGGLES[1].pos[S.t2] + "</b></span>" +
-      '<span class="chip">page <b>' + PL[S.page] + "</b></span>";
+      '<span class="chip">page <b>' + PL[S.page] + "</b></span>" +
+      '<span class="chip">channel <b>' + (S.chB ? "B" : "A") + "</b></span>";
   }
   function arcHtml(a, hot) { var lab = ["CCW", "Noon", "CW"]; return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join(""); }
   function detail() {
@@ -464,7 +467,7 @@ footer a { color: var(--ink); }
       el("d-arc").innerHTML = pos.map(function (p, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + p + "</span>" + desc[i] + "</div>"; }).join("");
     } else if (S.sel.kind === "foot") {
       var f = FOOT[S.sel.i];
-      el("d-name").textContent = f.name + (S.sel.i === 1 ? " · " + (holdSlot(S.slot) ? "HOLD" : "LEAD") + " here" : ""); el("d-where").textContent = f.where; el("d-summary").textContent = f.sum;
+      el("d-name").textContent = f.name + (S.sel.i === 1 ? " · channel " + (S.chB ? "B" : "A") : ""); el("d-where").textContent = f.where; el("d-summary").textContent = f.sum;
       list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
     } else {
       el("d-name").textContent = S.slot + " · " + C[S.slot].name; el("d-where").textContent = "DIPs on: " + dipsOn(S.slot);
@@ -493,7 +496,9 @@ footer a { color: var(--ink); }
       C.map(function (c, i) { return "<tr" + (i === S.slot ? " style='font-weight:600'" : "") + "><td class='k'>" + i + "</td><td>" + dipsOn(i) + "</td><td><b>" + c.name + "</b></td><td>" + c.v.map(function (x) { return x[0]; }).join(" · ") + "</td><td>" + ["a", "b", "c6"].map(function (k) { return slotX(i, k).name; }).join(" · ") + "</td></tr>"; }).join("") + "</tbody>";
   }
   function footTable() {
-    var rows = [["Tap FS1", "Effect on / bypass", "LED 1 lit = on"], ["Tap FS2", "LEAD on/off (most circuits) or HOLD on/off (Feral, Swarm, Theremin)", "LED 2 lit = latched"],
+    var rows = [["Tap FS1", "Effect on / bypass", "LED 1 lit = on"], ["Tap FS2", "Switch channel A / B", "LED 2 lit = channel B"],
+      ["Hold FS2 ~1 s, release", "Copy this channel to the other and go there (not on Feral, Swarm, Theremin)", "LED 2 flips"],
+      ["Hold FS2 (Feral, Swarm, Theremin)", "Drone / freeze the pitch while held", "No change"],
       ["Hold both 0.5 s / 2 s", "Expression set / clear", "Half bright while setting"], ["Hold both at power-up", "Flash mode (DFU)", "Blink 3×"]];
     el("foot-table").innerHTML = "<thead><tr><th>Gesture</th><th>What it does</th><th>LEDs</th></tr></thead><tbody>" +
       rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
@@ -504,10 +509,11 @@ footer a { color: var(--ink); }
       ["Wall of Muff", "DIPs 3 (Ram's Head), FUZZ high, TONE at noon for the full scoop. Push MIDS on page C if it disappears in a band."],
       ["Octave lead", "DIPs 2 + 3 (Octave Up), neck pickup, high on the neck. Or any circuit with toggle 2 right and OCTAVE up."],
       ["Factory squeal", "DIPs 1 + 4 (Factory), STAB under 40%. It squeals between notes and your playing chokes it; PITCH tunes the squeal."],
-      ["Drone and play over it", "DIPs 2 + 4 (Feral Factory): play a note and tap FS2. The squeal latches into a drone on that note while you keep playing."],
+      ["Drone and play over it", "DIPs 2 + 4 (Feral Factory): play a note, then hold FS2. The squeal drones on that note for as long as you hold it."],
+      ["Two sounds, one stomp", "Set up a sound, hold FS2 a second to copy it to channel B, then flip the DIPs to another circuit. Now a tap jumps between, say, a Fuzz Face rhythm and a Muff lead."],
       ["Harmony swarm", "DIPs 1 + 2 + 4 (Swarm), INTERVAL on a fifth, STING low for tight harmonies, high for chaos."],
       ["Chip-tune", "DIPs 3 + 4 (8-bit), PWM up, toggle 2 left for the sub. CRUSH for the console grit."],
-      ["Theremin", "DIPs 1 + 3 + 4. Play single notes slowly; GLIDE and VIBRATO do the rest. FS2 holds a note."],
+      ["Theremin", "DIPs 1 + 3 + 4. Play single notes slowly; GLIDE and VIBRATO do the rest. Hold FS2 to freeze a note."],
       ["Tight low end", "DIPs 1 + 2 + 3 + 4 (Parallel Drive), XOVER toward noon: drive on the low strings, fuzz on top."]
     ];
     el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
