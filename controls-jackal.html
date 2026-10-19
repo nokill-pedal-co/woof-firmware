@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<script>/* ?embed = shown inside the flasher after a flash: no site bar */
+try { if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed"); } catch (e) {}
+</script>
+<title>Jackal Controls - W.O.O.F. - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a top-down drawing of the FunBox face beside a live detail panel,
+   then the signal path, then plain reference tables. Powder-coat white,
+   black knobs, the red of the side DIP as the one accent. */
+:root {
+  --bg: #e9ecee;
+  --panel: #fbfbfa;
+  --panel-edge: #cfd4d9;
+  --ink: #16181b;
+  --muted: #5a626c;
+  --rule: #d4d9de;
+  --knob: #1b1d21;
+  --knob-hi: #3a3e45;
+  --accent: #c8322a;
+  --led: #e39a2d;
+  --led-off: #c9cdd2;
+  --signal: #2d67ad;
+  --chip: #eef1f3;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+    --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+    --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+  --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+  --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 68px); text-transform: uppercase; }
+h2 { font-size: 30px; text-transform: uppercase; }
+h3 { font-size: 21px; text-transform: uppercase; }
+p { margin: 0; max-width: 66ch; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 12px; }
+header .lede { color: var(--muted); font-size: 16px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 18px; }
+.sec-head p { color: var(--muted); }
+
+/* ---------- pedal + detail ---------- */
+.stage { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.pedal-col { display: grid; gap: 10px; justify-items: center; }
+.pedal {
+  position: relative; width: 100%; max-width: 360px; aspect-ratio: 360 / 560;
+  background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 22px;
+  box-shadow: 0 1px 0 var(--panel-edge), 0 18px 40px -24px rgba(0,0,0,.45);
+  display: grid; grid-template-rows: 1.25fr .38fr .62fr; padding: 22px 26px 22px 26px;
+}
+.knobs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); place-items: center; row-gap: 6px; }
+.ctl { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; display: grid; justify-items: center; gap: 6px; border-radius: 12px; }
+.ctl:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.knob {
+  width: clamp(48px, 15vw, 62px); aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, var(--knob-hi), var(--knob) 62%);
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .2s;
+}
+.knob::after {
+  content: ""; position: absolute; left: 50%; top: 9%; width: 3px; height: 34%; margin-left: -1.5px;
+  background: #f4f4f2; border-radius: 2px; transform-origin: 50% 121%; transform: rotate(var(--rot, 0deg));
+}
+.ctl[aria-pressed="true"] .knob { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.silk { font: 700 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; }
+.silk small { display: block; font: 500 9px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-align: center; }
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; }
+.tog { width: 46px; height: 30px; position: relative; }
+.tog .nut { position: absolute; inset: 7px 13px; border-radius: 50%; background: var(--knob); }
+.tog .bat { position: absolute; left: 50%; top: 50%; width: 6px; height: 22px; margin: -11px 0 0 -3px; background: linear-gradient(var(--knob-hi), var(--knob)); border-radius: 3px; transform-origin: 50% 90%; transform: rotate(var(--tilt, 0deg)); transition: transform .15s; }
+.tog-pos { font: 500 10px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.tog-pos b { color: var(--ink); font-weight: 500; }
+.ctl[aria-pressed="true"] .tog { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.feet { display: grid; grid-template-columns: repeat(2, 1fr); place-items: center; align-content: end; }
+.foot { display: grid; justify-items: center; gap: 8px; }
+.led { width: 13px; height: 13px; border-radius: 50%; background: var(--led-off); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.led.on { background: var(--led); box-shadow: 0 0 10px var(--led), 0 0 2px var(--led); }
+.fs { width: 54px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f2f3f4, #a9aeb4 70%, #7d838a); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.ctl[aria-pressed="true"] .fs { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.dip {
+  position: absolute; right: -14px; top: 47%; width: 24px; padding: 6px 3px; display: grid; gap: 4px;
+  background: var(--accent); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.dip button { appearance: none; border: 0; height: 18px; border-radius: 2px; background: rgba(0,0,0,.28); position: relative; cursor: pointer; padding: 0; }
+.dip button::after { content: ""; position: absolute; top: 3px; bottom: 3px; width: 8px; left: 2px; background: #fff; border-radius: 1px; transition: left .12s; }
+.dip button[aria-pressed="true"]::after { left: 8px; }
+.dip button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.dip-tag { position: absolute; right: -14px; top: calc(47% - 22px); font: 500 9px/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; }
+.hint { font: 400 12px/1.4 var(--f-mono); color: var(--muted); text-align: center; max-width: 360px; }
+
+.detail { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.state-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); border: 1px solid var(--rule); }
+.chip b { color: var(--ink); font-weight: 500; }
+.chip.algo b { color: var(--accent); }
+.d-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.d-title h3 { font-size: 34px; }
+.d-where { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.d-summary { font-size: 16px; }
+.arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 520px) { .arc { grid-template-columns: minmax(0, 1fr); } }
+.arc div { border-top: 3px solid var(--rule); padding-top: 8px; min-width: 0; }
+.arc div.hot { border-top-color: var(--accent); }
+.arc span { display: block; font: 500 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.dial-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 14px; align-items: center; }
+.dial-row label { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.readout { grid-column: 1 / -1; font: 500 15px/1.4 var(--f-mono); background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+.d-note { color: var(--muted); font-size: 14px; }
+.d-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- signal path ---------- */
+.flow-box { overflow-x: auto; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
+.flow-box svg { display: block; min-width: 900px; width: 100%; height: auto; }
+.f-node rect { fill: var(--chip); stroke: var(--rule); }
+.f-node.gen rect { stroke: var(--accent); }
+.f-node text { fill: var(--ink); font: 700 15px var(--f-display); letter-spacing: .06em; }
+.f-node .ctrls { fill: var(--muted); font: 500 10.5px var(--f-mono); letter-spacing: 0; }
+.f-wire { stroke: var(--signal); stroke-width: 2.2; fill: none; }
+.f-wire.dash { stroke-dasharray: 5 4; }
+.f-label { fill: var(--muted); font: 500 11px var(--f-mono); }
+.f-arrow { fill: var(--signal); }
+
+/* ---------- tables ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.tcard { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tcard h3 span { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; margin-left: 8px; text-transform: none; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+th { font: 500 11px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.k { font: 700 15px/1.2 var(--f-display); letter-spacing: .06em; white-space: nowrap; }
+td.k small { display: block; font: 500 10px/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0; }
+.algos table { min-width: 860px; }
+.algos td:first-child { white-space: nowrap; }
+.algos .dipbits { font: 500 12px var(--f-mono); color: var(--accent); }
+.pill { display: inline-block; font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 999px; background: var(--chip); border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.rule-card { border-top: 3px solid var(--ink); padding-top: 12px; display: grid; gap: 8px; }
+.rule-card p { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font: 400 12px/1.5 var(--f-mono); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<style>
+.site-bar { max-width: 1120px; margin: 0 auto 8px; display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 10px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.site-bar img { height: 30px; width: auto; display: block; }
+.site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1 var(--f-mono); letter-spacing: .08em; }
+.site-bar a { color: var(--ink); text-decoration: none; }
+.site-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.embed .site-bar { display: none; }
+.embed body { padding-block: 8px 24px; }
+footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="site-bar"><a href="https://nokillpedal.co" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a><nav><a href="index.html">FLASHER</a><a href="controls.html">CONTROLS</a><a href="transistors.html">TRANSISTORS</a><a href="guide.html">GUIDE</a><a href="https://nokillpedal.co">SHOP</a></nav></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NOKILL · digital line · FunBox v3 · built 2026-10-19</div>
+    <h1>Jackal Control Map</h1>
+    <p class="lede">A dual slope generator for guitar, after the Serge / Buchla ramp-generator idea. Your guitar runs through slope A, a slew limiter that can filter, fuzz or oscillate. Slope B is an envelope or LFO that sweeps it. Click anything on the drawing.</p>
+  </header>
+
+  <section>
+    <div class="stage">
+      <div class="pedal-col">
+        <div class="pedal" id="pedal">
+          <div class="knobs" id="knobs"></div>
+          <div class="toggles" id="toggles"></div>
+          <div class="feet" id="feet"></div>
+          <span class="dip-tag">DIP</span>
+          <div class="dip" id="dip" aria-label="DIP switches 1 to 4 on the right side"></div>
+        </div>
+        <p class="hint">Top view, same layout as Coyote and Dingo: toggle 3 is the page, page R holds the utility controls. DIP 1 is the top switch on the right side.</p>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <div class="state-strip" id="strip"></div>
+        <div class="d-title"><h3 id="d-name"></h3><span class="d-where" id="d-where"></span></div>
+        <p class="d-summary" id="d-summary"></p>
+        <div class="arc" id="d-arc"></div>
+        <div class="dial-row" id="d-dial">
+          <label for="pos">Knob position</label>
+          <input type="range" id="pos" min="0" max="1" step="0.005" value="0.5">
+          <div class="readout" id="d-readout"></div>
+        </div>
+        <ul class="d-list" id="d-list"></ul>
+        <p class="d-note" id="d-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Signal path</h2>
+      <p>A slope generator limits how fast a signal can rise and fall. Fed audio, it smears and fuzzes. Left cycling, it oscillates. Fed a pick attack, it makes an envelope. Jackal puts two of them on your guitar and combines them like the original's logic section.</p>
+    </div>
+    <div class="flow-box">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Signal path: guitar into slope A, slope B triggered by your picking sweeps slope A's times, then the logic section picks A, MIN, MAX or B greater than A, squares from the slope detector blend in, then tone, drive, mix and volume out">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <g class="f-node"><rect x="10" y="118" width="96" height="54" rx="8"/><text x="58" y="142" text-anchor="middle">GUITAR</text><text class="ctrls" x="58" y="160" text-anchor="middle">INPUT gain</text></g>
+        <g class="f-node gen"><rect x="140" y="110" width="170" height="70" rx="8"/><text x="225" y="134" text-anchor="middle">SLOPE A</text><text class="ctrls" x="225" y="152" text-anchor="middle">RISE A · FALL A · SHAPE A</text><text class="ctrls" x="225" y="166" text-anchor="middle">toggle 1 range · DIP 1 cycle</text></g>
+        <g class="f-node"><rect x="140" y="14" width="170" height="62" rx="8"/><text x="225" y="38" text-anchor="middle">PICK DETECT</text><text class="ctrls" x="225" y="56" text-anchor="middle">SENS · or FS2</text><text class="ctrls" x="225" y="69" text-anchor="middle">→ triggers slope B</text></g>
+        <g class="f-node gen"><rect x="350" y="14" width="170" height="62" rx="8"/><text x="435" y="38" text-anchor="middle">SLOPE B</text><text class="ctrls" x="435" y="56" text-anchor="middle">RISE B · FALL B · SHAPE B</text><text class="ctrls" x="435" y="69" text-anchor="middle">toggle 2 range · DIP 2 cycle</text></g>
+        <g class="f-node"><rect x="350" y="110" width="170" height="70" rx="8"/><text x="435" y="134" text-anchor="middle">LOGIC</text><text class="ctrls" x="435" y="152" text-anchor="middle">OUTPUT: A · MIN · MAX · B&gt;A</text><text class="ctrls" x="435" y="166" text-anchor="middle">BALANCE</text></g>
+        <g class="f-node"><rect x="350" y="214" width="170" height="62" rx="8"/><text x="435" y="238" text-anchor="middle">SLOPE DETECTOR</text><text class="ctrls" x="435" y="256" text-anchor="middle">rising / falling squares</text><text class="ctrls" x="435" y="269" text-anchor="middle">SQUARES</text></g>
+        <g class="f-node"><rect x="560" y="118" width="90" height="54" rx="8"/><text x="605" y="142" text-anchor="middle">TONE</text><text class="ctrls" x="605" y="160" text-anchor="middle">+ DRIVE</text></g>
+        <g class="f-node"><rect x="676" y="118" width="90" height="54" rx="8"/><text x="721" y="142" text-anchor="middle">GATE</text><text class="ctrls" x="721" y="160" text-anchor="middle">noise floor</text></g>
+        <g class="f-node"><rect x="792" y="118" width="90" height="54" rx="8"/><text x="837" y="142" text-anchor="middle">MIX</text><text class="ctrls" x="837" y="160" text-anchor="middle">clean ↔ jackal</text></g>
+        <g class="f-node"><rect x="904" y="218" width="86" height="56" rx="8"/><text x="947" y="243" text-anchor="middle">OUT</text><text class="ctrls" x="947" y="261" text-anchor="middle">VOL · WIDTH</text></g>
+        <path class="f-wire" d="M106 145 L 140 145" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M80 118 C 80 60, 110 45, 140 45" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M310 45 L 350 45" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M380 76 C 360 96, 290 96, 270 110" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M310 145 L 350 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M470 76 L 470 110" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M290 180 C 300 245, 320 245, 350 245" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M520 145 L 560 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M520 245 C 545 245, 545 165, 560 160" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M650 145 L 676 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M766 145 L 792 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M882 160 C 920 160, 947 180, 947 218" marker-end="url(#ar)"/>
+        <text class="f-label" x="300" y="104">B→A sweeps A's times</text>
+        <text class="f-label" x="60" y="70">picking</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Knob pages</h2>
+      <p>Toggle 3 picks the page. Knob pickup works as on Coyote and Dingo: after a page change a knob does nothing until you sweep it past that page's stored value.</p>
+    </div>
+    <div class="cards" id="page-cards"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>DIP switches</h2><p>Four independent switches on the right side.</p></div>
+    <div class="tcard"><div class="scroll"><table id="dip-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Footswitches</h2></div>
+    <div class="tcard"><div class="scroll"><table id="foot-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Sounds to expect</h2></div>
+    <div class="rules" id="rules"></div>
+  </section>
+
+  <footer>Values in the readouts come from the same formulas the pedal runs. <a href="index.html">Back to the flasher</a></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  function fmtT(ms) { return ms < 1 ? (ms * 1000).toFixed(0) + " µs" : ms < 1000 ? ms.toFixed(ms < 10 ? 2 : ms < 100 ? 1 : 0) + " ms" : (ms / 1000).toFixed(ms < 10000 ? 2 : 1) + " s"; }
+  function fmtHz(hz) { return hz >= 1000 ? (hz / 1000).toFixed(2) + " kHz" : hz.toFixed(hz < 10 ? 2 : hz < 100 ? 1 : 0) + " Hz"; }
+  function pct(x) { return Math.round(x * 100) + "%"; }
+  var RANGES = [{ name: "Audio", lo: 0.05, hi: 20 }, { name: "Envelope", lo: 1, hi: 2000 }, { name: "LFO", lo: 50, hi: 60000 }];
+  function tms(v, r) { var R = RANGES[r]; return R.lo * Math.pow(R.hi / R.lo, v); }
+  function cycleNote(s, ch) {
+    var rise = tms(s.pos["rise" + ch], ch === "a" ? s.t1 : s.t2), fall = tms(s.pos["fall" + ch], ch === "a" ? s.t1 : s.t2);
+    var cyc = ch === "a" ? s.dip[0] : s.dip[1];
+    return cyc ? " · cycling at " + fmtHz(1000 / (rise + fall)) : "";
+  }
+  function shapeText(v) { var d = v * 2 - 1; return Math.abs(d) < 0.05 ? "Linear" : (d < 0 ? "Logarithmic " : "Exponential ") + pct(Math.abs(d)); }
+  var OUTS = ["A", "MIN", "MAX", "B>A"];
+  var OUT_DESC = ["Slope A alone: your guitar through the slew limiter.", "MIN (analog AND): the lower of A and B at every instant. B's envelope carves A.", "MAX (analog OR): the higher of A and B. A peak follower; B swells over A.", "B>A: a square gate, high whenever B is above A. Hard, gated fuzz."];
+
+  var P = {
+    risea: { name: "RISE A", def: 0.3, sum: "How fast slope A can rise. On guitar audio, longer rise = darker and more smeared.", arc: ["fastest", "medium", "slowest"],
+      read: function (v, s) { return "Rise " + fmtT(tms(v, s.t1)) + " (" + RANGES[s.t1].name + " range)" + cycleNote(s, "a"); } },
+    falla: { name: "FALL A", def: 0.3, sum: "How fast slope A can fall. Different rise and fall = lopsided, fuzzy waves.", arc: ["fastest", "medium", "slowest"],
+      read: function (v, s) { return "Fall " + fmtT(tms(v, s.t1)) + cycleNote(s, "a"); } },
+    shapea: { name: "SHAPE A", def: 0.5, sum: "The curve of slope A's ramps.", arc: ["logarithmic", "linear", "exponential"], read: function (v) { return shapeText(v); } },
+    riseb: { name: "RISE B", def: 0.2, sum: "Slope B's attack: how fast the envelope (or LFO) rises.", arc: ["fastest", "medium", "slowest"],
+      read: function (v, s) { return "Rise " + fmtT(tms(v, s.t2)) + " (" + RANGES[s.t2].name + " range)" + cycleNote(s, "b"); } },
+    fallb: { name: "FALL B", def: 0.5, sum: "Slope B's decay.", arc: ["fastest", "medium", "slowest"], read: function (v, s) { return "Fall " + fmtT(tms(v, s.t2)) + cycleNote(s, "b"); } },
+    shapeb: { name: "SHAPE B", def: 0.5, sum: "The curve of slope B's ramps.", arc: ["logarithmic", "linear", "exponential"], read: function (v) { return shapeText(v); } },
+    balance: { name: "BALANCE", def: 0.5, sum: "Weights A against B before the logic section (MIN, MAX, B>A). Like the original, it doesn't touch OUTPUT = A.", arc: ["mostly A", "even", "mostly B"],
+      read: function (v) { return "A " + pct(1 - v) + " · B " + pct(v); } },
+    btoa: { name: "B→A", def: 0.5, sum: "How much slope B sweeps slope A's times, the classic envelope-swept filter. Bipolar.", arc: ["B makes A faster (opens up)", "no sweep", "B makes A slower (closes down)"],
+      read: function (v) { var d = v * 2 - 1; return Math.abs(d) < 0.02 ? "No sweep" : "Up to " + (Math.abs(d) * 4).toFixed(1) + " octaves " + (d < 0 ? "faster" : "slower") + " at B's peak"; } },
+    output: { name: "OUTPUT", def: 0, sum: "Which signal leaves the logic section. A stepped knob with four positions.", arc: ["A", "MIN · MAX", "B>A"],
+      read: function (v) { return OUT_DESC[Math.min(3, Math.floor(v * 4))]; } },
+    sens: { name: "SENS", def: 0.5, sum: "How hard you must pick to trigger slope B (DIP 3 off).", arc: ["only hard hits", "medium", "every note"],
+      read: function (v) { return "Trigger at " + (-60 + (1 - v) * 54).toFixed(0) + " dBFS"; } },
+    input: { name: "INPUT", def: 0.3, sum: "Gain into slope A. More gain = the slew limit bites harder = more fuzz.", arc: ["1×, clean smear", "~4.5×", "20×, slew fuzz"],
+      read: function (v) { return "Gain " + Math.pow(20, v).toFixed(1) + "×"; } },
+    squares: { name: "SQUARES", def: 0, sum: "Blends in slope A's rising/falling detector: a square wave that follows the direction of your signal. The original's \"ultra-nasty distortion\".", arc: ["off", "half", "all squares"],
+      read: function (v) { return v <= 0.02 ? "Off" : "Squares " + pct(v); } },
+    mix: { name: "MIX", def: 1, sum: "Clean guitar against Jackal, equal-power.", arc: ["clean only", "both", "all Jackal"],
+      read: function (v) { return "Clean " + pct(v >= 0.999 ? 0 : Math.cos(v * Math.PI / 2)) + " · Jackal " + pct(Math.sin(v * Math.PI / 2)); } },
+    vol: { name: "VOL", def: 0.7, sum: "Output volume.", arc: ["silent", "half", "full"], read: function (v) { return v < 0.001 ? "Silent" : v.toFixed(2) + "×"; } },
+    tone: { name: "TONE", def: 0.6, sum: "Low-pass after the logic section.", arc: ["dark", "warm", "open"],
+      read: function (v) { return "Low-pass " + fmtHz(500 * Math.pow(32, v)); } },
+    gate: { name: "GATE", def: 0.2, sum: "Noise gate. It closes slope A's input and mutes the effect between notes, so slew fuzz doesn't hiss and cycling slopes don't drone on when you stop playing.", arc: ["off", "medium", "tight"],
+      read: function (v) { return v <= 0.02 ? "Off" : "Opens at " + (-80 + v * 50).toFixed(0) + " dBFS"; } },
+    width: { name: "WIDTH", def: 0, sum: "Stereo: the right channel gets its own slope A with longer rises and shorter falls, so the two sides smear and fuzz differently.", arc: ["mono", "wide", "widest"],
+      read: function (v) { return v <= 0.02 ? "Mono" : "Right slope: rise ×" + (1 + v * 0.8).toFixed(2) + ", fall ×" + (1 - v * 0.45).toFixed(2); } },
+    drive: { name: "DRIVE", def: 0.3, sum: "Soft saturation on the output, level-compensated.", arc: ["clean", "warm", "hot"], read: function (v) { return "Drive " + (1 + v * v * 15).toFixed(1) + "×"; } }
+  };
+  var PAGES = [
+    { id: 0, label: "Page L · slopes", knobs: ["risea", "falla", "shapea", "riseb", "fallb", "shapeb"] },
+    { id: 1, label: "Page C · logic", knobs: ["balance", "btoa", "output", "sens", "input", "squares"] },
+    { id: 2, label: "Page R · utility", knobs: ["mix", "vol", "tone", "gate", "width", "drive"] }
+  ];
+  var TOGGLES = [
+    { name: "RANGE A", where: "Toggle 1", sum: "Slope A's speed range, like the original's three-dot switch.", pos: ["Audio", "Env", "LFO"],
+      desc: ["50 µs–20 ms: a slew filter / fuzz on your guitar, or an audio-rate oscillator when cycling.", "1 ms–2 s: envelope speeds. A smears your playing into swells.", "50 ms–60 s: very slow. Cycling, A becomes an LFO tremolo."] },
+    { name: "RANGE B", where: "Toggle 2", sum: "Slope B's speed range.", pos: ["Audio", "Env", "LFO"],
+      desc: ["50 µs–20 ms: B as a second oscillator, for MIN/MAX/B>A cross-modulation.", "1 ms–2 s: B as an envelope on every pick. The default.", "50 ms–60 s: B as a slow LFO sweeping A."] },
+    { name: "PAGE", where: "Toggle 3", sum: "Which six controls the knobs drive.", pos: ["L", "C", "R"],
+      desc: ["RISE A · FALL A · SHAPE A / RISE B · FALL B · SHAPE B", "BALANCE · B→A · OUTPUT / SENS · INPUT · SQUARES", "MIX · VOL · TONE / GATE · WIDTH · DRIVE"] }
+  ];
+  var DIPS = [
+    ["Cycle A", "Slope A retriggers itself at the bottom of every fall. With the Audio range, A becomes an oscillator your guitar soft-syncs (the ripping sync-filter sound)."],
+    ["Cycle B", "Slope B loops: an LFO (or oscillator) instead of a one-shot envelope."],
+    ["B on FS2 only", "Slope B ignores your picking and fires only from FS2: a manual swell."],
+    ["Ping-pong", "Each slope's end of cycle triggers the other, as in the original's ping-pong LFO and trigger delay patches."]
+  ];
+  var FOOT = [
+    { name: "FS1", where: "Left footswitch", sum: "Bypass on/off. LED 1 lit means the effect is on.", list: ["Tap: effect on / bypass.", "Hold both: expression set mode, as on every WOOF pedal.", "Hold both at power-up: flash mode."] },
+    { name: "FS2", where: "Right footswitch", sum: "Slope B's manual trigger, like the original's TRIGG button.", list: ["Tap: fire slope B once.", "Hold: slope B cycles while held, like the original's CYCLE gate input.", "LED 2 flips on each press (the template's footswitch light)."] }
+  ];
+
+  var S = { page: 0, t1: 0, t2: 1, dip: [false, false, false, false], sel: { kind: "knob", i: 0 }, pos: {}, led1: true };
+  Object.keys(P).forEach(function (k) { S.pos[k] = P[k].def; });
+  var el = function (id) { return document.getElementById(id); };
+  function rot(v) { return (-135 + v * 270) + "deg"; }
+  var PL = ["L", "C", "R"];
+
+  function buildPedal() {
+    var kWrap = el("knobs"); kWrap.innerHTML = "";
+    PAGES[S.page].knobs.forEach(function (key, i) {
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "knob" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", "Knob " + (i + 1) + ": " + P[key].name);
+      b.innerHTML = '<span class="knob" style="--rot:' + rot(S.pos[key]) + '"></span><span class="silk">' + P[key].name + "<small>K" + (i + 1) + "</small></span>";
+      b.onclick = function () { S.sel = { kind: "knob", i: i }; render(); };
+      kWrap.appendChild(b);
+    });
+    var tWrap = el("toggles"); tWrap.innerHTML = "";
+    TOGGLES.forEach(function (t, i) {
+      var cur = [S.t1, S.t2, S.page][i];
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "tog" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", t.where + " " + t.name + ", now " + t.pos[cur] + ". Click to flip.");
+      b.innerHTML = '<span class="tog" style="--tilt:' + [-38, 0, 38][cur] + 'deg"><span class="nut"></span><span class="bat"></span></span>' +
+        '<span class="silk">' + t.name + "<small>" + t.pos.map(function (p, j) { return j === cur ? "<b>" + p + "</b>" : p; }).join(" · ") + "</small></span>";
+      b.onclick = function () {
+        if (S.sel.kind === "tog" && S.sel.i === i) { if (i === 0) S.t1 = (S.t1 + 1) % 3; else if (i === 1) S.t2 = (S.t2 + 1) % 3; else S.page = (S.page + 1) % 3; }
+        S.sel = { kind: "tog", i: i }; render();
+      };
+      tWrap.appendChild(b);
+    });
+    var fWrap = el("feet"); fWrap.innerHTML = "";
+    FOOT.forEach(function (f, i) {
+      var b = document.createElement("button");
+      b.className = "ctl foot"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", f.where + ", " + f.name);
+      b.innerHTML = '<span class="led' + ((i === 0 ? S.led1 : false) ? " on" : "") + '"></span><span class="fs"></span><span class="silk">' + f.name + "</span>";
+      b.onclick = function () { if (i === 0 && S.sel.kind === "foot" && S.sel.i === 0) S.led1 = !S.led1; S.sel = { kind: "foot", i: i }; render(); };
+      fWrap.appendChild(b);
+    });
+    var d = el("dip"); d.innerHTML = "";
+    S.dip.forEach(function (on, i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.setAttribute("aria-label", "DIP " + (i + 1) + " " + DIPS[i][0] + (on ? " on" : " off"));
+      b.title = "DIP " + (i + 1) + " · " + DIPS[i][0];
+      b.onclick = function () { S.dip[i] = !S.dip[i]; S.sel = { kind: "dip", i: i }; render(); };
+      d.appendChild(b);
+    });
+  }
+  function strip() {
+    var on = DIPS.filter(function (x, i) { return S.dip[i]; }).map(function (x) { return x[0]; });
+    el("strip").innerHTML = '<span class="chip algo">A <b>' + TOGGLES[0].pos[S.t1] + (S.dip[0] ? " · cycling" : "") + "</b></span>" +
+      '<span class="chip">B <b>' + TOGGLES[1].pos[S.t2] + (S.dip[1] ? " · cycling" : "") + "</b></span>" +
+      '<span class="chip">output <b>' + OUTS[Math.min(3, Math.floor(S.pos.output * 4))] + "</b></span>" +
+      '<span class="chip">page <b>' + PL[S.page] + "</b></span>" +
+      (on.length ? '<span class="chip">DIPs <b>' + on.join(" · ") + "</b></span>" : "");
+  }
+  function arcHtml(a, hot) { var lab = ["CCW", "Noon", "CW"]; return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join(""); }
+  function detail() {
+    var dial = el("d-dial"), list = el("d-list");
+    list.innerHTML = ""; el("d-note").textContent = ""; dial.hidden = true; el("d-arc").innerHTML = "";
+    if (S.sel.kind === "knob") {
+      var key = PAGES[S.page].knobs[S.sel.i], p = P[key], v = S.pos[key];
+      el("d-name").textContent = p.name; el("d-where").textContent = "Knob " + (S.sel.i + 1) + " · page " + PL[S.page];
+      el("d-summary").textContent = p.sum; el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+      dial.hidden = false; el("pos").value = v; el("d-readout").textContent = p.read(v, S);
+      el("d-note").textContent = "Default when its page isn't live at power-up: " + Math.round(p.def * 100) + "%.";
+    } else if (S.sel.kind === "tog") {
+      var t = TOGGLES[S.sel.i], cur = [S.t1, S.t2, S.page][S.sel.i];
+      el("d-name").textContent = t.name; el("d-where").textContent = t.where + " · click it again to flip"; el("d-summary").textContent = t.sum;
+      el("d-arc").innerHTML = t.pos.map(function (p, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + p + "</span>" + t.desc[i] + "</div>"; }).join("");
+    } else if (S.sel.kind === "foot") {
+      var f = FOOT[S.sel.i];
+      el("d-name").textContent = f.name; el("d-where").textContent = f.where; el("d-summary").textContent = f.sum;
+      list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+    } else {
+      var dp = DIPS[S.sel.i];
+      el("d-name").textContent = "DIP " + (S.sel.i + 1) + " · " + dp[0]; el("d-where").textContent = "Right side · now " + (S.dip[S.sel.i] ? "on" : "off");
+      el("d-summary").textContent = dp[1];
+      list.innerHTML = DIPS.map(function (x, i) { return "<li><b>DIP " + (i + 1) + " " + x[0] + "</b>: " + (S.dip[i] ? "on" : "off") + "</li>"; }).join("");
+    }
+  }
+  el("pos").addEventListener("input", function () {
+    if (S.sel.kind !== "knob") return;
+    var key = PAGES[S.page].knobs[S.sel.i]; S.pos[key] = parseFloat(this.value);
+    var p = P[key], v = S.pos[key];
+    el("d-readout").textContent = p.read(v, S); el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+    var k = el("knobs").children[S.sel.i].querySelector(".knob"); if (k) k.style.setProperty("--rot", rot(v));
+    if (key === "output") strip();
+  });
+  function render() { buildPedal(); strip(); detail(); }
+  function pageCards() {
+    el("page-cards").innerHTML = PAGES.map(function (pg) {
+      var rows = pg.knobs.map(function (key, i) { var p = P[key];
+        return "<tr><td class='k'>" + p.name + "<small>K" + (i + 1) + " · default " + Math.round(p.def * 100) + "%</small></td><td><b>CCW</b> " + p.arc[0] + "<br><b>Noon</b> " + p.arc[1] + "<br><b>CW</b> " + p.arc[2] + "</td></tr>"; }).join("");
+      return "<div class='tcard'><h3>" + pg.label + "<span>toggle 3 " + ["left", "centre", "right"][pg.id] + "</span></h3><div class='scroll'><table><tbody>" + rows + "</tbody></table></div></div>";
+    }).join("");
+  }
+  function dipTable() {
+    el("dip-table").innerHTML = "<thead><tr><th>DIP</th><th>Name</th><th>When on</th></tr></thead><tbody>" +
+      DIPS.map(function (x, i) { return "<tr><td class='k'>" + (i + 1) + "</td><td><b>" + x[0] + "</b></td><td>" + x[1] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function footTable() {
+    var rows = [["Tap FS1", "Effect on / bypass", "LED 1 lit = on"], ["Tap FS2", "Fire slope B once", "LED 2 flips"], ["Hold FS2", "Slope B cycles while held (flips DIP 2)", "LED 2 flips on release"],
+      ["Hold both 0.5 s / 2 s", "Expression set / clear", "Half bright while setting"], ["Hold both at power-up", "Flash mode (DFU)", "Blink 3×"]];
+    el("foot-table").innerHTML = "<thead><tr><th>Gesture</th><th>What it does</th><th>LEDs</th></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function rules() {
+    var R = [
+      ["Slew fuzz", "RANGE A on Audio, INPUT up, RISE A short and FALL A longer. Your guitar's wave can't fall as fast as it rises, so it turns into a lopsided, rectified fuzz."],
+      ["Envelope-swept filter", "RANGE A Audio, RANGE B Env, B→A turned CCW. Each pick opens A up and lets it close again: an auto-wah built from slew."],
+      ["Sync rip", "DIP 1 (Cycle A) on with RANGE A Audio. A oscillates at a pitch set by RISE/FALL, and your guitar soft-syncs it for the tearing sync-filter sound."],
+      ["Gated chop", "OUTPUT on B>A with B cycling on LFO. You get a square gate whenever B climbs over A: stutter and polyrhythms."],
+      ["Ping-pong", "DIP 4 on, both slopes on Env or LFO: each slope's end fires the other for bouncing, trigger-delay patterns."],
+      ["Ultra-nasty", "SQUARES up: the slope detector turns your signal's every rise and fall into a square wave. Pure destruction; blend it back with MIX."]
+    ];
+    el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
+  }
+  render(); pageCards(); dipTable(); footTable(); rules();
+})();
+</script>
+
+</body>
+</html>

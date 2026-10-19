@@ -557,7 +557,7 @@
             <div class="step">
                 <div class="step-label">STEP 1</div>
                 <div class="step-title">Choose Firmware</div>
-                <div class="step-desc">Coyote and Dingo are the current releases, and Coyote is selected for you. Every earlier effect is in the archive below.</div>
+                <div class="step-desc">These are the current releases, and Coyote is selected for you. Every earlier effect is in the archive below.</div>
                 <div class="featured-row">
                     <button type="button" class="featured" data-key="coyote_funbox" data-name="Coyote" aria-pressed="true">
                         <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
@@ -570,6 +570,18 @@
                         <span class="featured-name">Dingo</span>
                         <span class="featured-desc">Logic-noise fuzz: a comparator, divider and square oscillator chop and ring-modulate your fuzz, with a drone that growls at the note you play. Kelpie rebuilt with three knob pages.</span>
                         <span class="featured-state">Select Dingo</span>
+                    </button>
+                    <button type="button" class="featured" data-key="jackal_funbox" data-name="Jackal" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Jackal</span>
+                        <span class="featured-desc">A dual slope generator for guitar: slew fuzz, sync rips, envelope-swept filters and gated chop, from two ramps that your picking fires and sweeps.</span>
+                        <span class="featured-state">Select Jackal</span>
+                    </button>
+                    <button type="button" class="featured" data-key="sag_did_v2_funbox" data-name="Sag-Dīd" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Sag-Dīd</span>
+                        <span class="featured-desc">The ritual wavefolder, rebuilt with three knob pages: pure sine folding with no clipping, an envelope wah, tilt EQ, phaser, octaves and freeze.</span>
+                        <span class="featured-state">Select Sag-Dīd</span>
                     </button>
                 </div>
                 <details class="archive" id="archive">
@@ -702,6 +714,40 @@
 
     const FIRMWARE_DATA = {
         // Current releases: each has a .featured card in Step 1 (data-key). Coyote's card is first, so it's the default.
+        jackal_funbox: {
+            name: 'Jackal (FunBox)',
+            file: 'jackal_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'A dual slope generator for guitar, after the Serge / Buchla ramp generators. Your guitar runs through slope A, a slew limiter that smears, filters, fuzzes or oscillates. Slope B is an envelope your picking fires (or an LFO) that sweeps it. MIN, MAX and B>A logic outputs, plus a slope-detector square fuzz.',
+            controls: [
+                'SW1 = Range A: left = audio / center = envelope / right = LFO',
+                'SW2 = Range B: left = audio / center = envelope / right = LFO',
+                'SW3 = Knob page: left = RISE A FALL A SHAPE A / RISE B FALL B SHAPE B, center = BALANCE B>A OUTPUT / SENS INPUT SQUARES, right = MIX VOL TONE / GATE WIDTH DRIVE',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'DIP1 = Cycle A · DIP2 = Cycle B · DIP3 = B on FS2 only · DIP4 = Ping-pong',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Fire slope B; hold to cycle it',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        sag_did_v2_funbox: {
+            name: 'Sag-Dīd (FunBox)',
+            file: 'sag_did_v2_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'The ritual wavefolder, rebuilt with three knob pages: pure sine folding (no clipping anywhere), an envelope wah, tilt EQ and a phaser, with clean octaves and FS2 freeze. Page L plays like the original; every new control starts at the original\'s setting.',
+            controls: [
+                'SW1 = Octave: left = sub + raw / center = raw / right = sub + octave-up',
+                'SW2 = Phaser target: left = lows / center = full / right = highs',
+                'SW3 = Knob page: left = FOLD SYMMETRY TILT / SENS PH DEPTH PH RATE, center = WAH Q WAH RANGE WAH SPEED / OCT LEVEL PH FEEDBACK FREEZE SIZE, right = MIX VOL TONE / NOTE WIDTH INPUT',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'DIP1 = FS2 freezes (off = octave-up) · DIP2 = freeze latches · DIP3 = MIDI note mod · DIP4 = MIDI glitch',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Octave-up or freeze (DIP 1/2)',
+                'See full controls reference at /controls.html'
+            ]
+        },
         dingo_funbox: {
             name: 'Dingo (FunBox)',
             file: 'dingo_funbox.bin',
@@ -1702,7 +1748,7 @@
             ]
         },
         sag_did_ritual_wavefolder_funbox: {
-            name: 'Sag-Dīd Ritual Wavefolder (FunBox)',
+            name: 'Sag-Dīd Ritual Wavefolder v1 (FunBox)',
             file: 'sag_did_ritual_wavefolder_funbox.bin',
             platform: 'funbox',
             desc: 'West-coast wavefolder with sub/octave generation, tilt EQ, envelope filter, sweepable phaser, and a glitch stutter. MIDI notes can drive fold, phaser, and stutter. Freeze or octave-jump on the footswitch.',
