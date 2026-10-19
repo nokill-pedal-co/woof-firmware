@@ -583,6 +583,12 @@
                         <span class="featured-desc">The ritual wavefolder, rebuilt with three knob pages: pure sine folding with no clipping, an envelope wah, tilt EQ, phaser, octaves and freeze.</span>
                         <span class="featured-state">Select Sag-Dīd</span>
                     </button>
+                    <button type="button" class="featured" data-key="dire_wolf_funbox" data-name="Dire Wolf" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Dire Wolf</span>
+                        <span class="featured-desc">Sixteen fuzz circuits in one pedal: germanium and silicon Face, Bender, Muffs, octave up, gated sputter, Superfuzz, Factory squeal, plus 8-bit, theremin, harmony swarm, ring and parallel drive. Three voicings each.</span>
+                        <span class="featured-state">Select Dire Wolf</span>
+                    </button>
                 </div>
                 <details class="archive" id="archive">
                     <summary>Archive <span>&middot; every earlier WOOF effect</span></summary>
@@ -728,6 +734,24 @@
                 'DIP1 = Cycle A · DIP2 = Cycle B · DIP3 = B on FS2 only · DIP4 = Ping-pong',
                 'FS1 = Bypass (fixed)',
                 'FS2 = Fire slope B; hold to cycle it',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        dire_wolf_funbox: {
+            name: 'Dire Wolf (FunBox)',
+            file: 'dire_wolf_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'Sixteen fuzz circuits in one pedal, picked on the DIP switches, each with three voicings: germanium and silicon Fuzz Face, Tone Bender MkII and MkI, Ram\'s Head and Russian Muffs, octave up, gated sputter, Superfuzz, Factory squeal, Feral Factory, Swarm Factory, 8-bit, theremin, ring-mod fuzz and parallel drive. The fuzz core runs 4x oversampled, and every circuit is level-matched.',
+            controls: [
+                'DIP1-4 = Circuit, binary (DIP1 = 1, DIP2 = 2, DIP3 = 4, DIP4 = 8): 16 circuits',
+                'SW1 = Voicing of that circuit: left / center / right',
+                'SW2 = Octave: left = down / center = off / right = up',
+                'SW3 = Knob page: left (live) = FUZZ TONE BIAS / OCTAVE A B, center (fine tune) = LOW CUT MIDS PRESENCE / TEMP CLEANUP C6, right (utility) = MIX VOL HI CUT / BOOST WIDTH GATE',
+                'A, B and C6 change job with the circuit (SAG STACK SPLAT on the classics; STAB PITCH on Factory, and so on)',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'FS1 = Bypass (fixed)',
+                'FS2 = LEAD latch (more fuzz, +3 dB); HOLD on Feral, Swarm and Theremin',
                 'See full controls reference at /controls.html'
             ]
         },
