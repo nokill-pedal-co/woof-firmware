@@ -62,21 +62,22 @@ writes a single 128 KB sector at `0x08000000`. All current effects are ~85–103
 
 ## Featured release and the archive
 
-The flasher shows **one featured effect** as a card at the top of Step 1, selected
-(and its `.bin` downloaded) when the page opens. That's `FEATURED_KEY` in
-`index.html` (currently `coyote_funbox`). Every other `FIRMWARE_DATA` entry is
-listed in the collapsible **Archive** below it, through the usual
+The flasher shows the **current releases** as cards at the top of Step 1
+(currently Coyote and Dingo). Each card is a `<button class="featured" data-key="…"
+data-name="…">` in the Step 1 markup. The **first card is the default**: it's selected,
+and its `.bin` downloaded, when the page opens. Every other `FIRMWARE_DATA` entry
+is listed in the collapsible **Archive** below, through the usual
 library / signal / effect dropdowns.
 
-To feature a new release: add its entry, point `FEATURED_KEY` at it, and update
-the card's text in the Step 1 markup (`#featuredCard`). The previous release
-drops into the archive automatically.
+To feature a new release, add its entry and a card. To retire one, delete its card;
+its entry drops into the archive automatically. Order the cards to choose the default.
 
 After a successful flash the page reveals that effect's control map in-page
-(`#afterFlash`): `controls-coyote.html?embed` for Coyote, the effect's
-`controls-*.html` page for archived ones. Coyote's page is generated from
-`Digital\FunBox\coyote\control-map.html` by `make-site-controls.py`. Re-run it
-after editing the map.
+(`#afterFlash`): `controls-<effect>.html?embed` for current releases, and the plain
+`controls-*.html` page for archived ones. The current releases' pages are
+interactive maps generated from `Digital\FunBox\<effect>\control-map.html` by that
+folder's `make-site-controls.py`. Re-run it after editing a map. The `?embed`
+mode hides the site nav.
 
 ## Trust flag (official vs community)
 

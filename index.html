@@ -451,14 +451,20 @@
         }
 
         /* --- Responsive --- */
-        /* --- Featured release (the default selection) --- */
+        /* --- Current releases (featured cards; the first is the default) --- */
+        .featured-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
         .featured {
             display: grid;
             gap: 6px;
+            align-content: start;
             width: 100%;
             text-align: left;
             padding: 22px 24px;
-            margin-bottom: 18px;
             font-family: 'Assistant', sans-serif;
             color: #121212;
             background: #FFFFFF;
@@ -551,13 +557,21 @@
             <div class="step">
                 <div class="step-label">STEP 1</div>
                 <div class="step-title">Choose Firmware</div>
-                <div class="step-desc">Coyote is the current release and is selected for you. Every earlier effect is in the archive below.</div>
-                <button type="button" class="featured" id="featuredCard" aria-pressed="true">
-                    <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
-                    <span class="featured-name">Coyote</span>
-                    <span class="featured-desc">A stereo synth voice that follows your playing, run through a metallic or diffuse delay-reverb with a frequency shifter in its feedback loop. Nine algorithms on the DIP switches.</span>
-                    <span class="featured-state" id="featuredState">Selected</span>
-                </button>
+                <div class="step-desc">Coyote and Dingo are the current releases, and Coyote is selected for you. Every earlier effect is in the archive below.</div>
+                <div class="featured-row">
+                    <button type="button" class="featured" data-key="coyote_funbox" data-name="Coyote" aria-pressed="true">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Coyote</span>
+                        <span class="featured-desc">A stereo synth voice that follows your playing, run through a metallic or diffuse delay-reverb with a frequency shifter in its feedback loop. Nine algorithms on the DIP switches.</span>
+                        <span class="featured-state">Selected</span>
+                    </button>
+                    <button type="button" class="featured" data-key="dingo_funbox" data-name="Dingo" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Dingo</span>
+                        <span class="featured-desc">Logic-noise fuzz: a comparator, divider and square oscillator chop and ring-modulate your fuzz, with a drone that growls at the note you play. Kelpie rebuilt with three knob pages.</span>
+                        <span class="featured-state">Select Dingo</span>
+                    </button>
+                </div>
                 <details class="archive" id="archive">
                     <summary>Archive <span>&middot; every earlier WOOF effect</span></summary>
                     <div class="archive-body">
@@ -687,7 +701,24 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
-        // Current release: shown as the featured card, selected by default (FEATURED_KEY below).
+        // Current releases: each has a .featured card in Step 1 (data-key). Coyote's card is first, so it's the default.
+        dingo_funbox: {
+            name: 'Dingo (FunBox)',
+            file: 'dingo_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'Logic-noise fuzz: a comparator, frequency divider and square oscillator chop and ring-modulate a three-stage fuzz, with an Audrey II drone that growls at the note you play. Kelpie rebuilt with three knob pages; page L plays like Kelpie and every new control starts at Kelpie\'s setting.',
+            controls: [
+                'SW1 = Divide: left = square sub / center = off / right = PWM sub',
+                'SW2 = Gate: left = XOR / center = off / right = AND',
+                'SW3 = Knob page: left = FUZZ PITCH RATE / BLEED THRESH DRONE, center = DIVIDE CLOCK PWM / HYST BREATH FEED, right = MIX VOL TONE / GLIDE WIDTH GRIT',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'DIP1 = Drone · DIP2 = Sub-growl · DIP3 = Osc · DIP4 = Osc + sub',
+                'FS1 = Bypass (fixed)',
+                'FS2 = Chaos: tap to latch, hold for momentary',
+                'See full controls reference at /controls.html'
+            ]
+        },
         coyote_funbox: {
             name: 'Coyote (FunBox)',
             file: 'coyote_funbox.bin',
@@ -2230,17 +2261,19 @@
     const progressText      = document.getElementById('progressText');
     const browserWarning    = document.getElementById('browserWarning');
     const controlsBtn       = document.getElementById('controlsBtn');
-    const featuredCard      = document.getElementById('featuredCard');
-    const featuredState     = document.getElementById('featuredState');
+    const featuredCards     = Array.prototype.slice.call(document.querySelectorAll('.featured'));
     const archive           = document.getElementById('archive');
     const afterFlash        = document.getElementById('afterFlash');
     const afterTitle        = document.getElementById('afterTitle');
     const afterOpen         = document.getElementById('afterOpen');
     const afterFrame        = document.getElementById('afterFrame');
 
-    // The current release: shown as its own card above the archive and
-    // selected by default. Every other FIRMWARE_DATA entry lives in the archive.
-    const FEATURED_KEY = 'coyote_funbox';
+    // Current releases: shown as cards above the archive (one per .featured
+    // button, keyed by data-key). The first is selected by default. Every other
+    // FIRMWARE_DATA entry lives in the archive.
+    const FEATURED_KEYS = featuredCards.map(function(c) { return c.dataset.key; });
+    const DEFAULT_KEY   = FEATURED_KEYS[0];
+    function isFeatured(key) { return FEATURED_KEYS.indexOf(key) !== -1; }
     let selectedKey = null;
 
     // Map FIRMWARE_DATA keys to their per-effect controls page, with the
@@ -2268,7 +2301,7 @@
     function populateFirmwareSelect(platform, signal, trust) {
         firmwareSelect.innerHTML = '<option value="" disabled selected>Select an archived effect...</option>';
         for (const key in FIRMWARE_DATA) {
-            if (key === FEATURED_KEY) continue;      // the featured card covers it
+            if (isFeatured(key)) continue;           // its featured card covers it
             const item = FIRMWARE_DATA[key];
             const itemPlatform = item.platform || 'terrarium';
             const itemSignal = item.signal || 'guitar';
@@ -2287,9 +2320,9 @@
             }
         }
         // Browsing the archive filters doesn't drop a featured selection.
-        if (selectedKey === FEATURED_KEY) return;
+        if (isFeatured(selectedKey)) return;
         selectedKey = null;
-        setFeaturedPressed(false);
+        setFeaturedPressed(null);
         firmwareInfo.classList.remove('visible');
         firmwareInfo.innerHTML = '';
         selectedFirmware = null;
@@ -2303,9 +2336,12 @@
     function refreshFirmwareList() {
         populateFirmwareSelect(PLATFORM, signalSelect.value, trustSelect.value);
     }
-    function setFeaturedPressed(on) {
-        featuredCard.setAttribute('aria-pressed', on ? 'true' : 'false');
-        featuredState.textContent = on ? 'Selected' : 'Select Coyote';
+    function setFeaturedPressed(key) {
+        featuredCards.forEach(function(c) {
+            var on = c.dataset.key === key;
+            c.setAttribute('aria-pressed', on ? 'true' : 'false');
+            c.querySelector('.featured-state').textContent = on ? 'Selected' : 'Select ' + c.dataset.name;
+        });
     }
     signalSelect.addEventListener('change', refreshFirmwareList);
     trustSelect.addEventListener('change', refreshFirmwareList);
@@ -2313,16 +2349,18 @@
 
     // --- Firmware selection (featured card or archive dropdown) ---
     firmwareSelect.addEventListener('change', function() { selectFirmware(this.value); });
-    featuredCard.addEventListener('click', function() {
-        if (selectedKey !== FEATURED_KEY) selectFirmware(FEATURED_KEY);
+    featuredCards.forEach(function(c) {
+        c.addEventListener('click', function() {
+            if (selectedKey !== c.dataset.key) selectFirmware(c.dataset.key);
+        });
     });
 
     async function selectFirmware(key) {
         selectedKey = key;
         selectedFirmware = FIRMWARE_DATA[key];
         firmwareBinary = null;
-        setFeaturedPressed(key === FEATURED_KEY);
-        if (key === FEATURED_KEY) firmwareSelect.selectedIndex = 0;   // clear the archive pick
+        setFeaturedPressed(key);
+        if (isFeatured(key)) firmwareSelect.selectedIndex = 0;   // clear the archive pick
         afterFlash.hidden = true;
 
         // Deep-link the controls button to this pedal's section.
@@ -2390,7 +2428,7 @@
             if (!slug) return false;                 // no param: featured default
             var item = FIRMWARE_DATA[slug];
             if (!item) { deepLinkNotReady(slug, params); return true; }  // not deployed yet?
-            if (slug === FEATURED_KEY) { selectFirmware(FEATURED_KEY); return true; }
+            if (isFeatured(slug)) { selectFirmware(slug); return true; }
             archive.open = true;                     // archived effects live in the archive
 
             var signal = item.signal || 'guitar';
@@ -2467,18 +2505,15 @@
             }
         }, DELAY_MS);
     }
-    if (!applyDeepLink()) selectFirmware(FEATURED_KEY);
+    if (!applyDeepLink()) selectFirmware(DEFAULT_KEY);
 
     // --- After a successful flash: show the effect's control map in-page ---
-    function controlsPageFor(key) {
-        return key === FEATURED_KEY ? 'controls-coyote.html' : controlsAnchor(key);
-    }
     function showAfterFlash(key, name) {
-        var page = controlsPageFor(key);
+        var page = controlsAnchor(key);              // e.g. controls-dingo.html#funbox
         afterTitle.textContent = name + ' is on your pedal';
         afterOpen.href = page;
-        // Coyote's map has an embed mode (no site nav); older controls pages show whole.
-        afterFrame.src = key === FEATURED_KEY ? 'controls-coyote.html?embed' : page;
+        // Current releases' maps have an embed mode (no site nav); older pages show whole.
+        afterFrame.src = isFeatured(key) ? page.replace('#', '?embed#') : page;
         afterFlash.hidden = false;
         afterFlash.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -2532,7 +2567,7 @@
         flashBtn.disabled = true;
         connectBtn.disabled = true;
         firmwareSelect.disabled = true;
-        featuredCard.disabled = true;
+        featuredCards.forEach(function(c) { c.disabled = true; });
         afterFlash.hidden = true;
         showProgress();
         hideStatus(flashStatus);
@@ -2549,7 +2584,7 @@
             flashBtn.disabled = false;
             connectBtn.disabled = false;
             firmwareSelect.disabled = false;
-            featuredCard.disabled = false;
+            featuredCards.forEach(function(c) { c.disabled = false; });
         }
     });
 

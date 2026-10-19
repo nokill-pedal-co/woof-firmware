@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<script>/* ?embed = shown inside the flasher after a flash: no site bar */
+try { if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed"); } catch (e) {}
+</script>
+<title>Dingo Controls - W.O.O.F. - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a top-down drawing of the FunBox face beside a live detail panel,
+   then the signal path, then plain reference tables. Powder-coat white,
+   black knobs, the red of the side DIP as the one accent. */
+:root {
+  --bg: #e9ecee;
+  --panel: #fbfbfa;
+  --panel-edge: #cfd4d9;
+  --ink: #16181b;
+  --muted: #5a626c;
+  --rule: #d4d9de;
+  --knob: #1b1d21;
+  --knob-hi: #3a3e45;
+  --accent: #c8322a;
+  --led: #e39a2d;
+  --led-off: #c9cdd2;
+  --signal: #2d67ad;
+  --chip: #eef1f3;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+    --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+    --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+  --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+  --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 68px); text-transform: uppercase; }
+h2 { font-size: 30px; text-transform: uppercase; }
+h3 { font-size: 21px; text-transform: uppercase; }
+p { margin: 0; max-width: 66ch; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 12px; }
+header .lede { color: var(--muted); font-size: 16px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 18px; }
+.sec-head p { color: var(--muted); }
+
+/* ---------- pedal + detail ---------- */
+.stage { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.pedal-col { display: grid; gap: 10px; justify-items: center; }
+.pedal {
+  position: relative; width: 100%; max-width: 360px; aspect-ratio: 360 / 560;
+  background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 22px;
+  box-shadow: 0 1px 0 var(--panel-edge), 0 18px 40px -24px rgba(0,0,0,.45);
+  display: grid; grid-template-rows: 1.25fr .38fr .62fr; padding: 22px 26px 22px 26px;
+}
+.knobs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); place-items: center; row-gap: 6px; }
+.ctl { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; display: grid; justify-items: center; gap: 6px; border-radius: 12px; }
+.ctl:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.knob {
+  width: clamp(48px, 15vw, 62px); aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, var(--knob-hi), var(--knob) 62%);
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .2s;
+}
+.knob::after {
+  content: ""; position: absolute; left: 50%; top: 9%; width: 3px; height: 34%; margin-left: -1.5px;
+  background: #f4f4f2; border-radius: 2px; transform-origin: 50% 121%; transform: rotate(var(--rot, 0deg));
+}
+.ctl[aria-pressed="true"] .knob { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.silk { font: 700 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; }
+.silk small { display: block; font: 500 9px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-align: center; }
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; }
+.tog { width: 46px; height: 30px; position: relative; }
+.tog .nut { position: absolute; inset: 7px 13px; border-radius: 50%; background: var(--knob); }
+.tog .bat { position: absolute; left: 50%; top: 50%; width: 6px; height: 22px; margin: -11px 0 0 -3px; background: linear-gradient(var(--knob-hi), var(--knob)); border-radius: 3px; transform-origin: 50% 90%; transform: rotate(var(--tilt, 0deg)); transition: transform .15s; }
+.tog-pos { font: 500 10px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.tog-pos b { color: var(--ink); font-weight: 500; }
+.ctl[aria-pressed="true"] .tog { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.feet { display: grid; grid-template-columns: repeat(2, 1fr); place-items: center; align-content: end; }
+.foot { display: grid; justify-items: center; gap: 8px; }
+.led { width: 13px; height: 13px; border-radius: 50%; background: var(--led-off); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.led.on { background: var(--led); box-shadow: 0 0 10px var(--led), 0 0 2px var(--led); }
+.fs { width: 54px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f2f3f4, #a9aeb4 70%, #7d838a); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.ctl[aria-pressed="true"] .fs { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.dip {
+  position: absolute; right: -14px; top: 47%; width: 24px; padding: 6px 3px; display: grid; gap: 4px;
+  background: var(--accent); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.dip button { appearance: none; border: 0; height: 18px; border-radius: 2px; background: rgba(0,0,0,.28); position: relative; cursor: pointer; padding: 0; }
+.dip button::after { content: ""; position: absolute; top: 3px; bottom: 3px; width: 8px; left: 2px; background: #fff; border-radius: 1px; transition: left .12s; }
+.dip button[aria-pressed="true"]::after { left: 8px; }
+.dip button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.dip-tag { position: absolute; right: -14px; top: calc(47% - 22px); font: 500 9px/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; }
+.hint { font: 400 12px/1.4 var(--f-mono); color: var(--muted); text-align: center; max-width: 360px; }
+
+.detail { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.state-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); border: 1px solid var(--rule); }
+.chip b { color: var(--ink); font-weight: 500; }
+.chip.algo b { color: var(--accent); }
+.d-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.d-title h3 { font-size: 34px; }
+.d-where { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.d-summary { font-size: 16px; }
+.arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 520px) { .arc { grid-template-columns: minmax(0, 1fr); } }
+.arc div { border-top: 3px solid var(--rule); padding-top: 8px; min-width: 0; }
+.arc div.hot { border-top-color: var(--accent); }
+.arc span { display: block; font: 500 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.dial-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 14px; align-items: center; }
+.dial-row label { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.readout { grid-column: 1 / -1; font: 500 15px/1.4 var(--f-mono); background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+.d-note { color: var(--muted); font-size: 14px; }
+.d-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- signal path ---------- */
+.flow-box { overflow-x: auto; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
+.flow-box svg { display: block; min-width: 900px; width: 100%; height: auto; }
+.f-node rect { fill: var(--chip); stroke: var(--rule); }
+.f-node.gen rect { stroke: var(--accent); }
+.f-node text { fill: var(--ink); font: 700 15px var(--f-display); letter-spacing: .06em; }
+.f-node .ctrls { fill: var(--muted); font: 500 10.5px var(--f-mono); letter-spacing: 0; }
+.f-wire { stroke: var(--signal); stroke-width: 2.2; fill: none; }
+.f-wire.dash { stroke-dasharray: 5 4; }
+.f-label { fill: var(--muted); font: 500 11px var(--f-mono); }
+.f-arrow { fill: var(--signal); }
+
+/* ---------- tables ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.tcard { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tcard h3 span { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; margin-left: 8px; text-transform: none; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+th { font: 500 11px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.k { font: 700 15px/1.2 var(--f-display); letter-spacing: .06em; white-space: nowrap; }
+td.k small { display: block; font: 500 10px/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0; }
+.algos table { min-width: 860px; }
+.algos td:first-child { white-space: nowrap; }
+.algos .dipbits { font: 500 12px var(--f-mono); color: var(--accent); }
+.pill { display: inline-block; font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 999px; background: var(--chip); border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.rule-card { border-top: 3px solid var(--ink); padding-top: 12px; display: grid; gap: 8px; }
+.rule-card p { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font: 400 12px/1.5 var(--f-mono); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<style>
+.site-bar { max-width: 1120px; margin: 0 auto 8px; display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 10px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.site-bar img { height: 30px; width: auto; display: block; }
+.site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1 var(--f-mono); letter-spacing: .08em; }
+.site-bar a { color: var(--ink); text-decoration: none; }
+.site-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.embed .site-bar { display: none; }
+.embed body { padding-block: 8px 24px; }
+footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="site-bar"><a href="https://nokillpedal.co" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a><nav><a href="index.html">FLASHER</a><a href="controls.html">CONTROLS</a><a href="transistors.html">TRANSISTORS</a><a href="guide.html">GUIDE</a><a href="https://nokillpedal.co">SHOP</a></nav></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NOKILL · digital line · FunBox v3</div>
+    <h1>Dingo Control Map</h1>
+    <p class="lede">Every knob, toggle, switch and footswitch on the pedal. Click anything on the drawing to see what it does. The knob labels follow toggle 3 (the page). Dingo is Kelpie rebuilt: page L plays like the old Kelpie, and every new control starts where Kelpie's fixed setting was.</p>
+  </header>
+
+  <section>
+    <div class="stage">
+      <div class="pedal-col">
+        <div class="pedal" id="pedal">
+          <div class="knobs" id="knobs"></div>
+          <div class="toggles" id="toggles"></div>
+          <div class="feet" id="feet"></div>
+          <span class="dip-tag">DIP</span>
+          <div class="dip" id="dip" aria-label="DIP switches 1 to 4 on the right side"></div>
+        </div>
+        <p class="hint">Top view. The DIP block sits on the right side of the enclosure; DIP 1 is the top switch here. Knobs are numbered 1–3 across the top row, 4–6 across the bottom.</p>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <div class="state-strip" id="strip"></div>
+        <div class="d-title"><h3 id="d-name"></h3><span class="d-where" id="d-where"></span></div>
+        <p class="d-summary" id="d-summary"></p>
+        <div class="arc" id="d-arc"></div>
+        <div class="dial-row" id="d-dial">
+          <label for="pos">Knob position</label>
+          <input type="range" id="pos" min="0" max="1" step="0.005" value="0.5">
+          <div class="readout" id="d-readout"></div>
+        </div>
+        <ul class="d-list" id="d-list"></ul>
+        <p class="d-note" id="d-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Signal path</h2>
+      <p>Your guitar is fuzzed, then a comparator turns it into logic. A slow clock samples that logic, and it gates and ring-modulates the fuzz against a frequency divider and a square oscillator, which also bleed into each other. The drone sits on top.</p>
+    </div>
+    <div class="flow-box">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Signal path: guitar into fuzz and tone, a comparator and logic clock, the gate, divider and oscillator multiplying the fuzz with bleed between them, the drone voice added, then mix, width and volume out">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <g class="f-node"><rect x="10" y="118" width="96" height="54" rx="8"/><text x="58" y="142" text-anchor="middle">GUITAR</text><text class="ctrls" x="58" y="160" text-anchor="middle">summed to mono</text></g>
+        <g class="f-node"><rect x="132" y="118" width="110" height="54" rx="8"/><text x="187" y="142" text-anchor="middle">FUZZ</text><text class="ctrls" x="187" y="160" text-anchor="middle">FUZZ · GRIT · TONE</text></g>
+        <g class="f-node"><rect x="268" y="18" width="128" height="62" rx="8"/><text x="332" y="42" text-anchor="middle">COMPARATOR</text><text class="ctrls" x="332" y="60" text-anchor="middle">THRESH · HYST</text><text class="ctrls" x="332" y="73" text-anchor="middle">clock: RATE · CLOCK</text></g>
+        <g class="f-node gen"><rect x="268" y="118" width="300" height="54" rx="8"/><text x="418" y="140" text-anchor="middle">GATE × DIVIDER × OSC</text><text class="ctrls" x="418" y="160" text-anchor="middle">toggle 1 · toggle 2 · DIP 3/4 · PITCH · DIVIDE · PWM · BLEED</text></g>
+        <g class="f-node"><rect x="268" y="214" width="190" height="62" rx="8"/><text x="363" y="238" text-anchor="middle">PITCH TRACK + ENV</text><text class="ctrls" x="363" y="256" text-anchor="middle">GLIDE · FEED</text><text class="ctrls" x="363" y="269" text-anchor="middle">for the drone</text></g>
+        <g class="f-node gen"><rect x="596" y="214" width="150" height="62" rx="8"/><text x="671" y="238" text-anchor="middle">DRONE</text><text class="ctrls" x="671" y="256" text-anchor="middle">DIP 1 · DIP 2 · DRONE</text><text class="ctrls" x="671" y="269" text-anchor="middle">BREATH · FEED</text></g>
+        <g class="f-node"><rect x="596" y="118" width="96" height="54" rx="8"/><text x="644" y="142" text-anchor="middle">+ DRONE</text><text class="ctrls" x="644" y="160" text-anchor="middle">soft clip</text></g>
+        <g class="f-node"><rect x="718" y="118" width="80" height="54" rx="8"/><text x="758" y="142" text-anchor="middle">WIDTH</text><text class="ctrls" x="758" y="160" text-anchor="middle">R voice offset</text></g>
+        <g class="f-node"><rect x="822" y="118" width="80" height="54" rx="8"/><text x="862" y="142" text-anchor="middle">MIX</text><text class="ctrls" x="862" y="160" text-anchor="middle">clean ↔ dingo</text></g>
+        <g class="f-node"><rect x="914" y="218" width="76" height="56" rx="8"/><text x="952" y="243" text-anchor="middle">OUT</text><text class="ctrls" x="952" y="261" text-anchor="middle">VOL · L/R</text></g>
+        <path class="f-wire" d="M106 145 L 132 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M242 135 C 255 135, 255 49, 268 49" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M242 150 L 268 150" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M332 80 L 332 118" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M80 172 C 80 245, 200 245, 268 245" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M458 245 L 596 245" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M568 145 L 596 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M671 214 L 671 172" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M692 145 L 718 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M798 145 L 822 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M902 160 C 930 160, 952 180, 952 218" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M58 118 C 58 96, 862 96, 862 118" marker-end="url(#ar)"/>
+        <text class="f-label" x="420" y="92">clean guitar → MIX</text>
+        <text class="f-label" x="150" y="262">pitch + picking</text>
+        <text class="f-label" x="472" y="236">tracked pitch</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Knob pages</h2>
+      <p>Toggle 3 picks which six controls the knobs drive. After a page change, a knob does nothing until you turn it to (or past) where that page left it, so values never jump. At power-up the page toggle 3 is on is live straight away; the other two start from the defaults shown, which are Kelpie's fixed settings.</p>
+    </div>
+    <div class="cards" id="page-cards"></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>DIP switches</h2>
+      <p>Four independent switches on the right side of the enclosure. Unlike Coyote's, they aren't an algorithm number.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="dip-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Footswitches, LEDs and recovery</h2></div>
+    <div class="tcard"><div class="scroll"><table id="foot-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Good to know</h2></div>
+    <div class="rules" id="rules"></div>
+  </section>
+
+  <footer>Values in the readouts come from the same formulas the pedal runs. <a href="index.html">Back to the flasher</a></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var NOTES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+  function noteName(hz) { var m = Math.round(69 + 12 * Math.log2(hz / 440)); return NOTES[((m % 12) + 12) % 12] + (Math.floor(m / 12) - 1); }
+  function fmtHz(hz) { return hz >= 1000 ? (hz / 1000).toFixed(hz >= 10000 ? 1 : 2) + " kHz" : hz.toFixed(hz < 10 ? 2 : hz < 100 ? 1 : 0) + " Hz"; }
+  function pct(x) { return Math.round(x * 100) + "%"; }
+  function baseDiv(p) { return 2 + Math.floor((1 - p) * 30); }
+
+  var P = {
+    fuzz: { name: "FUZZ", def: 0.5, sum: "Gain into the three-stage fuzz.", arc: ["4× (crunch)", "~153×", "600× (wall)"],
+      read: function (v) { return "Gain " + (v * v * 596 + 4).toFixed(0) + "×"; } },
+    pitch: { name: "PITCH", def: 0.5, sum: "The oscillator's base pitch, and the divider ratio when DIVIDE is at noon.", arc: ["20 Hz · ÷32", "~1 kHz · ÷17", "4 kHz · ÷2"],
+      note: "With the drone on, the oscillator follows your playing instead, and PITCH is the fallback note when you stop.",
+      read: function (v) { var hz = 20 + v * v * 3980; return "Osc base " + fmtHz(hz) + " (" + noteName(hz) + ") · divider ÷" + baseDiv(v); } },
+    rate: { name: "RATE", def: 0.5, sum: "Speeds up the oscillator and the logic clock together.", arc: ["slow, sparse", "medium", "fast, buzzy"],
+      read: function (v, s) { var clk = (1 + v * v * 1999) * Math.pow(2, Math.abs(s.pos.clock * 2 - 1) < 0.02 ? 0 : (s.pos.clock * 2 - 1) * 2);
+        return "Osc ×" + (0.2 + v * v * 4.8).toFixed(2) + " · logic clock " + fmtHz(clk); } },
+    bleed: { name: "BLEED", def: 0.3, sum: "How much the divider, oscillator and gate corrupt each other.", arc: ["clean logic", "cross-talk", "everything leaks"],
+      note: "In the old Kelpie, BLEED was locked at 30% whenever the drone was on. Here it stays live.",
+      read: function (v) { return "Cross-talk " + pct(v); } },
+    thresh: { name: "THRESH", def: 0.3, sum: "How loud the fuzz must be to flip the comparator that drives the gate.", arc: ["everything triggers", "medium", "only big hits"],
+      read: function (v) { return "Comparator level " + (0.02 + v * 0.96).toFixed(2); } },
+    drone: { name: "DRONE", def: 0.5, sum: "The drone voice's level (DIP 1 on).", arc: ["silent", "half", "full"],
+      note: "In the old Kelpie this shared BLEED's knob.", read: function (v) { return "Drone level " + pct(v); } },
+    divide: { name: "DIVIDE", def: 0.5, sum: "The divider ratio, unlinked from PITCH.", arc: ["up to 4× more division (lower)", "follows PITCH (as Kelpie)", "up to 4× less division (higher)"],
+      read: function (v, s) { var b = baseDiv(s.pos.pitch), d = v * 2 - 1; if (Math.abs(d) < 0.02) return "Follows PITCH: ÷" + b;
+        var r = Math.max(1, Math.min(64, Math.round(b * Math.pow(2, d * 2)))); return "Divider ÷" + r + " (PITCH alone would be ÷" + b + ")"; } },
+    clock: { name: "CLOCK", def: 0.5, sum: "The logic clock that samples the comparator, unlinked from RATE.", arc: ["2 octaves slower", "follows RATE (as Kelpie)", "2 octaves faster"],
+      read: function (v, s) { var base = 1 + s.pos.rate * s.pos.rate * 1999, d = v * 2 - 1; if (Math.abs(d) < 0.02) return "Follows RATE: " + fmtHz(base);
+        return "Logic clock " + fmtHz(base * Math.pow(2, d * 2)); } },
+    pwm: { name: "PWM", def: 0.5, sum: "How far your dynamics swing the PWM sub's duty (toggle 1 right).", arc: ["steady square", "as Kelpie", "double swing"],
+      read: function (v) { return "Duty swing ×" + (v * 2).toFixed(2) + " of Kelpie's"; } },
+    hyst: { name: "HYST", def: 0.5, sum: "How sticky the comparator is.", arc: ["stuttery, chattery", "as Kelpie", "smooth, holds on"],
+      read: function (v) { var h = v * 2 - 1; return "Hysteresis " + (Math.abs(h) < 0.02 ? 0.03 : 0.03 * Math.pow(2, h * 2.5)).toFixed(3); } },
+    breath: { name: "BREATH", def: 0, sum: "A slow swell on the drone's level (was DIP 3 on the old Kelpie).", arc: ["off", "0.5 Hz, Kelpie's breathing", "5 Hz, deep"],
+      read: function (v) { if (v <= 0.02) return "Off"; return fmtHz(0.05 * Math.pow(2, v * 6.64)) + " · depth " + pct(Math.min(1, v * 1.2)); } },
+    feed: { name: "FEED", def: 0, sum: "\"Feed Me\": your picking swells the drone and bends it up (was DIP 4).", arc: ["off", "Kelpie's Feed Me", "double"],
+      read: function (v) { return v <= 0.02 ? "Off" : "×" + (v * 2).toFixed(2) + " of Kelpie's swell and bend"; } },
+    mix: { name: "MIX", def: 1, sum: "Clean guitar against Dingo, equal-power.", arc: ["clean only", "both", "all Dingo (as Kelpie)"],
+      read: function (v) { return "Clean " + pct(v >= 0.999 ? 0 : Math.cos(v * Math.PI / 2)) + " · Dingo " + pct(Math.sin(v * Math.PI / 2)); } },
+    vol: { name: "VOL", def: 0.7, sum: "Output volume.", arc: ["silent", "half", "full"],
+      read: function (v) { return v < 0.001 ? "Silent" : v.toFixed(2) + "× (" + (20 * Math.log10(v)).toFixed(1) + " dB)"; } },
+    tone: { name: "TONE", def: 0.5, sum: "Low-pass on the fuzz.", arc: ["~1 kHz, dark", "9 kHz (as Kelpie)", "~16 kHz, open"],
+      read: function (v) { var t = v - 0.5; return "Low-pass " + fmtHz(Math.abs(t) < 0.01 ? 9000 : 9000 * Math.pow(2, t < 0 ? t * 2 * 3.17 : t * 2 * 0.83)); } },
+    glide: { name: "GLIDE", def: 0.5, sum: "How quickly the drone follows the notes you play.", arc: ["snappy", "as Kelpie", "slow, slurry"],
+      read: function (v) { return "Tracking speed ×" + Math.min(20, Math.pow(2, (0.5 - v) * 6)).toFixed(2) + " of Kelpie's"; } },
+    width: { name: "WIDTH", def: 0, sum: "Stereo split: the right channel gets its own detuned oscillator and offset divider.", arc: ["mono (as Kelpie)", "wide", "widest"],
+      note: "Only audible with both outputs connected.",
+      read: function (v) { return v <= 0.02 ? "Mono" : "Right osc +" + (v * 3).toFixed(1) + "% · divider +" + Math.round(v * 3); } },
+    grit: { name: "GRIT", def: 0.5, sum: "Fuzz asymmetry: how differently the top and bottom of the wave clip.", arc: ["symmetric, smoother", "as Kelpie", "lopsided, harsher"],
+      read: function (v) { return "Top " + (1.3 + (v - 0.5) * 0.6).toFixed(2) + " · bottom " + (0.8 - (v - 0.5) * 0.4).toFixed(2); } }
+  };
+  var PAGES = [
+    { id: 0, label: "Page L · play", knobs: ["fuzz", "pitch", "rate", "bleed", "thresh", "drone"] },
+    { id: 1, label: "Page C · chaos", knobs: ["divide", "clock", "pwm", "hyst", "breath", "feed"] },
+    { id: 2, label: "Page R · utility", knobs: ["mix", "vol", "tone", "glide", "width", "grit"] }
+  ];
+  var TOGGLES = [
+    { name: "DIVIDE", where: "Toggle 1", sum: "The frequency divider: a sub-octave that counts the fuzz's zero crossings.", pos: ["Square", "Off", "PWM"],
+      desc: ["A square sub, divided down from your playing (PITCH / DIVIDE set the ratio).", "Divider off.", "A pulse sub whose width moves with your dynamics (PWM sets how far)."] },
+    { name: "GATE", where: "Toggle 2", sum: "How the comparator chops the sound.", pos: ["XOR", "Off", "AND"],
+      desc: ["XOR against the divider and osc: clicky, busy chopping.", "No gate.", "AND with the divider and osc: sputtery and sparse."] },
+    { name: "PAGE", where: "Toggle 3", sum: "Which six controls the knobs drive.", pos: ["L", "C", "R"],
+      desc: ["FUZZ · PITCH · RATE / BLEED · THRESH · DRONE", "DIVIDE · CLOCK · PWM / HYST · BREATH · FEED", "MIX · VOL · TONE / GLIDE · WIDTH · GRIT"] }
+  ];
+  var DIPS = [
+    ["Drone", "The oscillator free-runs at the pitch you play and mixes in as a growling drone (DRONE sets its level). Forces the oscillator on."],
+    ["Sub-growl", "Adds the divider's sub-octave to the drone for a fatter throat."],
+    ["Osc", "Turns on the square oscillator that ring-modulates the fuzz."],
+    ["Osc + sub", "The oscillator plus a square an octave below it. Turns the osc on by itself."]
+  ];
+  var FOOT = [
+    { name: "FS1", where: "Left footswitch", sum: "Bypass on/off. LED 1 lit means the effect is on.",
+      list: ["Tap: effect on / bypass.", "Bypass passes your guitar straight through.", "Hold both footswitches: see the table below for expression and flash mode."] },
+    { name: "FS2", where: "Right footswitch", sum: "The chaos switch: the gate, divider, oscillator and drone. Fuzz alone when it's off.",
+      list: ["Tap (under 0.3 s): latch chaos on or off.", "Hold: chaos on only while held, then back to the latched state.", "LED 2 lit means chaos is on."] }
+  ];
+
+  var S = { page: 0, t1: 1, t2: 1, dip: [false, false, false, false], sel: { kind: "knob", i: 0 }, pos: {}, led1: true, led2: true };
+  Object.keys(P).forEach(function (k) { S.pos[k] = P[k].def; });
+  var el = function (id) { return document.getElementById(id); };
+  function rot(v) { return (-135 + v * 270) + "deg"; }
+  var PAGE_LETTER = ["L", "C", "R"];
+
+  function buildPedal() {
+    var kWrap = el("knobs"); kWrap.innerHTML = "";
+    PAGES[S.page].knobs.forEach(function (key, i) {
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "knob" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", "Knob " + (i + 1) + ": " + P[key].name);
+      b.innerHTML = '<span class="knob" style="--rot:' + rot(S.pos[key]) + '"></span><span class="silk">' + P[key].name + "<small>K" + (i + 1) + "</small></span>";
+      b.onclick = function () { S.sel = { kind: "knob", i: i }; render(); };
+      kWrap.appendChild(b);
+    });
+    var tWrap = el("toggles"); tWrap.innerHTML = "";
+    TOGGLES.forEach(function (t, i) {
+      var cur = [S.t1, S.t2, S.page][i];
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "tog" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", t.where + " " + t.name + ", now " + t.pos[cur] + ". Click to flip.");
+      b.innerHTML = '<span class="tog" style="--tilt:' + [-38, 0, 38][cur] + 'deg"><span class="nut"></span><span class="bat"></span></span>' +
+        '<span class="silk">' + t.name + "<small>" + t.pos.map(function (p, j) { return j === cur ? "<b>" + p + "</b>" : p; }).join(" · ") + "</small></span>";
+      b.onclick = function () {
+        if (S.sel.kind === "tog" && S.sel.i === i) {
+          if (i === 0) S.t1 = (S.t1 + 1) % 3; else if (i === 1) S.t2 = (S.t2 + 1) % 3; else S.page = (S.page + 1) % 3;
+        }
+        S.sel = { kind: "tog", i: i }; render();
+      };
+      tWrap.appendChild(b);
+    });
+    var fWrap = el("feet"); fWrap.innerHTML = "";
+    FOOT.forEach(function (f, i) {
+      var b = document.createElement("button");
+      b.className = "ctl foot"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", f.where + ", " + f.name);
+      var on = i === 0 ? S.led1 : S.led2;
+      b.innerHTML = '<span class="led' + (on ? " on" : "") + '"></span><span class="fs"></span><span class="silk">' + f.name + "</span>";
+      b.onclick = function () {
+        if (S.sel.kind === "foot" && S.sel.i === i) { if (i === 0) S.led1 = !S.led1; else S.led2 = !S.led2; }
+        S.sel = { kind: "foot", i: i }; render();
+      };
+      fWrap.appendChild(b);
+    });
+    var d = el("dip"); d.innerHTML = "";
+    S.dip.forEach(function (on, i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.setAttribute("aria-label", "DIP " + (i + 1) + " " + DIPS[i][0] + (on ? " on" : " off"));
+      b.title = "DIP " + (i + 1) + " · " + DIPS[i][0];
+      b.onclick = function () { S.dip[i] = !S.dip[i]; S.sel = { kind: "dip", i: i }; render(); };
+      d.appendChild(b);
+    });
+  }
+
+  function strip() {
+    var on = DIPS.filter(function (x, i) { return S.dip[i]; }).map(function (x) { return x[0]; });
+    el("strip").innerHTML =
+      '<span class="chip algo">DIPs <b>' + (on.length ? on.join(" · ") : "all off") + "</b></span>" +
+      '<span class="chip">divide <b>' + TOGGLES[0].pos[S.t1] + "</b></span>" +
+      '<span class="chip">gate <b>' + TOGGLES[1].pos[S.t2] + "</b></span>" +
+      '<span class="chip">page <b>' + PAGE_LETTER[S.page] + "</b></span>" +
+      '<span class="chip">chaos <b>' + (S.led2 ? "on" : "off") + "</b></span>";
+  }
+  function arcHtml(a, hot) {
+    var lab = ["CCW", "Noon", "CW"];
+    return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join("");
+  }
+  function detail() {
+    var dial = el("d-dial"), list = el("d-list");
+    list.innerHTML = ""; el("d-note").textContent = ""; dial.hidden = true; el("d-arc").innerHTML = "";
+    if (S.sel.kind === "knob") {
+      var key = PAGES[S.page].knobs[S.sel.i], p = P[key], v = S.pos[key];
+      el("d-name").textContent = p.name;
+      el("d-where").textContent = "Knob " + (S.sel.i + 1) + " · page " + PAGE_LETTER[S.page];
+      el("d-summary").textContent = p.sum;
+      el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+      dial.hidden = false;
+      el("pos").value = v;
+      el("d-readout").textContent = p.read(v, S);
+      el("d-note").textContent = (p.note ? p.note + " " : "") + "Default when its page isn't live at power-up: " + Math.round(p.def * 100) + "%.";
+    } else if (S.sel.kind === "tog") {
+      var t = TOGGLES[S.sel.i], cur = [S.t1, S.t2, S.page][S.sel.i];
+      el("d-name").textContent = t.name;
+      el("d-where").textContent = t.where + " · click it again to flip";
+      el("d-summary").textContent = t.sum;
+      el("d-arc").innerHTML = t.pos.map(function (p, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + p + "</span>" + t.desc[i] + "</div>"; }).join("");
+    } else if (S.sel.kind === "foot") {
+      var f = FOOT[S.sel.i];
+      el("d-name").textContent = f.name;
+      el("d-where").textContent = f.where + " · click again to toggle LED " + (S.sel.i + 1);
+      el("d-summary").textContent = f.sum;
+      list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+    } else {
+      var dp = DIPS[S.sel.i];
+      el("d-name").textContent = "DIP " + (S.sel.i + 1) + " · " + dp[0];
+      el("d-where").textContent = "Right side · now " + (S.dip[S.sel.i] ? "on" : "off");
+      el("d-summary").textContent = dp[1];
+      list.innerHTML = DIPS.map(function (x, i) { return "<li><b>DIP " + (i + 1) + " " + x[0] + "</b>: " + (S.dip[i] ? "on" : "off") + "</li>"; }).join("");
+    }
+  }
+  el("pos").addEventListener("input", function () {
+    if (S.sel.kind !== "knob") return;
+    var key = PAGES[S.page].knobs[S.sel.i];
+    S.pos[key] = parseFloat(this.value);
+    var p = P[key], v = S.pos[key];
+    el("d-readout").textContent = p.read(v, S);
+    el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+    var k = el("knobs").children[S.sel.i].querySelector(".knob"); if (k) k.style.setProperty("--rot", rot(v));
+  });
+  function render() { buildPedal(); strip(); detail(); }
+
+  function pageCards() {
+    el("page-cards").innerHTML = PAGES.map(function (pg) {
+      var rows = pg.knobs.map(function (key, i) {
+        var p = P[key];
+        return "<tr><td class='k'>" + p.name + "<small>K" + (i + 1) + " · default " + Math.round(p.def * 100) + "%</small></td><td>" +
+          "<b>CCW</b> " + p.arc[0] + "<br><b>Noon</b> " + p.arc[1] + "<br><b>CW</b> " + p.arc[2] + "</td></tr>";
+      }).join("");
+      return "<div class='tcard'><h3>" + pg.label + "<span>toggle 3 " + ["left", "centre", "right"][pg.id] + "</span></h3><div class='scroll'><table><tbody>" + rows + "</tbody></table></div></div>";
+    }).join("");
+  }
+  function dipTable() {
+    el("dip-table").innerHTML = "<thead><tr><th>DIP</th><th>Name</th><th>What it does when on</th></tr></thead><tbody>" +
+      DIPS.map(function (x, i) { return "<tr><td class='k'>" + (i + 1) + "</td><td><b>" + x[0] + "</b></td><td>" + x[1] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function footTable() {
+    var rows = [
+      ["Tap FS1", "Effect on / bypass", "LED 1 lit = effect on"],
+      ["Tap FS2", "Latch chaos on / off", "LED 2 lit = chaos on"],
+      ["Hold FS2", "Chaos on while held, then back to the latched state", "LED 2 follows"],
+      ["Hold both 0.5 s", "Enter / leave expression set mode", "Both LEDs half bright while setting"],
+      ["Hold both 2 s", "Clear expression: knobs take back full control", ""],
+      ["Hold both while plugging in", "Flash mode (DFU) for updates", "Both LEDs blink 3×"]
+    ];
+    el("foot-table").innerHTML = "<thead><tr><th>Gesture</th><th>What it does</th><th>LEDs</th></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function rules() {
+    var R = [
+      ["Start with FS2", "Out of the box Dingo is a fuzz. Tap FS2 to bring in the chaos, then add a divider (toggle 1), a gate (toggle 2) or the oscillator (DIP 3)."],
+      ["Defaults are Kelpie", "Every new control starts where Kelpie's fixed setting was: DIVIDE, CLOCK, PWM, HYST, TONE, GLIDE and GRIT at noon, BREATH, FEED and WIDTH off, MIX all Dingo. Page L plays like Kelpie."],
+      ["Expression pedal", "Hold both footswitches 0.5 s (LEDs go half bright). Rock the pedal heel-down and set the knobs where you want them, then toe-down and set them again. Hold both 0.5 s to leave. It moves the knob slot on whichever page is live."],
+      ["MIDI", "CC 14–19 drive the six knob slots on the live page. CC 20 is bypass, CC 21 is chaos. A held MIDI note sets the oscillator's pitch."],
+      ["The drone needs DIP 1", "DRONE, BREATH and FEED only do something with DIP 1 on. GLIDE sets how fast the drone follows the notes you play."],
+      ["Stereo", "WIDTH at zero is mono, like Kelpie. Turn it up with both outputs connected to hear the right side drift away from the left."]
+    ];
+    el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
+  }
+
+  render(); pageCards(); dipTable(); footTable(); rules();
+})();
+</script>
+
+</body>
+</html>
