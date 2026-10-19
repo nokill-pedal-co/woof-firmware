@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<script>/* ?embed = shown inside the flasher after a flash: no site bar */
+try { if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed"); } catch (e) {}
+</script>
+<title>Coyote Controls - W.O.O.F. - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a top-down drawing of the FunBox face beside a live detail panel,
+   then the signal path, then plain reference tables. Powder-coat white,
+   black knobs, the red of the side DIP as the one accent. */
+:root {
+  --bg: #e9ecee;
+  --panel: #fbfbfa;
+  --panel-edge: #cfd4d9;
+  --ink: #16181b;
+  --muted: #5a626c;
+  --rule: #d4d9de;
+  --knob: #1b1d21;
+  --knob-hi: #3a3e45;
+  --accent: #c8322a;
+  --led: #e39a2d;
+  --led-off: #c9cdd2;
+  --signal: #2d67ad;
+  --chip: #eef1f3;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+    --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+    --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+  --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+  --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 68px); text-transform: uppercase; }
+h2 { font-size: 30px; text-transform: uppercase; }
+h3 { font-size: 21px; text-transform: uppercase; }
+p { margin: 0; max-width: 66ch; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 12px; }
+header .lede { color: var(--muted); font-size: 16px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 18px; }
+.sec-head p { color: var(--muted); }
+
+/* ---------- pedal + detail ---------- */
+.stage { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.pedal-col { display: grid; gap: 10px; justify-items: center; }
+.pedal {
+  position: relative; width: 100%; max-width: 360px; aspect-ratio: 360 / 560;
+  background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 22px;
+  box-shadow: 0 1px 0 var(--panel-edge), 0 18px 40px -24px rgba(0,0,0,.45);
+  display: grid; grid-template-rows: 1.25fr .38fr .62fr; padding: 22px 26px 22px 26px;
+}
+.knobs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); place-items: center; row-gap: 6px; }
+.ctl { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; display: grid; justify-items: center; gap: 6px; border-radius: 12px; }
+.ctl:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.knob {
+  width: clamp(48px, 15vw, 62px); aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, var(--knob-hi), var(--knob) 62%);
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .2s;
+}
+.knob::after {
+  content: ""; position: absolute; left: 50%; top: 9%; width: 3px; height: 34%; margin-left: -1.5px;
+  background: #f4f4f2; border-radius: 2px; transform-origin: 50% 121%; transform: rotate(var(--rot, 0deg));
+}
+.ctl[aria-pressed="true"] .knob { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.silk { font: 700 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; }
+.silk small { display: block; font: 500 9px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-align: center; }
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; }
+.tog { width: 46px; height: 30px; position: relative; }
+.tog .nut { position: absolute; inset: 7px 13px; border-radius: 50%; background: var(--knob); }
+.tog .bat { position: absolute; left: 50%; top: 50%; width: 6px; height: 22px; margin: -11px 0 0 -3px; background: linear-gradient(var(--knob-hi), var(--knob)); border-radius: 3px; transform-origin: 50% 90%; transform: rotate(var(--tilt, 0deg)); transition: transform .15s; }
+.tog-pos { font: 500 10px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.tog-pos b { color: var(--ink); font-weight: 500; }
+.ctl[aria-pressed="true"] .tog { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.feet { display: grid; grid-template-columns: repeat(2, 1fr); place-items: center; align-content: end; }
+.foot { display: grid; justify-items: center; gap: 8px; }
+.led { width: 13px; height: 13px; border-radius: 50%; background: var(--led-off); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.led.on { background: var(--led); box-shadow: 0 0 10px var(--led), 0 0 2px var(--led); }
+.fs { width: 54px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f2f3f4, #a9aeb4 70%, #7d838a); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.ctl[aria-pressed="true"] .fs { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.dip {
+  position: absolute; right: -14px; top: 47%; width: 24px; padding: 6px 3px; display: grid; gap: 4px;
+  background: var(--accent); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.dip button { appearance: none; border: 0; height: 18px; border-radius: 2px; background: rgba(0,0,0,.28); position: relative; cursor: pointer; padding: 0; }
+.dip button::after { content: ""; position: absolute; top: 3px; bottom: 3px; width: 8px; left: 2px; background: #fff; border-radius: 1px; transition: left .12s; }
+.dip button[aria-pressed="true"]::after { left: 8px; }
+.dip button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.dip-tag { position: absolute; right: -14px; top: calc(47% - 22px); font: 500 9px/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; }
+.hint { font: 400 12px/1.4 var(--f-mono); color: var(--muted); text-align: center; max-width: 360px; }
+
+.detail { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.state-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); border: 1px solid var(--rule); }
+.chip b { color: var(--ink); font-weight: 500; }
+.chip.algo b { color: var(--accent); }
+.d-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.d-title h3 { font-size: 34px; }
+.d-where { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.d-summary { font-size: 16px; }
+.arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 520px) { .arc { grid-template-columns: minmax(0, 1fr); } }
+.arc div { border-top: 3px solid var(--rule); padding-top: 8px; min-width: 0; }
+.arc div.hot { border-top-color: var(--accent); }
+.arc span { display: block; font: 500 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.dial-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 14px; align-items: center; }
+.dial-row label { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.readout { grid-column: 1 / -1; font: 500 15px/1.4 var(--f-mono); background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+.d-note { color: var(--muted); font-size: 14px; }
+.d-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- signal path ---------- */
+.flow-box { overflow-x: auto; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
+.flow-box svg { display: block; min-width: 900px; width: 100%; height: auto; }
+.f-node rect { fill: var(--chip); stroke: var(--rule); }
+.f-node.gen rect { stroke: var(--accent); }
+.f-node text { fill: var(--ink); font: 700 15px var(--f-display); letter-spacing: .06em; }
+.f-node .ctrls { fill: var(--muted); font: 500 10.5px var(--f-mono); letter-spacing: 0; }
+.f-wire { stroke: var(--signal); stroke-width: 2.2; fill: none; }
+.f-wire.dash { stroke-dasharray: 5 4; }
+.f-label { fill: var(--muted); font: 500 11px var(--f-mono); }
+.f-arrow { fill: var(--signal); }
+
+/* ---------- tables ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.tcard { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tcard h3 span { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; margin-left: 8px; text-transform: none; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+th { font: 500 11px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.k { font: 700 15px/1.2 var(--f-display); letter-spacing: .06em; white-space: nowrap; }
+td.k small { display: block; font: 500 10px/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0; }
+.algos table { min-width: 860px; }
+.algos td:first-child { white-space: nowrap; }
+.algos .dipbits { font: 500 12px var(--f-mono); color: var(--accent); }
+.pill { display: inline-block; font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 999px; background: var(--chip); border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.rule-card { border-top: 3px solid var(--ink); padding-top: 12px; display: grid; gap: 8px; }
+.rule-card p { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font: 400 12px/1.5 var(--f-mono); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<style>
+.site-bar { max-width: 1120px; margin: 0 auto 8px; display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 10px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.site-bar img { height: 30px; width: auto; display: block; }
+.site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1 var(--f-mono); letter-spacing: .08em; }
+.site-bar a { color: var(--ink); text-decoration: none; }
+.site-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.embed .site-bar { display: none; }
+.embed body { padding-block: 8px 24px; }
+footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="site-bar"><a href="https://nokillpedal.co" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a><nav><a href="index.html">FLASHER</a><a href="controls.html">CONTROLS</a><a href="transistors.html">TRANSISTORS</a><a href="guide.html">GUIDE</a><a href="https://nokillpedal.co">SHOP</a></nav></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NOKILL · digital line · FunBox v3</div>
+    <h1>Coyote Control Map</h1>
+    <p class="lede">Every knob, toggle, switch and footswitch on the pedal. Click anything on the drawing to see what it does. The knob labels follow toggle 3 (the page), and the per-algorithm knobs follow the DIP switches.</p>
+  </header>
+
+  <section>
+    <div class="stage">
+      <div class="pedal-col">
+        <div class="pedal" id="pedal">
+          <div class="knobs" id="knobs"></div>
+          <div class="toggles" id="toggles"></div>
+          <div class="feet" id="feet"></div>
+          <span class="dip-tag">DIP</span>
+          <div class="dip" id="dip" aria-label="DIP switches 1 to 4 on the right side"></div>
+        </div>
+        <p class="hint">Top view. The DIP block sits on the right side of the enclosure; DIP 1 is the top switch here. Knobs are numbered 1–3 across the top row, 4–6 across the bottom.</p>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <div class="state-strip" id="strip"></div>
+        <div class="d-title"><h3 id="d-name"></h3><span class="d-where" id="d-where"></span></div>
+        <p class="d-summary" id="d-summary"></p>
+        <div class="arc" id="d-arc"></div>
+        <div class="dial-row" id="d-dial">
+          <label for="pos">Knob position</label>
+          <input type="range" id="pos" min="0" max="1" step="0.005" value="0.5">
+          <div class="readout" id="d-readout"></div>
+        </div>
+        <ul class="d-list" id="d-list"></ul>
+        <p class="d-note" id="d-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Signal path</h2>
+      <p>The same chain runs on every algorithm. The DIPs only change what's inside the generator box, and toggle 2 changes the processor.</p>
+    </div>
+    <div class="flow-box">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Signal path: guitar in, pitch and envelope tracking, generator, VCA, blend, chorus, filter, drive, processor with shifter and notch in its feedback loop, mix, level, out">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <!-- guitar in -->
+        <g class="f-node"><rect x="10" y="118" width="96" height="54" rx="8"/><text x="58" y="142" text-anchor="middle">GUITAR</text><text class="ctrls" x="58" y="160" text-anchor="middle">in L / R</text></g>
+        <!-- pitch + env -->
+        <g class="f-node"><rect x="140" y="18" width="128" height="62" rx="8"/><text x="204" y="42" text-anchor="middle">PITCH + ENV</text><text class="ctrls" x="204" y="60" text-anchor="middle">Track mode only</text><text class="ctrls" x="204" y="73" text-anchor="middle">SENS · GLIDE</text></g>
+        <!-- generator -->
+        <g class="f-node gen"><rect x="300" y="18" width="150" height="62" rx="8"/><text x="375" y="42" text-anchor="middle">GENERATOR</text><text class="ctrls" x="375" y="60" text-anchor="middle">DIPs · BASIS · MORPH</text><text class="ctrls" x="375" y="73" text-anchor="middle">SCAN · WARP · SPAN</text></g>
+        <!-- vca -->
+        <g class="f-node"><rect x="478" y="18" width="84" height="62" rx="8"/><text x="520" y="45" text-anchor="middle">VCA</text><text class="ctrls" x="520" y="64" text-anchor="middle">toggle 1</text></g>
+        <!-- blend -->
+        <g class="f-node"><rect x="478" y="118" width="84" height="54" rx="8"/><text x="520" y="142" text-anchor="middle">BLEND</text><text class="ctrls" x="520" y="160" text-anchor="middle">guitar ↔ gen</text></g>
+        <!-- chorus, filter, drive -->
+        <g class="f-node"><rect x="590" y="118" width="80" height="54" rx="8"/><text x="630" y="142" text-anchor="middle">CHORUS</text><text class="ctrls" x="630" y="160" text-anchor="middle">FUSE · WIDTH</text></g>
+        <g class="f-node"><rect x="694" y="118" width="80" height="54" rx="8"/><text x="734" y="142" text-anchor="middle">FILTER</text><text class="ctrls" x="734" y="160" text-anchor="middle">FIELD</text></g>
+        <g class="f-node"><rect x="798" y="118" width="80" height="54" rx="8"/><text x="838" y="142" text-anchor="middle">DRIVE</text><text class="ctrls" x="838" y="160" text-anchor="middle">DRIVE</text></g>
+        <!-- processor -->
+        <g class="f-node"><rect x="590" y="210" width="288" height="72" rx="8"/><text x="734" y="234" text-anchor="middle">PROCESSOR</text><text class="ctrls" x="734" y="252" text-anchor="middle">toggle 2 · TIME · FORM</text><text class="ctrls" x="734" y="266" text-anchor="middle">loop: SHIFT (CELL) → NOTCH (SEED) → FEED</text></g>
+        <!-- mix / out -->
+        <g class="f-node"><rect x="904" y="118" width="86" height="54" rx="8"/><text x="947" y="142" text-anchor="middle">MIX</text><text class="ctrls" x="947" y="160" text-anchor="middle">dry ↔ wet</text></g>
+        <g class="f-node"><rect x="904" y="218" width="86" height="56" rx="8"/><text x="947" y="243" text-anchor="middle">OUT</text><text class="ctrls" x="947" y="261" text-anchor="middle">LEVEL · L/R</text></g>
+        <!-- wires -->
+        <path class="f-wire dash" d="M106 135 C 122 135, 122 49, 140 49" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M268 49 L 300 49" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M450 49 L 478 49" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M520 80 L 520 118" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M106 152 L 478 152" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M562 145 L 590 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M670 145 L 694 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M774 145 L 798 145" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M838 172 L 838 210" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M878 246 C 892 246, 892 160, 904 160" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M878 132 L 904 132" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M947 172 L 947 218" marker-end="url(#ar)"/>
+        <text class="f-label" x="116" y="110">pitch + picking</text>
+        <text class="f-label" x="200" y="146">guitar</text>
+        <text class="f-label" x="880" y="124">dry</text>
+        <text class="f-label" x="884" y="204">wet</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Knob pages</h2>
+      <p>Toggle 3 picks which six controls the knobs drive. After a page change, a knob does nothing until you turn it to (or past) where that page left it. That's the pickup, so values never jump. At power-up the page toggle 3 is on is live straight away; the other two start from the defaults shown.</p>
+    </div>
+    <div class="cards" id="page-cards"></div>
+  </section>
+
+  <section class="algos">
+    <div class="sec-head">
+      <h2>Algorithms (DIP switches)</h2>
+      <p>DIP 1 is the 1s bit, DIP 4 the 8s bit. Settings 9–15 run algorithm 0. A DIP change fades the oscillators out and back in over about 10 ms. These five knobs change meaning per algorithm; the rest don't.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="algo-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Footswitches, LEDs and recovery</h2>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="foot-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Good to know</h2></div>
+    <div class="rules" id="rules"></div>
+  </section>
+
+  <footer>Values in the readouts come from the same formulas the pedal runs. <a href="index.html">Back to the flasher</a></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- algorithms ----------
+  var ALGOS = [
+    { name: "Analog pair", gen: "Carrier + modulator, pulse/saw/sine", proc: "Metallic" },
+    { name: "FM pair", gen: "Sine modulator into a wavetable carrier", proc: "Diffuse" },
+    { name: "Sine cluster", gen: "6 sines scanning through chord states", proc: "Metallic" },
+    { name: "Wavetable · crush", gen: "4 wavetable oscillators, bit reduction", proc: "Metallic" },
+    { name: "Wavetable · PM", gen: "4 wavetable oscillators, phase mod", proc: "Metallic" },
+    { name: "Wavetable · fold", gen: "4 wavetable oscillators, wavefold", proc: "Diffuse" },
+    { name: "Diatonic cluster", gen: "4 wavetable oscillators locked to a major scale", proc: "Diffuse" },
+    { name: "Cluster", gen: "4 wavetable oscillators, free-pitch cluster", proc: "Metallic" },
+    { name: "Cluster · fold", gen: "4 wavetable oscillators, cluster + wavefold", proc: "Diffuse" }
+  ];
+
+  // per-algorithm meaning: [CCW, noon, CW]
+  var PER = {
+    morph: [
+      ["carrier: pulse", "carrier: saw", "carrier: sine"],
+      ["first wave of the set", "scanning the 8 waves", "last wave of the set"],
+      ["chord state 1", "scanning 8 chord states (crossfades)", "chord state 8"],
+      ["first wavetable", "scanning 8 waves", "last wavetable"],
+      ["first wavetable", "scanning 8 waves", "last wavetable"],
+      ["first wavetable", "scanning 8 waves", "last wavetable"],
+      ["chord state 1", "scanning 8 chord states", "chord state 8"],
+      ["cluster state 1", "scanning 8 cluster states", "cluster state 8"],
+      ["cluster state 1", "scanning 8 cluster states", "cluster state 8"]
+    ],
+    scan: [
+      ["modulator: pulse", "modulator: saw", "modulator: sine"],
+      ["waveshape set 1", "steps through 8 sets", "set 8"],
+      ["no ring mod", "half ring mod", "full ring mod between neighbours"],
+      ["wavetable set 1", "steps through 8 sets", "set 8"],
+      ["wavetable set 1", "steps through 8 sets", "set 8"],
+      ["wavetable set 1", "steps through 8 sets", "set 8"],
+      ["wavetable set 1", "steps through 8 sets", "set 8"],
+      ["wavetable set 1", "steps through 8 sets", "set 8"],
+      ["wavetable set 1", "steps through 8 sets", "set 8"]
+    ],
+    warp: [
+      ["exponential cross-mod: modulator bends carrier up to ±3 oct", "clean", "full ring mod"],
+      ["deep FM + modulator feedback", "pure carrier, no FM", "deep FM + carrier feedback"],
+      ["phase feedback: sines thicken toward saw", "clean sines", "each sine FMs the next"],
+      ["bit reduction, down to ~3 levels", "clean", "each oscillator FMs the next"],
+      ["each oscillator phase-mods the next", "clean", "each oscillator FMs the next"],
+      ["each oscillator phase-mods the next", "clean", "each oscillator FMs the next"],
+      ["each oscillator phase-mods the next", "clean", "each oscillator FMs the next"],
+      ["each oscillator phase-mods the next", "clean", "each oscillator FMs the next"],
+      ["each oscillator phase-mods the next", "clean", "each oscillator FMs the next"]
+    ],
+    span: [
+      ["modulator −24 st", "modulator in unison", "modulator +24 st"],
+      ["carrier 8:1 ratio", "carrier 1:1", "carrier 8:1, right channel detuned"],
+      ["spread to ±19 st", "near-unison", "spread ±19 st + stereo spread"],
+      ["pitch + waveform spread", "unison", "pitch + stereo spread"],
+      ["pitch + waveform spread", "unison", "pitch + stereo spread"],
+      ["pitch + waveform spread", "unison", "pitch + stereo spread"],
+      ["major-scale chord, inverted downward", "unison", "major-scale chord upward + stereo"],
+      ["cluster spread downward to −19 st", "unison", "cluster up to +19 st + stereo"],
+      ["cluster spread downward to −19 st", "unison", "cluster up to +19 st + stereo"]
+    ],
+    fuse: [
+      ["chorus", "off", "filter resonance"],
+      ["audio-rate wobble of the delay lines", "off", "saturation"],
+      ["chorus", "off", "noise FM (grit)"],
+      ["band-pass + a sine at the root (vocal)", "off", "chorus + filter resonance"],
+      ["chorus", "off", "chorus + filter resonance"],
+      ["audio-rate wobble of the delay lines", "off", "wavefold"],
+      ["chorus", "off", "saturation"],
+      ["chorus", "off", "saturation"],
+      ["chorus", "off", "wavefold"]
+    ]
+  };
+
+  // ---------- knob parameters ----------
+  var NOTES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+  function noteName(hz) {
+    var m = Math.round(69 + 12 * Math.log2(hz / 440));
+    return NOTES[((m % 12) + 12) % 12] + (Math.floor(m / 12) - 1);
+  }
+  function fmtHz(hz) { return hz >= 1000 ? (hz / 1000).toFixed(hz >= 10000 ? 1 : 2) + " kHz" : hz.toFixed(hz < 100 ? 1 : 0) + " Hz"; }
+  function fmtMs(ms) { return ms >= 1000 ? (ms / 1000).toFixed(2) + " s" : ms.toFixed(ms < 10 ? 1 : 0) + " ms"; }
+  function pct(x) { return Math.round(x * 100) + "%"; }
+  function sideAmt(v) { var b = v * 2 - 1; return { side: b < 0 ? "CCW" : "CW", amt: Math.abs(b) }; }
+
+  var P = {
+    basis: { name: "BASIS", def: 0.35, sum: "The generator's root pitch.",
+      arc: ["Drone 30 Hz · Track −2 oct", "Drone ~170 Hz · Track no transpose", "Drone 960 Hz · Track +2 oct"],
+      note: "Drone: a free pitch over 5 octaves. Track: transposes the note you play, snapping to semitones. Does nothing with toggle 1 on Off.",
+      read: function (v, s) {
+        if (s.src === 2) return "Off mode: BASIS does nothing.";
+        if (s.src === 1) { var st = Math.round(v * 48 - 24); return "Track: transpose " + (st > 0 ? "+" : "") + st + " semitones"; }
+        var hz = 30 * Math.pow(2, v * 5); return "Drone: " + fmtHz(hz) + " (" + noteName(hz) + ")";
+      } },
+    field: { name: "FIELD", def: 0.5, sum: "A DJ-style filter after the blend.",
+      arc: ["low-pass closing to ~80 Hz", "flat (no filter)", "high-pass opening to ~10 kHz"],
+      note: "A small dead zone at noon is fully flat. Resonance comes from FUSE CW on algorithms 0, 3 and 4.",
+      read: function (v) {
+        var d = v - 0.5;
+        if (d < -0.02) return "Low-pass at " + fmtHz(20000 * Math.pow(2, d * 16));
+        if (d > 0.02) return "High-pass at " + fmtHz(20 * Math.pow(2, d * 18));
+        return "Flat: filter off";
+      } },
+    time: { name: "TIME", def: 0.5, sum: "Scales every delay line in the processor.",
+      arc: ["shortest", "medium", "longest, about 1–1.3 s"],
+      note: "Turning it bends pitch like tape, because the lines glide to their new length over ~150 ms. The range depends on toggle 2.",
+      read: function (v, s) {
+        var m = [3 * Math.pow(2, v * 8.4), 15 * Math.pow(2, v * 6.4), 20 * Math.pow(2, v * 6)][s.proc];
+        return ["Metallic", "Diffuse", "Shifter"][s.proc] + ": longest line " + fmtMs(m);
+      } },
+    form: { name: "FORM", def: 0.4, sum: "The processor's structure, from echoes to reverb.",
+      arc: ["separate repeats", "half cross-fed", "dense reverb wash"],
+      note: "CCW: each line feeds only itself, so you hear distinct repeats. CW: lines cross-feed into a reverb. On Diffuse it also adds input smear; on Metallic it raises the ringing; on Shifter CW turns the two lines into ping-pong.",
+      read: function (v) { return "Cross-feed " + pct(v); } },
+    morph: { name: "MORPH", def: 0.5, per: "morph", sum: "Scans the generator's timbre. The best knob to put on an expression pedal.",
+      read: function (v, s) { return "Position " + (v * 7 + 1).toFixed(1) + " of 8 · " + perAt("morph", s.algo, v); } },
+    mix: { name: "MIX", def: 0.45, sum: "Dry voice against the processor, equal-power.",
+      arc: ["voice only, no processor", "both", "processor only"],
+      read: function (v) { return "Dry " + pct(Math.cos(v * Math.PI / 2)) + " · Wet " + pct(Math.sin(v * Math.PI / 2)) + " (amplitude)"; } },
+    warp: { name: "WARP", def: 0.5, per: "warp", sum: "Modulation between the generator's oscillators.",
+      read: function (v, s) { var a = sideAmt(v); return a.amt < 0.01 ? "Noon: clean" : a.side + " " + pct(a.amt) + " · " + perAt("warp", s.algo, v); } },
+    span: { name: "SPAN", def: 0.5, per: "span", sum: "How far apart the oscillators are tuned.",
+      read: function (v, s) {
+        var b = v * 2 - 1;
+        if (s.algo === 0) { var st = v * 48 - 24; st = st + (Math.round(st) - st) * 0.7; return "Modulator " + (st >= 0 ? "+" : "") + st.toFixed(1) + " st"; }
+        if (s.algo === 1) { var rr = 1 + 7 * Math.abs(b); var r = rr + (Math.round(rr * 2) / 2 - rr) * 0.8; return "Carrier ratio " + r.toFixed(2) + ":1" + (b > 0 ? " · R detuned " + (b * 0.5).toFixed(2) + " st" : ""); }
+        if (s.algo === 2) return "Spread ±" + (0.15 + Math.abs(b) * 19).toFixed(1) + " st" + (b > 0 ? " · stereo" : "");
+        if (s.algo <= 5) return "Spread ±" + (b * b * 12).toFixed(1) + " st" + (b < 0 ? " · wave spread" : b > 0 ? " · stereo" : "");
+        return "Cluster " + (b >= 0 ? "up" : "inverted") + " to " + (Math.abs(b) * 19).toFixed(1) + " st" + (s.algo === 6 ? " (snapped to major scale)" : "") + (b > 0 ? " · stereo" : "");
+      } },
+    fuse: { name: "FUSE", def: 0.5, per: "fuse", sum: "An extra effect each side of noon, different per algorithm.",
+      read: function (v, s) { var a = sideAmt(v); return a.amt < 0.01 ? "Noon: off" : a.side + " " + pct(a.amt) + " · " + perAt("fuse", s.algo, v); } },
+    scan: { name: "SCAN", def: 0.5, per: "scan", sum: "Picks the base material the generator works from.",
+      read: function (v, s) { return perAt("scan", s.algo, v); } },
+    cell: { name: "CELL", def: 0.5, sum: "The frequency shifter inside the processor's feedback loop.",
+      arc: ["shift down to −500 Hz", "no shift", "shift up to +500 Hz"],
+      note: "Squared curve: small turns near noon give slow phasing and barber-pole drift; far turns go clangy and inharmonic. Noon has a small dead zone and skips the shifter, which also saves CPU.",
+      read: function (v) { var c = v * 2 - 1; if (Math.abs(c) < 0.02) return "No shift"; var hz = 500 * c * c; return "Shift " + (c < 0 ? "−" : "+") + fmtHz(hz); } },
+    feed: { name: "FEED", def: 0.25, sum: "Processor feedback. Distance from noon is the amount; the side picks what gets fed back.",
+      arc: ["shifted signal only: endless spirals", "no feedback, one pass", "shifted + dry: moving comb notches"],
+      note: "Near either end it's almost infinite (99%), so tails ring for many seconds. With CELL at noon both sides sound like ordinary feedback.",
+      read: function (v) { var f = v * 2 - 1; if (Math.abs(f) < 0.02) return "No feedback"; return "Feedback " + Math.round(Math.abs(f) * 99) + "% · " + (f < 0 ? "shifted only" : "shifted + dry"); } },
+    blend: { name: "BLEND", def: 0.5, sum: "Guitar against generator going into the chain, equal-power.",
+      arc: ["guitar only", "both", "generator only"],
+      read: function (v) { return "Guitar " + pct(Math.cos(v * Math.PI / 2)) + " · Generator " + pct(Math.sin(v * Math.PI / 2)); } },
+    level: { name: "LEVEL", def: 0.5, sum: "Output volume.",
+      arc: ["silent", "unity", "2× (soft-limited)"],
+      read: function (v) { var g = v * 2; return g < 0.001 ? "Silent" : g.toFixed(2) + "× (" + (20 * Math.log10(g)).toFixed(1) + " dB)"; } },
+    sens: { name: "SENS", def: 0.5, sum: "Track mode: how hard you have to pick to open the voice.",
+      arc: ["needs hard picking", "medium", "opens on the lightest touch"],
+      note: "Only matters in Track. Drone always plays at a fixed level.",
+      read: function (v) { return "Envelope gain " + (2 + v * v * 60).toFixed(1) + "×"; } },
+    glide: { name: "GLIDE", def: 0.25, sum: "How fast the generator slides to a new pitch.",
+      arc: ["instant (1 ms)", "~28 ms", "800 ms portamento"],
+      note: "Works in Track (note to note) and in Drone (when BASIS moves).",
+      read: function (v) { return "Glide " + fmtMs(Math.pow(800, v)); } },
+    width: { name: "WIDTH", def: 0.5, sum: "Stereo spread across the whole pedal.",
+      arc: ["near mono", "normal", "extra wide"],
+      note: "Scales the processor's side signal, deepens the chorus, and detunes the generator's left and right copies.",
+      read: function (v) { return "Processor side " + (v * 2).toFixed(2) + "×"; } },
+    drive: { name: "DRIVE", def: 0.3, sum: "Gain into the processor, soft-clipped.",
+      arc: ["clean", "warm", "16× saturated"],
+      note: "Level-compensated, so turning it up adds grit more than volume.",
+      read: function (v) { return "Gain " + (1 + v * v * 15).toFixed(2) + "× into the processor"; } }
+  };
+  var PAGES = [
+    { id: 0, label: "Page L", knobs: ["basis", "field", "time", "form", "morph", "mix"] },
+    { id: 1, label: "Page C", knobs: ["warp", "span", "fuse", "scan", "cell", "feed"] },
+    { id: 2, label: "Page R", knobs: ["blend", "level", "sens", "glide", "width", "drive"] }
+  ];
+  function perAt(key, algo, v) { var t = PER[key][algo]; return v < 0.4 ? t[0] : v > 0.6 ? t[2] : t[1]; }
+
+  // ---------- toggles, footswitches ----------
+  var TOGGLES = [
+    { name: "SOURCE", where: "Toggle 1", sum: "Where the generator gets its pitch.",
+      pos: ["Drone", "Track", "Off"],
+      desc: ["The generator holds a note set by BASIS and plays all the time.",
+             "The generator follows the note you play, and its volume follows your picking (SENS). Strummed chords hold the last single note.",
+             "No oscillators. Guitar goes through the filter and processor only."] },
+    { name: "PROCESSOR", where: "Toggle 2", sum: "Which delay/reverb structure runs.",
+      pos: ["Metallic", "Diffuse", "Shifter"],
+      desc: ["Four short lines, each with a ringing allpass in its loop. Clangy, resonant, metallic.",
+             "Four longer lines, darker, slowly modulated, with diffused input. Reverb-like.",
+             "Two lines ping-ponging with no diffusion. A clean barber-pole delay; pair it with CELL and FEED."] },
+    { name: "PAGE", where: "Toggle 3", sum: "Which six controls the knobs drive.",
+      pos: ["L", "C", "R"],
+      desc: ["BASIS · FIELD · TIME / FORM · MORPH · MIX", "WARP · SPAN · FUSE / SCAN · CELL · FEED", "BLEND · LEVEL · SENS / GLIDE · WIDTH · DRIVE"] }
+  ];
+  var FOOT = [
+    { name: "FS1", where: "Left footswitch", sum: "Bypass on/off. LED 1 lit means the effect is on.",
+      list: ["Tap: effect on / bypass.", "Bypass is true bypass in software: the engine stops running.", "Hold both footswitches: see the table below for expression and flash mode."] },
+    { name: "FS2", where: "Right footswitch", sum: "Tap for a new SEED.",
+      list: ["Tap: re-rolls the delay tap spacing, the notch frequencies in the feedback loop, and the cluster / oscillator offsets.", "LED 2 flips on each tap. It doesn't mean anything else.", "The change glides in, so it doesn't click."] }
+  ];
+
+  // ---------- state ----------
+  var S = { page: 0, src: 1, proc: 1, dip: [false, false, false, false], algo: 0, sel: { kind: "knob", i: 0 }, pos: {}, led1: true };
+  Object.keys(P).forEach(function (k) { S.pos[k] = P[k].def; });
+  function calcAlgo() { var a = (S.dip[0] ? 1 : 0) | (S.dip[1] ? 2 : 0) | (S.dip[2] ? 4 : 0) | (S.dip[3] ? 8 : 0); S.raw = a; S.algo = a > 8 ? 0 : a; }
+
+  var el = function (id) { return document.getElementById(id); };
+  function rot(v) { return (-135 + v * 270) + "deg"; }
+
+  // ---------- build the pedal ----------
+  function buildPedal() {
+    var kWrap = el("knobs"); kWrap.innerHTML = "";
+    PAGES[S.page].knobs.forEach(function (key, i) {
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "knob" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", "Knob " + (i + 1) + ": " + P[key].name);
+      b.innerHTML = '<span class="knob" style="--rot:' + rot(S.pos[key]) + '"></span><span class="silk">' + P[key].name + "<small>K" + (i + 1) + "</small></span>";
+      b.onclick = function () { S.sel = { kind: "knob", i: i }; render(); };
+      kWrap.appendChild(b);
+    });
+    var tWrap = el("toggles"); tWrap.innerHTML = "";
+    TOGGLES.forEach(function (t, i) {
+      var cur = [S.src, S.proc, S.page][i];
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "tog" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", t.where + " " + t.name + ", now " + t.pos[cur] + ". Click to flip.");
+      b.innerHTML = '<span class="tog" style="--tilt:' + [-38, 0, 38][cur] + 'deg"><span class="nut"></span><span class="bat"></span></span>' +
+        '<span class="silk">' + t.name + "<small>" + t.pos.map(function (p, j) { return j === cur ? "<b>" + p + "</b>" : p; }).join(" · ") + "</small></span>";
+      b.onclick = function () {
+        if (S.sel.kind === "tog" && S.sel.i === i) {
+          if (i === 0) S.src = (S.src + 1) % 3; else if (i === 1) S.proc = (S.proc + 1) % 3; else S.page = (S.page + 1) % 3;
+        }
+        S.sel = { kind: "tog", i: i }; render();
+      };
+      tWrap.appendChild(b);
+    });
+    var fWrap = el("feet"); fWrap.innerHTML = "";
+    FOOT.forEach(function (f, i) {
+      var b = document.createElement("button");
+      b.className = "ctl foot"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", f.where + ", " + f.name);
+      var on = i === 0 ? S.led1 : false;
+      b.innerHTML = '<span class="led' + (on ? " on" : "") + '"></span><span class="fs"></span><span class="silk">' + f.name + "</span>";
+      b.onclick = function () { if (i === 0 && S.sel.kind === "foot" && S.sel.i === 0) S.led1 = !S.led1; S.sel = { kind: "foot", i: i }; render(); };
+      fWrap.appendChild(b);
+    });
+    var d = el("dip"); d.innerHTML = "";
+    S.dip.forEach(function (on, i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.setAttribute("aria-label", "DIP " + (i + 1) + (on ? " on" : " off"));
+      b.title = "DIP " + (i + 1);
+      b.onclick = function () { S.dip[i] = !S.dip[i]; calcAlgo(); S.sel = { kind: "dip" }; render(); };
+      d.appendChild(b);
+    });
+  }
+
+  // ---------- detail panel ----------
+  var PAGE_LETTER = ["L", "C", "R"];
+  function strip() {
+    var bits = S.dip.slice().reverse().map(function (b) { return b ? "1" : "0"; }).join("");
+    el("strip").innerHTML =
+      '<span class="chip algo">DIP <b>' + bits + "</b> · algo <b>" + S.algo + " " + ALGOS[S.algo].name + "</b>" + (S.raw > 8 ? " (" + S.raw + " runs 0)" : "") + "</span>" +
+      '<span class="chip">source <b>' + TOGGLES[0].pos[S.src] + "</b></span>" +
+      '<span class="chip">processor <b>' + TOGGLES[1].pos[S.proc] + "</b></span>" +
+      '<span class="chip">page <b>' + PAGE_LETTER[S.page] + "</b></span>";
+  }
+  function arcHtml(a, hot) {
+    var lab = ["CCW", "Noon", "CW"];
+    return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join("");
+  }
+  function detail() {
+    var dial = el("d-dial"), list = el("d-list");
+    list.innerHTML = ""; el("d-note").textContent = ""; dial.hidden = true; el("d-arc").innerHTML = "";
+    if (S.sel.kind === "knob") {
+      var key = PAGES[S.page].knobs[S.sel.i], p = P[key], v = S.pos[key];
+      el("d-name").textContent = p.name;
+      el("d-where").textContent = "Knob " + (S.sel.i + 1) + " · page " + PAGE_LETTER[S.page] + (p.per ? " · changes per algorithm" : "");
+      el("d-summary").textContent = p.sum;
+      var arc = p.per ? PER[p.per][S.algo] : p.arc;
+      el("d-arc").innerHTML = arcHtml(arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+      dial.hidden = false;
+      el("pos").value = v;
+      el("d-readout").textContent = p.read(v, S);
+      el("d-note").textContent = (p.note || "") + (p.per ? (p.note ? " " : "") + "Shown for algorithm " + S.algo + " (" + ALGOS[S.algo].name + "); flip the DIPs to see the others." : "") + " Default when its page isn't live at power-up: " + Math.round(p.def * 100) + "%.";
+    } else if (S.sel.kind === "tog") {
+      var t = TOGGLES[S.sel.i], cur = [S.src, S.proc, S.page][S.sel.i];
+      el("d-name").textContent = t.name;
+      el("d-where").textContent = t.where + " · click it again to flip";
+      el("d-summary").textContent = t.sum;
+      el("d-arc").innerHTML = t.pos.map(function (p, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + p + "</span>" + t.desc[i] + "</div>"; }).join("");
+    } else if (S.sel.kind === "foot") {
+      var f = FOOT[S.sel.i];
+      el("d-name").textContent = f.name;
+      el("d-where").textContent = f.where + (S.sel.i === 0 ? " · click again to toggle LED 1" : "");
+      el("d-summary").textContent = f.sum;
+      list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+    } else {
+      var a = ALGOS[S.algo];
+      el("d-name").textContent = "Algorithm " + S.algo;
+      el("d-where").textContent = "DIP switches · right side · DIP 1 = 1s bit";
+      el("d-summary").textContent = a.name + ": " + a.gen + ". It was voiced for the " + a.proc + " processor (toggle 2 " + ["left", "centre", "right"][["Metallic", "Diffuse", "Shifter"].indexOf(a.proc)] + ").";
+      list.innerHTML = ["morph", "scan", "warp", "span", "fuse"].map(function (k) {
+        var t = PER[k][S.algo];
+        return "<li><b>" + k.toUpperCase() + "</b>: " + (k === "morph" || k === "scan" ? t[0] + " → " + t[2] : "CCW " + t[0] + " · CW " + t[2]) + "</li>";
+      }).join("");
+      el("d-note").textContent = S.raw > 8 ? "DIP setting " + S.raw + " is spare and runs algorithm 0." : "";
+    }
+  }
+  el("pos").addEventListener("input", function () {
+    if (S.sel.kind !== "knob") return;
+    var key = PAGES[S.page].knobs[S.sel.i];
+    S.pos[key] = parseFloat(this.value);
+    var p = P[key], v = S.pos[key];
+    el("d-readout").textContent = p.read(v, S);
+    var arc = p.per ? PER[p.per][S.algo] : p.arc;
+    el("d-arc").innerHTML = arcHtml(arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+    var k = el("knobs").children[S.sel.i].querySelector(".knob"); if (k) k.style.setProperty("--rot", rot(v));
+  });
+
+  function render() { buildPedal(); strip(); detail(); }
+
+  // ---------- reference tables ----------
+  function pageCards() {
+    el("page-cards").innerHTML = PAGES.map(function (pg) {
+      var rows = pg.knobs.map(function (key, i) {
+        var p = P[key], arc = p.per ? null : p.arc;
+        return "<tr><td class='k'>" + p.name + "<small>K" + (i + 1) + " · default " + Math.round(p.def * 100) + "%</small></td><td>" +
+          (arc ? "<b>CCW</b> " + arc[0] + "<br><b>Noon</b> " + arc[1] + "<br><b>CW</b> " + arc[2] : p.sum + " <span class='pill'>per algorithm</span>") + "</td></tr>";
+      }).join("");
+      return "<div class='tcard'><h3>" + pg.label + "<span>toggle 3 " + ["left", "centre", "right"][pg.id] + "</span></h3><div class='scroll'><table><tbody>" + rows + "</tbody></table></div></div>";
+    }).join("");
+  }
+  function algoTable() {
+    var head = "<thead><tr><th>DIP 4321</th><th>Algorithm</th><th>MORPH</th><th>SCAN</th><th>WARP  CCW / CW</th><th>SPAN</th><th>FUSE  CCW / CW</th></tr></thead>";
+    var body = ALGOS.map(function (a, i) {
+      var bits = ("000" + i.toString(2)).slice(-4);
+      return "<tr><td><span class='dipbits'>" + bits + "</span></td><td><b>" + i + " · " + a.name + "</b><br><span class='pill'>" + a.proc + "</span></td>" +
+        "<td>" + PER.morph[i][0] + " → " + PER.morph[i][2] + "</td>" +
+        "<td>" + PER.scan[i][0] + " → " + PER.scan[i][2] + "</td>" +
+        "<td>" + PER.warp[i][0] + " / " + PER.warp[i][2] + "</td>" +
+        "<td>" + PER.span[i][0] + " … " + PER.span[i][2] + "</td>" +
+        "<td>" + PER.fuse[i][0] + " / " + PER.fuse[i][2] + "</td></tr>";
+    }).join("");
+    el("algo-table").innerHTML = head + "<tbody>" + body + "</tbody>";
+  }
+  function footTable() {
+    var rows = [
+      ["Tap FS1", "Effect on / bypass", "LED 1 lit = effect on"],
+      ["Tap FS2", "New SEED: re-rolls tap spacing, notches and oscillator offsets", "LED 2 flips"],
+      ["Hold both 0.5 s", "Enter / leave expression set mode", "Both LEDs half bright while setting"],
+      ["Hold both 2 s", "Clear expression: knobs take back full control", ""],
+      ["Hold both while plugging in", "Flash mode (DFU) for updates", "Both LEDs blink 3×"],
+      ["Both LEDs blinking together, nonstop", "Safe mode: the audio overran and the pedal is a clean bypass. Note the DIP + toggle settings, then reflash", "Blinks about twice a second"]
+    ];
+    el("foot-table").innerHTML = "<thead><tr><th>Gesture</th><th>What it does</th><th>LEDs</th></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function rules() {
+    var R = [
+      ["Expression pedal", "Hold both footswitches 0.5 s (LEDs go half bright). Rock the pedal heel-down and set the knobs where you want them, then toe-down and set them again. Hold both 0.5 s to leave. Any knob you moved now follows the pedal between those two settings. It moves the physical knob slot, so it drives whatever that slot does on the live page; K5 on page L is MORPH."],
+      ["Pickup after a page change", "Switching toggle 3 never changes a sound by itself. Each knob takes over only once you sweep it to the value that page last had (or within 2% of it)."],
+      ["Power-up", "The page toggle 3 is on at power-up follows the knobs right away. The other two pages start at their defaults (shown in the page tables) until you visit them. Page values aren't saved yet when you power off."],
+      ["Noon means off", "CELL, FEED, WARP and FUSE all have a do-nothing middle. CELL and FEED at noon also skip work, which leaves the chip more CPU headroom."],
+      ["Heaviest settings", "Cluster algorithms (2, 6, 7, 8) with CELL and FEED both turned up use the most CPU. If both LEDs ever start blinking together, that combination overran; note it."],
+      ["Any generator, any processor", "Each algorithm lists the processor it was voiced for, but toggle 2 lets any generator run through any processor. That's why 7 and 8 differ in FUSE CW (saturation vs wavefold) rather than in their processor."]
+    ];
+    el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
+  }
+
+  calcAlgo(); render(); pageCards(); algoTable(); footTable(); rules();
+})();
+</script>
+
+</body>
+</html>

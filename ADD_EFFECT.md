@@ -60,6 +60,24 @@ writes a single 128 KB sector at `0x08000000`. All current effects are ~85–103
    ```
    GitHub Pages redeploys automatically. Hard-refresh the live URL to verify.
 
+## Featured release and the archive
+
+The flasher shows **one featured effect** as a card at the top of Step 1, selected
+(and its `.bin` downloaded) when the page opens. That's `FEATURED_KEY` in
+`index.html` (currently `coyote_funbox`). Every other `FIRMWARE_DATA` entry is
+listed in the collapsible **Archive** below it, through the usual
+library / signal / effect dropdowns.
+
+To feature a new release: add its entry, point `FEATURED_KEY` at it, and update
+the card's text in the Step 1 markup (`#featuredCard`). The previous release
+drops into the archive automatically.
+
+After a successful flash the page reveals that effect's control map in-page
+(`#afterFlash`): `controls-coyote.html?embed` for Coyote, the effect's
+`controls-*.html` page for archived ones. Coyote's page is generated from
+`Digital\FunBox\coyote\control-map.html` by `make-site-controls.py`. Re-run it
+after editing the map.
+
 ## Trust flag (official vs community)
 
 `index.html` shows a trust badge in the firmware info panel:

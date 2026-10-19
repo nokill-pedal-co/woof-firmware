@@ -451,6 +451,49 @@
         }
 
         /* --- Responsive --- */
+        /* --- Featured release (the default selection) --- */
+        .featured {
+            display: grid;
+            gap: 6px;
+            width: 100%;
+            text-align: left;
+            padding: 22px 24px;
+            margin-bottom: 18px;
+            font-family: 'Assistant', sans-serif;
+            color: #121212;
+            background: #FFFFFF;
+            border: 1px solid rgba(18, 18, 18, 0.55);
+            border-radius: 0;
+            cursor: pointer;
+        }
+        .featured[aria-pressed="true"] { border: 2px solid #121212; padding: 21px 23px; }
+        .featured:focus-visible { outline: 2px solid #121212; outline-offset: 3px; }
+        .featured-tag { font-size: 1.1rem; letter-spacing: 1.3px; text-transform: uppercase; color: rgba(18, 18, 18, 0.6); }
+        .featured-name { font-size: 3.2rem; line-height: 1.1; letter-spacing: 1px; }
+        .featured-desc { font-size: 1.4rem; color: rgba(18, 18, 18, 0.7); line-height: 1.5; max-width: 60ch; }
+        .featured-state { justify-self: start; margin-top: 6px; font-size: 1.2rem; letter-spacing: 1.3px; text-transform: uppercase;
+            padding: 5px 10px; border: 1px solid #121212; }
+        .featured[aria-pressed="true"] .featured-state { background: #121212; color: #FFFFFF; }
+
+        /* --- Archive (every earlier effect) --- */
+        .archive { border: 1px solid rgba(18, 18, 18, 0.15); }
+        .archive summary {
+            cursor: pointer;
+            padding: 14px 16px;
+            font-size: 1.6rem;
+            letter-spacing: 0.6px;
+            list-style-position: inside;
+        }
+        .archive summary span { color: rgba(18, 18, 18, 0.55); font-size: 1.4rem; }
+        .archive summary:focus-visible { outline: 2px solid #121212; outline-offset: 2px; }
+        .archive-body { padding: 4px 16px 16px; }
+
+        /* --- Control map shown after a successful flash --- */
+        .after-flash { margin-top: 40px; border: 2px solid #121212; padding: 30px 30px 10px; }
+        .after-title { font-size: 2.8rem; font-weight: 400; line-height: 1.2; margin-bottom: 10px; }
+        .after-flash .step-desc a { color: #121212; }
+        .after-frame { display: block; width: 100%; height: 1400px; border: 0; margin-top: 10px; }
+
         @media (max-width: 600px) {
             .header {
                 padding: 15px 20px;
@@ -507,22 +550,33 @@
             <!-- STEP 1: Select Platform & Firmware -->
             <div class="step">
                 <div class="step-label">STEP 1</div>
-                <div class="step-title">Select Platform &amp; Firmware</div>
-                <div class="step-desc">Choose your signal type, then the firmware to flash.</div>
-                <div class="step-label">LIBRARY</div>
-                <select class="firmware-select" id="trustSelect" style="margin-bottom:12px;">
-                    <option value="official" selected>Official &mdash; built &amp; tested by NOKILL</option>
-                    <option value="community">Community &mdash; user-generated, untested</option>
-                    <option value="all">All effects</option>
-                </select>
-                <div class="step-label">SIGNAL TYPE</div>
-                <select class="firmware-select" id="signalSelect" style="margin-bottom:12px;">
-                    <option value="guitar" selected>Guitar</option>
-                    <option value="synth">Synth</option>
-                </select>
-                <select class="firmware-select" id="firmwareSelect">
-                    <option value="" disabled selected>Select a pedal...</option>
-                </select>
+                <div class="step-title">Choose Firmware</div>
+                <div class="step-desc">Coyote is the current release and is selected for you. Every earlier effect is in the archive below.</div>
+                <button type="button" class="featured" id="featuredCard" aria-pressed="true">
+                    <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                    <span class="featured-name">Coyote</span>
+                    <span class="featured-desc">A stereo synth voice that follows your playing, run through a metallic or diffuse delay-reverb with a frequency shifter in its feedback loop. Nine algorithms on the DIP switches.</span>
+                    <span class="featured-state" id="featuredState">Selected</span>
+                </button>
+                <details class="archive" id="archive">
+                    <summary>Archive <span>&middot; every earlier WOOF effect</span></summary>
+                    <div class="archive-body">
+                        <div class="step-label">LIBRARY</div>
+                        <select class="firmware-select" id="trustSelect" style="margin-bottom:12px;">
+                            <option value="official" selected>Official &mdash; built &amp; tested by NOKILL</option>
+                            <option value="community">Community &mdash; user-generated, untested</option>
+                            <option value="all">All effects</option>
+                        </select>
+                        <div class="step-label">SIGNAL TYPE</div>
+                        <select class="firmware-select" id="signalSelect" style="margin-bottom:12px;">
+                            <option value="guitar" selected>Guitar</option>
+                            <option value="synth">Synth</option>
+                        </select>
+                        <select class="firmware-select" id="firmwareSelect">
+                            <option value="" disabled selected>Select an archived effect...</option>
+                        </select>
+                    </div>
+                </details>
                 <div class="firmware-info" id="firmwareInfo"></div>
             </div>
 
@@ -572,6 +626,15 @@
             </div>
 
         </div>
+
+        <!-- Shown right after a successful flash: the effect's control map -->
+        <section class="after-flash" id="afterFlash" hidden>
+            <div class="step-label">FLASHED</div>
+            <h2 class="after-title" id="afterTitle">Coyote is on your pedal</h2>
+            <p class="step-desc">Unplug the USB cable, reconnect 9V power, and here's how every control works.
+                <a id="afterOpen" href="controls-coyote.html" target="_blank" rel="noopener">Open it in a new tab</a>.</p>
+            <iframe class="after-frame" id="afterFrame" title="Control map for the effect you just flashed"></iframe>
+        </section>
 
         <!-- Instructions -->
         <div class="instructions">
@@ -624,6 +687,24 @@
     // =========================================================================
 
     const FIRMWARE_DATA = {
+        // Current release: shown as the featured card, selected by default (FEATURED_KEY below).
+        coyote_funbox: {
+            name: 'Coyote (FunBox)',
+            file: 'coyote_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'A stereo synth voice that follows your playing (or drones on a set note), run through a metallic or diffuse delay-reverb with a frequency shifter in its feedback loop. Nine generator algorithms on the DIP switches; three knob pages on toggle 3. Needs a FunBox v2/v3 (four DIPs) for all nine.',
+            controls: [
+                'DIP 1-4 = Algorithm 0-8: analog pair, FM pair, sine cluster, three wavetable voices, diatonic cluster, cluster, cluster + fold',
+                'SW1 = Pitch source: left = Drone (BASIS sets the note) / center = Track (follows your playing) / right = Off (effects only)',
+                'SW2 = Processor: left = Metallic / center = Diffuse / right = Shifter (barber-pole delay)',
+                'SW3 = Knob page: left = BASIS FIELD TIME / FORM MORPH MIX, center = WARP SPAN FUSE / SCAN CELL FEED, right = BLEND LEVEL SENS / GLIDE WIDTH DRIVE',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'FS1 = Bypass (fixed)',
+                'FS2 = New SEED: re-rolls delay taps, notches and cluster notes',
+                'See full controls reference at /controls.html'
+            ]
+        },
         bill_s_pedal_funbox: {
             name: 'Bill\'s Pedal (FunBox)',
             file: 'bill_s_pedal_funbox.bin',
@@ -2149,6 +2230,18 @@
     const progressText      = document.getElementById('progressText');
     const browserWarning    = document.getElementById('browserWarning');
     const controlsBtn       = document.getElementById('controlsBtn');
+    const featuredCard      = document.getElementById('featuredCard');
+    const featuredState     = document.getElementById('featuredState');
+    const archive           = document.getElementById('archive');
+    const afterFlash        = document.getElementById('afterFlash');
+    const afterTitle        = document.getElementById('afterTitle');
+    const afterOpen         = document.getElementById('afterOpen');
+    const afterFrame        = document.getElementById('afterFrame');
+
+    // The current release: shown as its own card above the archive and
+    // selected by default. Every other FIRMWARE_DATA entry lives in the archive.
+    const FEATURED_KEY = 'coyote_funbox';
+    let selectedKey = null;
 
     // Map FIRMWARE_DATA keys to their per-effect controls page, with the
     // matching platform pre-selected via the URL hash.
@@ -2173,8 +2266,9 @@
 
     // --- Platform selection: populate firmware dropdown with matching pedals ---
     function populateFirmwareSelect(platform, signal, trust) {
-        firmwareSelect.innerHTML = '<option value="" disabled selected>Select a pedal...</option>';
+        firmwareSelect.innerHTML = '<option value="" disabled selected>Select an archived effect...</option>';
         for (const key in FIRMWARE_DATA) {
+            if (key === FEATURED_KEY) continue;      // the featured card covers it
             const item = FIRMWARE_DATA[key];
             const itemPlatform = item.platform || 'terrarium';
             const itemSignal = item.signal || 'guitar';
@@ -2192,6 +2286,10 @@
                 firmwareSelect.appendChild(opt);
             }
         }
+        // Browsing the archive filters doesn't drop a featured selection.
+        if (selectedKey === FEATURED_KEY) return;
+        selectedKey = null;
+        setFeaturedPressed(false);
         firmwareInfo.classList.remove('visible');
         firmwareInfo.innerHTML = '';
         selectedFirmware = null;
@@ -2205,15 +2303,27 @@
     function refreshFirmwareList() {
         populateFirmwareSelect(PLATFORM, signalSelect.value, trustSelect.value);
     }
+    function setFeaturedPressed(on) {
+        featuredCard.setAttribute('aria-pressed', on ? 'true' : 'false');
+        featuredState.textContent = on ? 'Selected' : 'Select Coyote';
+    }
     signalSelect.addEventListener('change', refreshFirmwareList);
     trustSelect.addEventListener('change', refreshFirmwareList);
     refreshFirmwareList();
 
-    // --- Firmware selection ---
-    firmwareSelect.addEventListener('change', async function() {
-        const key = this.value;
+    // --- Firmware selection (featured card or archive dropdown) ---
+    firmwareSelect.addEventListener('change', function() { selectFirmware(this.value); });
+    featuredCard.addEventListener('click', function() {
+        if (selectedKey !== FEATURED_KEY) selectFirmware(FEATURED_KEY);
+    });
+
+    async function selectFirmware(key) {
+        selectedKey = key;
         selectedFirmware = FIRMWARE_DATA[key];
         firmwareBinary = null;
+        setFeaturedPressed(key === FEATURED_KEY);
+        if (key === FEATURED_KEY) firmwareSelect.selectedIndex = 0;   // clear the archive pick
+        afterFlash.hidden = true;
 
         // Deep-link the controls button to this pedal's section.
         controlsBtn.href = controlsAnchor(key);
@@ -2248,15 +2358,19 @@
         // Download firmware from GitHub Releases
         showStatus(connectStatus, 'info', 'Downloading ' + selectedFirmware.file + '...');
         try {
-            firmwareBinary = await fetchFirmware(selectedFirmware.file);
+            const bin = await fetchFirmware(selectedFirmware.file);
+            if (selectedKey !== key) return;          // picked something else meanwhile
+            firmwareBinary = bin;
+            flashBtn.disabled = !(firmwareBinary && device);
             showStatus(connectStatus, 'info',
                 'Firmware loaded: ' + displayName(selectedFirmware.name) + ' (' + firmwareBinary.byteLength.toLocaleString() + ' bytes)');
         } catch (e) {
+            if (selectedKey !== key) return;
             showStatus(connectStatus, 'error',
                 'Could not download ' + selectedFirmware.file + ': ' + e.message);
             firmwareBinary = null;
         }
-    });
+    }
 
     // --- Deep link: ?effect=<registry-key> (optional &platform=) ------------
     // The WOOF Workshop hands users a link like
@@ -2267,13 +2381,17 @@
     // platform/signal are read from the registry entry itself, so an explicit
     // &platform= is optional and only used as a hint. Unknown/missing slug =>
     // silent fall-back to the default landing state (no error).
+    // Returns true when the link decided the selection (or is still waiting on a
+    // deploy), so the page doesn't fall back to the featured release.
     function applyDeepLink() {
         try {
             var params = new URLSearchParams(window.location.search);
             var slug = (params.get('effect') || '').trim();
-            if (!slug) return;                       // no param: unchanged
+            if (!slug) return false;                 // no param: featured default
             var item = FIRMWARE_DATA[slug];
-            if (!item) { deepLinkNotReady(slug, params); return; }  // not deployed yet?
+            if (!item) { deepLinkNotReady(slug, params); return true; }  // not deployed yet?
+            if (slug === FEATURED_KEY) { selectFirmware(FEATURED_KEY); return true; }
+            archive.open = true;                     // archived effects live in the archive
 
             var signal = item.signal || 'guitar';
 
@@ -2291,7 +2409,7 @@
             // Only proceed if the option actually exists in the dropdown.
             var exists = Array.prototype.some.call(firmwareSelect.options,
                 function(o) { return o.value === slug; });
-            if (!exists) return;
+            if (!exists) { archive.open = false; return false; }
 
             firmwareSelect.value = slug;
             firmwareSelect.dispatchEvent(new Event('change'));   // load + show info
@@ -2306,8 +2424,10 @@
                 firmwareSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
             try { firmwareSelect.focus({ preventScroll: true }); } catch (e) { firmwareSelect.focus(); }
+            return true;
         } catch (e) {
             /* never let a bad link break the page */
+            return false;
         }
     }
 
@@ -2347,7 +2467,31 @@
             }
         }, DELAY_MS);
     }
-    applyDeepLink();
+    if (!applyDeepLink()) selectFirmware(FEATURED_KEY);
+
+    // --- After a successful flash: show the effect's control map in-page ---
+    function controlsPageFor(key) {
+        return key === FEATURED_KEY ? 'controls-coyote.html' : controlsAnchor(key);
+    }
+    function showAfterFlash(key, name) {
+        var page = controlsPageFor(key);
+        afterTitle.textContent = name + ' is on your pedal';
+        afterOpen.href = page;
+        // Coyote's map has an embed mode (no site nav); older controls pages show whole.
+        afterFrame.src = key === FEATURED_KEY ? 'controls-coyote.html?embed' : page;
+        afterFlash.hidden = false;
+        afterFlash.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    // Same-origin frame: size it to its content, and keep it sized as the
+    // interactive map grows or shrinks.
+    afterFrame.addEventListener('load', function() {
+        try {
+            var doc = afterFrame.contentDocument;
+            var fit = function() { afterFrame.style.height = (doc.documentElement.scrollHeight + 4) + 'px'; };
+            fit();
+            if (window.ResizeObserver) new ResizeObserver(fit).observe(doc.body);
+        } catch (e) { /* leave the default height */ }
+    });
 
     // --- Connect ---
     connectBtn.addEventListener('click', async function() {
@@ -2388,6 +2532,8 @@
         flashBtn.disabled = true;
         connectBtn.disabled = true;
         firmwareSelect.disabled = true;
+        featuredCard.disabled = true;
+        afterFlash.hidden = true;
         showProgress();
         hideStatus(flashStatus);
 
@@ -2396,12 +2542,14 @@
 
             showStatus(flashStatus, 'success',
                 'Flash complete! Your ' + displayName(selectedFirmware.name) + ' firmware is now running. You can disconnect the USB cable.');
+            showAfterFlash(selectedKey, displayName(selectedFirmware.name));
         } catch(e) {
             showStatus(flashStatus, 'error', 'Flash failed: ' + e.message);
         } finally {
             flashBtn.disabled = false;
             connectBtn.disabled = false;
             firmwareSelect.disabled = false;
+            featuredCard.disabled = false;
         }
     });
 
