@@ -595,6 +595,12 @@
                         <span class="featured-desc">A sympathetic / chordal resonator: six tuned strings ring along with your playing as a halo, a tracked chord, struck bells, a shimmering wall or an infinite drone. Eight modes on the DIPs, freeze on the footswitch.</span>
                         <span class="featured-state">Select Cadejo</span>
                     </button>
+                    <button type="button" class="featured" data-key="dhole_funbox" data-name="Dhole" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Dhole</span>
+                        <span class="featured-desc">A 90-second looper wrapped around eight delay voices: tape, bucket-brigade, multi-head, oil can, reverse, shimmer, lo-fi and clean digital. FS1 loops, FS2 stops and undoes, both together turn the delay on and off.</span>
+                        <span class="featured-state">Select Dhole</span>
+                    </button>
                 </div>
                 <details class="archive" id="archive">
                     <summary>Archive <span>&middot; every earlier WOOF effect</span></summary>
@@ -758,6 +764,27 @@
                 'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
                 'FS1 = Bypass (fixed)',
                 'FS2 = Channel recall: tap = switch between two full sounds A / B (LED 2 lit = B); hold ~1 s and release = copy this channel to the other. On Feral, Swarm and Theremin, hold = drone / freeze while held',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        dhole_funbox: {
+            name: 'Dhole (FunBox)',
+            file: 'dhole_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'A looper wrapped around eight delay voices. Up to 90 seconds of loop with instant undo and redo of the last overdub, half-speed and reverse playback, fading overdubs and tape-loop wear. The DIPs pick the echo: clean digital, tape (wow, flutter, runaway), bucket-brigade analog, multi-head tape, oil can, reverse, shimmer or lo-fi. Note: on Dhole FS1 is the looper, not bypass; tap both footswitches together to turn the delay on and off.',
+            controls: [
+                'DIP1-3 = Delay voice, binary (DIP1 = 1, DIP2 = 2, DIP3 = 4): 0 Digital, 1 Tape, 2 BBD, 3 Multi-head, 4 Oil can, 5 Reverse, 6 Shimmer, 7 Lo-fi',
+                'DIP4 = Loop first: off = the looper records what you hear (playing + echoes); on = the loop plays into the delay',
+                'SW1 = Tap subdivision: left quarter / center dotted eighth / right eighth',
+                'SW2 = Loop speed: left half / center normal / right reverse',
+                'SW3 = Knob page: left (live) = TIME FEEDBACK TONE / MOD AGE VOICE, center (fine) = RATE DUCK SPREAD / DUB FADE WEAR, right (utility) = MIX VOL HI CUT / LO CUT LOOP DRY',
+                'VOICE (page L, knob 6) changes job with the voice: DIFFUSE, SAT, CLOCK, HEADS, WOBBLE, WINDOW, INTERVAL, CRUSH',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'FS1 = Looper: record / play / overdub / play (stopped: play)',
+                'FS2 = Tap: stop / play (no loop yet: tap tempo; recording: close and stop). Hold 1 s: undo / redo while playing, clear while stopped',
+                'FS1 + FS2 tapped together = Delay on / off (echoes ring out, the loop keeps going)',
+                'LED1 = looper (fast blink rec, blink dub, on play, blip stopped); LED2 = delay on, flashes on the tapped beat',
                 'See full controls reference at /controls.html'
             ]
         },

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<script>/* ?embed = shown inside the flasher after a flash: no site bar */
+try { if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed"); } catch (e) {}
+</script>
+<title>Dhole Controls - W.O.O.F. - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a top-down drawing of the FunBox face beside a live detail panel,
+   then the signal path, then plain reference tables. Powder-coat white,
+   black knobs, the red of the side DIP as the one accent. */
+:root {
+  --bg: #e9ecee;
+  --panel: #fbfbfa;
+  --panel-edge: #cfd4d9;
+  --ink: #16181b;
+  --muted: #5a626c;
+  --rule: #d4d9de;
+  --knob: #1b1d21;
+  --knob-hi: #3a3e45;
+  --accent: #c8322a;
+  --led: #e39a2d;
+  --led-off: #c9cdd2;
+  --signal: #2d67ad;
+  --chip: #eef1f3;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+    --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+    --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+  --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+  --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 68px); text-transform: uppercase; }
+h2 { font-size: 30px; text-transform: uppercase; }
+h3 { font-size: 21px; text-transform: uppercase; }
+p { margin: 0; max-width: 66ch; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 12px; }
+header .lede { color: var(--muted); font-size: 16px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 18px; }
+.sec-head p { color: var(--muted); }
+
+/* ---------- pedal + detail ---------- */
+.stage { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.pedal-col { display: grid; gap: 10px; justify-items: center; }
+.pedal {
+  position: relative; width: 100%; max-width: 360px; aspect-ratio: 360 / 560;
+  background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 22px;
+  box-shadow: 0 1px 0 var(--panel-edge), 0 18px 40px -24px rgba(0,0,0,.45);
+  display: grid; grid-template-rows: 1.25fr .38fr .62fr; padding: 22px 26px 22px 26px;
+}
+.knobs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); place-items: center; row-gap: 6px; }
+.ctl { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; display: grid; justify-items: center; gap: 6px; border-radius: 12px; }
+.ctl:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.knob {
+  width: clamp(48px, 15vw, 62px); aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, var(--knob-hi), var(--knob) 62%);
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .2s;
+}
+.knob::after {
+  content: ""; position: absolute; left: 50%; top: 9%; width: 3px; height: 34%; margin-left: -1.5px;
+  background: #f4f4f2; border-radius: 2px; transform-origin: 50% 121%; transform: rotate(var(--rot, 0deg));
+}
+.ctl[aria-pressed="true"] .knob { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.silk { font: 700 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; }
+.silk small { display: block; font: 500 9px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-align: center; }
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; }
+.tog { width: 46px; height: 30px; position: relative; }
+.tog .nut { position: absolute; inset: 7px 13px; border-radius: 50%; background: var(--knob); }
+.tog .bat { position: absolute; left: 50%; top: 50%; width: 6px; height: 22px; margin: -11px 0 0 -3px; background: linear-gradient(var(--knob-hi), var(--knob)); border-radius: 3px; transform-origin: 50% 90%; transform: rotate(var(--tilt, 0deg)); transition: transform .15s; }
+.tog-pos { font: 500 10px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.tog-pos b { color: var(--ink); font-weight: 500; }
+.ctl[aria-pressed="true"] .tog { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.feet { display: grid; grid-template-columns: repeat(2, 1fr); place-items: center; align-content: end; }
+.foot { display: grid; justify-items: center; gap: 8px; }
+.led { width: 13px; height: 13px; border-radius: 50%; background: var(--led-off); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.led.on { background: var(--led); box-shadow: 0 0 10px var(--led), 0 0 2px var(--led); }
+.fs { width: 54px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f2f3f4, #a9aeb4 70%, #7d838a); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.ctl[aria-pressed="true"] .fs { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.dip {
+  position: absolute; right: -14px; top: 47%; width: 24px; padding: 6px 3px; display: grid; gap: 4px;
+  background: var(--accent); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.dip button { appearance: none; border: 0; height: 18px; border-radius: 2px; background: rgba(0,0,0,.28); position: relative; cursor: pointer; padding: 0; }
+.dip button::after { content: ""; position: absolute; top: 3px; bottom: 3px; width: 8px; left: 2px; background: #fff; border-radius: 1px; transition: left .12s; }
+.dip button[aria-pressed="true"]::after { left: 8px; }
+.dip button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.dip-tag { position: absolute; right: -14px; top: calc(47% - 22px); font: 500 9px/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; }
+.hint { font: 400 12px/1.4 var(--f-mono); color: var(--muted); text-align: center; max-width: 360px; }
+
+.detail { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.state-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); border: 1px solid var(--rule); }
+.chip b { color: var(--ink); font-weight: 500; }
+.chip.algo b { color: var(--accent); }
+.d-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.d-title h3 { font-size: 34px; }
+.d-where { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.d-summary { font-size: 16px; }
+.arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 520px) { .arc { grid-template-columns: minmax(0, 1fr); } }
+.arc div { border-top: 3px solid var(--rule); padding-top: 8px; min-width: 0; }
+.arc div.hot { border-top-color: var(--accent); }
+.arc span { display: block; font: 500 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.dial-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 14px; align-items: center; }
+.dial-row label { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.readout { grid-column: 1 / -1; font: 500 15px/1.4 var(--f-mono); background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+.d-note { color: var(--muted); font-size: 14px; }
+.d-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- signal path ---------- */
+.flow-box { overflow-x: auto; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
+.flow-box svg { display: block; min-width: 900px; width: 100%; height: auto; }
+.f-node rect { fill: var(--chip); stroke: var(--rule); }
+.f-node.gen rect { stroke: var(--accent); }
+.f-node text { fill: var(--ink); font: 700 15px var(--f-display); letter-spacing: .06em; }
+.f-node .ctrls { fill: var(--muted); font: 500 10.5px var(--f-mono); letter-spacing: 0; }
+.f-wire { stroke: var(--signal); stroke-width: 2.2; fill: none; }
+.f-wire.dash { stroke-dasharray: 5 4; }
+.f-label { fill: var(--muted); font: 500 11px var(--f-mono); }
+.f-arrow { fill: var(--signal); }
+
+/* ---------- tables ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.tcard { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tcard h3 span { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; margin-left: 8px; text-transform: none; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+th { font: 500 11px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.k { font: 700 15px/1.2 var(--f-display); letter-spacing: .06em; white-space: nowrap; }
+td.k small { display: block; font: 500 10px/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0; }
+.algos table { min-width: 860px; }
+.algos td:first-child { white-space: nowrap; }
+.algos .dipbits { font: 500 12px var(--f-mono); color: var(--accent); }
+.pill { display: inline-block; font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 999px; background: var(--chip); border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.rule-card { border-top: 3px solid var(--ink); padding-top: 12px; display: grid; gap: 8px; }
+.rule-card p { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font: 400 12px/1.5 var(--f-mono); }
+@media (max-width: 560px) {
+  body { padding-block: 20px 56px; }
+  .wrap { gap: 30px; }
+  .silk small { font-size: 10px; }
+  .hint { font-size: 11.5px; }
+  .tog-pos { font-size: 11px; }
+  .d-title h3 { font-size: 28px; }
+  .dip button { height: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+<style>
+/* Dhole additions: blinking LEDs for the looper states */
+.led.blink { animation: dh-blink .25s steps(2, jump-none) infinite; }
+.led.slow  { animation: dh-blink .66s steps(2, jump-none) infinite; }
+@keyframes dh-blink { from { background: var(--led); box-shadow: 0 0 10px var(--led); } to { background: var(--led-off); box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { .led.blink, .led.slow { animation: none; background: var(--led); } }
+.loopchip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--accent); color: #fff; }
+</style>
+
+<style>
+.site-bar { max-width: 1120px; margin: 0 auto 8px; display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 10px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.site-bar img { height: 30px; width: auto; display: block; }
+.site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1 var(--f-mono); letter-spacing: .08em; }
+.site-bar a { color: var(--ink); text-decoration: none; }
+.site-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.embed .site-bar { display: none; }
+.embed body { padding-block: 8px 24px; }
+footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="site-bar"><a href="https://nokillpedal.co" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a><nav><a href="index.html">FLASHER</a><a href="controls.html">CONTROLS</a><a href="transistors.html">TRANSISTORS</a><a href="guide.html">GUIDE</a><a href="https://nokillpedal.co">SHOP</a></nav></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NOKILL · digital line · FunBox v3 · built 2026-10-21</div>
+    <h1>Dhole Control Map</h1>
+    <p class="lede">A looper wrapped around eight delay voices, named for the "whistling dog" whose calls echo across the valleys. Basic up front: one footswitch loops, the other stops. The DIPs pick the echo machine (tape, bucket brigade, multi-head, oil can, reverse, shimmer, lo-fi or clean digital) and the pages open it up. Click anything on the drawing; click the footswitches twice to run the looper.</p>
+  </header>
+
+  <section>
+    <div class="stage">
+      <div class="pedal-col">
+        <div class="pedal" id="pedal">
+          <div class="knobs" id="knobs"></div>
+          <div class="toggles" id="toggles"></div>
+          <div class="feet" id="feet"></div>
+          <span class="dip-tag">DIP</span>
+          <div class="dip" id="dip" aria-label="DIP switches 1 to 4 on the right side"></div>
+        </div>
+        <p class="hint">Top view. DIPs 1-3 pick the delay voice (binary); DIP 4 puts the looper before the delay. DIP 1 is the top switch on the right side.</p>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <div class="state-strip" id="strip"></div>
+        <div class="d-title"><h3 id="d-name"></h3><span class="d-where" id="d-where"></span></div>
+        <p class="d-summary" id="d-summary"></p>
+        <div class="arc" id="d-arc"></div>
+        <div class="dial-row" id="d-dial">
+          <label for="pos">Knob position</label>
+          <input type="range" id="pos" min="0" max="1" step="0.005" value="0.5">
+          <div class="readout" id="d-readout"></div>
+        </div>
+        <ul class="d-list" id="d-list"></ul>
+        <p class="d-note" id="d-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Footswitches</h2>
+      <p>Each press waits 40 ms to see whether you stomped both switches. The looper still starts, closes and punches in exactly where you pressed: it keeps a short memory of what you played and where the loop was.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="foot-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Signal path</h2>
+      <p>With DIP 4 off, the looper records what you hear (your playing plus its echoes). With DIP 4 on, it sits in front of the delay, so the loop itself plays into the echoes and changing voice changes the loop's repeats.</p>
+    </div>
+    <div class="flow-box">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Signal path: guitar into the delay voice picked by DIPs 1 to 3, then the wet controls, then the looper which records what you hear, then out. With DIP 4 on the looper sits before the delay instead. The footswitches drive the looper; dry goes straight to the output.">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <g class="f-node"><rect x="10" y="120" width="96" height="54" rx="8"/><text x="58" y="144" text-anchor="middle">GUITAR</text><text class="ctrls" x="58" y="162" text-anchor="middle">DRY level</text></g>
+        <g class="f-node gen"><rect x="150" y="110" width="210" height="74" rx="8"/><text x="255" y="134" text-anchor="middle">DELAY VOICE</text><text class="ctrls" x="255" y="152" text-anchor="middle">DIPs 1-3 · TIME · FEEDBACK · TONE</text><text class="ctrls" x="255" y="168" text-anchor="middle">MOD · AGE · VOICE · RATE</text></g>
+        <g class="f-node"><rect x="400" y="118" width="150" height="58" rx="8"/><text x="475" y="142" text-anchor="middle">WET</text><text class="ctrls" x="475" y="160" text-anchor="middle">MIX · DUCK · SPREAD · CUTS</text></g>
+        <g class="f-node gen"><rect x="590" y="110" width="190" height="74" rx="8"/><text x="685" y="134" text-anchor="middle">LOOPER</text><text class="ctrls" x="685" y="152" text-anchor="middle">90 s · undo layer · DUB · FADE</text><text class="ctrls" x="685" y="168" text-anchor="middle">WEAR · toggle 2 speed</text></g>
+        <g class="f-node"><rect x="590" y="14" width="190" height="56" rx="8"/><text x="685" y="38" text-anchor="middle">FOOTSWITCHES</text><text class="ctrls" x="685" y="56" text-anchor="middle">FS1 loop · FS2 stop / undo / tap</text></g>
+        <g class="f-node"><rect x="820" y="118" width="160" height="58" rx="8"/><text x="900" y="142" text-anchor="middle">OUT</text><text class="ctrls" x="900" y="160" text-anchor="middle">VOL · LOOP level</text></g>
+        <path class="f-wire" d="M106 147 L 150 147" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M360 147 L 400 147" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M550 147 L 590 147" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M780 147 L 820 147" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M685 70 L 685 110" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M58 174 C 58 270, 840 270, 880 176" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M80 120 C 120 30, 560 40, 600 110" marker-end="url(#ar)"/>
+        <text class="f-label" x="300" y="262">dry</text>
+        <text class="f-label" x="250" y="58">DIP 4 on: looper first</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Delay voices</h2>
+      <p>DIPs 1-3 count in binary: DIP 1 = 1, DIP 2 = 2, DIP 3 = 4. Each voice is our own DSP, voiced after the way a classic echo machine behaves. VOICE (page L, knob 6) changes job with the voice; AGE wears the medium in its own way.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="dip-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Knob pages</h2>
+      <p>Toggle 3 picks the page. Knob pickup works as on the other pedals: after a page change a knob does nothing until you sweep it past that page's stored value.</p>
+    </div>
+    <div class="cards" id="page-cards"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Sounds to expect</h2></div>
+    <div class="rules" id="rules"></div>
+  </section>
+
+  <footer>Values in the readouts come from the same formulas the pedal runs. <a href="index.html">Back to the flasher</a></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  function fmtHz(hz) { return hz >= 1000 ? (hz / 1000).toFixed(2) + " kHz" : hz.toFixed(hz < 10 ? 2 : hz < 100 ? 1 : 0) + " Hz"; }
+  function fmtT(s) { return s < 1 ? (s * 1000).toFixed(0) + " ms" : s.toFixed(2) + " s"; }
+  function pct(x) { return Math.round(x * 100) + "%"; }
+  function db(x) { return (x >= 0 ? "+" : "") + x.toFixed(1) + " dB"; }
+  function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
+
+  var FBMAX = [0.98, 1.15, 1.10, 1.10, 1.05, 0.95, 0.98, 1.05];
+  var MEDIUM = [0.3, 1.0, 0.8, 1.0, 1.0, 0.5, 0.3, 1.5];
+  var SHIM = [-12, 5, 7, 12, 19, 24];
+  var HEADS = [[4], [1, 2], [2, 3], [1, 3], [2, 4], [1, 2, 3], [2, 3, 4], [1, 2, 3, 4]];
+  var SUBDIV = [1, 0.75, 0.5];
+
+  var VOICES = [
+    { name: "Digital", sum: "Clean, exact repeats. VOICE smears them with a chain of allpasses, from crisp to a soft cloud.", knob: "DIFFUSE", age: "barely: a little hiss",
+      read: function (v) { return v <= 0.02 ? "Crisp repeats" : "Diffusion " + pct(v) + " (allpass gain " + (0.7 * v).toFixed(2) + ")"; } },
+    { name: "Tape", sum: "Tape echo: wow and flutter bend the pitch, saturation thickens each repeat, and each pass gets darker. Past about 87% FEEDBACK it runs away into a howling, bounded self-oscillation.", knob: "SAT", age: "hiss, dropouts, darker tape",
+      read: function (v) { return "Tape drive " + (1 + 4 * v).toFixed(1) + "x"; } },
+    { name: "BBD", sum: "Bucket-brigade analog: companded (it breathes), with a bandwidth that falls as the delay gets longer, like a chip clocked slower. VOICE moves that clock.", knob: "CLOCK", age: "clock noise",
+      read: function (v, s) { var t = timeSec(s); return "Bandwidth " + fmtHz(clamp(820 / t * Math.pow(2, (v - 0.5) * 2), 400, 16000)) + " at " + fmtT(t); } },
+    { name: "Multi-head", sum: "Four playback heads at a quarter, half, three quarters and all of TIME, like a multi-head tape echo. VOICE picks which heads play, for rhythmic patterns.", knob: "HEADS", age: "hiss, dropouts, darker tape",
+      read: function (v) { return "Heads " + HEADS[Math.floor(v * 7.99)].join(" + ") + " (of 4)"; } },
+    { name: "Oil can", sum: "Murky and band-limited, with an uneven, wobbling cadence and a wash that regenerates even with FEEDBACK at zero. VOICE sets how irregular the can turns.", knob: "WOBBLE", age: "hiss, dropouts, darker",
+      read: function (v) { return "Cadence wander " + (0.5 + 4 * v).toFixed(1) + " ms"; } },
+    { name: "Reverse", sum: "Each window of TIME is played backwards: notes swell in and stop. VOICE sharpens the window edges, from smooth and swelling to choppier.", knob: "WINDOW", age: "a little hiss",
+      read: function (v) { return v < 0.05 ? "Smooth, swelling windows" : "Edges " + Math.round(1 + 4 * v) + "x sharper"; } },
+    { name: "Shimmer", sum: "A pitch shifter inside the feedback, so each repeat climbs. VOICE picks the interval.", knob: "INTERVAL", age: "barely: a little hiss",
+      read: function (v) { var st = SHIM[Math.floor(v * 5.99)]; return (st > 0 ? "+" : "") + st + " semitones per repeat"; } },
+    { name: "Lo-fi", sum: "Telephone-band, warbling and crushed: each repeat drops bits and sample rate. VOICE sets the crush.", knob: "CRUSH", age: "hiss and heavy dropouts",
+      read: function (v) { var n = 1 + Math.floor(v * v * 15); return (12 - 9 * v).toFixed(1) + " bits at " + fmtHz(48000 / n) + " rate"; } }
+  ];
+  function timeSec(s) { return s.tap > 0 ? clamp(s.tap * SUBDIV[s.t1], 0.02, 2) : 0.02 * Math.pow(100, s.pos.time); }
+
+  var P = {
+    time: { name: "TIME", def: 0.45, sum: "Delay time, 20 ms to 2 s. After you tap a tempo on FS2 (looper empty), tap tempo and toggle 1's subdivision set it until you turn this knob again.", arc: ["slapback", "quarter-ish", "long"],
+      read: function (v, s) { return s.tap > 0 ? "Tap: " + fmtT(timeSec(s)) + " (knob takes over when turned)" : fmtT(0.02 * Math.pow(100, v)); } },
+    feedback: { name: "FEEDBACK", def: 0.35, sum: "How many repeats. Tape, BBD, multi-head, oil can and lo-fi go past 100% into runaway self-oscillation, held in check by their saturation.", arc: ["one repeat", "a trail", "runaway"],
+      read: function (v, s) { var fb = s.voice === 4 ? 0.4 + (FBMAX[4] - 0.4) * v : FBMAX[s.voice] * v; return "Loop gain " + fb.toFixed(2) + (fb > 1 ? " (runaway)" : ""); } },
+    tone: { name: "TONE", def: 0.6, sum: "Lowpass inside the feedback: each repeat darker than the last, or bright and clear.", arc: ["dark", "warm", "bright"],
+      read: function (v, s) { var lp = 800 * Math.pow(2, v * 4.2) * (1 - 0.45 * Math.min(s.pos.age * MEDIUM[s.voice], 1)); if (s.voice === 4) lp = Math.min(lp, 2400); if (s.voice === 7) lp = Math.min(lp, 3400); return "Repeat lowpass " + fmtHz(clamp(lp, 300, 16000)); } },
+    mod: { name: "MOD", def: 0.25, sum: "Modulation depth: wow and flutter on tape, chorus on BBD and digital, warble on lo-fi.", arc: ["steady", "wobbly", "seasick"],
+      read: function (v, s) { var ms = [1.5, 6, 3, 6, 4, 1, 1, 10][s.voice]; return v <= 0.02 ? "Steady" : "±" + (ms * v).toFixed(1) + " ms"; } },
+    age: { name: "AGE", def: 0.25, sum: "How worn the medium is. Each voice wears in its own way (see the voice table).", arc: ["new", "used", "worn out"],
+      read: function (v, s) { return v <= 0.02 ? "New" : VOICES[s.voice].age + " (" + pct(Math.min(v * MEDIUM[s.voice], 1.5)) + ")"; } },
+    voice: { name: "VOICE", def: 0.5, sum: "Changes job with the delay voice.", arc: ["", "", ""], dyn: true,
+      read: function (v, s) { return VOICES[s.voice].read(v, s); } },
+    rate: { name: "RATE", def: 0.4, sum: "Speed of the modulation (wow, flutter, chorus, wander).", arc: ["slow", "medium", "fast"], read: function (v) { return "x" + (0.25 * Math.pow(16, v)).toFixed(2) + " (tape wow " + fmtHz(0.6 * 0.25 * Math.pow(16, v)) + ")"; } },
+    duck: { name: "DUCK", def: 0, sum: "The echoes duck while you play and swell back in when you stop, so fast lines stay clear.", arc: ["off", "some", "deep"], read: function (v) { return v <= 0.02 ? "Off" : "Echoes drop up to " + pct(0.9 * v) + " while you play"; } },
+    spread: { name: "SPREAD", def: 0.3, sum: "Stereo: up to 60% the right channel's echo comes a little later; past that the echoes ping-pong between sides.", arc: ["mono", "wide", "ping-pong"],
+      read: function (v) { return v <= 0.6 ? (v <= 0.02 ? "Mono" : "Right echo +" + (12 * v / 0.6).toFixed(1) + "% later") : "Ping-pong " + pct((v - 0.6) / 0.4); } },
+    dub: { name: "DUB", def: 1, sum: "How much of the loop survives each overdub pass. Full keeps everything; lower lets older layers fade as you add new ones.", arc: ["fast fade", "slow fade", "keep all"], read: function (v) { return v >= 0.995 ? "Keep everything" : "Older layers at " + pct(0.4 + 0.6 * v) + " per pass"; } },
+    fade: { name: "FADE", def: 0, sum: "How long the loop takes to fade out when you stop it.", arc: ["instant", "a few seconds", "10 s"], read: function (v) { return fmtT(0.003 + 10 * v * v) + " fade-out"; } },
+    wear: { name: "WEAR", def: 0, sum: "Tape-loop wear: every pass the loop gets a little darker and quieter, disintegrating over minutes.", arc: ["none", "aging", "disintegrating"], read: function (v) { return v <= 0.02 ? "None" : "Each pass " + pct(0.35 * v) + " smear, " + (0.4 * v).toFixed(2) + "% quieter"; } },
+    mix: { name: "MIX", def: 0.4, sum: "Level of the echoes.", arc: ["dry", "even", "full echo"], read: function (v) { return "Echoes at " + pct(v); } },
+    vol: { name: "VOL", def: 0.5, sum: "Output volume. Noon is unity.", arc: ["quiet", "unity", "+9 dB"], read: function (v) { return v < 0.01 ? "Silent" : db(20 * Math.log10(2.828427 * Math.pow(v, 1.5))); } },
+    hicut: { name: "HI CUT", def: 1, sum: "Lowpass on the echoes.", arc: ["dark", "warm", "open"], read: function (v) { return v >= 0.99 ? "Open" : "Lowpass " + fmtHz(1200 * Math.pow(2, v * 3.7)); } },
+    locut: { name: "LO CUT", def: 0, sum: "Highpass on the echoes, to keep long trails out of the bass.", arc: ["full", "tight", "thin"], read: function (v) { return v <= 0.01 ? "Full range" : "Highpass " + fmtHz(20 * Math.pow(2, v * 5.5)); } },
+    loop: { name: "LOOP", def: 0.8, sum: "Loop playback level. 80% is unity.", arc: ["quiet", "unity", "+2 dB"], read: function (v) { return v < 0.01 ? "Silent" : db(20 * Math.log10(1.25 * v)); } },
+    dry: { name: "DRY", def: 1, sum: "Your dry signal. Turn it all the way down for wet-only rigs (parallel loops, two amps).", arc: ["killed", "half", "unity"], read: function (v) { return v <= 0.01 ? "Dry killed" : pct(v); } }
+  };
+  function knobDef(key, s) {
+    var p = P[key];
+    if (key !== "voice") return p;
+    var vc = VOICES[s.voice];
+    return { name: vc.knob, def: p.def, sum: vc.sum, arc: ["low", "mid", "high"], read: p.read, dyn: true };
+  }
+  var PAGES = [
+    { id: 0, label: "Page L · live", keys: ["time", "feedback", "tone", "mod", "age", "voice"] },
+    { id: 1, label: "Page C · fine tune", keys: ["rate", "duck", "spread", "dub", "fade", "wear"] },
+    { id: 2, label: "Page R · utility", keys: ["mix", "vol", "hicut", "locut", "loop", "dry"] }
+  ];
+  var TOGGLES = [
+    { name: "SUBDIV", where: "Toggle 1", sum: "Subdivision of a tapped tempo.", pos: ["1/4", "dotted 1/8", "1/8"], desc: ["Echo on every beat you tapped.", "Dotted eighth: three echoes per two beats, the classic rolling delay.", "Eighth notes: two echoes per beat."] },
+    { name: "SPEED", where: "Toggle 2", sum: "Loop playback speed. Overdubs follow it, so you can record at half speed and flip back for octave-up layers.", pos: ["half", "normal", "reverse"], desc: ["Half speed, an octave down.", "Normal.", "Backwards."] },
+    { name: "PAGE", where: "Toggle 3", sum: "Which six controls the knobs drive.", pos: ["L", "C", "R"], desc: ["Live: TIME · FEEDBACK · TONE / MOD · AGE · VOICE", "Fine tune: RATE · DUCK · SPREAD / DUB · FADE · WEAR", "Utility: MIX · VOL · HI CUT / LO CUT · LOOP · DRY"] }
+  ];
+  var LOOPNAMES = { empty: "empty", rec: "recording", play: "playing", dub: "overdubbing", stopped: "stopped" };
+  var FOOT = [
+    { name: "FS1", label: "LOOP", where: "Left footswitch", sum: "The looper. Click it again on the drawing to step through: record, play, overdub, play.", list: ["Empty: start recording.", "Recording: close the loop and play it.", "Playing: start an overdub.", "Overdubbing: back to playing.", "Stopped: play from the top, in time with your press.", "With FS2 at the same time: delay on / off."] },
+    { name: "FS2", label: "STOP", where: "Right footswitch", sum: "Stop, play, undo, clear, and tap tempo before there's a loop. Click it again on the drawing to stop / play.", list: ["Tap while playing or overdubbing: stop (fading out over FADE).", "Tap while stopped: play.", "Tap while recording: close the loop and stop.", "Tap with no loop: tap tempo (LED 2 flashes on the beat).", "Hold 1 s while playing: undo the last overdub; hold again to redo.", "Hold 1 s while stopped: clear the loop."] }
+  ];
+
+  var S = { page: 0, t1: 0, t2: 1, voice: 0, pre: false, sel: { kind: "knob", i: 0 }, pos: {}, loop: "empty", delayOn: true, tap: 0 };
+  Object.keys(P).forEach(function (k) { S.pos[k] = P[k].def; });
+  var el = function (id) { return document.getElementById(id); };
+  function rot(v) { return (-135 + v * 270) + "deg"; }
+  var PL = ["L", "C", "R"];
+  function dipsOn(n) { var on = []; for (var i = 0; i < 3; i++) if (n & (1 << i)) on.push(i + 1); return on.length ? on.join(" + ") : "all off"; }
+
+  function fs1() { S.loop = { empty: "rec", rec: "play", play: "dub", dub: "play", stopped: "play" }[S.loop]; }
+  function fs2() { S.loop = { empty: "empty", rec: "stopped", play: "stopped", dub: "stopped", stopped: "play" }[S.loop]; }
+  function led1Class() { return { empty: "", rec: " on blink", play: " on", dub: " on slow", stopped: "" }[S.loop]; }
+
+  function buildPedal() {
+    var kWrap = el("knobs"); kWrap.innerHTML = "";
+    PAGES[S.page].keys.forEach(function (key, i) {
+      var p = knobDef(key, S), b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "knob" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", "Knob " + (i + 1) + ": " + p.name);
+      b.innerHTML = '<span class="knob" style="--rot:' + rot(S.pos[key]) + '"></span><span class="silk">' + p.name + "<small>K" + (i + 1) + (p.dyn ? " · VOICE" : "") + "</small></span>";
+      b.onclick = function () { S.sel = { kind: "knob", i: i }; render(); };
+      kWrap.appendChild(b);
+    });
+    var tWrap = el("toggles"); tWrap.innerHTML = "";
+    TOGGLES.forEach(function (t, i) {
+      var cur = [S.t1, S.t2, S.page][i];
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "tog" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", t.where + " " + t.name + ", now " + t.pos[cur] + ". Click to flip.");
+      b.innerHTML = '<span class="tog" style="--tilt:' + [-38, 0, 38][cur] + 'deg"><span class="nut"></span><span class="bat"></span></span>' +
+        '<span class="silk">' + t.name + "<small>" + t.pos.map(function (p, j) { return j === cur ? "<b>" + p + "</b>" : p; }).join(" · ") + "</small></span>";
+      b.onclick = function () {
+        if (S.sel.kind === "tog" && S.sel.i === i) { if (i === 0) S.t1 = (S.t1 + 1) % 3; else if (i === 1) S.t2 = (S.t2 + 1) % 3; else S.page = (S.page + 1) % 3; }
+        S.sel = { kind: "tog", i: i }; render(); pageCards();
+      };
+      tWrap.appendChild(b);
+    });
+    var fWrap = el("feet"); fWrap.innerHTML = "";
+    FOOT.forEach(function (f, i) {
+      var b = document.createElement("button");
+      b.className = "ctl foot"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", f.where + ", " + f.name + " (" + f.label + ")");
+      var led = i === 0 ? led1Class() : (S.delayOn ? (S.tap > 0 ? " on blink" : " on") : "");
+      b.innerHTML = '<span class="led' + led + '"></span><span class="fs"></span><span class="silk">' + f.label + "</span>";
+      b.onclick = function () {
+        if (S.sel.kind === "foot" && S.sel.i === i) { if (i === 0) fs1(); else { if (S.loop === "empty") S.tap = 0.5; else fs2(); } }
+        S.sel = { kind: "foot", i: i }; render();
+      };
+      fWrap.appendChild(b);
+    });
+    var d = el("dip"); d.innerHTML = "";
+    for (var i = 0; i < 4; i++) (function (i) {
+      var on = i < 3 ? !!(S.voice & (1 << i)) : S.pre;
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.setAttribute("aria-label", "DIP " + (i + 1) + (i < 3 ? ", voice bit worth " + (1 << i) : ", looper before the delay") + (on ? ", on" : ", off"));
+      b.title = "DIP " + (i + 1) + (i < 3 ? " · worth " + (1 << i) : " · LOOP FIRST");
+      b.onclick = function () { if (i < 3) S.voice ^= (1 << i); else S.pre = !S.pre; S.sel = { kind: "dip", i: i }; render(); pageCards(); voiceTable(); };
+      d.appendChild(b);
+    })(i);
+  }
+  function strip() {
+    el("strip").innerHTML = '<span class="chip algo">' + S.voice + " <b>" + VOICES[S.voice].name + "</b></span>" +
+      '<span class="loopchip">loop ' + LOOPNAMES[S.loop] + "</span>" +
+      '<span class="chip">delay <b>' + (S.delayOn ? "on" : "off") + "</b></span>" +
+      '<span class="chip">' + (S.pre ? "loop first" : "loop after delay") + "</span>" +
+      '<span class="chip">page <b>' + PL[S.page] + "</b></span>";
+  }
+  function arcHtml(a, hot) { var lab = ["CCW", "Noon", "CW"]; return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join(""); }
+  function detail() {
+    var dial = el("d-dial"), list = el("d-list");
+    list.innerHTML = ""; el("d-note").textContent = ""; dial.hidden = true; el("d-arc").innerHTML = "";
+    if (S.sel.kind === "knob") {
+      var key = PAGES[S.page].keys[S.sel.i], p = knobDef(key, S), v = S.pos[key];
+      el("d-name").textContent = p.name; el("d-where").textContent = "Knob " + (S.sel.i + 1) + " · page " + PL[S.page] + (p.dyn ? " · VOICE on " + VOICES[S.voice].name : "");
+      el("d-summary").textContent = p.sum; el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+      dial.hidden = false; el("pos").value = v; el("d-readout").textContent = p.read(v, S);
+      el("d-note").textContent = p.dyn ? "This knob changes job with the delay voice. Flip DIPs 1-3 to see the others." : "Default when its page isn't live at power-up: " + Math.round(p.def * 100) + "%.";
+    } else if (S.sel.kind === "tog") {
+      var t = TOGGLES[S.sel.i], cur = [S.t1, S.t2, S.page][S.sel.i];
+      el("d-name").textContent = t.name; el("d-where").textContent = t.where + " · click it again to flip"; el("d-summary").textContent = t.sum;
+      el("d-arc").innerHTML = t.pos.map(function (pp, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + pp + "</span>" + t.desc[i] + "</div>"; }).join("");
+    } else if (S.sel.kind === "foot") {
+      var f = FOOT[S.sel.i];
+      el("d-name").textContent = f.name + " · " + f.label; el("d-where").textContent = f.where + " · looper " + LOOPNAMES[S.loop]; el("d-summary").textContent = f.sum;
+      list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+    } else {
+      if (S.sel.i < 3) {
+        el("d-name").textContent = "DIP " + (S.sel.i + 1) + " · voice bit " + (1 << S.sel.i);
+        el("d-where").textContent = "voice now " + S.voice + " · " + VOICES[S.voice].name;
+        el("d-summary").textContent = VOICES[S.voice].sum;
+      } else {
+        el("d-name").textContent = "DIP 4 · loop first";
+        el("d-where").textContent = "now " + (S.pre ? "on" : "off");
+        el("d-summary").textContent = "Off: the looper records what you hear, your playing plus its echoes. On: the looper sits before the delay, so the loop plays into the echoes and a voice change changes the loop's repeats.";
+      }
+    }
+  }
+  el("pos").addEventListener("input", function () {
+    if (S.sel.kind !== "knob") return;
+    var key = PAGES[S.page].keys[S.sel.i]; S.pos[key] = parseFloat(this.value);
+    if (key === "time") S.tap = 0;
+    var p = knobDef(key, S), v = S.pos[key];
+    el("d-readout").textContent = p.read(v, S); el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+    var k = el("knobs").children[S.sel.i].querySelector(".knob"); if (k) k.style.setProperty("--rot", rot(v));
+  });
+  function render() { buildPedal(); strip(); detail(); }
+  function pageCards() {
+    el("page-cards").innerHTML = PAGES.map(function (pg) {
+      var rows = pg.keys.map(function (key, i) { var p = knobDef(key, S);
+        return "<tr><td class='k'>" + p.name + "<small>K" + (i + 1) + (p.dyn ? " · VOICE, per voice" : " · default " + Math.round(p.def * 100) + "%") + "</small></td><td>" +
+          (p.dyn ? p.sum : "<b>CCW</b> " + p.arc[0] + "<br><b>Noon</b> " + p.arc[1] + "<br><b>CW</b> " + p.arc[2]) + "</td></tr>"; }).join("");
+      return "<div class='tcard'><h3>" + pg.label + "<span>toggle 3 " + ["left", "centre", "right"][pg.id] + "</span></h3><div class='scroll'><table><tbody>" + rows + "</tbody></table></div></div>";
+    }).join("");
+  }
+  function voiceTable() {
+    el("dip-table").innerHTML = "<thead><tr><th>#</th><th>DIPs 1-3</th><th>Voice</th><th>VOICE knob</th><th>AGE</th></tr></thead><tbody>" +
+      VOICES.map(function (v, i) {
+        return "<tr" + (i === S.voice ? " style='font-weight:600'" : "") + "><td class='k'>" + i + "</td><td>" + dipsOn(i) + "</td><td><b>" + v.name + "</b></td><td>" + v.knob + "</td><td>" + v.age + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
+  function footTable() {
+    var rows = [
+      ["FS1", "Empty: record · recording: play · playing: overdub · overdubbing: play · stopped: play", "LED 1: fast blink rec, blink dub, on play"],
+      ["FS2 tap", "Playing / overdubbing: stop · stopped: play · recording: close and stop · empty: tap tempo", "LED 2 flashes on the tapped beat"],
+      ["FS2 hold 1 s", "Playing: undo / redo the last overdub · stopped: clear the loop", "LED 1 double flash (undo), flicker (clear)"],
+      ["FS1 + FS2 tap", "Delay on / off; its echoes ring out, the looper carries on", "LED 2 on = delay on"],
+      ["Both held 0.5 s / 2 s", "Expression set / clear (as on every WOOF pedal)", "Half bright while setting"],
+      ["Both held at power-up", "Flash mode (DFU)", "Blink 3x"]
+    ];
+    el("foot-table").innerHTML = "<thead><tr><th>Gesture</th><th>What it does</th><th>LEDs</th></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function rules() {
+    var R = [
+      ["Space-echo rhythm", "DIPs 1 + 2 (Multi-head), VOICE high for all four heads, FEEDBACK around 50%. Galloping, overlapping repeats."],
+      ["Tape runaway", "DIP 1 (Tape), FEEDBACK past 90%. It howls into self-oscillation; sweep TIME for the pitch dive."],
+      ["Dotted-eighth lead", "Tap a tempo on FS2 before you loop, toggle 1 centre. Rolling repeats locked to your song."],
+      ["Loop, then play the echoes", "DIP 4 on, then record a loop. Switch voices and the loop's repeats change under you."],
+      ["Octave-down bed", "Record a loop, flip toggle 2 to half speed: an octave down and twice as long. Overdub on top, then flip back."],
+      ["Disintegrating loop", "WEAR up on page C, then just let it play. Each pass darker and quieter, like an old tape loop."],
+      ["Ambient wash", "DIP 2 + 3 (Shimmer), long TIME, FEEDBACK high, SPREAD past 60% for ping-pong. Repeats climb into a halo."]
+    ];
+    el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
+  }
+  render(); pageCards(); voiceTable(); footTable(); rules();
+})();
+</script>
+
+</body>
+</html>
