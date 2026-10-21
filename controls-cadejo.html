@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<script>/* ?embed = shown inside the flasher after a flash: no site bar */
+try { if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed"); } catch (e) {}
+</script>
+<title>Cadejo Controls - W.O.O.F. - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a top-down drawing of the FunBox face beside a live detail panel,
+   then the signal path, then plain reference tables. Powder-coat white,
+   black knobs, the red of the side DIP as the one accent. */
+:root {
+  --bg: #e9ecee;
+  --panel: #fbfbfa;
+  --panel-edge: #cfd4d9;
+  --ink: #16181b;
+  --muted: #5a626c;
+  --rule: #d4d9de;
+  --knob: #1b1d21;
+  --knob-hi: #3a3e45;
+  --accent: #c8322a;
+  --led: #e39a2d;
+  --led-off: #c9cdd2;
+  --signal: #2d67ad;
+  --chip: #eef1f3;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+    --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+    --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+  --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+  --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 68px); text-transform: uppercase; }
+h2 { font-size: 30px; text-transform: uppercase; }
+h3 { font-size: 21px; text-transform: uppercase; }
+p { margin: 0; max-width: 66ch; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 12px; }
+header .lede { color: var(--muted); font-size: 16px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 18px; }
+.sec-head p { color: var(--muted); }
+
+/* ---------- pedal + detail ---------- */
+.stage { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.pedal-col { display: grid; gap: 10px; justify-items: center; }
+.pedal {
+  position: relative; width: 100%; max-width: 360px; aspect-ratio: 360 / 560;
+  background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 22px;
+  box-shadow: 0 1px 0 var(--panel-edge), 0 18px 40px -24px rgba(0,0,0,.45);
+  display: grid; grid-template-rows: 1.25fr .38fr .62fr; padding: 22px 26px 22px 26px;
+}
+.knobs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); place-items: center; row-gap: 6px; }
+.ctl { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; display: grid; justify-items: center; gap: 6px; border-radius: 12px; }
+.ctl:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.knob {
+  width: clamp(48px, 15vw, 62px); aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, var(--knob-hi), var(--knob) 62%);
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .2s;
+}
+.knob::after {
+  content: ""; position: absolute; left: 50%; top: 9%; width: 3px; height: 34%; margin-left: -1.5px;
+  background: #f4f4f2; border-radius: 2px; transform-origin: 50% 121%; transform: rotate(var(--rot, 0deg));
+}
+.ctl[aria-pressed="true"] .knob { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.silk { font: 700 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; }
+.silk small { display: block; font: 500 9px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-align: center; }
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; }
+.tog { width: 46px; height: 30px; position: relative; }
+.tog .nut { position: absolute; inset: 7px 13px; border-radius: 50%; background: var(--knob); }
+.tog .bat { position: absolute; left: 50%; top: 50%; width: 6px; height: 22px; margin: -11px 0 0 -3px; background: linear-gradient(var(--knob-hi), var(--knob)); border-radius: 3px; transform-origin: 50% 90%; transform: rotate(var(--tilt, 0deg)); transition: transform .15s; }
+.tog-pos { font: 500 10px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.tog-pos b { color: var(--ink); font-weight: 500; }
+.ctl[aria-pressed="true"] .tog { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.feet { display: grid; grid-template-columns: repeat(2, 1fr); place-items: center; align-content: end; }
+.foot { display: grid; justify-items: center; gap: 8px; }
+.led { width: 13px; height: 13px; border-radius: 50%; background: var(--led-off); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.led.on { background: var(--led); box-shadow: 0 0 10px var(--led), 0 0 2px var(--led); }
+.fs { width: 54px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f2f3f4, #a9aeb4 70%, #7d838a); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.ctl[aria-pressed="true"] .fs { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.dip {
+  position: absolute; right: -14px; top: 47%; width: 24px; padding: 6px 3px; display: grid; gap: 4px;
+  background: var(--accent); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.dip button { appearance: none; border: 0; height: 18px; border-radius: 2px; background: rgba(0,0,0,.28); position: relative; cursor: pointer; padding: 0; }
+.dip button::after { content: ""; position: absolute; top: 3px; bottom: 3px; width: 8px; left: 2px; background: #fff; border-radius: 1px; transition: left .12s; }
+.dip button[aria-pressed="true"]::after { left: 8px; }
+.dip button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.dip-tag { position: absolute; right: -14px; top: calc(47% - 22px); font: 500 9px/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; }
+.hint { font: 400 12px/1.4 var(--f-mono); color: var(--muted); text-align: center; max-width: 360px; }
+
+.detail { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.state-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); border: 1px solid var(--rule); }
+.chip b { color: var(--ink); font-weight: 500; }
+.chip.algo b { color: var(--accent); }
+.d-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.d-title h3 { font-size: 34px; }
+.d-where { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.d-summary { font-size: 16px; }
+.arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 520px) { .arc { grid-template-columns: minmax(0, 1fr); } }
+.arc div { border-top: 3px solid var(--rule); padding-top: 8px; min-width: 0; }
+.arc div.hot { border-top-color: var(--accent); }
+.arc span { display: block; font: 500 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.dial-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 14px; align-items: center; }
+.dial-row label { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.readout { grid-column: 1 / -1; font: 500 15px/1.4 var(--f-mono); background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+.d-note { color: var(--muted); font-size: 14px; }
+.d-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- signal path ---------- */
+.flow-box { overflow-x: auto; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
+.flow-box svg { display: block; min-width: 900px; width: 100%; height: auto; }
+.f-node rect { fill: var(--chip); stroke: var(--rule); }
+.f-node.gen rect { stroke: var(--accent); }
+.f-node text { fill: var(--ink); font: 700 15px var(--f-display); letter-spacing: .06em; }
+.f-node .ctrls { fill: var(--muted); font: 500 10.5px var(--f-mono); letter-spacing: 0; }
+.f-wire { stroke: var(--signal); stroke-width: 2.2; fill: none; }
+.f-wire.dash { stroke-dasharray: 5 4; }
+.f-label { fill: var(--muted); font: 500 11px var(--f-mono); }
+.f-arrow { fill: var(--signal); }
+
+/* ---------- tables ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.tcard { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tcard h3 span { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; margin-left: 8px; text-transform: none; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+th { font: 500 11px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.k { font: 700 15px/1.2 var(--f-display); letter-spacing: .06em; white-space: nowrap; }
+td.k small { display: block; font: 500 10px/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0; }
+.algos table { min-width: 860px; }
+.algos td:first-child { white-space: nowrap; }
+.algos .dipbits { font: 500 12px var(--f-mono); color: var(--accent); }
+.pill { display: inline-block; font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 999px; background: var(--chip); border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.rule-card { border-top: 3px solid var(--ink); padding-top: 12px; display: grid; gap: 8px; }
+.rule-card p { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font: 400 12px/1.5 var(--f-mono); }
+@media (max-width: 560px) {
+  body { padding-block: 20px 56px; }
+  .wrap { gap: 30px; }
+  .silk small { font-size: 10px; }
+  .hint { font-size: 11.5px; }
+  .tog-pos { font-size: 11px; }
+  .d-title h3 { font-size: 28px; }
+  .dip button { height: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<style>
+.site-bar { max-width: 1120px; margin: 0 auto 8px; display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 10px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.site-bar img { height: 30px; width: auto; display: block; }
+.site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1 var(--f-mono); letter-spacing: .08em; }
+.site-bar a { color: var(--ink); text-decoration: none; }
+.site-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.embed .site-bar { display: none; }
+.embed body { padding-block: 8px 24px; }
+footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="site-bar"><a href="https://nokillpedal.co" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a><nav><a href="index.html">FLASHER</a><a href="controls.html">CONTROLS</a><a href="transistors.html">TRANSISTORS</a><a href="guide.html">GUIDE</a><a href="https://nokillpedal.co">SHOP</a></nav></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NOKILL · digital line · FunBox v3 · built 2026-10-20</div>
+    <h1>Cadejo Control Map</h1>
+    <p class="lede">A sympathetic / chordal resonator, named for the ghost dog of Central American folklore. Six tuned strings ring along with your playing — a halo, a chord, struck bells, a shimmering wall or an infinite drone. The DIPs pick the mode, the toggles set the chord and range. Click anything on the drawing.</p>
+  </header>
+
+  <section>
+    <div class="stage">
+      <div class="pedal-col">
+        <div class="pedal" id="pedal">
+          <div class="knobs" id="knobs"></div>
+          <div class="toggles" id="toggles"></div>
+          <div class="feet" id="feet"></div>
+          <span class="dip-tag">DIP</span>
+          <div class="dip" id="dip" aria-label="DIP switches 1 to 4 on the right side"></div>
+        </div>
+        <p class="hint">Top view, same layout as the other canid pedals. DIPs 1-3 pick the mode (binary); DIP 4 is SUSTAIN. DIP 1 is the top switch on the right side.</p>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <div class="state-strip" id="strip"></div>
+        <div class="d-title"><h3 id="d-name"></h3><span class="d-where" id="d-where"></span></div>
+        <p class="d-summary" id="d-summary"></p>
+        <div class="arc" id="d-arc"></div>
+        <div class="dial-row" id="d-dial">
+          <label for="pos">Knob position</label>
+          <input type="range" id="pos" min="0" max="1" step="0.005" value="0.5">
+          <div class="readout" id="d-readout"></div>
+        </div>
+        <ul class="d-list" id="d-list"></ul>
+        <p class="d-note" id="d-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Signal path</h2>
+      <p>Your guitar excites a bank of six tuned Karplus-Strong strings. Each rings at its own pitch and decays over the time you set; a soft saturator in each string keeps the ring musical. The six are tuned to a chord (spacing) around a root, then a diffuse reverb blooms behind them.</p>
+    </div>
+    <div class="flow-box">
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Signal path: guitar into an exciter filter and onset / pitch tracker, into six tuned strings set by spacing and range, with a shimmer octave fed back, into an FDN reverb bloom, blended with the dry signal, width and volume out">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <g class="f-node"><rect x="10" y="40" width="96" height="54" rx="8"/><text x="58" y="64" text-anchor="middle">GUITAR</text><text class="ctrls" x="58" y="82" text-anchor="middle">EXCITE · TONE</text></g>
+        <g class="f-node"><rect x="130" y="34" width="150" height="66" rx="8"/><text x="205" y="56" text-anchor="middle">ONSET / PITCH</text><text class="ctrls" x="205" y="74" text-anchor="middle">pluck &amp; track</text><text class="ctrls" x="205" y="90" text-anchor="middle">(tracked modes)</text></g>
+        <g class="f-node gen"><rect x="300" y="120" width="400" height="76" rx="8"/><text x="500" y="144" text-anchor="middle">6 TUNED STRINGS</text><text class="ctrls" x="500" y="162" text-anchor="middle">SPACING (chord) · RANGE (octave) · ROOT</text><text class="ctrls" x="500" y="178" text-anchor="middle">DECAY · DAMP · SPREAD · VOICES · mode = DIPs</text></g>
+        <g class="f-node"><rect x="304" y="40" width="130" height="54" rx="8"/><text x="369" y="64" text-anchor="middle">SHIMMER</text><text class="ctrls" x="369" y="82" text-anchor="middle">octave up</text></g>
+        <g class="f-node"><rect x="740" y="128" width="120" height="60" rx="8"/><text x="800" y="152" text-anchor="middle">REVERB</text><text class="ctrls" x="800" y="170" text-anchor="middle">BLOOM · REVERB</text></g>
+        <g class="f-node"><rect x="560" y="226" width="130" height="56" rx="8"/><text x="625" y="250" text-anchor="middle">EQ · GATE</text><text class="ctrls" x="625" y="268" text-anchor="middle">HI/LO CUT</text></g>
+        <g class="f-node"><rect x="380" y="226" width="120" height="56" rx="8"/><text x="440" y="250" text-anchor="middle">MIX</text><text class="ctrls" x="440" y="268" text-anchor="middle">dry ↔ wet</text></g>
+        <g class="f-node"><rect x="220" y="226" width="120" height="56" rx="8"/><text x="280" y="250" text-anchor="middle">OUT</text><text class="ctrls" x="280" y="268" text-anchor="middle">WIDTH · VOL</text></g>
+        <path class="f-wire" d="M106 67 C 118 67, 118 67, 130 67" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M280 80 C 320 90, 420 100, 460 120" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M369 94 L 420 120" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M560 150 C 500 110, 430 110, 404 94" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M700 158 L 740 158" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M800 188 C 800 210, 700 230, 690 240" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M560 254 L 500 254" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M380 254 L 340 254" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M58 94 C 58 210, 300 250, 380 250" marker-end="url(#ar)"/>
+        <text class="f-label" x="70" y="200">dry, delayed</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Modes</h2>
+      <p>DIPs 1-3 count in binary: DIP 1 = 1, DIP 2 = 2, DIP 3 = 4. DIP 4 is SUSTAIN (forces the strings to ring continuously). Every mode uses the same six strings; they differ in how the strings are tuned and excited.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="mode-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Knob pages</h2>
+      <p>Toggle 3 picks the page. Knob pickup works as on the other pedals: after a page change a knob does nothing until you sweep it past that page's stored value.</p>
+    </div>
+    <div class="cards" id="page-cards"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Footswitches</h2></div>
+    <div class="tcard"><div class="scroll"><table id="foot-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Sounds to expect</h2></div>
+    <div class="rules" id="rules"></div>
+  </section>
+
+  <footer>Values in the readouts come from the same formulas the pedal runs. <a href="index.html">Back to the flasher</a></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  function fmtHz(hz) { return hz >= 1000 ? (hz / 1000).toFixed(2) + " kHz" : hz.toFixed(hz < 10 ? 2 : hz < 100 ? 1 : 0) + " Hz"; }
+  function fmtT(s) { return s < 1 ? (s * 1000).toFixed(0) + " ms" : s.toFixed(2) + " s"; }
+  function pct(x) { return Math.round(x * 100) + "%"; }
+  function note(freq) { var n = Math.round(69 + 12 * Math.log2(freq / 440)); var names = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]; return names[(n % 12 + 12) % 12] + (Math.floor(n / 12) - 1); }
+  function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
+
+  var MODES = [
+    ["Sympathetic", "Fixed strings that ring along with your playing — a tuned halo behind the guitar. Set its pitch with ROOT, its chord with SPACING. The more you play near a string's note, the more it blooms."],
+    ["Pluck", "The strings are struck on every note you play: a tuned harp layered under the guitar, at the fixed ROOT + SPACING chord. DECAY sets how long each pluck rings."],
+    ["Chord", "The strings track your pitch and ring the SPACING chord over the note you play. A resonant chord machine that follows you — the Ghosts side."],
+    ["Harp", "Tracks your pitch and plucks the whole chord on each new note, so fast lines cascade into arpeggios. Slightly stretched tuning for a harp-like shimmer."],
+    ["Bells", "Struck, with stretched (inharmonic) tuning and a bright damping for a glassy, metallic bell tone. Turn DAMP up for more glass."],
+    ["Choir", "Tracks your pitch, darker and continuous — a vowel-like sustained choir chord. Lean on BLOOM and REVERB."],
+    ["Prism", "A fixed whole-tone wall of six detuned strings — shimmering and tonally open, not tied to a key. SPACING is ignored; lean on SPREAD, BLOOM and REVERB. The wall."],
+    ["Drone", "A long-sustaining tuned drone under your playing. ROOT sets its pitch; play over it. DECAY near max makes it hold for many seconds."]
+  ];
+  function dipsOn(m) { var on = []; for (var i = 0; i < 3; i++) if (m & (1 << i)) on.push(i + 1); return on.length ? on.join(" + ") : "all off"; }
+  var SPACING = [["Octaves", "root, octave and overtones — organ-like and open"], ["Fifths", "a stacked power chord — big and tonal"], ["Thirds", "a major triad spread over two octaves"]];
+  var RANGE = [["Down", "the whole bank an octave lower"], ["Mid", "centered on ROOT / your note"], ["Up", "an octave higher — glassier"]];
+
+  var TRACKED = {2: 1, 3: 1, 5: 1};
+  var PLUCKED = {1: 1, 3: 1, 4: 1};
+  var DAMPMUL = [1.0, 1.1, 1.0, 1.2, 1.5, 0.6, 1.1, 0.9];
+
+  // readouts depend on mode where it matters
+  var P = {
+    root: {
+      name: "ROOT", def: 0.4, sum: "Fixed modes: the base pitch the strings are tuned to. Tracked modes (Chord, Harp, Choir): a transpose of the note you play, up or down an octave.", arc: ["low / down", "middle", "high / up"],
+      read: function (v, s) {
+        if (TRACKED[s.mode]) { var st = Math.round((v - 0.5) * 24); return (st === 0 ? "No transpose" : (st > 0 ? "+" : "") + st + " semitones"); }
+        var f = 440 * Math.pow(2, (33 + v * 36 - 69) / 12); return fmtHz(f) + " (" + note(f) + ")";
+      }
+    },
+    decay: { name: "DECAY", def: 0.6, sum: "How long the strings ring, from short plucks to long, swelling tails. Freeze (FS2) overrides this and holds forever.", arc: ["short", "medium", "long"], read: function (v) { return "T60 ≈ " + fmtT(0.1 * Math.pow(80, v)) + " at 100 Hz"; } },
+    damp: { name: "DAMP", def: 0.55, sum: "A lowpass inside each string: dark and mellow (fast-fading highs) to bright and metallic.", arc: ["dark", "warm", "bright"], read: function (v, s) { return "String lowpass " + fmtHz(clamp(500 * Math.pow(2, v * 4.5) * DAMPMUL[s.mode], 200, 16000)); } },
+    shimmer: { name: "SHIMMER", def: 0, sum: "Feeds a soft octave-up of the ring back into the strings, for a rising, crystalline shimmer.", arc: ["off", "glint", "full"], read: function (v) { return v <= 0.02 ? "Off" : "Shimmer " + pct(v); } },
+    spread: { name: "SPREAD", def: 0.3, sum: "Detunes the voices against each other and widens them in stereo — subtle chorus to lush, beating cloud.", arc: ["tight", "lush", "wide"], read: function (v) { return v <= 0.02 ? "Unison" : "±" + Math.round(v * 25) + " cents"; } },
+    bloom: { name: "BLOOM", def: 0.4, sum: "How much the strings feed the reverb — a dry halo to a huge ambient wash.", arc: ["dry", "halo", "wash"], read: function (v) { return v <= 0.02 ? "Dry" : "Bloom " + pct(v); } },
+    excite: { name: "EXCITE", def: 0.5, sum: "How hard your playing drives the strings. Low = subtle and dynamic; high = strings saturate into a thick, sustaining pad.", arc: ["subtle", "even", "thick"], read: function (v) { return "Drive " + pct(0.3 + 1.7 * v); } },
+    voices: { name: "VOICES", def: 1, sum: "How many of the six strings ring, from a single note to the full chord.", arc: ["one", "a few", "all six"], read: function (v) { return (1 + Math.round(v * 5)) + " of 6 strings"; } },
+    tone: { name: "TONE", def: 0.5, sum: "Brightness of the signal that excites the strings.", arc: ["dark", "warm", "bright"], read: function (v) { return "Exciter " + fmtHz(200 + 6000 * v); } },
+    move: { name: "MOVE", def: 0, sum: "A slow LFO that drifts the tuning and damping for a living, breathing wash. Rate.", arc: ["still", "drift", "flutter"], read: function (v) { return fmtHz(0.03 + 2 * v) + " drift"; } },
+    depth: { name: "DEPTH", def: 0.3, sum: "How far MOVE pushes the strings.", arc: ["none", "gentle", "deep"], read: function (v) { return pct(v); } },
+    reverb: { name: "REVERB", def: 0.5, sum: "Size and length of the bloom behind the strings.", arc: ["small room", "hall", "cavern"], read: function (v) { return (40 + 160 * v).toFixed(0) + " ms lines, " + pct(0.6 + 0.385 * v) + " feedback"; } },
+    blend: { name: "BLEND", def: 0.5, sum: "Dry guitar against the resonator. The dry path is delayed to line up, so blends don't comb.", arc: ["dry", "both", "all wet"], read: function (v) { return "Dry " + pct(1 - v) + " · wet " + pct(v); } },
+    vol: { name: "VOL", def: 0.5, sum: "Output volume.", arc: ["quiet", "noon", "loud"], read: function (v) { return v < 0.01 ? "Silent" : (20 * Math.log10(2.4 * v * v) >= 0 ? "+" : "") + (20 * Math.log10(2.4 * v * v)).toFixed(1) + " dB"; } },
+    hicut: { name: "HI CUT", def: 1, sum: "Lowpass on the output — tames any fizz on top of the wash.", arc: ["dark", "warm", "open"], read: function (v) { return v >= 0.99 ? "Open" : "Lowpass " + fmtHz(1200 * Math.pow(2, v * 3.7)); } },
+    locut: { name: "LO CUT", def: 0, sum: "Highpass on the output — clears mud under a big drone.", arc: ["full", "tight", "thin"], read: function (v) { return v <= 0.01 ? "Full range" : "Highpass " + fmtHz(20 * Math.pow(2, v * 5.5)); } },
+    width: { name: "WIDTH", def: 0.3, sum: "Stereo spread of the wet signal. Sums to mono cleanly.", arc: ["narrow", "wide", "widest"], read: function (v) { return "Width " + pct(v); } },
+    gate: { name: "GATE", def: 0, sum: "Mutes the wet signal when you stop playing, so the wash doesn't build up in the gaps. Off while FS2 holds a freeze.", arc: ["off", "medium", "tight"], read: function (v) { return v <= 0.02 ? "Off" : "Opens at " + (-72 + 42 * v).toFixed(0) + " dBFS"; } }
+  };
+  var PAGES = [
+    { id: 0, label: "Page L · live", keys: ["root", "decay", "damp", "shimmer", "spread", "bloom"] },
+    { id: 1, label: "Page C · fine tune", keys: ["excite", "voices", "tone", "move", "depth", "reverb"] },
+    { id: 2, label: "Page R · utility", keys: ["blend", "vol", "hicut", "locut", "width", "gate"] }
+  ];
+  var TOGGLES = [
+    { name: "SPACING", where: "Toggle 1", sum: "The chord the six strings are tuned to.", pos: ["Octaves", "Fifths", "Thirds"], desc: SPACING.map(function (x) { return x[1]; }) },
+    { name: "RANGE", where: "Toggle 2", sum: "Which octave the strings sit in.", pos: ["Down", "Mid", "Up"], desc: RANGE.map(function (x) { return x[1]; }) },
+    { name: "PAGE", where: "Toggle 3", sum: "Which six controls the knobs drive.", pos: ["L", "C", "R"], desc: ["ROOT · DECAY · DAMP / SHIMMER · SPREAD · BLOOM", "EXCITE · VOICES · TONE / MOVE · DEPTH · REVERB", "BLEND · VOL · HI CUT / LO CUT · WIDTH · GATE"] }
+  ];
+  var FOOT = [
+    { name: "FS1", where: "Left footswitch", sum: "Bypass on/off. LED 1 lit means the effect is on.", list: ["Tap: effect on / bypass.", "Hold both: expression set mode, as on every WOOF pedal.", "Hold both at power-up: flash mode."] },
+    { name: "FS2", where: "Right footswitch", sum: "FREEZE. Captures whatever the strings are ringing and holds it as an infinite drone — excitation stops, the chord sustains, and you play over it. Tap again to release. LED 2 lit = frozen. Click FS2 on the drawing to toggle.", list: ["Tap: freeze the current ring / release it.", "While frozen the gate is bypassed so the drone holds.", "LED 2 shows the freeze state."] }
+  ];
+
+  var S = { page: 0, t1: 1, t2: 1, mode: 0, sel: { kind: "knob", i: 0 }, pos: {}, led1: true, frozen: false };
+  Object.keys(P).forEach(function (k) { S.pos[k] = P[k].def; });
+  var el = function (id) { return document.getElementById(id); };
+  function rot(v) { return (-135 + v * 270) + "deg"; }
+  var PL = ["L", "C", "R"];
+
+  function buildPedal() {
+    var kWrap = el("knobs"); kWrap.innerHTML = "";
+    PAGES[S.page].keys.forEach(function (key, i) {
+      var p = P[key], b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "knob" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", "Knob " + (i + 1) + ": " + p.name);
+      b.innerHTML = '<span class="knob" style="--rot:' + rot(S.pos[key]) + '"></span><span class="silk">' + p.name + "<small>K" + (i + 1) + "</small></span>";
+      b.onclick = function () { S.sel = { kind: "knob", i: i }; render(); };
+      kWrap.appendChild(b);
+    });
+    var tWrap = el("toggles"); tWrap.innerHTML = "";
+    TOGGLES.forEach(function (t, i) {
+      var cur = [S.t1, S.t2, S.page][i];
+      var b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "tog" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", t.where + " " + t.name + ", now " + t.pos[cur] + ". Click to flip.");
+      b.innerHTML = '<span class="tog" style="--tilt:' + [-38, 0, 38][cur] + 'deg"><span class="nut"></span><span class="bat"></span></span>' +
+        '<span class="silk">' + t.name + "<small>" + t.pos.map(function (p, j) { return j === cur ? "<b>" + p + "</b>" : p; }).join(" · ") + "</small></span>";
+      b.onclick = function () {
+        if (S.sel.kind === "tog" && S.sel.i === i) { if (i === 0) S.t1 = (S.t1 + 1) % 3; else if (i === 1) S.t2 = (S.t2 + 1) % 3; else S.page = (S.page + 1) % 3; }
+        S.sel = { kind: "tog", i: i }; render(); pageCards();
+      };
+      tWrap.appendChild(b);
+    });
+    var fWrap = el("feet"); fWrap.innerHTML = "";
+    FOOT.forEach(function (f, i) {
+      var b = document.createElement("button");
+      b.className = "ctl foot"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", f.where + ", " + f.name);
+      b.innerHTML = '<span class="led' + ((i === 0 ? S.led1 : S.frozen) ? " on" : "") + '"></span><span class="fs"></span><span class="silk">' + (i === 1 ? "FREEZE" : f.name) + "</span>";
+      b.onclick = function () {
+        if (S.sel.kind === "foot" && S.sel.i === i) { if (i === 0) S.led1 = !S.led1; else S.frozen = !S.frozen; }
+        S.sel = { kind: "foot", i: i }; render();
+      };
+      fWrap.appendChild(b);
+    });
+    var d = el("dip"); d.innerHTML = "";
+    for (var i = 0; i < 4; i++) (function (i) {
+      var on = i < 3 ? !!(S.mode & (1 << i)) : S.sustain;
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.setAttribute("aria-label", "DIP " + (i + 1) + (i < 3 ? " mode bit " + (1 << i) : " sustain") + (on ? " on" : " off"));
+      b.title = "DIP " + (i + 1) + (i < 3 ? " · worth " + (1 << i) : " · SUSTAIN");
+      b.onclick = function () { if (i < 3) S.mode ^= (1 << i); else S.sustain = !S.sustain; S.sel = { kind: "dip", i: i }; render(); modeTable(); pageCards(); };
+      d.appendChild(b);
+    })(i);
+  }
+  function strip() {
+    el("strip").innerHTML = '<span class="chip algo">' + S.mode + " <b>" + MODES[S.mode][0] + "</b></span>" +
+      '<span class="chip">spacing <b>' + TOGGLES[0].pos[S.t1] + "</b></span>" +
+      '<span class="chip">range <b>' + TOGGLES[1].pos[S.t2] + "</b></span>" +
+      '<span class="chip">page <b>' + PL[S.page] + "</b></span>" +
+      (S.sustain ? '<span class="chip">SUSTAIN</span>' : "") + (S.frozen ? '<span class="chip">FROZEN</span>' : "");
+  }
+  function arcHtml(a, hot) { var lab = ["CCW", "Noon", "CW"]; return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join(""); }
+  function detail() {
+    var dial = el("d-dial"), list = el("d-list");
+    list.innerHTML = ""; el("d-note").textContent = ""; dial.hidden = true; el("d-arc").innerHTML = "";
+    if (S.sel.kind === "knob") {
+      var key = PAGES[S.page].keys[S.sel.i], p = P[key], v = S.pos[key];
+      el("d-name").textContent = p.name; el("d-where").textContent = "Knob " + (S.sel.i + 1) + " · page " + PL[S.page];
+      el("d-summary").textContent = p.sum; el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+      dial.hidden = false; el("pos").value = v; el("d-readout").textContent = p.read(v, S);
+      el("d-note").textContent = "Default when its page isn't live at power-up: " + Math.round(p.def * 100) + "%.";
+    } else if (S.sel.kind === "tog") {
+      var t = TOGGLES[S.sel.i], cur = [S.t1, S.t2, S.page][S.sel.i];
+      el("d-name").textContent = t.name; el("d-where").textContent = t.where + " · click it again to flip"; el("d-summary").textContent = t.sum;
+      el("d-arc").innerHTML = t.pos.map(function (pp, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + pp + "</span>" + t.desc[i] + "</div>"; }).join("");
+    } else if (S.sel.kind === "foot") {
+      var f = FOOT[S.sel.i];
+      el("d-name").textContent = f.name + (S.sel.i === 1 ? " · FREEZE" : ""); el("d-where").textContent = f.where; el("d-summary").textContent = f.sum;
+      list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+    } else {
+      el("d-name").textContent = S.sel.i < 3 ? "DIP " + (S.sel.i + 1) + " · mode bit " + (1 << S.sel.i) : "DIP 4 · SUSTAIN";
+      el("d-where").textContent = S.sel.i < 3 ? ("mode now " + S.mode + " · " + MODES[S.mode][0]) : ("now " + (S.sustain ? "on" : "off"));
+      if (S.sel.i < 3) { el("d-summary").textContent = MODES[S.mode][0] + " — " + MODES[S.mode][1]; }
+      else { el("d-summary").textContent = "Forces the strings to ring continuously, even in the struck modes (Pluck, Harp, Bells). Turns a plucked mode into an always-on sympathetic version."; }
+    }
+  }
+  el("pos").addEventListener("input", function () {
+    if (S.sel.kind !== "knob") return;
+    var key = PAGES[S.page].keys[S.sel.i]; S.pos[key] = parseFloat(this.value);
+    var p = P[key], v = S.pos[key];
+    el("d-readout").textContent = p.read(v, S); el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+    var k = el("knobs").children[S.sel.i].querySelector(".knob"); if (k) k.style.setProperty("--rot", rot(v));
+  });
+  function render() { buildPedal(); strip(); detail(); }
+  function pageCards() {
+    el("page-cards").innerHTML = PAGES.map(function (pg) {
+      var rows = pg.keys.map(function (key, i) { var p = P[key];
+        return "<tr><td class='k'>" + p.name + "<small>K" + (i + 1) + " · default " + Math.round(p.def * 100) + "%</small></td><td><b>CCW</b> " + p.arc[0] + "<br><b>Noon</b> " + p.arc[1] + "<br><b>CW</b> " + p.arc[2] + "</td></tr>"; }).join("");
+      return "<div class='tcard'><h3>" + pg.label + "<span>toggle 3 " + ["left", "centre", "right"][pg.id] + "</span></h3><div class='scroll'><table><tbody>" + rows + "</tbody></table></div></div>";
+    }).join("");
+  }
+  function modeTable() {
+    el("mode-table").innerHTML = "<thead><tr><th>#</th><th>DIPs 1-3</th><th>Mode</th><th>Excite</th><th>Tuning</th></tr></thead><tbody>" +
+      MODES.map(function (m, i) {
+        return "<tr" + (i === S.mode ? " style='font-weight:600'" : "") + "><td class='k'>" + i + "</td><td>" + dipsOn(i) + "</td><td><b>" + m[0] + "</b></td><td>" +
+          (PLUCKED[i] ? "struck" : "continuous") + "</td><td>" + (TRACKED[i] ? "tracks your pitch" : (i === 6 ? "fixed whole-tone" : "fixed (ROOT)")) + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
+  function footTable() {
+    var rows = [["Tap FS1", "Effect on / bypass", "LED 1 lit = on"], ["Tap FS2", "Freeze / release the ring", "LED 2 lit = frozen"],
+      ["Hold both 0.5 s / 2 s", "Expression set / clear", "Half bright while setting"], ["Hold both at power-up", "Flash mode (DFU)", "Blink 3×"]];
+    el("foot-table").innerHTML = "<thead><tr><th>Gesture</th><th>What it does</th><th>LEDs</th></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function rules() {
+    var R = [
+      ["Sympathetic halo", "DIPs all off (Sympathetic), SPACING Fifths, DECAY ~60%, BLEND ~55%. A tuned shimmer rings behind everything you play, in the key you set with ROOT."],
+      ["Chord that follows you", "DIP 2 (Chord), SPACING Thirds. Play single notes and the strings fill in the triad over each one. The Ghosts side."],
+      ["Harp arpeggios", "DIPs 1+2 (Harp). Fast playing cascades into shimmering, picked chords."],
+      ["Glass bells", "DIP 3 (Bells), DAMP high, RANGE up. Struck, stretched tuning — add BLOOM for a music box in a cathedral."],
+      ["Prismatic wall", "DIPs 2+3 (Prism), SPREAD high, BLOOM + REVERB high. A shimmering, keyless wall of sound. Lean into it."],
+      ["Infinite drone", "DIP 1+2+3 (Drone) with ROOT low, or any mode + tap FS2 to FREEZE. Hold a pad under your solo and play over the top."],
+      ["Shimmer reverb", "Chord mode, SHIMMER up, BLOOM high. Each note blooms and climbs an octave, Blackhole-style, but in tune with your chord."]
+    ];
+    el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
+  }
+  render(); modeTable(); pageCards(); footTable(); rules();
+})();
+</script>
+
+</body>
+</html>

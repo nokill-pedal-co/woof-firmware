@@ -589,6 +589,12 @@
                         <span class="featured-desc">Sixteen fuzz circuits in one pedal: germanium and silicon Face, Bender, Muffs, octave up, gated sputter, Superfuzz, Factory squeal, plus 8-bit, theremin, harmony swarm, ring and parallel drive. Three voicings each.</span>
                         <span class="featured-state">Select Dire Wolf</span>
                     </button>
+                    <button type="button" class="featured" data-key="cadejo_funbox" data-name="Cadejo" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Cadejo</span>
+                        <span class="featured-desc">A sympathetic / chordal resonator: six tuned strings ring along with your playing as a halo, a tracked chord, struck bells, a shimmering wall or an infinite drone. Eight modes on the DIPs, freeze on the footswitch.</span>
+                        <span class="featured-state">Select Cadejo</span>
+                    </button>
                 </div>
                 <details class="archive" id="archive">
                     <summary>Archive <span>&middot; every earlier WOOF effect</span></summary>
@@ -752,6 +758,24 @@
                 'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
                 'FS1 = Bypass (fixed)',
                 'FS2 = Channel recall: tap = switch between two full sounds A / B (LED 2 lit = B); hold ~1 s and release = copy this channel to the other. On Feral, Swarm and Theremin, hold = drone / freeze while held',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        cadejo_funbox: {
+            name: 'Cadejo (FunBox)',
+            file: 'cadejo_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'A sympathetic / chordal resonator. Six tuned Karplus-Strong string voices ring along with your playing; the mode (DIPs) decides how they are tuned and excited, so the same strings give a sympathetic halo, a pitch-tracked chord, struck bells, a shimmering whole-tone wall or an infinite drone, with a reverb bloom behind them.',
+            controls: [
+                'DIP1-3 = Mode, binary (DIP1 = 1, DIP2 = 2, DIP3 = 4): 0 Sympathetic, 1 Pluck, 2 Chord, 3 Harp, 4 Bells, 5 Choir, 6 Prism, 7 Drone',
+                'DIP4 = SUSTAIN: force the strings to ring continuously (plucked modes become sympathetic)',
+                'SW1 = Spacing (the chord): left Octaves / center Fifths / right Thirds',
+                'SW2 = Range: left down / center mid / right up',
+                'SW3 = Knob page: left (live) = ROOT DECAY DAMP / SHIMMER SPREAD BLOOM, center (fine) = EXCITE VOICES TONE / MOVE DEPTH REVERB, right (utility) = BLEND VOL HI CUT / LO CUT WIDTH GATE',
+                'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
+                'FS1 = Bypass (fixed)',
+                'FS2 = FREEZE: hold the current ring as an infinite drone and play over it; tap again to release (LED 2 lit = frozen)',
                 'See full controls reference at /controls.html'
             ]
         },
