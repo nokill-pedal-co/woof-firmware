@@ -601,6 +601,12 @@
                         <span class="featured-desc">A 90-second looper wrapped around eight delay voices: tape, bucket-brigade, multi-head, oil can, reverse, shimmer, lo-fi and clean digital. FS1 loops, FS2 stops and undoes, both together turn the delay on and off.</span>
                         <span class="featured-state">Select Dhole</span>
                     </button>
+                    <button type="button" class="featured" data-key="husky_funbox" data-name="Husky" aria-pressed="false">
+                        <span class="featured-tag">Current release &middot; FunBox &middot; Guitar</span>
+                        <span class="featured-name">Husky</span>
+                        <span class="featured-desc">Your guitar talks. Every note you pick is the next syllable of a synthesized voice at that pitch: a bright singer, a laid-back &ldquo;wow&rdquo;, a gravelly grunt, a tiny robot or a sour shrieker. FS2 says the catchphrase on its own.</span>
+                        <span class="featured-state">Select Husky</span>
+                    </button>
                 </div>
                 <details class="archive" id="archive">
                     <summary>Archive <span>&middot; every earlier WOOF effect</span></summary>
@@ -764,6 +770,30 @@
                 'Knob pickup = after a page change a knob takes over only once you sweep it past that page\'s value',
                 'FS1 = Bypass (fixed)',
                 'FS2 = Channel recall: tap = switch between two full sounds A / B (LED 2 lit = B); hold ~1 s and release = copy this channel to the other. On Feral, Swarm and Theremin, hold = drone / freeze while held',
+                'See full controls reference at /controls.html'
+            ]
+        },
+        husky_funbox: {
+            name: 'Husky (FunBox)',
+            file: 'husky_funbox.bin',
+            platform: 'funbox',
+            official: true,
+            desc: 'Your guitar talks. Husky tracks the note you play and every note you pick starts the next syllable of a synthesized voice at that pitch (all synthesis, no recordings). Five characters: Sing (bright singer), Wow (laid-back, an octave down), Grunt (gravelly, creaky), Beep (8-bit robot) and Sour (shrill and nasal, an octave up). Monophonic: play single notes.',
+            controls: [
+                'K1 = VOICE: five zones, Sing / Wow / Grunt / Beep / Sour',
+                'K2 = PHRASE: three zones, one held vowel / a cycle of syllables / the catchphrase across your notes',
+                'K3 = PITCH: -12 to +12 semitones, noon = your note',
+                'K4 = GLIDE: word length and how slowly the voice slides between notes',
+                'K5 = MIX: guitar to voice (full = voice only)',
+                'K6 = VOL: noon = unity',
+                'SW1 = Character: left mild / center normal / right extreme',
+                'SW2 = Octave: left down / center off / right up',
+                'SW3 = Vibrato: left off / center natural / right wide',
+                'DIP1 = SNAP (sing in exact semitones), DIP2 = HARMONY (second voice a fifth up), DIP3 = TALKBOX (your guitar is shaped into words), DIP4 = WHISPER',
+                'FS1 = Bypass',
+                'FS2 = SAY IT: the catchphrase at your last note, no picking needed (MIDI CC21 too)',
+                'A pause of 1.5 s starts the phrase over; hammer-ons and slides count as new notes',
+                'LED1 = effect on; LED2 = the voice is speaking',
                 'See full controls reference at /controls.html'
             ]
         },

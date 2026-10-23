@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<script>/* ?embed = shown inside the flasher after a flash: no site bar */
+try { if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed"); } catch (e) {}
+</script>
+<title>Husky Controls - W.O.O.F. - NOKILL Pedal Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a top-down drawing of the FunBox face beside a live detail panel,
+   then the signal path, then plain reference tables. Powder-coat white,
+   black knobs, the red of the side DIP as the one accent. */
+:root {
+  --bg: #e9ecee;
+  --panel: #fbfbfa;
+  --panel-edge: #cfd4d9;
+  --ink: #16181b;
+  --muted: #5a626c;
+  --rule: #d4d9de;
+  --knob: #1b1d21;
+  --knob-hi: #3a3e45;
+  --accent: #c8322a;
+  --led: #e39a2d;
+  --led-off: #c9cdd2;
+  --signal: #2d67ad;
+  --chip: #eef1f3;
+  --f-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+    --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+    --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111315; --panel: #1c1f23; --panel-edge: #33383f; --ink: #e8eaed; --muted: #9aa3ad;
+  --rule: #2e3339; --knob: #08090a; --knob-hi: #4a4f57; --accent: #ff5b4f; --led: #ffb04a;
+  --led-off: #3a3f46; --signal: #6fa6ff; --chip: #24282d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 68px); text-transform: uppercase; }
+h2 { font-size: 30px; text-transform: uppercase; }
+h3 { font-size: 21px; text-transform: uppercase; }
+p { margin: 0; max-width: 66ch; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+header { display: grid; gap: 12px; }
+header .lede { color: var(--muted); font-size: 16px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 18px; }
+.sec-head p { color: var(--muted); }
+
+/* ---------- pedal + detail ---------- */
+.stage { display: grid; grid-template-columns: minmax(0, 430px) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 860px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.pedal-col { display: grid; gap: 10px; justify-items: center; }
+.pedal {
+  position: relative; width: 100%; max-width: 360px; aspect-ratio: 360 / 560;
+  background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 22px;
+  box-shadow: 0 1px 0 var(--panel-edge), 0 18px 40px -24px rgba(0,0,0,.45);
+  display: grid; grid-template-rows: 1.25fr .38fr .62fr; padding: 22px 26px 22px 26px;
+}
+.knobs { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); place-items: center; row-gap: 6px; }
+.ctl { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; color: inherit; font: inherit; display: grid; justify-items: center; gap: 6px; border-radius: 12px; }
+.ctl:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.knob {
+  width: clamp(48px, 15vw, 62px); aspect-ratio: 1; border-radius: 50%; position: relative;
+  background: radial-gradient(circle at 35% 30%, var(--knob-hi), var(--knob) 62%);
+  box-shadow: 0 3px 0 rgba(0,0,0,.25), inset 0 0 0 2px rgba(255,255,255,.04);
+  transition: transform .2s;
+}
+.knob::after {
+  content: ""; position: absolute; left: 50%; top: 9%; width: 3px; height: 34%; margin-left: -1.5px;
+  background: #f4f4f2; border-radius: 2px; transform-origin: 50% 121%; transform: rotate(var(--rot, 0deg));
+}
+.ctl[aria-pressed="true"] .knob { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.silk { font: 700 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; }
+.silk small { display: block; font: 500 9px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-align: center; }
+.toggles { display: grid; grid-template-columns: repeat(3, 1fr); place-items: center; }
+.tog { width: 46px; height: 30px; position: relative; }
+.tog .nut { position: absolute; inset: 7px 13px; border-radius: 50%; background: var(--knob); }
+.tog .bat { position: absolute; left: 50%; top: 50%; width: 6px; height: 22px; margin: -11px 0 0 -3px; background: linear-gradient(var(--knob-hi), var(--knob)); border-radius: 3px; transform-origin: 50% 90%; transform: rotate(var(--tilt, 0deg)); transition: transform .15s; }
+.tog-pos { font: 500 10px/1 var(--f-mono); color: var(--muted); letter-spacing: .04em; }
+.tog-pos b { color: var(--ink); font-weight: 500; }
+.ctl[aria-pressed="true"] .tog { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.feet { display: grid; grid-template-columns: repeat(2, 1fr); place-items: center; align-content: end; }
+.foot { display: grid; justify-items: center; gap: 8px; }
+.led { width: 13px; height: 13px; border-radius: 50%; background: var(--led-off); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+.led.on { background: var(--led); box-shadow: 0 0 10px var(--led), 0 0 2px var(--led); }
+.fs { width: 54px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f2f3f4, #a9aeb4 70%, #7d838a); box-shadow: 0 4px 0 rgba(0,0,0,.25); }
+.ctl[aria-pressed="true"] .fs { box-shadow: 0 0 0 3px var(--panel), 0 0 0 5px var(--accent); }
+.dip {
+  position: absolute; right: -14px; top: 47%; width: 24px; padding: 6px 3px; display: grid; gap: 4px;
+  background: var(--accent); border-radius: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+.dip button { appearance: none; border: 0; height: 18px; border-radius: 2px; background: rgba(0,0,0,.28); position: relative; cursor: pointer; padding: 0; }
+.dip button::after { content: ""; position: absolute; top: 3px; bottom: 3px; width: 8px; left: 2px; background: #fff; border-radius: 1px; transition: left .12s; }
+.dip button[aria-pressed="true"]::after { left: 8px; }
+.dip button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.dip-tag { position: absolute; right: -14px; top: calc(47% - 22px); font: 500 9px/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; }
+.hint { font: 400 12px/1.4 var(--f-mono); color: var(--muted); text-align: center; max-width: 360px; }
+
+.detail { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.state-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--f-mono); padding: 7px 10px; border-radius: 999px; background: var(--chip); color: var(--muted); border: 1px solid var(--rule); }
+.chip b { color: var(--ink); font-weight: 500; }
+.chip.algo b { color: var(--accent); }
+.d-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+.d-title h3 { font-size: 34px; }
+.d-where { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.d-summary { font-size: 16px; }
+.arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 520px) { .arc { grid-template-columns: minmax(0, 1fr); } }
+.arc div { border-top: 3px solid var(--rule); padding-top: 8px; min-width: 0; }
+.arc div.hot { border-top-color: var(--accent); }
+.arc span { display: block; font: 500 11px/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.dial-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 14px; align-items: center; }
+.dial-row label { font: 500 12px/1 var(--f-mono); color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.readout { grid-column: 1 / -1; font: 500 15px/1.4 var(--f-mono); background: var(--chip); border-radius: 10px; padding: 10px 12px; }
+.d-note { color: var(--muted); font-size: 14px; }
+.d-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+
+/* ---------- signal path ---------- */
+.flow-box { overflow-x: auto; background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 16px; }
+.flow-box svg { display: block; min-width: 900px; width: 100%; height: auto; }
+.f-node rect { fill: var(--chip); stroke: var(--rule); }
+.f-node.gen rect { stroke: var(--accent); }
+.f-node text { fill: var(--ink); font: 700 15px var(--f-display); letter-spacing: .06em; }
+.f-node .ctrls { fill: var(--muted); font: 500 10.5px var(--f-mono); letter-spacing: 0; }
+.f-wire { stroke: var(--signal); stroke-width: 2.2; fill: none; }
+.f-wire.dash { stroke-dasharray: 5 4; }
+.f-label { fill: var(--muted); font: 500 11px var(--f-mono); }
+.f-arrow { fill: var(--signal); }
+
+/* ---------- tables ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.tcard { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 16px; padding: 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.tcard h3 span { font: 500 12px/1 var(--f-mono); color: var(--muted); letter-spacing: .06em; margin-left: 8px; text-transform: none; }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 10px; border-bottom: 1px solid var(--rule); }
+th { font: 500 11px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.k { font: 700 15px/1.2 var(--f-display); letter-spacing: .06em; white-space: nowrap; }
+td.k small { display: block; font: 500 10px/1.3 var(--f-mono); color: var(--muted); letter-spacing: 0; }
+.algos table { min-width: 860px; }
+.algos td:first-child { white-space: nowrap; }
+.algos .dipbits { font: 500 12px var(--f-mono); color: var(--accent); }
+.pill { display: inline-block; font: 500 11px/1 var(--f-mono); padding: 4px 7px; border-radius: 999px; background: var(--chip); border: 1px solid var(--rule); color: var(--muted); white-space: nowrap; }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.rule-card { border-top: 3px solid var(--ink); padding-top: 12px; display: grid; gap: 8px; }
+.rule-card p { color: var(--muted); font-size: 14px; }
+footer { color: var(--muted); font: 400 12px/1.5 var(--f-mono); }
+@media (max-width: 560px) {
+  body { padding-block: 20px 56px; }
+  .wrap { gap: 30px; }
+  .silk small { font-size: 10px; }
+  .hint { font-size: 11.5px; }
+  .tog-pos { font-size: 11px; }
+  .d-title h3 { font-size: 28px; }
+  .dip button { height: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<style>
+/* Husky additions: the speech bubble that shows what the voice says */
+.say { font: 600 22px/1.25 var(--f-display); letter-spacing: .04em; text-transform: uppercase; padding: 12px 16px; border-radius: 14px; background: var(--chip); border: 1px solid var(--rule); position: relative; }
+.say small { display: block; font: 500 11px/1.3 var(--f-mono); letter-spacing: .06em; color: var(--muted); text-transform: none; margin-top: 4px; }
+.say .hot { color: var(--accent); }
+</style>
+
+<style>
+.site-bar { max-width: 1120px; margin: 0 auto 8px; display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: 10px 24px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.site-bar img { height: 30px; width: auto; display: block; }
+.site-bar nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1 var(--f-mono); letter-spacing: .08em; }
+.site-bar a { color: var(--ink); text-decoration: none; }
+.site-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.embed .site-bar { display: none; }
+.embed body { padding-block: 8px 24px; }
+footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="site-bar"><a href="https://nokillpedal.co" aria-label="NOKILL Pedal Co"><img src="logo.png" alt="NOKILL Pedal Co"></a><nav><a href="index.html">FLASHER</a><a href="controls.html">CONTROLS</a><a href="transistors.html">TRANSISTORS</a><a href="guide.html">GUIDE</a><a href="https://nokillpedal.co">SHOP</a></nav></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NOKILL · digital line · FunBox v3 · built 2026-10-22</div>
+    <h1>Husky Control Map</h1>
+    <p class="lede">Your guitar talks. Named for the dog that talks back. Husky tracks the note you play, and every note you pick starts a syllable in a synthesized voice at that pitch. There are five characters, all synthesis with no recordings: a bright singer, a laid-back "wow", a gravelly grunt, a tiny robot and a sour shrieker. Click anything on the drawing.</p>
+  </header>
+
+  <section>
+    <div class="stage">
+      <div class="pedal-col">
+        <div class="pedal" id="pedal">
+          <div class="knobs" id="knobs"></div>
+          <div class="toggles" id="toggles"></div>
+          <div class="feet" id="feet"></div>
+          <span class="dip-tag">DIP</span>
+          <div class="dip" id="dip" aria-label="DIP switches 1 to 4 on the right side"></div>
+        </div>
+        <p class="hint">Top view. One page, no paging: every control does one thing. DIP 1 is the top switch on the right side.</p>
+      </div>
+
+      <div class="detail" id="detail" aria-live="polite">
+        <div class="state-strip" id="strip"></div>
+        <div class="say" id="say"></div>
+        <div class="d-title"><h3 id="d-name"></h3><span class="d-where" id="d-where"></span></div>
+        <p class="d-summary" id="d-summary"></p>
+        <div class="arc" id="d-arc"></div>
+        <div class="dial-row" id="d-dial">
+          <label for="pos">Knob position</label>
+          <input type="range" id="pos" min="0" max="1" step="0.005" value="0.5">
+          <div class="readout" id="d-readout"></div>
+        </div>
+        <ul class="d-list" id="d-list"></ul>
+        <p class="d-note" id="d-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Playing it</h2>
+      <p>Pick a note and the voice says the next syllable at that pitch. Hammer-ons, pull-offs and slides count as new notes too. The voice gets louder and quieter with your playing. Stop for a second and a half and the phrase starts over from its first syllable. It's monophonic: play single notes, not chords.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="foot-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Signal path</h2>
+      <p>The voice is built from scratch every time. A buzzing source at your pitch passes through four resonances that move like a mouth (the formants), with bursts of breath and hiss for the consonants. TALKBOX swaps the buzz for your guitar, so the guitar itself is shaped into words.</p>
+    </div>
+    <div class="flow-box">
+      <svg viewBox="0 0 1000 330" role="img" aria-label="Signal path: the guitar feeds a pitch tracker and pick detector, which drive the syllable clock and the voice source. The source runs through the four-formant vocal tract, then the character colour, then the mix with the dry guitar and out. FS2 starts the catchphrase on the syllable clock. With TALKBOX on, the guitar replaces the source.">
+        <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-arrow" d="M0 0 L10 5 L0 10 z"/></marker></defs>
+        <g class="f-node"><rect x="10" y="130" width="96" height="54" rx="8"/><text x="58" y="154" text-anchor="middle">GUITAR</text><text class="ctrls" x="58" y="172" text-anchor="middle">your note</text></g>
+        <g class="f-node"><rect x="146" y="122" width="150" height="70" rx="8"/><text x="221" y="146" text-anchor="middle">LISTEN</text><text class="ctrls" x="221" y="164" text-anchor="middle">pitch tracker · picks</text><text class="ctrls" x="221" y="180" text-anchor="middle">loudness · SNAP</text></g>
+        <g class="f-node gen"><rect x="340" y="20" width="200" height="70" rx="8"/><text x="440" y="44" text-anchor="middle">SYLLABLE CLOCK</text><text class="ctrls" x="440" y="62" text-anchor="middle">VOICE · PHRASE · GLIDE</text><text class="ctrls" x="440" y="78" text-anchor="middle">CHARACTER</text></g>
+        <g class="f-node"><rect x="600" y="20" width="160" height="56" rx="8"/><text x="680" y="44" text-anchor="middle">FS2 SAY IT</text><text class="ctrls" x="680" y="62" text-anchor="middle">catchphrase · MIDI 21</text></g>
+        <g class="f-node gen"><rect x="340" y="122" width="200" height="70" rx="8"/><text x="440" y="146" text-anchor="middle">VOICE SOURCE</text><text class="ctrls" x="440" y="164" text-anchor="middle">PITCH · OCTAVE · VIBRATO</text><text class="ctrls" x="440" y="180" text-anchor="middle">HARMONY · WHISPER</text></g>
+        <g class="f-node gen"><rect x="580" y="122" width="170" height="70" rx="8"/><text x="665" y="146" text-anchor="middle">VOCAL TRACT</text><text class="ctrls" x="665" y="164" text-anchor="middle">4 formants · nasal</text><text class="ctrls" x="665" y="180" text-anchor="middle">breath · hiss</text></g>
+        <g class="f-node"><rect x="790" y="122" width="90" height="70" rx="8"/><text x="835" y="146" text-anchor="middle">COLOUR</text><text class="ctrls" x="835" y="164" text-anchor="middle">grit · crush</text></g>
+        <g class="f-node"><rect x="790" y="240" width="190" height="56" rx="8"/><text x="885" y="264" text-anchor="middle">OUT</text><text class="ctrls" x="885" y="282" text-anchor="middle">MIX · VOL · limiter</text></g>
+        <path class="f-wire" d="M106 157 L 146 157" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M296 140 C 320 140, 320 60, 340 60" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M296 157 L 340 157" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M600 48 L 540 48" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M440 90 L 440 122" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M540 72 C 600 80, 640 90, 660 122" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M540 157 L 580 157" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M750 157 L 790 157" marker-end="url(#ar)"/>
+        <path class="f-wire" d="M835 192 L 835 240" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M58 184 C 58 300, 700 300, 790 270" marker-end="url(#ar)"/>
+        <path class="f-wire dash" d="M90 184 C 140 240, 330 240, 380 192" marker-end="url(#ar)"/>
+        <text class="f-label" x="300" y="296">dry</text>
+        <text class="f-label" x="170" y="246">TALKBOX: guitar is the source</text>
+        <text class="f-label" x="560" y="104">vowels, consonants</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Voices</h2>
+      <p>VOICE (knob 1) picks one of five characters. PHRASE (knob 2) picks what it says: one held vowel, a cycle of syllables, or its catchphrase across your notes.</p>
+    </div>
+    <div class="tcard"><div class="scroll"><table id="dip-table"></table></div></div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Switches</h2>
+      <p>Toggles change how much of each character you get. The DIPs change what the voice is made of.</p>
+    </div>
+    <div class="cards" id="page-cards"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Sounds to expect</h2></div>
+    <div class="rules" id="rules"></div>
+  </section>
+
+  <footer>Values in the readouts come from the same formulas the pedal runs. <a href="index.html">Back to the flasher</a></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  function fmtT(s) { return s < 1 ? (s * 1000).toFixed(0) + " ms" : s.toFixed(2) + " s"; }
+  function pct(x) { return Math.round(x * 100) + "%"; }
+  function db(x) { return (x >= 0 ? "+" : "") + x.toFixed(1) + " dB"; }
+  function semis(n) { return (n > 0 ? "+" : "") + n + (Math.abs(n) === 1 ? " semitone" : " semitones"); }
+
+  // per character: wordSec, glideMs, vibrato cents at "natural", octave offset
+  var VOICES = [
+    { name: "Sing", word: 0.25, glide: 25, vib: 30, oct: 0, sound: "Bright, young singer. Light vibrato, quick on the pitch.",
+      say: ["aah", "a · i · u · e · o", "la · la · li · lu · le · lo"], how: ["", "Each note the next vowel.", "Each note the next syllable."] },
+    { name: "Wow", word: 0.6, glide: 70, vib: 12, oct: -12, sound: "Laid-back male voice, an octave below your note. The pitch falls through each word.",
+      say: ["aah", "wah · woh · ow · wow", "w-AH-ow"], how: ["", "Each one sags at the end.", "One long, amazed word on every note."] },
+    { name: "Grunt", word: 0.5, glide: 60, vib: 0, oct: -12, sound: "Gravelly and creaky, an octave below. Breathy onsets, gritty buzz.",
+      say: ["uh", "huh · ar · uk · her", "hrrh?"], how: ["", "Grunts and huffs.", "A creaky grunt that climbs like a question."] },
+    { name: "Beep", word: 0.18, glide: 8, vib: 0, oct: 0, sound: "A tiny 8-bit robot on a square wave, crushed, singing in exact semitones.",
+      say: ["eee", "bee · boo · bo · ba", "beep · boop"], how: ["", "Short and chirpy.", "Beep on one note, boop a fourth lower on the next."] },
+    { name: "Sour", word: 0.3, glide: 20, vib: 45, oct: 12, sound: "Shrill, nasal and overdriven, an octave above. Fast, wide vibrato.",
+      say: ["aaa", "eh · aa · ee", "un · ac · cep · ta · BLE"], how: ["", "Every syllable slides up.", "Five notes; the last syllable is screamed."] }
+  ];
+  var PHRASES = ["Vowel", "Syllables", "Catchphrase"];
+  function vIdx(v) { return Math.floor(Math.min(Math.max(v, 0), 1) * 4.999); }
+  function pIdx(v) { return Math.floor(Math.min(Math.max(v, 0), 1) * 2.999); }
+  function transpose(v) { var d = v - 0.5; return Math.abs(d) < 0.04 ? 0 : Math.round(d * 24); }
+
+  var P = {
+    voice: { name: "VOICE", def: 0.3, sum: "Picks the character: five zones around the dial.", arc: ["Sing", "Grunt", "Sour"],
+      read: function (v) { var c = VOICES[vIdx(v)]; return c.name + ": " + c.sound; } },
+    phrase: { name: "PHRASE", def: 0.83, sum: "What the voice says. Three zones: one held vowel that follows your notes, a cycle of syllables (one per note), or the voice's catchphrase spread across your notes.", arc: ["vowel", "syllables", "catchphrase"],
+      read: function (v, s) { var c = VOICES[s.voiceIdx], z = pIdx(v); return PHRASES[z] + ": “" + c.say[z] + "”"; } },
+    pitch: { name: "PITCH", def: 0.5, sum: "Transposes the voice in semitones, up to an octave either way. A small dead zone at noon is exactly your note.", arc: ["-12", "your note", "+12"],
+      read: function (v) { var t = transpose(v); return t === 0 ? "Your note" : semis(t); } },
+    glide: { name: "GLIDE", def: 0.4, sum: "How long a word takes to unfold, and how slowly the voice slides between notes. Low is snappy and clipped; high is drawn out and slurred.", arc: ["snappy", "natural", "drawn out"],
+      read: function (v, s) { var c = VOICES[s.voiceIdx], k = 0.5 + 1.5 * v; return "Word " + fmtT(c.word * k) + " · slide " + fmtT(c.glide * k / 1000); } },
+    mix: { name: "MIX", def: 0.7, sum: "Guitar against voice. All the way up is the voice alone.", arc: ["guitar", "both", "voice only"],
+      read: function (v) { return "Voice " + pct(v) + " · guitar " + pct(1 - v); } },
+    vol: { name: "VOL", def: 0.5, sum: "Output volume. Noon is unity, and every voice is matched to the same level there.", arc: ["quiet", "unity", "+9 dB"],
+      read: function (v) { return v < 0.01 ? "Silent" : db(20 * Math.log10(2.828427 * Math.pow(v, 1.5))); } }
+  };
+  var KEYS = ["voice", "phrase", "pitch", "glide", "mix", "vol"];
+  var CHAR = [0.5, 1, 1.8];
+  var TOGGLES = [
+    { name: "CHARACTER", where: "Toggle 1", sum: "How much of the character you get: the pitch bends in each word, vibrato depth, nasality, grit and creak.", pos: ["mild", "normal", "extreme"], desc: ["Half strength: closer to a plain vocal.", "As designed.", "1.8 times: bigger bends, more grit, more nasal."] },
+    { name: "OCTAVE", where: "Toggle 2", sum: "Moves the voice an octave, on top of the voice's own octave (Wow and Grunt sit an octave below your note, Sour an octave above).", pos: ["down", "off", "up"], desc: ["An octave lower.", "Where the voice normally sits.", "An octave higher."] },
+    { name: "VIBRATO", where: "Toggle 3", sum: "Vibrato that fades in a moment after each note starts, at 5.5 Hz. Grunt and Beep have none to begin with.", pos: ["off", "natural", "wide"], desc: ["Straight tone.", "The voice's own amount.", "Three times as deep."] }
+  ];
+  var DIPS = [
+    { name: "SNAP", sum: "The voice sings in exact semitones, however you bend. Auto-tune style; Beep always does this." },
+    { name: "HARMONY", sum: "A second voice a fifth above, through the same mouth." },
+    { name: "TALKBOX", sum: "Your guitar replaces the buzzing source, so the guitar itself is shaped into vowels and consonants. Pitch and vibrato are then yours." },
+    { name: "WHISPER", sum: "Breath only, no pitch: the words are whispered." }
+  ];
+  var FOOT = [
+    { name: "FS1", label: "BYPASS", where: "Left footswitch", sum: "Bypass, as on every WOOF pedal. LED 1 lit = on.", list: ["Tap: effect on / off.", "Both held 0.5 s / 2 s: expression set / clear.", "Both held at power-up: flash mode (DFU)."] },
+    { name: "FS2", label: "SAY IT", where: "Right footswitch", sum: "Press and the voice says its catchphrase at the last note you played, with no picking needed. LED 2 lights while the voice is speaking.", list: ["Press: the whole catchphrase, one syllable after another.", "Press again mid-phrase: start over.", "No note played yet: it speaks at A3 (220 Hz).", "MIDI CC 21 does the same."] }
+  ];
+
+  var S = { t: [1, 1, 1], dips: [false, false, false, false], sel: { kind: "knob", i: 0 }, pos: {}, speaking: false, voiceIdx: 0 };
+  KEYS.forEach(function (k) { S.pos[k] = P[k].def; });
+  var el = function (id) { return document.getElementById(id); };
+  function rot(v) { return (-135 + v * 270) + "deg"; }
+  function sync() { S.voiceIdx = vIdx(S.pos.voice); }
+  var speakTimer = null;
+
+  function buildPedal() {
+    var kWrap = el("knobs"); kWrap.innerHTML = "";
+    KEYS.forEach(function (key, i) {
+      var p = P[key], b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "knob" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", "Knob " + (i + 1) + ": " + p.name);
+      b.innerHTML = '<span class="knob" style="--rot:' + rot(S.pos[key]) + '"></span><span class="silk">' + p.name + "<small>K" + (i + 1) + "</small></span>";
+      b.onclick = function () { S.sel = { kind: "knob", i: i }; render(); };
+      kWrap.appendChild(b);
+    });
+    var tWrap = el("toggles"); tWrap.innerHTML = "";
+    TOGGLES.forEach(function (t, i) {
+      var cur = S.t[i], b = document.createElement("button");
+      b.className = "ctl"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "tog" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", t.where + " " + t.name + ", now " + t.pos[cur] + ". Click to flip.");
+      b.innerHTML = '<span class="tog" style="--tilt:' + [-38, 0, 38][cur] + 'deg"><span class="nut"></span><span class="bat"></span></span>' +
+        '<span class="silk">' + t.name + "<small>" + t.pos.map(function (p, j) { return j === cur ? "<b>" + p + "</b>" : p; }).join(" · ") + "</small></span>";
+      b.onclick = function () {
+        if (S.sel.kind === "tog" && S.sel.i === i) S.t[i] = (S.t[i] + 1) % 3;
+        S.sel = { kind: "tog", i: i }; render(); switchCards();
+      };
+      tWrap.appendChild(b);
+    });
+    var fWrap = el("feet"); fWrap.innerHTML = "";
+    FOOT.forEach(function (f, i) {
+      var b = document.createElement("button");
+      b.className = "ctl foot"; b.type = "button";
+      b.setAttribute("aria-pressed", S.sel.kind === "foot" && S.sel.i === i ? "true" : "false");
+      b.setAttribute("aria-label", f.where + ", " + f.name + " (" + f.label + ")");
+      var led = i === 0 ? " on" : (S.speaking ? " on" : "");
+      b.innerHTML = '<span class="led' + led + '"></span><span class="fs"></span><span class="silk">' + f.label + "</span>";
+      b.onclick = function () {
+        S.sel = { kind: "foot", i: i };
+        if (i === 1) {  // light LED 2 for as long as the catchphrase would take
+          var c = VOICES[S.voiceIdx], n = c.say[2].split("·").length, len = Math.max(c.word * (0.5 + 1.5 * S.pos.glide), 0.12) * 1.1 * n;
+          S.speaking = true;
+          if (speakTimer) clearTimeout(speakTimer);
+          if (typeof setTimeout === "function") speakTimer = setTimeout(function () { S.speaking = false; buildPedal(); }, len * 1000);
+        }
+        render();
+      };
+      fWrap.appendChild(b);
+    });
+    var d = el("dip"); d.innerHTML = "";
+    for (var i = 0; i < 4; i++) (function (i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("aria-pressed", S.dips[i] ? "true" : "false");
+      b.setAttribute("aria-label", "DIP " + (i + 1) + ", " + DIPS[i].name + (S.dips[i] ? ", on" : ", off"));
+      b.title = "DIP " + (i + 1) + " · " + DIPS[i].name;
+      b.onclick = function () { S.dips[i] = !S.dips[i]; S.sel = { kind: "dip", i: i }; render(); switchCards(); };
+      d.appendChild(b);
+    })(i);
+  }
+  function strip() {
+    var on = DIPS.filter(function (x, i) { return S.dips[i]; }).map(function (x) { return x.name.toLowerCase(); });
+    el("strip").innerHTML = '<span class="chip algo">voice <b>' + VOICES[S.voiceIdx].name + "</b></span>" +
+      '<span class="chip">phrase <b>' + PHRASES[pIdx(S.pos.phrase)].toLowerCase() + "</b></span>" +
+      '<span class="chip">' + TOGGLES[0].pos[S.t[0]] + " · octave " + TOGGLES[1].pos[S.t[1]] + "</span>" +
+      '<span class="chip">' + (on.length ? on.join(" + ") : "no DIPs") + "</span>";
+  }
+  function bubble() {
+    var c = VOICES[S.voiceIdx], z = pIdx(S.pos.phrase), words = c.say[z].split(" · ");
+    var shown = words.map(function (w, i) { return i === words.length - 1 && c.name === "Sour" && z === 2 ? '<span class="hot">' + w + "!</span>" : w; }).join(" · ");
+    var t = transpose(S.pos.pitch) + c.oct + [-12, 0, 12][S.t[1]];
+    var how = c.how[z] ? c.how[z].charAt(0).toLowerCase() + c.how[z].slice(1, -1) : "one vowel, held";
+    var oct = { "-24": "two octaves below", "-12": "an octave below", "12": "an octave above", "24": "two octaves above" }[t];
+    el("say").innerHTML = "“" + shown + "”<small>" + c.name + " · " + PHRASES[z].toLowerCase() + " · " + how +
+      " · sings " + (t === 0 ? "at your note" : (oct || semis(t) + " from") + " your note") + (S.dips[3] ? " · whispered" : "") + "</small>";
+  }
+  function arcHtml(a, hot) { var lab = ["CCW", "Noon", "CW"]; return a.map(function (t, i) { return '<div class="' + (i === hot ? "hot" : "") + '"><span>' + lab[i] + "</span>" + t + "</div>"; }).join(""); }
+  function detail() {
+    var dial = el("d-dial"), list = el("d-list");
+    list.innerHTML = ""; el("d-note").textContent = ""; dial.hidden = true; el("d-arc").innerHTML = "";
+    if (S.sel.kind === "knob") {
+      var key = KEYS[S.sel.i], p = P[key], v = S.pos[key];
+      el("d-name").textContent = p.name; el("d-where").textContent = "Knob " + (S.sel.i + 1);
+      el("d-summary").textContent = p.sum; el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+      dial.hidden = false; el("pos").value = v; el("d-readout").textContent = p.read(v, S);
+      if (key === "voice") el("d-note").textContent = "Zones: Sing, Wow, Grunt, Beep, Sour, each a fifth of the sweep. Changing voice or phrase starts the phrase over.";
+      if (key === "phrase") el("d-note").textContent = "Thirds of the sweep. In catchphrase, a pause of 1.5 s starts the phrase over from its first syllable.";
+    } else if (S.sel.kind === "tog") {
+      var t = TOGGLES[S.sel.i], cur = S.t[S.sel.i];
+      el("d-name").textContent = t.name; el("d-where").textContent = t.where + " · click it again to flip"; el("d-summary").textContent = t.sum;
+      el("d-arc").innerHTML = t.pos.map(function (pp, i) { return '<div class="' + (i === cur ? "hot" : "") + '"><span>' + ["Left", "Centre", "Right"][i] + " · " + pp + "</span>" + t.desc[i] + "</div>"; }).join("");
+      if (S.sel.i === 2) { var vb = VOICES[S.voiceIdx].vib * [0, 1, 3][cur] * CHAR[S.t[0]]; el("d-note").textContent = VOICES[S.voiceIdx].name + " now: " + (vb > 0 ? "±" + Math.round(vb) + " cents" : "no vibrato"); }
+    } else if (S.sel.kind === "foot") {
+      var f = FOOT[S.sel.i];
+      el("d-name").textContent = f.name + " · " + f.label; el("d-where").textContent = f.where; el("d-summary").textContent = f.sum;
+      list.innerHTML = f.list.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+      if (S.sel.i === 1) el("d-note").textContent = "Click FS2 on the drawing: LED 2 stays lit for as long as " + VOICES[S.voiceIdx].name + "'s catchphrase takes at this GLIDE.";
+    } else {
+      var dp = DIPS[S.sel.i];
+      el("d-name").textContent = "DIP " + (S.sel.i + 1) + " · " + dp.name; el("d-where").textContent = "now " + (S.dips[S.sel.i] ? "on" : "off");
+      el("d-summary").textContent = dp.sum;
+    }
+  }
+  el("pos").addEventListener("input", function () {
+    if (S.sel.kind !== "knob") return;
+    var key = KEYS[S.sel.i]; S.pos[key] = parseFloat(this.value); sync();
+    var p = P[key], v = S.pos[key];
+    el("d-readout").textContent = p.read(v, S); el("d-arc").innerHTML = arcHtml(p.arc, v < 0.4 ? 0 : v > 0.6 ? 2 : 1);
+    var k = el("knobs").children[S.sel.i].querySelector(".knob"); if (k) k.style.setProperty("--rot", rot(v));
+    strip(); bubble(); if (key === "voice") voiceTable();
+  });
+  function render() { sync(); buildPedal(); strip(); bubble(); detail(); }
+  function switchCards() {
+    var tRows = TOGGLES.map(function (t, i) { return "<tr><td class='k'>" + t.name + "<small>" + t.where + "</small></td><td><b>" + t.pos.join(" · ") + "</b><br>" + t.sum + "</td></tr>"; }).join("");
+    var dRows = DIPS.map(function (d, i) { return "<tr><td class='k'>" + d.name + "<small>DIP " + (i + 1) + (S.dips[i] ? " · on" : "") + "</small></td><td>" + d.sum + "</td></tr>"; }).join("");
+    el("page-cards").innerHTML = "<div class='tcard'><h3>Toggles<span>left · centre · right</span></h3><div class='scroll'><table><tbody>" + tRows + "</tbody></table></div></div>" +
+      "<div class='tcard'><h3>DIPs<span>any combination</span></h3><div class='scroll'><table><tbody>" + dRows + "</tbody></table></div></div>";
+  }
+  function voiceTable() {
+    el("dip-table").innerHTML = "<thead><tr><th>VOICE</th><th>Sounds like</th><th>Vowel</th><th>Syllables</th><th>Catchphrase</th></tr></thead><tbody>" +
+      VOICES.map(function (v, i) {
+        return "<tr" + (i === S.voiceIdx ? " style='font-weight:600'" : "") + "><td class='k'>" + v.name + "<small>" + ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"][i] + "</small></td><td>" + v.sound + "</td><td>" + v.say[0] + "</td><td>" + v.say[1] + "</td><td>" + v.say[2] + "</td></tr>";
+      }).join("") + "</tbody>";
+  }
+  function footTable() {
+    var rows = [
+      ["Pick a note", "The next syllable, at that pitch (PHRASE syllables / catchphrase)", "LED 2 lit while the voice is speaking"],
+      ["Hammer-on, slide", "A pitch jump of a semitone or more is a new note too", ""],
+      ["Pause 1.5 s", "The phrase starts over from its first syllable", ""],
+      ["FS2", "SAY IT: the catchphrase at your last note, no picking", "LED 2 lit while it speaks"],
+      ["FS1", "Bypass", "LED 1 on = effect on"],
+      ["Both held 0.5 s / 2 s", "Expression set / clear (as on every WOOF pedal)", "Half bright while setting"],
+      ["Both held at power-up", "Flash mode (DFU)", "Blink 3x"]
+    ];
+    el("foot-table").innerHTML = "<thead><tr><th>Do this</th><th>What happens</th><th>LEDs</th></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td class='k'>" + r[0] + "</td><td>" + r[1] + "</td><td>" + r[2] + "</td></tr>"; }).join("") + "</tbody>";
+  }
+  function rules() {
+    var R = [
+      ["The singer", "Sing, syllables, SNAP on. Play a melody and every note is the next vowel, sung in tune."],
+      ["Wow, every time", "Wow, catchphrase, MIX all the way up. Each note you pick is one long, amazed word that sags at the end."],
+      ["The question grunt", "Grunt, catchphrase, CHARACTER extreme. Low notes come out as creaky, rising grunts."],
+      ["Robot riff", "Beep, syllables, GLIDE low. Fast picking turns into a string of chirps on a square wave."],
+      ["Unacceptable", "Sour, catchphrase. Play five notes, a rising line works best, and the last syllable is screamed."],
+      ["Talking guitar", "TALKBOX on, Wow or Sing syllables, MIX at noon. The guitar's own tone gets the vowels: a talkbox without the tube."],
+      ["Pocket choir", "Sing, vowel, HARMONY on, VIBRATO wide, GLIDE high. Slow notes become a two-part ooh-aah pad."],
+      ["Punchline", "Set it up the way you like, MIX low. Play normally, then hit FS2 at the end of a phrase."]
+    ];
+    el("rules").innerHTML = R.map(function (r) { return "<div class='rule-card'><h3>" + r[0] + "</h3><p>" + r[1] + "</p></div>"; }).join("");
+  }
+  render(); switchCards(); voiceTable(); footTable(); rules();
+})();
+</script>
+
+</body>
+</html>
